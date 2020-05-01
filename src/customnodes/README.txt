@@ -1,0 +1,1 @@
+Place custom node scripts you want Gimel Studio to find, register and load in this directory.
