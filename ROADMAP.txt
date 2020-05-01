@@ -1,0 +1,28 @@
+Gimel Studio Roadmap
+====================
+
+PLANNED FEATURES/FIXES, version 1x 
+----------------------------------
+
+INCLUDE ATTRIBUTION/LICENSES OF MODULES
+
+?python console in application?
+
+work on file open/save
+
+node frame, etc
+
+normal map node - resize auto if image is bigger than req size
+
+user preferences
+
+KEEP thumb cache in users files for the asset library
+
+
+POSSIBLE FUTURE FEATURES/FIXES, version 2x
+------------------------------------------
+
+Write for backend use, then make function to call from events (rewrite of core)
+
+allow composite to have thumb?
+

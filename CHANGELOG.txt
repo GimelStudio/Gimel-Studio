@@ -1,0 +1,25 @@
+Gimel Studio Changelog (Release Highlights)
+===========================================
+
+Gimel Studio v0.0.5.2 ALPHA -- "Feb. 2020"
+ * First public release at https://correctsyntax.com/software/gimel-studio/
+ * First Windows & Linux (Debian) builds
+
+Gimel Studio v0.1.1 BETA -- "Apr. 2020"
+ * Moved public releases to https://correctsyntax.com/projects/gimel-studio/
+ * Huge improvements to the Node Registry & Image Viewport 
+   - Performance optimizations
+   - Node Registry is now custom-drawn
+   - Image Viewport auto-resizes and has "modes"
+ * Fixes for the Node Graph
+   - INPUT nodes now default to showing thumbs
+   - Bug fixes for Linux
+ NOTES: Asset Library removed (for now)
+
+Gimel Studio v0.1.x BETA
+ * Node thumbnail images are now cached for better nodegraph performance
+ * Duplicate Node now does what is expected: duplicates the node properties as well as the node type
+ * Nodes
+   - Combined 3 old nodes into the new Mix node
+   - Added 5 new nodes
+ * Drag and drop node items from Node Registry

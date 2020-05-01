@@ -1,0 +1,8 @@
+Gimel Studio Versioning
+=======================
+
+[major].[minor].[release].[build]
+
+development e.g: 2.2.1.4
+
+public e.g: 2.2.1

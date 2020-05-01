@@ -1,0 +1,49 @@
+Gimel Studio Nodes & Colors
+===========================
+
+INPUT #975B5B (Burgendy)
+[x]- Image
+[] - Color Image
+[x]- Gradient Image
+- Texture/noise?
+
+DRAW #AF4467 (Pink)
+- Text?
+- Shape?
+
+CONVERT #564B7C (Purple)
+[x]-Normal Map
+
+VALUE #CC783D (Orange)
+[x]-Color
+- Font ?
+
+FILTERS #558333 (Green)
+[x]- Blur
+[x]- Sharpness
+[] - Denoise
+[] - Invert
+
+BLEND #498DB8 (Light Blue)
+[x] - Alpha Composite
+[x] - Mix
+
+COLOR #C2AF3A (Yellow)
+[x] - Brightness
+[x] - Contrast
+[x] - Color Balance
+[x] - Invert Alpha
+
+DISTORT: #6B8B8B (Blue-Grey)
+[x] - Resize
+- Scale
+- Crop
+- Rotate
+- Transform
+- Translate
+- Flip
+
+OUTPUT: #B33641 (Red)
+[x] - Output Composite
+- OpenGL Viewer (only with OpenGL) ?
+
