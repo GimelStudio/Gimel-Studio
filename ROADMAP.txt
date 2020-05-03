@@ -4,7 +4,7 @@ Gimel Studio Roadmap
 PLANNED FEATURES/FIXES, version 1x 
 ----------------------------------
 
-INCLUDE ATTRIBUTION/LICENSES OF MODULES
+INCLUDE ATTRIBUTION/LICENSES OF MODULES IN THE RELEASES
 
 ?python console in application?
 
