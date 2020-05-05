@@ -20,6 +20,10 @@ PLANNED FEATURES/FIXES, version 1x
 - User preferences (the core is almost finished, but the UI and integration needs to be done.
 
 
+- Node Graph zoom
+  * Zoom the node Graph
+
+
 node frame, etc???
 
 Python console in application for developing custom node????
