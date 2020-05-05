@@ -1,9 +1,21 @@
 ## ----------------------------------------------------------------------------
-## Gimel Studio © 2020 CorrectSyntax Software, Noah Rahm. All rights reserved.
+## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
 ##
 ## FILE: node_graph.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: -
+## PURPOSE: Define the node graph
 ## ----------------------------------------------------------------------------
 
 import math
@@ -37,7 +49,6 @@ ID_CONTEXTMENU_ADDNODEFRAME = wx.NewIdRef()
 ID_CONTEXTMENU_DELETENODEFRAME = wx.NewIdRef()
 
 ID_SELECTION_BBOX = wx.NewIdRef()
-
 
 
 class NodeGraph(wx.ScrolledCanvas):
@@ -217,12 +228,8 @@ class NodeGraph(wx.ScrolledCanvas):
         contextmenu.Destroy()
  
     def OnPaint(self, event):
-        # Create a buffered paint DC.  It will create the real wx.PaintDC and 
-        # then blit the bitmap to it when dc is deleted.
         _dc = wx.BufferedPaintDC(self)
         dc = wx.GCDC(_dc)
-
-        
 
         # We need to clear the dc BEFORE calling PrepareDC.
         dc.SetBackground(wx.Brush(wx.Colour('#505050')))
@@ -231,7 +238,6 @@ class NodeGraph(wx.ScrolledCanvas):
         # Use DoPrepareDC to set position correctly.
         self.DoPrepareDC(dc)
 
-  
         # Create a clipping rect from our position and size
         # and the Update Region.
         xv, yv = self.GetViewStart()
@@ -322,9 +328,11 @@ class NodeGraph(wx.ScrolledCanvas):
                 if self._srcplug != None:
                     # Handle disconnecting and connecting plugs
                     if self._srcplug.GetWires() == []:
-                        # Do not allow connections from anything except the output socket
+                        # Do not allow connections from anything except
+                        # the output socket
                         if self._srcplug.IsOutputType() == True:
-                            pnt1 = self._srcnode.GetRect().GetPosition() + self._srcplug.GetPosition()
+                            pnt1 = self._srcnode.GetRect().GetPosition() \
+                                 + self._srcplug.GetPosition()
                             self._tmpwire = Wire(
                                 pnt1, 
                                 pnt2, 
@@ -389,8 +397,12 @@ class NodeGraph(wx.ScrolledCanvas):
             self._pdc.RemoveId(ID_SELECTION_BBOX)
             self._pdc.SetId(ID_SELECTION_BBOX)
 
-            self._pdc.SetPen(wx.Pen(wx.Colour('#C2C2C2'), 2.5, wx.PENSTYLE_SHORT_DASH))
-            self._pdc.SetBrush(wx.Brush(wx.Colour(100, 100, 100, 56), wx.SOLID))
+            self._pdc.SetPen(
+                wx.Pen(wx.Colour('#C2C2C2'), 2.5, wx.PENSTYLE_SHORT_DASH)
+                )
+            self._pdc.SetBrush(
+                wx.Brush(wx.Colour(100, 100, 100, 56), wx.SOLID)
+                )
             self._pdc.DrawRectangle(self._bboxRect)
             
             # This is needed here because the
@@ -403,7 +415,10 @@ class NodeGraph(wx.ScrolledCanvas):
         # Move the selected node frame
         if event.LeftIsDown() == True and self._selectednodeframe != None:
             dpnt = pnt - self._lastpnt
-            self._pdc.TranslateId(self._selectednodeframe.GetId(), dpnt[0], dpnt[1])
+            self._pdc.TranslateId(
+                self._selectednodeframe.GetId(), 
+                dpnt[0], dpnt[1]
+                )
             r = self._pdc.GetIdBounds(self._selectednodeframe.GetId())
             self._lastpnt = pnt
             self._selectednodeframe.SetRect(r)
@@ -425,8 +440,10 @@ class NodeGraph(wx.ScrolledCanvas):
                 if self._srcnode.GetPlugs() != []:
                     for plug in self._srcnode.GetPlugs():
                         for wire in plug.GetWires(): 
-                            pnt1 = wire.srcNode.GetRect().GetPosition() + wire.srcPlug.GetPosition()
-                            pnt2 = wire.dstNode.GetRect().GetPosition() + wire.dstPlug.GetPosition()
+                            pnt1 = wire.srcNode.GetRect().GetPosition() \ 
+                            + wire.srcPlug.GetPosition()
+                            pnt2 = wire.dstNode.GetRect().GetPosition() \ 
+                            + wire.dstPlug.GetPosition()
                             self._DrawNodeWire(wire, pnt1, pnt2)
 
             elif self._tmpwire != None:
@@ -446,7 +463,10 @@ class NodeGraph(wx.ScrolledCanvas):
             dstnode = self.NodeHitTest(winpnt)
             if dstnode != None:
                 rect = self._pdc.GetIdBounds(self._srcnode.GetId())
-                dstplug = dstnode.HitTest(winpnt.x, winpnt.y, thumb_btn_active=True)
+                dstplug = dstnode.HitTest(
+                    winpnt.x, winpnt.y, 
+                    thumb_btn_active=True
+                    )
                 
                 # Make sure not to allow the same datatype or 
                 # 'plug type' of sockets to be connected! 
@@ -534,8 +554,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
     def GetNodes(self):
         """ Returns a list of all the nodes in the current 
-        graph. Used by the render engine to access the nodes.
-        """
+        graph. Used by the render engine to access the nodes. """
         return self._nodes
 
     def GetPDC(self):
@@ -635,7 +654,9 @@ class NodeGraph(wx.ScrolledCanvas):
         """ Adds a node of the given type to the nodegraph. """
         if _type != 'output':# or 'image':
             #pass
-            pos = self.ConvertCoords(self.ScreenToClient(wx.GetMousePosition()))
+            pos = self.ConvertCoords(
+                self.ScreenToClient(wx.GetMousePosition())
+                )
         node = CreateNode(self, _type, _id, pos)
         nId = node.GetId()
         #print('ADDED-> ', nId)

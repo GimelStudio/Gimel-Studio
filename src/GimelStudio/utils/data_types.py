@@ -1,18 +1,29 @@
 ## ----------------------------------------------------------------------------
-## Gimel Studio © 2020 Correct Syntax, Noah Rahm. All rights reserved.
+## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
 ##
-## FILE: node.py
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+##
+## FILE: data_types.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: Define main data types
+## PURPOSE: Define the main data types
 ## ----------------------------------------------------------------------------
+
 
 from PIL import Image
 
 
 class List(object):
-    """
-    Represents a list of items.
-    """
+    """ Represents a list of items. """
     def __init__(self, items, value):
         self.items = items
         self.value = value
@@ -28,9 +39,7 @@ class List(object):
 
 
 class RenderImage(object):
-    """
-    Represents an image.
-    """
+    """ Represents an image internally. """
     def __init__(self, mode='RGBA', size=(256, 256), color=(0, 0, 0, 1)):
         self.img = Image.new(mode, (size[0], size[1]), color)
 
@@ -45,9 +54,7 @@ class RenderImage(object):
         
 # UNUSED?        
 class Color(object):
-    """
-    Represents a four component color value with red, green, blue and alpha channels.
-    """
+    """ Represents a color value with red, green, blue and alpha channels. """
     def __init__(self, red=0.0, green=0.0, blue=0.0, alpha=1.0):
         self.red = red
         self.green = green
@@ -61,9 +68,8 @@ class Color(object):
         return self._FromRGBAToHex()
 
     def _FromRGBAToHex(self):
-        return '#%02x%02x%02x' % (int(self.red), int(self.green), int(self.blue))
-        
-
-
-
-    
+        return '#%02x%02x%02x' % (
+            int(self.red), 
+            int(self.green), 
+            int(self.blue)
+            )

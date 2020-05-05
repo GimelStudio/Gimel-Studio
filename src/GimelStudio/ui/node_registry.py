@@ -1,5 +1,17 @@
 ## ----------------------------------------------------------------------------
-## Gimel Studio © 2020 Correct Syntax, Noah Rahm. All rights reserved.
+## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
 ##
 ## FILE: node_registry.py
 ## AUTHOR(S): Noah Rahm
@@ -150,7 +162,11 @@ class NodeRegistryItem(object):
                 y+2,
                 True
                 )
-        dc.DrawText('v{}'.format(self.GetVersion()), x+w-sys_scrollbar_x-70, y+2)
+        dc.DrawText('v{}'.format(
+            self.GetVersion()), 
+            x+w-sys_scrollbar_x-70, 
+            y+2
+            )
 
         # Draw Description Text
         dc.SetTextForeground(wx.Colour('black'))
@@ -172,7 +188,9 @@ class NodeRegistry(wx.ScrolledWindow):
         self._selectednodeitem = None
         self._ndregistryitems = {}
         self.ITEMHEIGHT = 80
-        self._maxheight = ((len(noderegistry) + 2) * self.ITEMHEIGHT) - self.ITEMHEIGHT
+        self._maxheight = (
+            (len(noderegistry) + 2) * self.ITEMHEIGHT
+            ) - self.ITEMHEIGHT
         self._maxwidth = 1000
 
         # Handle scrolling
@@ -204,8 +222,6 @@ class NodeRegistry(wx.ScrolledWindow):
         self.RefreshPanel()
 
     def OnPaint(self, event):
-        # Create a buffered paint DC.  It will create the real wx.PaintDC and
-        # then blit the bitmap to it when dc is deleted.
         dc = wx.BufferedPaintDC(self)
         dc = wx.GCDC(dc)
 

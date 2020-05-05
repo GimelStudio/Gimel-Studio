@@ -1,5 +1,17 @@
 ## ----------------------------------------------------------------------------
-## Gimel Studio © 2020 Correct Syntax, Noah Rahm. All rights reserved.
+## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
 ##
 ## FILE: application.py
 ## AUTHOR(S): Noah Rahm
@@ -249,12 +261,6 @@ class MainApplication(wx.Frame):
                           LeftDockable(False).RightDockable(False))
 
 
-
-
-
-
-        
-
         # Maximize the window
         self.Maximize()
 
@@ -264,8 +270,6 @@ class MainApplication(wx.Frame):
         # Check for updates
         #programupdatechecker = ProgramUpdateChecker(__VERSION__)
         #programupdatechecker.run()
-
-
 
 
         self._imageviewport.InitModeRadioButtonWidgets()
@@ -356,8 +360,8 @@ class MainApplication(wx.Frame):
             style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
             )
 
-        # This sets the default filter that the user will initially see. Otherwise,
-        # the first filter in the list will be used by default.
+        # This sets the default filter that the user will initially see. 
+        # Otherwise, the first filter in the list will be used by default.
         dlg.SetFilterIndex(2)
 
         if dlg.ShowModal() == wx.ID_OK:
@@ -371,6 +375,7 @@ class MainApplication(wx.Frame):
 
     def OnTakeFeedbackSurvey(self, event):
         """ Go to the feedback survey webpage. """
+        # Will be removed after BETA stage
         url = ("https://www.surveymonkey.com/r/RSRD556")
         webbrowser.open(url) 
 
@@ -392,8 +397,6 @@ class MainApplication(wx.Frame):
             style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
             )
 
-        # Show the dialog and retrieve the user response. If it is the OK response,
-        # process the data.
         if dlg.ShowModal() == wx.ID_OK:
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
@@ -407,16 +410,15 @@ class MainApplication(wx.Frame):
     def OnOpenFile(self, event):
         wildcard = "GIMEL STUDIO PROJECT file (*.gimel-studio-project)|*.gimel-studio-project|" \
                    "All files (*.*)|*.*"
+        styles = wx.FD_OPEN | wx.FD_CHANGE_DIR | wx.FD_FILE_MUST_EXIST | wx.FD_PREVIEW
                    
         dlg = wx.FileDialog(
             self, message="Open project file...",
             defaultDir='',
             wildcard=wildcard,
-            style=wx.FD_OPEN | wx.FD_CHANGE_DIR | wx.FD_FILE_MUST_EXIST | wx.FD_PREVIEW
+            style=styles
             )
 
-        # Show the dialog and retrieve the user response. If it is the OK response,
-        # process the data.
         if dlg.ShowModal() == wx.ID_OK:
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
@@ -497,7 +499,7 @@ class MainApplication(wx.Frame):
             self.helpmenu, 
             ID_MENU_TAKEFEEDBACKSURVEYMENUITEM, 
             "Feedback Survey", 
-            "Take a short survey online about what features you would like to see added and what needs to be improved in Gimel Studio"
+            "Take a short survey online about Gimel Studio"
             )
         #self.takefeedbacksurvey_menuitem.SetBitmap(ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
         self.helpmenu.Append(self.takefeedbacksurvey_menuitem)
