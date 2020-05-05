@@ -61,7 +61,7 @@ This assumes you have **Python 3.6 or higher** installed on your system and you 
 3. If you want to build Gimel Studio as an .exe for Windows or build an executable for Linux, you will also need the PyInstaller package.
 
   * Install PyInstaller with ``pip install dev-requirements.txt``
-  * Now run ``build`` in your Linux Terminal or ``Build.bat`` in your Windows CMD. 
+  * Now run ``make`` in your Linux Terminal or ``Make.bat`` in your Windows CMD. 
 
   This should start building Gimel Studio with the appropriate settings for Pyinstaller, and you should find the executable in the ``dist`` folder.
 
@@ -83,7 +83,8 @@ The development version of Gimel Studio may be unstable and/or have new dependen
 The Gimel Studio docs use the Sphinx package.
   
   * Install Sphinx with ``pip install docs-requirements.txt``
-  * Now run ``docs/make html``
+  * ``cd docs``
+  * Now run ``make html``
 
 You will find the HTML docs in the ``build`` folder.
 
