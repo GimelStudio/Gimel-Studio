@@ -178,7 +178,6 @@ class NodeDefinition(NodeBase):
         angle = eval_info.EvaluateProperty('Angle')
         expand = eval_info.EvaluateProperty('Expand')
         fill_color = eval_info.EvaluateProperty('Fillcolor')
-        print(fill_color, ">>>>>>>")
 
         if resample == 'BILINEAR':
             RESAMPLE_VALUE = Image.BILINEAR
