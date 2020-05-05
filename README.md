@@ -1,7 +1,7 @@
 Gimel Studio
 ============
 
-![](screenshots/gimel-studio-compositing.jpeg)
+![](https://github.com/Correct-Syntax/Gimel-Studio/screenshots/gimel-studio-compositing.JPG)
 
 # Introduction
 
