@@ -11,7 +11,7 @@ Gimel Studio has a node-based workflow for realtime compositing, manipulating, g
 
 It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capibilities such as generating normal maps for use in 3D from images.
 
-*Still in BETA stage, but can be considered stable enough for production.*
+*Still in BETA stage, but can be considered stable enough for light production work.*
 
 **Your are welcome to help develop Gimel Studio**
 
@@ -43,6 +43,11 @@ See the [ROADMAP.txt](ROADMAP.txt) for a general idea of the possible future goa
 
 Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Studio homepage</a> to download the latest release or <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">click here</a> to see past releases on Github.
 
+# Documentation
+
+You can find the latest documentation at the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Studio homepage</a> or build it yourself following the steps in the section *Building the documentation from source* below.
+
+Documentation for past Gimel Studio releases can be <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">here</a>.
 
 # Installing from source
 
