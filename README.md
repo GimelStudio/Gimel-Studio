@@ -43,7 +43,7 @@ Gimel Studio is currently written in pure Python, so there shouldn't be any need
 
 This assumes you have **Python 3.6 or higher** installed on your system and you are in the **root directory** of Gimel Studio.
 
-1. First download the tar.gz source archive file from <a href="https://github.com/Correct-Syntax/GimelStudio/releases">here.</a> 
+1. First download the tar.gz source archive file from <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">here.</a> 
 
   * Extract the archive into an empty folder
   * Install the dependencies with ``pip install requirements.txt`` 
@@ -68,7 +68,7 @@ The development version of Gimel Studio may be unstable and/or have new dependen
 1. Install Git in your system
 
 2. Use Git to download Gimel Studio into a folder of your choosing by using the git clone command in a terminal or CMD:
-  * Clone the repo with ``git clone https://github.com/Correct-Syntax/GimelStudio.git``
+  * Clone the repo with ``git clone https://github.com/Correct-Syntax/Gimel-Studio.git``
 
 3. Follow the steps listed in the *Installing from source* section above.
 
