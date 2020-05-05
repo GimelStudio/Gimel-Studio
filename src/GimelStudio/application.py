@@ -144,6 +144,8 @@ class MainApplication(wx.Frame):
             self._project,
             (2000, 2000)
             )
+
+        # TODO: Get both of these working
         # Drag image into graph to create image node
         fdt = NodeGraphFileDrop(self._nodegraph)
         self._nodegraph.SetDropTarget(fdt)
@@ -151,6 +153,8 @@ class MainApplication(wx.Frame):
         # Drag node item from node registry
         nrdt = NodeGraphNodeDrop(self._nodegraph)
         self._nodegraph.SetDropTarget(nrdt) 
+
+
 
         self._noderegistry = NodeRegistry(
             self,

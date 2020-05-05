@@ -177,26 +177,27 @@ class NodeDefinition(NodeBase):
         resample = eval_info.EvaluateProperty('Resample')
         angle = eval_info.EvaluateProperty('Angle')
         expand = eval_info.EvaluateProperty('Expand')
-        fillcolor = eval_info.EvaluateProperty('Fillcolor')
+        fill_color = eval_info.EvaluateProperty('Fillcolor')
+        print(fill_color, ">>>>>>>")
 
         if resample == 'BILINEAR':
-            RESAMPLE = Image.BILINEAR
+            RESAMPLE_VALUE = Image.BILINEAR
 
         elif resample == 'BICUBIC':
-            RESAMPLE = Image.BICUBIC
+            RESAMPLE_VALUE = Image.BICUBIC
 
         elif resample == 'LANCZOS':
-            RESAMPLE = Image.LANCZOS
+            RESAMPLE_VALUE = Image.LANCZOS
 
         else: 
-            RESAMPLE = Image.NEAREST 
+            RESAMPLE_VALUE = Image.NEAREST 
 
         image = RenderImage()
         rotated_img = image1.GetImage().rotate(
             angle=int(angle),
             expand=expand,
-            fillcolor=fillcolor,
-            resample=RESAMPLE
+            fillcolor=tuple(fill_color),
+            resample=RESAMPLE_VALUE
         )
         image.SetAsImage(rotated_img)
         self.NodeSetThumbnail(image.GetImage())

@@ -28,7 +28,7 @@ __AUTHOR__ = "Correct Syntax, Noah Rahm"
 __VERSION__ = "0.1"
 
 # Release number 
-__RELEASE__ = "1" 
+__RELEASE__ = "8" 
 
 # Build number
 __BUILD__ = "2"
