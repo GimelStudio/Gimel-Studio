@@ -16,10 +16,13 @@ Gimel Studio v0.1.1 BETA -- "Apr. 2020"
    - Bug fixes for Linux
  NOTES: Asset Library removed (for now)
 
-Gimel Studio v0.1.x BETA
+Gimel Studio v0.1.8 BETA -- "May 2020"
+ * First offical release on Github.com
+ * Now open-source under the Apache 2.0 license
  * Node thumbnail images are now cached for better nodegraph performance
  * Duplicate Node now does what is expected: duplicates the node properties as well as the node type
  * Nodes
    - Combined 3 old nodes into the new Mix node
    - Added 5 new nodes
  * Drag and drop node items from Node Registry
+ * Bug fixes
