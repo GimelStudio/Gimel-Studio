@@ -3,14 +3,17 @@ Gimel Studio
 
 # Introduction
 
-Gimel Studio is a **non-destructive, realtime graphics editing software program** for Windows and Linux.
+Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
 
-Gimel Studio has a node-based workflow for realtime compositing, manipulating, generating and adding effects to images -complete with a registry of 10+ nodes and an API allowing users to script their own custom node.
+Gimel Studio has a node-based workflow for realtime compositing, manipulating, generating and adding effects to images -complete with a registry of 10+ nodes (currently) and an API allowing users to script their own custom nodes.
 
 It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capibilities such as generating normal maps for use in 3D from images.
 
 *Still in BETA stage, but can be considered stable enough for production.*
 
+**Your are welcome to help develop Gimel Studio**
+
+See the [ROADMAP.txt](ROADMAP.txt) for a general idea of the future goals of the development of Gimel Studio.
 
 # Features
 
@@ -20,13 +23,13 @@ It provides basic image editing features such as rotate, resize and blur effects
   * Support for opening and saving your nodegraph as a GIMEL-STUDIO-PROJECT
   * 10+ nodes (currently) with a wide range of functionality 
   * Rearrangable and resizable panels for the main UI
-  * Drag 'n drop nodes from the Node Registry or from a directory
+  * Drag 'n drop nodes from the Node Registry
   * Node-based workflow (similar to Blender 3D)
   * JPEG, PNG, BMP file types support
   * API for scripting custom nodes
   * Zoomable Image Viewport for viewing renders in real-time
 
-**TidBits**
+**Tidbits**
 
   * Auto-renders as the Node Graph is edited
   * Toggle-able thumbnails on nodes showing the steps of the rendered image
@@ -84,4 +87,5 @@ You will find the docs HTML in the ``build`` folder.
 
 
 # License
-Gimel Studio (C) 2020 Noah Rahm, All rights Reserved
+
+Gimel Studio is licensed under the Apache License, Version 2.0. See the LICENSE and NOTICE files for full copyright and license information.
