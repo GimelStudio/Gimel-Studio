@@ -1,6 +1,8 @@
 Gimel Studio
 ============
 
+![](/screenshots/gimel-studio-compositing.jpeg)
+
 # Introduction
 
 Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
@@ -13,7 +15,7 @@ It provides basic image editing features such as rotate, resize and blur effects
 
 **Your are welcome to help develop Gimel Studio**
 
-See the [ROADMAP.txt](ROADMAP.txt) for a general idea of the future goals of the development of Gimel Studio.
+See the [ROADMAP.txt](ROADMAP.txt) for a general idea of the possible future goals of the development of Gimel Studio - or, if you are interested in helping out wherever, look throught the code for the ``TODOS``. :)
 
 # Features
 
@@ -81,9 +83,9 @@ The development version of Gimel Studio may be unstable and/or have new dependen
 The Gimel Studio docs use the Sphinx package.
   
   * Install Sphinx with ``pip install docs-requirements.txt``
-  * Now run ``docs/make`` or ``docs/Make.bat`` depending on your OS.
+  * Now run ``docs/make html``
 
-You will find the docs HTML in the ``build`` folder.
+You will find the HTML docs in the ``build`` folder.
 
 
 # License
