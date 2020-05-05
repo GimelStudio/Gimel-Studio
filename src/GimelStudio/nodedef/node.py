@@ -30,7 +30,7 @@ from .plug import Plug
 from .property import Property
 from .parameter import Parameter
 from GimelStudio.utils import (ConvertImageToWx, DrawCheckerBoard,
-                               TruncateText, GetCheckeredBitmap)
+                               TruncateText)
 from GimelStudio.stylesheet import STYLE_NODES_COLOR_DICT
 from GimelStudio.datafiles.icons import *
 

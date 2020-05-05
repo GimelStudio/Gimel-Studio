@@ -440,10 +440,8 @@ class NodeGraph(wx.ScrolledCanvas):
                 if self._srcnode.GetPlugs() != []:
                     for plug in self._srcnode.GetPlugs():
                         for wire in plug.GetWires(): 
-                            pnt1 = wire.srcNode.GetRect().GetPosition() \ 
-                            + wire.srcPlug.GetPosition()
-                            pnt2 = wire.dstNode.GetRect().GetPosition() \ 
-                            + wire.dstPlug.GetPosition()
+                            pnt1 = wire.srcNode.GetRect().GetPosition() + wire.srcPlug.GetPosition()
+                            pnt2 = wire.dstNode.GetRect().GetPosition() + wire.dstPlug.GetPosition()
                             self._DrawNodeWire(wire, pnt1, pnt2)
 
             elif self._tmpwire != None:
