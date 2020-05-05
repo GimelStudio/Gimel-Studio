@@ -41,7 +41,7 @@ See the [ROADMAP.txt](ROADMAP.txt) for a general idea of the possible future goa
 
 **Latest release:** Gimel Studio 0.1.8 was released "May" 2020.
 
-<a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">Releases</a>
+Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Studio homepage</a> to download the latest release or <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">click here</a> to see past releases on Github.
 
 
 # Installing from source
