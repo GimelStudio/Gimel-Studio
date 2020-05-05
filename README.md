@@ -1,11 +1,11 @@
 Gimel Studio
 ============
 
-!["Gimel Studio"](/screenshots/gimel-studio-compositing.JPG?raw=true "Gimel Studio")
+Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
+
+!["Gimel Studio"](/screenshots/gimel-studio-photo-editing.JPG?raw=true "Gimel Studio")
 
 # Introduction
-
-Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
 
 Gimel Studio has a node-based workflow for realtime compositing, manipulating, generating and adding effects to images -complete with a registry of 10+ nodes (currently) and an API allowing users to script their own custom nodes.
 
