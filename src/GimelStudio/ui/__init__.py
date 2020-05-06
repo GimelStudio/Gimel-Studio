@@ -5,5 +5,4 @@ from .node_graph import NodeGraph
 from .asset_library import AssetLibrary
 from .node_property_panel import NodePropertyPanel
 from .node_registry import NodeRegistry
-from .file_dnd import NodeGraphFileDrop
-from .nr_dnd import NodeGraphNodeDrop
+from .nodegraph_dnd import NodeGraphDropTarget

@@ -36,8 +36,7 @@ from GimelStudio.nodedef import NODE_REGISTRY
 
 from GimelStudio.ui import (UserPreferencesManager, ImageViewport,
                             NodeRegistry, NodeGraph, NodePropertyPanel,
-                            AssetLibrary, NodeGraphFileDrop,
-                            NodeGraphNodeDrop)
+                            AssetLibrary, NodeGraphDropTarget)
 
 from GimelStudio.stylesheet import *
 from GimelStudio.datafiles.icons import *
@@ -144,17 +143,9 @@ class MainApplication(wx.Frame):
             self._project,
             (2000, 2000)
             )
-
-        # TODO: Get both of these working
-        # Drag image into graph to create image node
-        fdt = NodeGraphFileDrop(self._nodegraph)
-        self._nodegraph.SetDropTarget(fdt)
-
-        # Drag node item from node registry
-        nrdt = NodeGraphNodeDrop(self._nodegraph)
-        self._nodegraph.SetDropTarget(nrdt) 
-
-
+        # Drag image from dir or Node Registry into 
+        # node graph to create image node
+        self._nodegraph.SetDropTarget(NodeGraphDropTarget(self._nodegraph))
 
         self._noderegistry = NodeRegistry(
             self,
