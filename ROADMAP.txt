@@ -1,41 +1,21 @@
-Gimel Studio Roadmap
-====================
+Gimel Studio Official Roadmap
+=============================
+
+see IDEAS.txt for a list of possible features/fixes and ideas about how to possibly implement them.
+
 
 PLANNED FEATURES/FIXES, version 1x 
 ----------------------------------
 
-- INCLUDE ATTRIBUTION/LICENSES OF MODULES IN THE RELEASES (THIS IS IMPORTANT!!)
+* INCLUDE ATTRIBUTION/LICENSES OF MODULES IN THE RELEASES (THIS IS IMPORTANT!!)
+
+* User preferences (the core is almost finished, but the UI and integration needs to be done.
 
 
-- Work on file open/save (Needs a lot of work, currently)
-  * Include the image bytes within the GIMEL-STUDIO-PROJECT?
-  * How to handle filepaths: Linux vs Windows, different users, etc
-
-
-- Asset Library (needs a better reworking before it comes back)
-  * KEEP thumb cache in users files for the asset library (when asset library comes back)
-  * Text files, not just images (Bible, etc.)
-
-
-- User preferences (the core is almost finished, but the UI and integration needs to be done.
-
-
-- Node Graph zoom
-  * Zoom the node Graph
-
-
-node frame, etc???
-
-Python console in application for developing custom node????
-
-normal map node - resize auto if image is bigger than req size
 
 
 
 POSSIBLE FUTURE FEATURES/FIXES, version 2x
 ------------------------------------------
 
-Write for backend use, then make function to call from events (rewrite of core)
-
-allow composite to have thumb?
-
+...
