@@ -1,0 +1,49 @@
+Gimel Studio Development Roadmap Ideas
+======================================
+
+**MOST OF THESE ARE NOT PART OF THE OFFICIAL ROADMAP (see ROADMAP.txt for the official roadmap), BUT ARE THINGS THAT NEED TO BE WORKED ON.**
+Here are the current issues and features that *should be* added to and fixed in Gimel Studio and (some of) my ideas to implement/fix them.
+
+
+If you would like to help develop Gimel Studio, you can work on any of these or present yor own ideas of how to implement/fix these. Other feature ideas are welcome too. :)
+
+Please contact me at <correctsyntax@yahoo.com> if you would like more information on any of these ideas, on the roadmap itself or if you would like to contribute to the Gimel Studio software project.
+
+* Really, at this point, a major refinement of the code-base needs to be done
+  - This means "a separation of concerns", etc.
+  - For example, it's really difficult to manipulate the node connections in the code right now...
+
+* Render speed (a BIG issue right now)
+  - Stop in the midst of a render if values of a node are changed?
+  - Only re-render nodes that have values changed (cache nodes themselves)?
+  - Multi-thread the ui and renderer?
+  - Compile renderer, etc with Cython for speed?
+
+  - Progress bar should be added
+
+
+* File opening and saving is a weak point (including error handling)
+  - Images are saved to the file as bytes with the file path still available if it has not changed since the file was saved.?
+  - Error handing for inconsistancies with node versions, support, etc.? 
+  - Support opening old/new files with new/old software versions?
+  - How to handle filepaths for images (see above): Linux vs Windows, different users, etc
+
+
+* Node Graph
+  - Zoom in and out (this is really badly needed)
+
+
+* Asset Library (needs a better reworking before it comes back)
+  - KEEP thumb cache in users files for the asset library (when asset library comes back)
+  - Text files, not just images (I really want to have a "library" where users can take verses from the Bible and use them for text on images, etc.)
+
+
+* CORE Nodes
+  - "to normal map" node - resize auto if image is bigger than req size (otherwise there is memory issues)
+
+
+* Custom Nodes API (there is getting to be a lot of lower-level stuff you have to do in order to create a node)
+  - Abstract the UI away from the wxPython API?
+  - Wrapper around Pillow, SciPy, Numpy for users?
+  - Python console in application for developing custom node? (This would help users to be able to debug their code)
+
