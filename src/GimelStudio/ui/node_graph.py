@@ -694,6 +694,8 @@ class NodeGraph(wx.ScrolledCanvas):
         pos = self.ConvertCoords(self.ScreenToClient(wx.GetMousePosition()))
         node = CreateNode(self, data, wx.ID_ANY, pos)
         nId = node.GetId()
+        if node._category == 'INPUT':
+            node.SetThumbnailPreviewOpen(redraw=False)
         node.Draw(self._pdc, False)
         self._pdc.SetIdBounds(nId, node.GetRect())
         self._nodes[nId] = node
