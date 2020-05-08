@@ -9,7 +9,7 @@ Gimel Studio is a **non-destructive, realtime image graphics editing software pr
 
 Gimel Studio has a node-based workflow for realtime compositing, manipulating, generating and adding effects to images -complete with a registry of 10+ nodes (currently) and an API allowing users to script their own custom nodes.
 
-It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capibilities such as generating normal maps for use in 3D from images.
+It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capabilities such as generating normal maps for use in 3D from images.
 
 *Still in BETA stage, but can be considered stable enough for light production work.*
 
@@ -68,7 +68,7 @@ This assumes you have **Python 3.6 or higher** installed on your system and you 
 3. If you want to build Gimel Studio as an .exe for Windows or build an executable for Linux, you will also need the PyInstaller package.
 
   * Install PyInstaller with ``pip install dev-requirements.txt``
-  * Now run ``make`` in your Linux Terminal or ``Make.bat`` in your Windows CMD. 
+  * Now run ``./make`` in your Linux Terminal or ``Make.bat`` in your Windows CMD. 
 
   This should start building Gimel Studio with the appropriate settings for Pyinstaller, and you should find the executable in the ``dist`` folder.
 
