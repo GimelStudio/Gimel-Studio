@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+sphinx = "*"
+v = {editable = true,version = "*"}
+sphinx-rtd-theme = "*"
+
+[packages]
+pillow = "*"
+wxpython = "*"
+scipy = "*"
+
+[requires]
+python_version = "3.8"

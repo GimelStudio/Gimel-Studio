@@ -26,3 +26,14 @@ Gimel Studio v0.1.8 BETA -- "May 2020"
    - Added 5 new nodes
  * Drag and drop node items from Node Registry
  * Bug fixes
+ NOTES: No Linux build for this release
+
+Gimel Studio v0.2.0 BETA -- ""
+ * Visual popup message has been added for rendering and file operations
+ * Updated Mix node to use the newest blend types from Pillow
+ * Tweaked the look of the nodes, scaled down the default size to be the "classic" size
+ * Rearranged the default layout
+ * File operation optimizations
+ * Renderer optimizations
+ * About dialog now shows libraries used (wxPython, Pillow, etc.)
+ * Development now uses pipenv to handle dependancies

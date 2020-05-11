@@ -20,8 +20,6 @@ Please contact me at <correctsyntax@yahoo.com> if you would like more informatio
   - Multi-thread the ui and renderer?
   - Compile renderer, etc with Cython for speed?
 
-  - Progress bar should be added
-
 
 * File opening and saving is a weak point (including error handling)
   - Images are saved to the file as bytes with the file path still available if it has not changed since the file was saved.?
