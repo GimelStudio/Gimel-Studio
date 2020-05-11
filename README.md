@@ -58,16 +58,17 @@ This assumes you have **Python 3.6 or higher** installed on your system and you 
 1. First download the tar.gz source archive file from <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">here.</a> 
 
   * Extract the archive into an empty folder
-  * Install the dependencies with ``pip install requirements.txt`` 
+  * Get <a href="https://pipenv.pypa.io/en/latest/">pipenv</a>
+  * Install the dependencies with ``pipenv install`` 
 
-    This will install the core dependancies for Gimel Studio. See [requirements.txt](requirements.txt).
+    This will install the core dependancies for Gimel Studio.
 
-2. At this point, you should be able to run 
-   ``python "/src/Gimel Studio.py"`` or ``python3 "/src/Gimel Studio.py"`` depending on your setup.
+2. Run  ``pipenv shell`` and you should be able to now run 
+   ``python "/src/Gimel Studio.py"`` or ``python3 "/src/Gimel Studio.py"`` depending on your setup to launch Gimel Studio.
 
 3. If you want to build Gimel Studio as an .exe for Windows or build an executable for Linux, you will also need the PyInstaller package.
 
-  * Install PyInstaller with ``pip install dev-requirements.txt``
+  * Install development dependancies with ``pipenv install --dev``
   * Now run ``./make`` in your Linux Terminal or ``Make.bat`` in your Windows CMD. 
 
   This should start building Gimel Studio with the appropriate settings for Pyinstaller, and you should find the executable in the ``dist`` folder.
@@ -89,9 +90,11 @@ The development version of Gimel Studio may be unstable and/or have new dependen
 
 The Gimel Studio docs use the Sphinx package.
   
-  * Install Sphinx with ``pip install docs-requirements.txt``
+  * Get <a href="https://pipenv.pypa.io/en/latest/">pipenv</a>
+  * Install development dependancies with ``pipenv install --dev``
+  * ``pipenv shell``
   * ``cd docs``
-  * Now run ``make html``
+  * Now run ``make html`` to build the docs.
 
 You will find the HTML docs in the ``build`` folder.
 

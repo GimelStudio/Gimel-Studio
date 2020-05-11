@@ -7,6 +7,7 @@ verify_ssl = true
 sphinx = "*"
 v = {editable = true,version = "*"}
 sphinx-rtd-theme = "*"
+pyinstaller = "*"
 
 [packages]
 pillow = "*"
