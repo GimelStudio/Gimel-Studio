@@ -13,9 +13,13 @@ It provides basic image editing features such as rotate, resize and blur effects
 
 *Still in BETA stage, but can be considered stable enough for light production work.*
 
-**Your are welcome to help develop Gimel Studio**
+# Development 
 
-See the [ROADMAP.txt](ROADMAP.txt) for a general idea of the possible future goals of the development of Gimel Studio - or, if you are interested in helping out wherever, look throught the code for the ``TODOS``. :)
+**Help develop Gimel Studio**
+
+Pull requests and/or feature suggestions are welcome!
+
+See the [ROADMAP.txt](ROADMAP.txt) and [IDEAS.txt](IDEAS.txt) for a general idea of the possible future goals of the development of Gimel Studio - or, if you are interested in helping out wherever, look throught the code for the ``TODOS``. :)
 
 # Features
 
