@@ -56,6 +56,8 @@ ID_MENU_TAKEFEEDBACKSURVEYMENUITEM = wx.NewIdRef()
 ID_MENU_LICENSEMENUITEM = wx.NewIdRef()
 ID_MENU_ABOUTMENUITEM = wx.NewIdRef()
 
+ID_MENU_pMENUITEM = wx.NewIdRef()
+
 
 class MainApplication(wx.Frame):
     def __init__(self, arguments):
@@ -157,16 +159,6 @@ class MainApplication(wx.Frame):
 
         # Add the panes to the manager
         self._mgr.AddPane(
-            self._imageviewport, 
-            aui.AuiPaneInfo()
-            .Top()
-            .Name("ImageViewport")
-            .Caption("Image Viewport")
-            .Icon(ICON_PANEL_IMAGE_VIEWPORT_DARK.GetBitmap())
-            .CloseButton(visible=False)
-            .BestSize(400, 400)
-            )
-        self._mgr.AddPane(
             self._nodepropertypanel, 
             aui.AuiPaneInfo()
             .Right()
@@ -177,16 +169,6 @@ class MainApplication(wx.Frame):
             .BestSize(400, 400)
             )
         self._mgr.AddPane(
-            self._nodegraph, 
-            aui.AuiPaneInfo()
-            .Center()
-            .Name("NodeGraph")
-            .Caption("Node Graph")
-            .Icon(ICON_PANEL_NODE_GRAPH_DARK.GetBitmap())
-            .CloseButton(visible=False)
-            )
-
-        self._mgr.AddPane(
             self._noderegistry, 
             aui.AuiPaneInfo()
             .Left()
@@ -196,6 +178,28 @@ class MainApplication(wx.Frame):
             .CloseButton(visible=False)
             .BestSize(400, 400)
             )
+        self._mgr.AddPane(
+            self._imageviewport, 
+            aui.AuiPaneInfo()
+            .Center()
+            .Name("ImageViewport")
+            .Caption("Image Viewport")
+            .Icon(ICON_PANEL_IMAGE_VIEWPORT_DARK.GetBitmap())
+            .CloseButton(visible=False)
+            .BestSize(400, 400)
+            )
+
+        self._mgr.AddPane(
+            self._nodegraph, 
+            aui.AuiPaneInfo()
+            .Center()
+            .Name("NodeGraph")
+            .Caption("Node Graph")
+            .Icon(ICON_PANEL_NODE_GRAPH_DARK.GetBitmap())
+            .CloseButton(visible=False)
+            )
+
+
 
 ##        self._mgr.AddPane(
 ##            self._assetlibrary, 
@@ -360,9 +364,11 @@ class MainApplication(wx.Frame):
         dlg.SetFilterIndex(2)
 
         if dlg.ShowModal() == wx.ID_OK:
+            busy = wx.BusyInfo("Exporting Image...")
             path = dlg.GetPath()
             image.save(path)
             #self.statusbar.SetStatusText("Image saved as: {}".format(path))
+            del busy
         dlg.Destroy()
 
     def OnRenderImage(self, event):
@@ -393,6 +399,7 @@ class MainApplication(wx.Frame):
             )
 
         if dlg.ShowModal() == wx.ID_OK:
+            busy = wx.BusyInfo("Saving File...")
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
             self._project.SaveProjectFile(paths[0])
@@ -400,6 +407,7 @@ class MainApplication(wx.Frame):
                 __TITLE__,
                 dlg.GetFilename()
                 ))
+            del busy
             
     
     def OnOpenFile(self, event):
@@ -415,13 +423,18 @@ class MainApplication(wx.Frame):
             )
 
         if dlg.ShowModal() == wx.ID_OK:
+            busy = wx.BusyInfo("Loading File...")
+            wx.Yield()
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
             self._project.OpenProjectFile(paths[0])
             self.SetTitle("{0} - {1}".format(
                 __TITLE__,
                 dlg.GetFilename()
-                ))
+                ))    
+            del busy    
+            
+
 
     def OnQuit(self, event):
         quitdialog = wx.MessageDialog(
@@ -484,6 +497,14 @@ class MainApplication(wx.Frame):
         self.viewmenu.Append(self.togglefullscreen_menuitem)
         self.viewmenu.Check(ID_MENU_TOGGLEFULLSCREENMENUITEM, True)
 
+        # self.p_menuitem = wx.MenuItem(
+        #     self.viewmenu, 
+        #     ID_MENU_pMENUITEM, 
+        #     "Fullscrddddddeen",  
+        #     "Setn",
+        #     )
+        # self.viewmenu.Append(self.p_menuitem)
+
         self.mainmenubar.Append(self.viewmenu, "View")
 
  
@@ -523,6 +544,11 @@ class MainApplication(wx.Frame):
         self.SetMenuBar(self.mainmenubar)
 
         # Menubar bindings
+
+
+        self.Bind(wx.EVT_MENU, self.OnPopupWindow, id=ID_MENU_pMENUITEM)
+
+
         self.Bind(wx.EVT_MENU, self.OnOpenFile, id=ID_MENU_OPENFILEMENUITEM)
         #self.Bind(wx.EVT_MENU, self.OnSaveFile, id=ID_MENU_SAVEFILEMENUITEM)
         self.Bind(wx.EVT_MENU, self.OnSaveFileAs, id=ID_MENU_SAVEFILEASMENUITEM)
@@ -534,6 +560,8 @@ class MainApplication(wx.Frame):
 
 
     def Render(self):
+        busy = wx.BusyInfo("Rendering Image...")
+        wx.Yield()
         self._renderer.Render(self._nodegraph.GetNodes())
         renderimage = self._renderer.GetRenderTime()
         if renderimage != None:
@@ -541,7 +569,15 @@ class MainApplication(wx.Frame):
                 self._renderer.GetRenderedImage(),
                 renderimage
                 )
-            self._imageviewport.SetNodesUsed(
-                self._renderer.GetRenderedNodeCount()
-                )
             self._nodegraph.UpdateAllNodes()  
+
+        del busy
+
+
+
+    def OnPopupWindow(self, event):
+        style = wx.FRAME_FLOAT_ON_PARENT & ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX)
+
+        window = wx.Frame(self, id=wx.ID_ANY, title="hhd", style=style)
+        window.Maximize()
+        window.Show()

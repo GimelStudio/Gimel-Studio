@@ -182,12 +182,12 @@ class Project(object):
                     node2 = nodes[nodeId]
                     node1 = nodes[int(param["bind"])]
                     print(param["bind"], nodeId)
-                    node1.FindPlug('Output').Connect(node2.FindPlug(param["name"]))
+                    node1.FindPlug('Output').Connect(node2.FindPlug(param["name"]), render=False)
             else:
                 if node_data[str(nodeId)]["evaldata"] != '':
                     node2 = nodes[nodeId]
                     node1 = nodes[int(node_data[str(nodeId)]["evaldata"]["bind"])]
-                    node1.FindPlug('Output').Connect(node2.FindPlug('Image'))
+                    node1.FindPlug('Output').Connect(node2.FindPlug('Image'), render=False)
                     #self._parent.nodegraph.RefreshGraph()
 
             # We need these redraws here (even though we draw again later)
@@ -200,6 +200,7 @@ class Project(object):
          
         self._parent._nodegraph.UpdateAllNodes()
         self._parent._nodegraph.RefreshGraph()
+        self._parent._nodegraph._parent.Render()
 
 
     def _CreateUI(self, ui_data):

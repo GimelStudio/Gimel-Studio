@@ -115,7 +115,7 @@ class NodeBase(object):
     @property
     def NodeSize(self):
         # default size
-        return [200, 130] # Classic size: [160, 110]
+        return [160, 110]
     @property 
     def NodeOutput(self):
         # default output type

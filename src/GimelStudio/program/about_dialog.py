@@ -18,6 +18,9 @@
 ## PURPOSE: Defines the Gimel Studio about dialog
 ## ----------------------------------------------------------------------------
 
+import sys
+
+import PIL
 import wx
 from wx.lib.wordwrap import wordwrap
 
@@ -34,6 +37,9 @@ class AboutGimelStudioDialog(object):
         self._version = __VERSION__
         self._build = __BUILD__
         self._release = __RELEASE__
+        self._pillowVersion = PIL.__version__
+        self._wxPythonVersion = wx.VERSION_STRING
+        self._pythonVersion = sys.version.split()[0]
     
     def ShowDialog(self):
         info = wx.adv.AboutDialogInfo()
@@ -46,8 +52,22 @@ class AboutGimelStudioDialog(object):
                 text="""
 Non-destructive (node-based), realtime graphics editing program for Windows and Linux.
 
-Praise to YAHWEH for allowing the time and resources to make this software program a reality. Please consider giving your feedback through the program menu (Help > Feedback Survey) so that I can work to improve Gimel Studio. :)
-                """,
+This version of Gimel Studio is made possible thanks to the following open-source projects:
+
+- Python {}
+- Pillow {}
+- wxPython {}
+- Numpy 
+- Scipy
+
+Praise to our Heavenly Father, YAHWEH for allowing the time and resources to make this software program a reality. 
+
+Please consider giving your feedback through the program menu (Help > Feedback Survey) so that I can work to improve Gimel Studio. :)
+                """.format(
+                    self._pythonVersion,
+                    self._pillowVersion,
+                    self._wxPythonVersion
+                ),
                 width=550, 
                 dc=wx.ClientDC(self._parent)
                 ))

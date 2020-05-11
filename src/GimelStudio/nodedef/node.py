@@ -59,7 +59,6 @@ class Node(object):
         self._drawThumbnail = False
         self._thumbCache = None
 
-        self._drawShadow = self._userprefmanager.GetUINodeShadow()
         self._isSelected = False
         self._isActive = False
         self._isDisabled = False
@@ -175,12 +174,6 @@ class Node(object):
 
     def GetUserPrefManager(self):
         return self._userprefmanager
-
-    def GetDrawShadow(self):
-        return self._drawShadow
-
-    def SetDrawShadow(self, drawshadow):
-        self._drawShadow = drawshadow
 
     def GetDrawThumbnail(self):
         return self._drawThumbnail
@@ -421,6 +414,7 @@ class Node(object):
 
         # See if we should be updating (rendering) automatically
         if render == True:
+            #pass
             self.RenderNodeGraph()
 
 
@@ -469,6 +463,7 @@ class Node(object):
 
         # See if we should be updating (rendering) automatically
         if render == True:
+            #pass
             self.RenderNodeGraph()
 
 
@@ -527,12 +522,6 @@ class Node(object):
             x, y, w, h = self.GetRect()
         else:
             x, y, w, h = self.GetRect()
-
-        # Draw shadow
-        if self.GetDrawShadow() == True:
-            dc.SetPen(wx.TRANSPARENT_PEN)
-            dc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 43), wx.SOLID))
-            dc.DrawRoundedRectangle(x+3, y+3, w, h, 8)
 
         # Active/Unactive node
         if self.IsActive() == True:

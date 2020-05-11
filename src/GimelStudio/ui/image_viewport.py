@@ -59,7 +59,6 @@ class ImageViewport(wx.Panel):
         self._renderTime = 0.00
         self._globalImageSlot = 1
         self._zoom = '0'
-        self._nodesUsed = '0' # TODO: Remove this
         self._sampleColor = wx.Colour(0, 0, 0, 0)
         self._sampleColorPopup = ColorSamplePopup(self)
         self._image = GenericImage(self, Image.new('RGBA', (256, 256)))
@@ -200,9 +199,6 @@ class ImageViewport(wx.Panel):
     def SetZoom(self, zoom):
         self._zoom = zoom
 
-    def SetNodesUsed(self, node_used):
-        self._nodesUsed = node_used
-
     def Rescale(self, factor):
         """ Update the image; to be called from the mouse scroll event. """
         self.UpdateImage(self._imageCopy, factor)
@@ -316,10 +312,9 @@ class ImageViewport(wx.Panel):
         self._pdc.SetId(ID_MOVE_MODE_INFOTEXT)
         self._pdc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 98)))
         print(self.GetImagePosition())
-        text = 'Composite Size: {0}x{1}px | Total Nodes: {2}'.format(
+        text = 'Composite Size: {0}x{1}px'.format(
             self._imageCopy.size[0],
-            self._imageCopy.size[1],
-            self._nodesUsed
+            self._imageCopy.size[1]
             )
         
         self._pdc.SetTextForeground('white')

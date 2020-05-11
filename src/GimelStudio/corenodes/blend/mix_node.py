@@ -24,7 +24,7 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeVersion(self):
-        return "1.0.0"  
+        return "1.3.0"  
 
     @property
     def NodeAuthor(self):
@@ -55,7 +55,10 @@ class NodeDefinition(NodeBase):
                                  'SCREEN',
                                  'DIFFERENCE',
                                  'DARKER',
-                                 'LIGHTER'
+                                 'LIGHTER',
+                                 'SOFT LIGHT',
+                                 'HARD LIGHT',
+                                 'OVERLAY'
                                  ], 'MULTIPLY')
                                ),
         ]
@@ -79,7 +82,10 @@ class NodeDefinition(NodeBase):
                                  'SCREEN',
                                  'DIFFERENCE',
                                  'DARKER',
-                                 'LIGHTER'
+                                 'LIGHTER',
+                                 'SOFT LIGHT',
+                                 'HARD LIGHT',
+                                 'OVERLAY'
                                  ], style=ui.CB_READONLY)
         sizer.Add(self.blendmodecombobox, pos=(2, 1), span=(1, 3), flag=ui.TOP|ui.EXPAND, border=5)
 
@@ -127,6 +133,15 @@ class NodeDefinition(NodeBase):
 
         elif blendmode == 'LIGHTER':
             img = ImageChops.lighter(main_image, layer_image)
+
+        elif blendmode == 'SOFT LIGHT':
+            img = ImageChops.soft_light(main_image, layer_image)
+
+        elif blendmode == 'HARD LIGHT':
+            img = ImageChops.hard_light(main_image, layer_image)
+
+        elif blendmode == 'OVERLAY':
+            img = ImageChops.overlay(main_image, layer_image)
 
         image.SetAsImage(img)
         self.NodeSetThumbnail(image.GetImage())
