@@ -54,9 +54,9 @@ Non-destructive (node-based), realtime graphics editing program for Windows and 
 
 This version of Gimel Studio is made possible thanks to the following open-source projects:
 
-- Python {}
-- Pillow {}
-- wxPython {}
+- Python {0}
+- Pillow {1}
+- wxPython {2}
 - Numpy 
 - Scipy
 

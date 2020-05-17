@@ -26,9 +26,9 @@
 from .eval_info import EvalInfo
 
 
-class OutputNode:
+class OutputNode(object):
     """
-    This class describes an image that may be output from the application.
+    This class describes the composite output node.
     """
     def __init__(self):
         self.node = None

@@ -28,7 +28,7 @@ Gimel Studio v0.1.8 BETA -- "May 2020"
  * Bug fixes
  NOTES: No Linux build for this release
 
-Gimel Studio v0.2.0 BETA -- ""
+Gimel Studio v0.2.0 BETA -- "May 2020"
  * Visual popup message has been added for rendering and file operations
  * Updated Mix node to use the newest blend types from Pillow
  * Tweaked the look of the nodes, scaled down the default size to be the "classic" size

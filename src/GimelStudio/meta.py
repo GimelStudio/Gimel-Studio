@@ -25,10 +25,10 @@ __NAME__ = "Gimel Studio"
 __AUTHOR__ = "Correct Syntax, Noah Rahm"
 
 # Release version: [major].[minor]
-__VERSION__ = "0.1"
+__VERSION__ = "0.2"
 
 # Release number 
-__RELEASE__ = "8" 
+__RELEASE__ = "0" 
 
 # Build number
 __BUILD__ = "2"
@@ -37,7 +37,7 @@ __BUILD__ = "2"
 # USAGE: Switch to False before building as .exe or similar package to
 # enable some end-user features that would otherwise hinder development
 # and/or testing of the program.
-__DEBUG__ = True
+__DEBUG__ = False
 
 # Title string
 __TITLE__ = '{0} v{1}.{2}'.format(__NAME__, __VERSION__, __RELEASE__)

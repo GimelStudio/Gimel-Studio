@@ -368,8 +368,9 @@ class MainApplication(wx.Frame):
             path = dlg.GetPath()
             image.save(path)
             #self.statusbar.SetStatusText("Image saved as: {}".format(path))
-            del busy
+            
         dlg.Destroy()
+        del busy
 
     def OnRenderImage(self, event):
         self.Render()
