@@ -94,7 +94,7 @@ class ImageViewport(wx.Panel):
 
         self._pdc = wx.adv.PseudoDC()
 
-        self.zoomValue = 1.0
+        self.zoomValue = 0.05
         self._renderTime = 0.00
         self._viewportImage = ViewportImage(
             self, 
