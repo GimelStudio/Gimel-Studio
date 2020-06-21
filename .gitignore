@@ -5,5 +5,13 @@
 # Ignore gimel studio project files that I use for testing :)
 *.gimel-studio-project
 
-# No need to commit
+# No need to commit Pipfile.lock
 Pipfile.lock
+
+# Ignore my personal development file folders
+ideas
+reference
+tests
+
+# Ignore built docs
+docs/build

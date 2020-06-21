@@ -22,3 +22,4 @@ Node Registry
 The Node Registry Panel lists the registered Gimel Studio nodes available for usage in the Node Graph (both the core nodes and any registered custom nodes will be shown) 
 
 
+
