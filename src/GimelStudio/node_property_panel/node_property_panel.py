@@ -34,7 +34,7 @@ class NodePropertyPanel(wx.Panel):
 
         self.SetSizer(self._mainSizer)
         self._mainSizer.Fit(self)
-        
+
     @property
     def Parent(self):
         return self._parent
@@ -48,30 +48,31 @@ class NodePropertyPanel(wx.Panel):
  
         if selected_node != None:
 
-            panel_staticbox = wx.StaticBox(self, wx.ID_ANY, selected_node.GetLabel())
-
+            self.panel_staticbox = wx.StaticBox(self, id=wx.ID_ANY, label=selected_node.GetLabel(), size=wx.Size(self.Size[0], self.Size[1]))
+ 
             # This gets the recommended amount of border space to use for items
             # within in the static box for the current platform.
-            top_bd, other_bd = panel_staticbox.GetBordersForSizer()
+            top_bd, other_bd = self.panel_staticbox.GetBordersForSizer()
             staticbox_sizer = wx.BoxSizer(wx.VERTICAL)
-            #staticbox_sizer.AddSpacer(top_bd)
+            staticbox_sizer.AddSpacer(top_bd)
 
-            # t1 = wx.StaticText(panel_staticbox, -1, "As of wxPython 2.9, wx.StaticBox can now be used as a parent like most other wx widgets. This is now the recommended way of using wx.StaticBox.")
+            # t1 = wx.StaticText(self.panel_staticbox, -1, "As of wxPython 2.9, wx.StaticBox can now be used as a parent like most other wx widgets. This is now the recommended way of using wx.StaticBox.")
             # staticbox_sizer.Add(t1, 1, wx.EXPAND|wx.BOTTOM|wx.LEFT|wx.RIGHT, other_bd+10)
             
-            panel_staticbox.SetSizer(staticbox_sizer)
+            self.panel_staticbox.SetSizer(staticbox_sizer)
 
             panel_sizer = wx.BoxSizer(wx.VERTICAL)
-            panel_sizer.Add(panel_staticbox, 1, wx.EXPAND|wx.ALL, 25)
+            panel_sizer.Add(self.panel_staticbox, 1, wx.EXPAND|wx.ALL, 25)
 
 
             # Node Properties UI
-            selected_node.PropertiesUI(selected_node, panel_staticbox, staticbox_sizer)
+            selected_node.PropertiesUI(selected_node, self.panel_staticbox, staticbox_sizer)
 
             # panel.SetSizer(sizer)
             # sizer.Fit(self)
 
             self._mainSizer.Add(panel_sizer, wx.EXPAND|wx.ALL)
+
         else:
             self._mainSizer.Clear(delete_windows=True)
 
