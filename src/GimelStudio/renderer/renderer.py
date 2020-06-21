@@ -68,17 +68,15 @@ class Renderer(object):
  
             # Set rendertime
             self.SetRenderTime(time.time() - start_time)
-        else:
-            pass
+
 
     def _BuildNodeTree(self, nodes):
         """ Builds the node tree and resolves the node parameters
-        and properties and returns the output. In addition, it counts
-        the number of nodes in use that are not disabled.
+        and properties and returns the output.
         """
         nodetree = {}
         for nodeId in nodes:
-            if nodes[nodeId].IsCompositeNode() != True:
+            if nodes[nodeId].IsCompositeOutput() != True:
                 nodetree[str(nodes[nodeId].GetId())] = nodes[nodeId] 
                 nodes[nodeId].ReadData()
             else:
@@ -86,8 +84,7 @@ class Renderer(object):
 
         self._ResolveNodes(nodetree)
 
-        output = self._CreateOutput(outputnode._evalData, nodetree)
-        return output   
+        return self._CreateOutput(outputnode.GetEvaluationData(), nodetree)  
 
     def _ResolveParameters(self, node, nodes):
         """

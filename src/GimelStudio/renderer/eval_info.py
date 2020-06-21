@@ -43,7 +43,7 @@ class EvalInfo(object):
             if p.binding.IsDisabled() != True:
                 # Evaluate the next node
                 info = EvalInfo(p.binding)
-                return p.binding.Evaluate(info)
+                return p.binding.EvaluateNode(info)
         return p.current_value
 
 

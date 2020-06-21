@@ -37,3 +37,8 @@ Gimel Studio v0.2.0 BETA -- "May 2020"
  * Renderer optimizations
  * About dialog now shows libraries used (wxPython, Pillow, etc.)
  * Development now uses pipenv to handle dependancies
+
+Gimel Studio v0.3.0 BETA -- ""
+ * New, faster Image Viewport
+ * Re-write/re-cleanup of core core
+

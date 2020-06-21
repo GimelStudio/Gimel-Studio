@@ -22,16 +22,16 @@
 __NAME__ = "Gimel Studio"
 
 # Program author
-__AUTHOR__ = "Correct Syntax, Noah Rahm"
+__AUTHOR__ = "Noah Rahm, Correct Syntax"
 
 # Release version: [major].[minor]
-__VERSION__ = "0.2"
+__VERSION__ = "0.3"
 
 # Release number 
 __RELEASE__ = "0" 
 
 # Build number
-__BUILD__ = "2"
+__BUILD__ = "1"
 
 # Whether this program is in development mode
 # USAGE: Switch to False before building as .exe or similar package to

@@ -27,36 +27,32 @@ from GimelStudio.meta import (__NAME__, __AUTHOR__, __VERSION__,
                               __BUILD__, __RELEASE__, __DEBUG__,
                               __TITLE__)
 
-from GimelStudio.project import Project
+#from GimelStudio.project import Project
 from GimelStudio.renderer import Renderer
-from GimelStudio.program import (ProgramUpdateChecker, AboutGimelStudioDialog,
-                                 GimelStudioLicenseDialog)
-from GimelStudio.node_importer import *
-from GimelStudio.nodedef import NODE_REGISTRY 
+# from GimelStudio.program import (ProgramUpdateChecker, AboutGimelStudioDialog,
+#                                  GimelStudioLicenseDialog)
+#from GimelStudio.node_importer import *
+#from GimelStudio.nodedef import NODE_REGISTRY 
 
-from GimelStudio.ui import (UserPreferencesManager, ImageViewport,
-                            NodeRegistry, NodeGraph, NodePropertyPanel,
-                            AssetLibrary, NodeGraphDropTarget)
+from GimelStudio.node_registry import NodeRegistry
+from GimelStudio.node_graph import NodeGraph
+from GimelStudio.node_property_panel import NodePropertyPanel
+from GimelStudio.image_viewport import ImageViewport
+
+from GimelStudio.utils import ConvertImageToWx
+    
+    #UserPreferencesManager, ImageViewport,
+ #NodePropertyPanel,
+                            #AssetLibrary, NodeGraphDropTarget)
 
 from GimelStudio.stylesheet import *
 from GimelStudio.datafiles.icons import *
 
+
+
  
 # Create IDs
-ID_RENDERTOOLBAR_RENDERBTN = wx.NewIdRef()
-ID_RENDERTOOLBAR_AUTORENDERCB = wx.NewIdRef()
-ID_VIEWERTOOLBAR_EXPORTIMGBTN = wx.NewIdRef()
 
-ID_MENU_OPENFILEMENUITEM = wx.NewIdRef()
-ID_MENU_SAVEFILEMENUITEM = wx.NewIdRef()
-ID_MENU_SAVEFILEASMENUITEM = wx.NewIdRef()
-ID_MENU_QUITMENUITEM = wx.NewIdRef()
-ID_MENU_TOGGLEFULLSCREENMENUITEM = wx.NewIdRef()
-ID_MENU_TAKEFEEDBACKSURVEYMENUITEM = wx.NewIdRef()
-ID_MENU_LICENSEMENUITEM = wx.NewIdRef()
-ID_MENU_ABOUTMENUITEM = wx.NewIdRef()
-
-ID_MENU_pMENUITEM = wx.NewIdRef()
 
 
 class MainApplication(wx.Frame):
@@ -70,27 +66,27 @@ class MainApplication(wx.Frame):
         self.SetIcon(ICON_GIMELSTUDIO_ICO.GetIcon())
 
         # Init project, renderer and user preferences manager
-        self._project = Project(
-            self,
-            __VERSION__,
-            __BUILD__,
-            __RELEASE__
-            )
+        # self._project = Project(
+        #     self,
+        #     __VERSION__,
+        #     __BUILD__,
+        #     __RELEASE__
+        #     )
         self._renderer = Renderer(
             self
             )
-        self._userprefmanager = UserPreferencesManager(
-            self
-            )
+        # self._userprefmanager = UserPreferencesManager(
+        #     self
+        #     )
 
         # Load the user preferences from the .json file
         # otherwise use the default, built-in preferences.
-        self._userprefmanager.Load()
+        #self._userprefmanager.Load()
 
         # Setup the AUI window manager and configure settings so
         # that we get the dark grey and white theme that we want.
         self._mgr = aui.AuiManager()
-        self._mgr.SetManagedWindow(self)
+        self._mgr.SetManagedWindow(self) 
         self._mgr.SetAGWFlags(
             self._mgr.GetAGWFlags() ^ aui.AUI_MGR_LIVE_RESIZE
             )
@@ -132,34 +128,38 @@ class MainApplication(wx.Frame):
             )
 
         # Init the panes
-        self._imageviewport = ImageViewport(
+        self._imageViewport = ImageViewport(
             self
             )
-        self._nodepropertypanel = NodePropertyPanel(
+        # self._nodepropertypanel = NodePropertyPanel(
+        #     self,
+        #     (400, 800)
+        #     )
+        self._nodeRegistry = NodeRegistry(
+            self
+            )
+
+        self._nodePropertyPanel = NodePropertyPanel(
             self,
             (400, 800)
             )
-        self._nodegraph = NodeGraph(
+
+        self._nodeGraph = NodeGraph(
             self,
-            self._nodepropertypanel,
-            self._project,
             (2000, 2000)
             )
         # Drag image from dir or Node Registry into 
         # node graph to create image node
-        self._nodegraph.SetDropTarget(NodeGraphDropTarget(self._nodegraph))
+        # self._nodegraph.SetDropTarget(NodeGraphDropTarget(self._nodegraph))
 
-        self._noderegistry = NodeRegistry(
-            self,
-            NODE_REGISTRY
-            )
+
         # self._assetlibrary = AssetLibrary(
         #     self,
         #     )
 
         # Add the panes to the manager
         self._mgr.AddPane(
-            self._nodepropertypanel, 
+            self._nodePropertyPanel, 
             aui.AuiPaneInfo()
             .Right()
             .Name("NodeProperties")
@@ -169,9 +169,9 @@ class MainApplication(wx.Frame):
             .BestSize(400, 400)
             )
         self._mgr.AddPane(
-            self._noderegistry, 
+            self._nodeRegistry, 
             aui.AuiPaneInfo()
-            .Left()
+            .Left() 
             .Name("NodeRegistry")
             .Caption("Node Registry")
             .Icon(ICON_PANEL_NODE_REGISTRY_DARK.GetBitmap())
@@ -179,7 +179,7 @@ class MainApplication(wx.Frame):
             .BestSize(400, 400)
             )
         self._mgr.AddPane(
-            self._imageviewport, 
+            self._imageViewport, 
             aui.AuiPaneInfo()
             .Center()
             .Name("ImageViewport")
@@ -190,74 +190,18 @@ class MainApplication(wx.Frame):
             )
 
         self._mgr.AddPane(
-            self._nodegraph, 
+            self._nodeGraph, 
             aui.AuiPaneInfo()
             .Center()
             .Name("NodeGraph")
             .Caption("Node Graph")
             .Icon(ICON_PANEL_NODE_GRAPH_DARK.GetBitmap())
             .CloseButton(visible=False)
+            .FloatingSize(wx.Size(200, 200))
             )
 
 
 
-##        self._mgr.AddPane(
-##            self._assetlibrary, 
-##            aui.AuiPaneInfo()
-##            .Bottom()
-##            .Name("AssetLibrary")
-##            .Caption("Asset Library")
-##            .Icon(ICON_PANEL_NODEGRAPH.GetBitmap())
-##            .CloseButton(visible=False)
-##            )
-
-        # Build the menubar
-        self.BuildMenuBar()
-
-        # Render Toolbar
-        render_toolbar = wx.ToolBar(self, -1, wx.DefaultPosition, wx.DefaultSize,
-                         wx.TB_FLAT | wx.TB_NODIVIDER | wx.TB_HORZ_TEXT)
-        render_toolbar.AddTool(
-            ID_RENDERTOOLBAR_RENDERBTN, 
-            "Render", 
-            ICON_RENDER_IMAGE_DARK.GetBitmap(), 
-            "Render the current node graph"
-            )
-        render_toolbar.AddSeparator()
-
-        self._autoRenderCheckbox = wx.CheckBox(
-            render_toolbar, 
-            ID_RENDERTOOLBAR_AUTORENDERCB, 
-            "Auto Render"
-            )
-        self._autoRenderCheckbox.SetValue(True)
-
-        render_toolbar.AddControl(
-            self._autoRenderCheckbox,
-            )
-        render_toolbar.Realize()
-
-        # Viewer Toolbar
-        viewer_toolbar = wx.ToolBar(self, -1, wx.DefaultPosition, wx.DefaultSize,
-                         wx.TB_FLAT | wx.TB_NODIVIDER | wx.TB_HORZ_TEXT)
-        viewer_toolbar.AddTool(
-            ID_VIEWERTOOLBAR_EXPORTIMGBTN, 
-            "Export Image", 
-            ICON_EXPORT_IMAGE_DARK.GetBitmap(), 
-            "Export the current rendered image to a file"
-            )
-        viewer_toolbar.Realize()
-
-        # Add the toolbars to the manager
-        self._mgr.AddPane(render_toolbar, aui.AuiPaneInfo().
-                          Name("RenderToolbar").Caption("Render Toolbar").
-                          ToolbarPane().Top().Row(0).Position(1).
-                          LeftDockable(False).RightDockable(False))
-
-        self._mgr.AddPane(viewer_toolbar, aui.AuiPaneInfo().
-                          Name("ImageViewerToolbar").Caption("Image Viewer Toolbar").
-                          ToolbarPane().Top().Row(0).Position(2).
-                          LeftDockable(False).RightDockable(False))
 
 
         # Maximize the window
@@ -266,43 +210,23 @@ class MainApplication(wx.Frame):
         # Tell the AUI window manager to "commit" all the changes just made.
         self._mgr.Update()
 
-        # Check for updates
-        #programupdatechecker = ProgramUpdateChecker(__VERSION__)
-        #programupdatechecker.run()
+         
+
+        #self._nodeRegistry.RegisterNode('outputcomposite')
+        #print(self._nodeRegistry._registryBase.GetRegisteredNodes())
+        self._nodeRegistry._InitNodes()
+        print(self._nodeRegistry.GetRegisteredNodes())
 
 
-        self._imageviewport.InitModeRadioButtonWidgets()
-##
-##        from PIL import Image
-##        from GimelStudio.utils import ConvertImageToWx
-##        img= Image.open('Garden.jpg')
-##        img.thumbnail((200, 200))
-##        picture = wx.Bitmap(ConvertImageToWx(img))
-##        self._assetlibrary.InsertPicture(1, picture)
+        self._nodeGraph.AddNode(
+            _type='gimelstudiocorenode_outputcomposite', pos=wx.Point(300, 300))
 
+        self._nodeGraph.AddNode(
+            _type='gimelstudiocorenode_image', pos=wx.Point(200, 240))
+        
+        self._nodeGraph.AddNode(
+            _type='corenode_blur', pos=wx.Point(250, 200))
 
-        # Open the given file at the command line, if
-        # there is one -otherwise load the default file.
-        if self._arguments.file == 'DEFAULT_FILE':
-            print('INFO: LOADING DEFAULT FILE')
-            self._project.LoadDefaultProjectFile()
-        else:
-            print('INFO: LOADING FILE {} FROM CMD'.format(self._arguments.file))
-            #self._project.OpenProjectFile(arguments.file)
-
-##        from PIL import Image
-##        renderimage = Image.new('RGBA', (256, 256), 'red')
-##        self._imageviewport.RefreshViewerImage(
-##            renderimage,
-##            1.00
-##            )
-        #self._imageviewport.UpdateImage(renderimage)
-
-        # Bindings
-        self.Bind(wx.EVT_TOOL, self.OnRenderImage, id=ID_RENDERTOOLBAR_RENDERBTN)
-        self.Bind(wx.EVT_TOOL, self.OnExportImage, id=ID_VIEWERTOOLBAR_EXPORTIMGBTN)
-        if __DEBUG__ != True:
-            self.Bind(wx.EVT_CLOSE, self.OnQuit)
 
         
     def GetArguments(self):
@@ -321,16 +245,16 @@ class MainApplication(wx.Frame):
         return self._userprefmanager
 
     def GetImageViewport(self):
-        return self._imageviewport
+        return self._imageViewport
 
     def GetNodePropertyPanel(self):
-        return self._nodepropertypanel
+        return self._nodePropertyPanel
 
     def GetNodeGraph(self):
-        return self._nodegraph
+        return self._nodeGraph
 
     def GetNodeRegistry(self): 
-        return self._noderegistry
+        return self._nodeRegistry
 
     def GetAutoRenderBoolean(self):
         return self._autoRenderCheckbox.GetValue()
@@ -559,19 +483,18 @@ class MainApplication(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnAboutGimelStudioDialog, id=ID_MENU_ABOUTMENUITEM)
         self.Bind(wx.EVT_MENU, self.OnGimelStudioLicenseDialog, id=ID_MENU_LICENSEMENUITEM)
 
-
+ 
     def Render(self):
         busy = wx.BusyInfo("Rendering Image...")
         wx.Yield()
-        self._renderer.Render(self._nodegraph.GetNodes())
+        self._renderer.Render(self._nodeGraph.GetNodes())
         renderimage = self._renderer.GetRenderTime()
         if renderimage != None:
-            self._imageviewport.RefreshViewerImage(
-                self._renderer.GetRenderedImage(),
+            self._imageViewport.UpdateViewerImage(
+                ConvertImageToWx(self._renderer.GetRenderedImage()),
                 renderimage
                 )
-            self._nodegraph.UpdateAllNodes()  
-
+            #self._nodeGraph.UpdateAllNodes()  
         del busy
 
 

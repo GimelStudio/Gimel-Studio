@@ -5,16 +5,16 @@ Gimel Studio Development Roadmap Ideas
 Here are the current issues and features that *should be* added to and fixed in Gimel Studio and (some of) my ideas to implement/fix them.
 
 
-If you would like to help develop Gimel Studio, you can work on any of these or present yor own ideas of how to implement/fix these. Other feature ideas are welcome too. :)
+If you would like to help develop Gimel Studio, you can work on any of these or present your own ideas of how to implement/fix these. Other feature ideas are welcome too. :)
 
 Please contact me at <correctsyntax@yahoo.com> if you would like more information on any of these ideas, on the roadmap itself or if you would like to contribute to the Gimel Studio software project.
 
 
 * Really, at this point, a major refinement of the code-base needs to be done
-  - This means "a separation of concerns", etc.
+  [x]- This means "a separation of concerns", etc.
   - For example, it's really difficult to manipulate the node connections in the code right now...
-  - Meta info
-  - Docstrings
+  [x]- Meta info
+  [x]- Docstrings
   - Core and custom nodes (corenode_ & customnode_)
 
 * Render speed (a BIG issue right now)
@@ -32,7 +32,7 @@ Please contact me at <correctsyntax@yahoo.com> if you would like more informatio
 
 
 * Node Graph
-  - Zoom in and out (this is really badly needed)
+  [x]- Zoom in and out (this is really badly needed)
 
 
 * Asset Library (needs a better reworking before it comes back)

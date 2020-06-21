@@ -69,12 +69,13 @@ def DrawGrid(dc, rect, grid_size=10):
         dc.DrawLine(rect[0], y, rect[2], y)
 
  
-def DrawCheckerBoard(dc, rect, checkcolor, box=5):
+def DrawCheckerBoard(dc, rect, checkcolor, box=1):
     """ Draws a checkerboard pattern on a wx.DC. Used for 
     Alpha channel backgrounds.
 
     NOTE: Seems to only work with the wx.DC and NOT
-    the wx.PseudoDC """
+    the wx.PseudoDC 
+    """
     y = rect.y
     dc.SetPen(wx.Pen(checkcolor))
     dc.SetBrush(wx.Brush(checkcolor)) 

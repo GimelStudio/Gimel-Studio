@@ -21,9 +21,10 @@
 import argparse
 import wx
 
+from GimelStudio.node_importer import *
 from GimelStudio.meta import  __TITLE__, __DEBUG__
 from GimelStudio.application import MainApplication
-from GimelStudio.ui import StartupSplashScreen
+#from GimelStudio.ui import StartupSplashScreen
 
 
 if __name__ == '__main__':
@@ -42,12 +43,15 @@ if __name__ == '__main__':
 
     # Create the app and startup
     app = wx.App(redirect=False)
+    #print(app.outputWindowClass)
     frame = MainApplication(
         arguments=args
         )
+    
     if __DEBUG__ != True:
-        splash = StartupSplashScreen()
-        splash.Show()
+        #splash = StartupSplashScreen()
+        #splash.Show()
+        pass
     frame.Show()
     app.SetTopWindow(frame)
     app.MainLoop()

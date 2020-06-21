@@ -48,10 +48,10 @@ class OutputNode(object):
 
     def RenderImage(self):
         """
-        This method generates an image for this output node. If the output
-        node is not connected then no image will be generated.
+        This method renders the image for this output node. If the output
+        node is not connected then the default image will be rendered.
         """
         if self.node != None:
             eval_info = EvalInfo(self.node)
-            image = eval_info.node.Evaluate(eval_info)
+            image = eval_info.node.EvaluateNode(eval_info)
             return image

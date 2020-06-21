@@ -21,7 +21,8 @@
 
 def TruncateText(text_string, str_length=18):
     """ Truncate the text string after a certain 
-    number of characters. """
+    number of characters. 
+    """
     chars = []
     for char in text_string:
         chars.append(char)
