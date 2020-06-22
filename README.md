@@ -13,9 +13,12 @@ It provides basic image editing features such as rotate, resize and blur effects
 
 *Still in BETA stage, but can be considered stable enough for light production work.*
 
+**NOTE: This development version (0.3.x) is in major development at the moment and is very unstable, please use v0.2.0 for any production work!**
+
+
 # News
 
-v0.3x is being worked on, but may not release for a while. This release will be a major refactoring of the core code and will include some new features and a re-design of the UI. To help out with latest development, contact me at <correctsyntax@yahoo.com>. Thanks!
+v0.3.x is in major development, but it may not release officially for a while. This release will be a major refactoring of the core code and will include some new features and a re-design of the UI. To help out with latest development, contact me at <correctsyntax@yahoo.com> or submit a Pull Request. Thanks!
 
 
 # Development 
