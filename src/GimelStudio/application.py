@@ -35,7 +35,7 @@ from GimelStudio.renderer import Renderer
 #from GimelStudio.nodedef import NODE_REGISTRY 
 
 from GimelStudio.node_registry import NodeRegistry
-from GimelStudio.node_graph import NodeGraph
+from GimelStudio.node_graph import NodeGraph, NodeGraphDropTarget
 from GimelStudio.node_property_panel import NodePropertyPanel
 from GimelStudio.image_viewport import ImageViewport
 
@@ -43,7 +43,7 @@ from GimelStudio.utils import ConvertImageToWx
     
     #UserPreferencesManager, ImageViewport,
  #NodePropertyPanel,
-                            #AssetLibrary, NodeGraphDropTarget)
+                            #AssetLibrary)
 
 from GimelStudio.stylesheet import *
 from GimelStudio.datafiles.icons import *
@@ -84,7 +84,8 @@ class MainApplication(wx.Frame):
         #self._userprefmanager.Load()
 
         # Setup the AUI window manager and configure settings so
-        # that we get the dark grey and white theme that we want.
+        # that we get the light white theme that we want instead
+        # of the yucky default colors. :)
         self._mgr = aui.AuiManager()
         self._mgr.SetManagedWindow(self) 
         self._mgr.SetAGWFlags(
@@ -131,10 +132,6 @@ class MainApplication(wx.Frame):
         self._imageViewport = ImageViewport(
             self
             )
-        # self._nodepropertypanel = NodePropertyPanel(
-        #     self,
-        #     (400, 800)
-        #     )
         self._nodeRegistry = NodeRegistry(
             self
             )
@@ -150,7 +147,7 @@ class MainApplication(wx.Frame):
             )
         # Drag image from dir or Node Registry into 
         # node graph to create image node
-        # self._nodegraph.SetDropTarget(NodeGraphDropTarget(self._nodegraph))
+        self._nodeGraph.SetDropTarget(NodeGraphDropTarget(self._nodeGraph))
 
 
         # self._assetlibrary = AssetLibrary(
@@ -488,20 +485,21 @@ class MainApplication(wx.Frame):
         busy = wx.BusyInfo("Rendering Image...")
         wx.Yield()
         self._renderer.Render(self._nodeGraph.GetNodes())
-        renderimage = self._renderer.GetRenderTime()
-        if renderimage != None:
+        render_time = self._renderer.GetRenderTime()
+        render_image = self._renderer.GetRenderedImage()
+        if render_image != None:
             self._imageViewport.UpdateViewerImage(
-                ConvertImageToWx(self._renderer.GetRenderedImage()),
-                renderimage
+                ConvertImageToWx(render_image),
+                render_time
                 )
             #self._nodeGraph.UpdateAllNodes()  
         del busy
 
 
 
-    def OnPopupWindow(self, event):
-        style = wx.FRAME_FLOAT_ON_PARENT & ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX)
-
-        window = wx.Frame(self, id=wx.ID_ANY, title="hhd", style=style)
-        window.Maximize()
-        window.Show()
+    def RestartProgram(newArgs):
+        """
+        Restart the program so that the node registry is refreshed.
+        """
+        python = sys.executable
+        os.execl(python, python, *newArgs)

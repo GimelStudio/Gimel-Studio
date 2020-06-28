@@ -39,7 +39,7 @@ from GimelStudio.datafiles.icons import *
 class Node(object):
     def __init__(self, parent, nodedef, pos, _id=wx.ID_ANY):
         self._parent = parent
-        self._nodedef = nodedef # Shouldn't be any need
+        self._nodedef = nodedef
 
         #self._defaultSize = nodedef._size # TODO
 

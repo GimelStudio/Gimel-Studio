@@ -59,20 +59,25 @@ class NodeDefinition(NodeBase):
         flagsExpand = wx.SizerFlags(1)
         flagsExpand.Expand().Border(wx.ALL, 10)
 
-
         current_radius_value = self.NodeGetPropertyValue('Radius')
 
         radius_label = wx.StaticText(parent, label="Blur Radius:")
         inner_sizer.Add(radius_label, flagsExpand)
 
-        self.radiusspinctrl = wx.SpinCtrl(parent, -1, "", (30, 50))
-        self.radiusspinctrl.SetRange(1, 500)
+        self.radiusspinctrl = wx.Slider(
+            parent, 100, 25, 1, 100, size=(250, -1),
+            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
+            )
+
+        self.radiusspinctrl.SetTickFreq(5)
+
+        self.radiusspinctrl.SetRange(1, 100)
         self.radiusspinctrl.SetValue(current_radius_value)
         inner_sizer.Add(self.radiusspinctrl, flagsExpand)
 
         sizer.Add(inner_sizer)
 
-        parent.Bind(wx.EVT_SPINCTRL, self.OnRadiusSpin, self.radiusspinctrl)
+        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnRadiusSpin, self.radiusspinctrl)
 
 
     def OnRadiusSpin(self, evt):
