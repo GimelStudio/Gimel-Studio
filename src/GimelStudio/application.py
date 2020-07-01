@@ -480,13 +480,16 @@ class MainApplication(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnAboutGimelStudioDialog, id=ID_MENU_ABOUTMENUITEM)
         self.Bind(wx.EVT_MENU, self.OnGimelStudioLicenseDialog, id=ID_MENU_LICENSEMENUITEM)
 
- 
+    
+    def GetRenderedImage(self):
+        return self._renderer.GetRenderedImage()
+
     def Render(self):
         busy = wx.BusyInfo("Rendering Image...")
         wx.Yield()
         self._renderer.Render(self._nodeGraph.GetNodes())
         render_time = self._renderer.GetRenderTime()
-        render_image = self._renderer.GetRenderedImage()
+        render_image = self.GetRenderedImage()
         if render_image != None:
             self._imageViewport.UpdateViewerImage(
                 ConvertImageToWx(render_image),

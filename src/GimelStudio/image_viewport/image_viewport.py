@@ -31,13 +31,6 @@ from GimelStudio.datafiles.icons import *
 
 
 
-
-
-
-
-
-
-
 class ImageViewport(wx.Toolbook):
     def __init__(self, parent):
         wx.Toolbook.__init__(self, parent, -1, style=
@@ -48,8 +41,6 @@ class ImageViewport(wx.Toolbook):
                              #wx.BK_RIGHT
                             )
         
-
-
         img_list = [ICON_NODE_IMAGE_DARK, ICON_NODE_IMAGE_LIGHT]
         il = wx.ImageList(20, 20)
         for x in range(2):
@@ -58,16 +49,15 @@ class ImageViewport(wx.Toolbook):
             il.Add(bmp)
         self.AssignImageList(il)
 
-
+        self._parent = parent
 
 
         # Make panels for the list book
-        win = ImageViewerPnl(self)
-        self.AddPage(win, "View Image", imageId=0)
+        self._imageViewerPanel = ImageViewerPnl(self)
+        self._imageExportPanel = ImageExportPnl(self)
 
-
-        win = ImageExportPnl(self)
-        self.AddPage(win, "Export Image", imageId=1)
+        self.AddPage(self._imageViewerPanel, "View Image", imageId=0)
+        self.AddPage(self._imageExportPanel, "Export Image", imageId=1)
 
 
         self.Bind(wx.EVT_TOOLBOOK_PAGE_CHANGED, self.OnPageChanged)
@@ -80,6 +70,12 @@ class ImageViewport(wx.Toolbook):
         new = event.GetSelection()
         sel = self.GetSelection()
         print('OnPageChanged,  old:%d, new:%d, sel:%d\n' % (old, new, sel))
+
+        # If the Export Image tab is selected, generate 
+        # the preview image.
+        if sel == 1:
+            self._imageExportPanel.UpdatePreviewImage(self.GetRenderedImage())
+
         event.Skip()
 
     def OnPageChanging(self, event):
@@ -88,5 +84,9 @@ class ImageViewport(wx.Toolbook):
         sel = self.GetSelection()
         print('OnPageChanging, old:%d, new:%d, sel:%d\n' % (old, new, sel))
         event.Skip()
+
+
+    def GetRenderedImage(self):
+        return self._parent.GetRenderedImage()
 
             

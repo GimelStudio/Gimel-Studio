@@ -22,10 +22,11 @@ import wx
 
 
 def ConvertImageToWx(image):
-    """ Converts the given PIL image into a wx.Bitmap with RGBA. 
+    """ Converts the given ``PIL Image`` object into a 
+    ``wx.Bitmap`` with RGBA. 
 
-    :param image: PIL Image to convert
-    :returns: wx.Bitmap
+    :param image: ``PIL Image`` to convert
+    :returns: ``wx.Bitmap``
     """
     bitmap = wx.Bitmap.FromBufferRGBA(
         image.size[0],
@@ -34,3 +35,44 @@ def ConvertImageToWx(image):
         )
     return bitmap
 
+
+def ExportRenderedImageToFile(rendered_image, export_path, 
+                            quality=75, optimize=False, export_for_web=False):
+    """ Smooths out the various export options for exporting images and
+    exports the image to the given file path.
+
+    from the Pillow docs:
+
+        quality
+        The image quality, on a scale from 0 (worst) to 95 (best). The default is 75. 
+        Values above 95 should be avoided; 100 disables portions of the JPEG 
+        compression algorithm, and results in large files with hardly any gain 
+        in image quality. 
+        
+        ^NOTE: For this reason, the "quality" slider value only has a range 0-95
+
+        optimize
+        If present and true, indicates that the encoder should make an extra pass 
+        over the image in order to select optimal encoder settings.
+
+    :param rendered_image: ``PIL Image`` object to be exported
+    :param string export_path: string of the path to export the image to
+    :param int quality: the image export quality (see above)
+    :param boolean optimize: whether to optimize the exported image (see above)
+    :param boolean export_for_web: whether to make optimizations for use on websites, etc
+    """
+
+    # Set values to PIL defaults initially
+    bits = 8
+    compress_level = 6
+
+    if export_for_web == True:
+        optimize = True
+
+        # PNG specific
+        if rendered_image.format.lower() == "png":
+            bits = 6 # How much should this be lowered??
+            compress_level = 7 
+
+    rendered_image.save(fp=export_path, quality=quality, optimize=optimize, 
+                        bits=bits, compress_level=compress_level)

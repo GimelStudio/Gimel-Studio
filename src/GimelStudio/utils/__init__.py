@@ -1,3 +1,3 @@
 from .drawing import (DrawGrid, DrawCheckerBoard, TileBackground)
-from .image import ConvertImageToWx
+from .image import ConvertImageToWx, ExportRenderedImageToFile
 from .text import TruncateText

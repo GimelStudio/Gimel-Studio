@@ -18,12 +18,15 @@
 ## PURPOSE: Define the image export options tab of the Image Viewport
 ## ----------------------------------------------------------------------------
 
+import os
+
 import wx
 import wx.adv
 
 from PIL import Image
 
-from GimelStudio.utils import ConvertImageToWx, DrawCheckerBoard
+from GimelStudio.utils import (ConvertImageToWx, ExportRenderedImageToFile, 
+                                DrawCheckerBoard)
 from GimelStudio.datafiles.icons import *
 
 
@@ -40,7 +43,7 @@ class ExportOptionsPnl(wx.StaticBox):
         sizer.AddSpacer(top_bd)
 
         self._exportForWebCheckBox = wx.CheckBox(self, label="Export for web")
-        self._opimizedImageCheckBox = wx.CheckBox(self, label="Optimize image (if available)")
+        self._opimizeImageCheckBox = wx.CheckBox(self, label="Optimize image (if available)")
 
         self._imageQualitySliderLbl = wx.StaticText(self, -1, "Image quality (if available)")
         self._imageQualitySlider = wx.Slider(
@@ -50,29 +53,71 @@ class ExportOptionsPnl(wx.StaticBox):
         self._imageQualitySlider.SetTickFreq(5)
 
         sizer.Add(self._exportForWebCheckBox, flag=wx.LEFT|wx.TOP, border=other_bd+10)
-        sizer.Add((1,5))
-        sizer.Add(self._opimizedImageCheckBox, flag=wx.LEFT, border=other_bd+10)
-        sizer.Add((1,20))
+        sizer.Add((1, 5))
+        sizer.Add(self._opimizeImageCheckBox, flag=wx.LEFT, border=other_bd+10)
+        sizer.Add((1, 20))
         sizer.Add(self._imageQualitySliderLbl, flag=wx.LEFT, border=other_bd+10)
         sizer.Add(self._imageQualitySlider, flag=wx.LEFT, border=other_bd+10)
-
 
         self.SetSizer(sizer)
 
 
+    def GetExportForWebValue(self):
+        return self._exportForWebCheckBox.GetValue()
 
-class ImagePreviewPnl(wx.Panel):
-    def __init__(self, parent, size=wx.DefaultSize):
-        wx.Panel.__init__(self, parent, size=size)
+    def GetOpimizeImageValue(self):
+        return self._opimizeImageCheckBox.GetValue()
 
-
-        bmp = ICON_NODE_IMAGE_DARK.GetBitmap()
-        img_preview = wx.StaticBitmap(self, -1, bmp, (80, 50), (bmp.GetWidth(), bmp.GetHeight()))
-
-
+    def GetImageQualityValue(self):
+        return self._imageQualitySlider.GetValue()
 
 
+class ImagePreviewPnl(wx.StaticBox):
+    def __init__(self, parent, label="Image Preview", size=wx.DefaultSize):
+        wx.StaticBox.__init__(self, parent, label=label, size=size)
 
+
+        # This gets the recommended amount of border space to use for items
+        # within in the static box for the current platform.
+        top_bd, other_bd = self.GetBordersForSizer()
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.AddSpacer(top_bd)
+
+        self._imgPreview = wx.StaticBitmap(self, -1, wx.Bitmap(100, 100))#, 
+        # size=(self.Size[0]-130, self.Size[1]-130))
+
+        sizer.Add((1, 1), 1)
+        sizer.Add(
+            self._imgPreview, 
+            flag=wx.ALIGN_CENTER_HORIZONTAL| wx.ALL | wx.ADJUST_MINSIZE,
+            border=other_bd+10)
+        sizer.Add((1, 1), 1)
+
+        self.SetSizer(sizer)
+        self.Refresh()
+
+
+    def UpdatePreviewImage(self, image):
+
+        img = ConvertImageToWx(image)
+        img = wx.Bitmap.ConvertToImage(img)
+        img_scale = self._CalculateScale(img.GetWidth(), img.GetHeight())
+        img.Rescale(img_scale[0],img_scale[1])
+        
+        self._imgPreview.SetBitmap(wx.Bitmap(img))
+        self.Layout()
+        self.Refresh()
+
+
+    def _CalculateScale(self, w, h):
+        h_ratio = h/self.Size[0]
+        w_ratio = w/self.Size[1]
+
+        if h_ratio > w_ratio:
+            return (w/h_ratio,h/h_ratio)
+        else:
+            return (w/w_ratio,h/w_ratio)
 
 
 
@@ -83,108 +128,91 @@ class ImageExportPnl(wx.Panel):
 
         self._parent = parent
 
+        self.sizer = wx.BoxSizer(wx.VERTICAL)
+
         self.splitter = wx.SplitterWindow(self, -1, style=wx.SP_BORDER|wx.SP_LIVE_UPDATE)
         self.splitter.SetMinimumPaneSize(50)
 
-        p1 = ExportOptionsPnl(self.splitter)
-        p2 = ImagePreviewPnl(self.splitter)
-        self.splitter.SplitVertically(p1, p2)
+        self._exportOptionsPnl = ExportOptionsPnl(self.splitter)
+        self._imagePreviewPnl = ImagePreviewPnl(self.splitter)
 
+        self.splitter.SplitVertically(self._exportOptionsPnl, self._imagePreviewPnl)
 
-
-
-
-        self.sizer2 = wx.BoxSizer(wx.HORIZONTAL)
-
-        button1 = wx.Button(self, -1, "Export Image...")
-
-
-        self.sizer2.Add(button1, 1, wx.ALIGN_CENTER)
-
-
-        self.sizer = wx.BoxSizer(wx.VERTICAL)
-        self.sizer.Add(self.splitter, 1, wx.EXPAND)
-        self.sizer.Add(self.sizer2, 0, wx.EXPAND)
+        self.sizer.Add(self.splitter, 1, flag=wx.EXPAND | wx.ALL, border=6)
+ 
+        self.innerSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.exportBtn = wx.Button(self, label="Export Image...")
+        self.innerSizer.Add(self.exportBtn)
+        self.sizer.Add(self.innerSizer, flag=wx.ALIGN_RIGHT|wx.RIGHT|wx.BOTTOM, border=6)
+        
         self.SetSizer(self.sizer)
 
-
         self.Bind(wx.EVT_SIZE, self.OnSize)
-
-
+        self.Bind(wx.EVT_BUTTON, self.OnExportImageBtn)
 
     def OnSize(self, event):
         size = self.GetSize()
         self.splitter.SetSashPosition(size.x / 2)
         event.Skip()
 
+    def OnExportImageBtn(self, event):
+        self.OnExportImage(event)
+
+
+    def OnExportImage(self, event):
+        wildcard = "JPG file (*.jpg)|*.jpg|" \
+                   "PNG file (*.png)|*.png|" \
+                   "All files (*.*)|*.*"
+
+        image = self._parent.GetRenderedImage()
+
+        dlg = wx.FileDialog(
+            self, 
+            message="Export rendered image as...", 
+            defaultDir=os.getcwd(),
+            defaultFile="image.png", 
+            wildcard=wildcard, 
+            style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
+            )
+
+        # This sets the default filter that the user will initially see. 
+        # Otherwise, the first filter in the list will be used by default.
+        dlg.SetFilterIndex(2)
+
+        if dlg.ShowModal() == wx.ID_OK:
+            busy = wx.BusyInfo("Exporting Image...")
+            path = dlg.GetPath()
+
+
+            image = Image.open("C:/Users/doall/Pictures/meadow.jpg")
+
+            # Export the image with the export options
+            ExportRenderedImageToFile(rendered_image=image, export_path=path,
+                quality=self._exportOptionsPnl.GetImageQualityValue(), 
+                optimize=self._exportOptionsPnl.GetOpimizeImageValue(), 
+                export_for_web=self._exportOptionsPnl.GetExportForWebValue())
+            
+        dlg.Destroy()
+        del busy
 
 
 
+    @property
+    def ExportOptionsPanel(self):
+        return self._exportOptionsPnl
+
+    @property
+    def ImagePreviewPanel(self):
+        return self._imagePreviewPnl
 
 
+    def UpdatePreviewImage(self, image):
+        """ Wrapper method to update the preview image. """
 
-
-
-
-
-
-
-
-
-
-        # self.mainSizer = wx.BoxSizer(wx.VERTICAL)
-
-
-        # self.innerSizer = wx.BoxSizer(wx.HORIZONTAL)
-
-
-        # self.panel_staticbox = wx.StaticBox(
-        #     self, id=wx.ID_ANY, 
-        #     , 
-        #     )
-
-        # self.innerSizer.Add(img_preview, wx.EXPAND|wx.ALL)
-        # self.innerSizer.Add(self.panel_staticbox, wx.EXPAND|wx.ALL)
-
-
+        image = Image.new('RGBA', (256, 256), "green")
+        image = Image.open("C:/Users/doall/Pictures/meadow.jpg")
+        return self._imagePreviewPnl.UpdatePreviewImage(image)
 
 
 
         
-        
-        # self.mainSizer.Add(self.innerSizer, wx.EXPAND|wx.ALL)
-
-        # btn1 = wx.Button(self, label="Export Image")
-        # self.mainSizer.Add(btn1, wx.ALIGN_RIGHT)
-
-        # self.SetSizer(self.mainSizer)
-
-
-
-
-
-
-
-        # This gets the recommended amount of border space to use for items
-        # within in the static box for the current platform.
-        # top_bd, other_bd = self.panel_staticbox.GetBordersForSizer()
-
-        # staticbox_sizer = wx.BoxSizer(wx.VERTICAL)
-        # staticbox_sizer.AddSpacer(top_bd)
-
-        # self.panel_staticbox.SetSizer(staticbox_sizer)
-
-        # panel_sizer = wx.BoxSizer(wx.VERTICAL)
-        # panel_sizer.Add(self.panel_staticbox, 1, wx.EXPAND|wx.ALL, other_bd+10)
-
-        # # Node Properties UI
-        # #selected_node.PropertiesUI(selected_node, self.panel_staticbox, staticbox_sizer)
-
-        # self.optionsPnlSizer.Add(panel_sizer, wx.EXPAND|wx.ALL)
-
-        # self._mainSizer.Add(self.optionsPnlSizer, wx.EXPAND|wx.ALL)
-
-        # #
-        # #self._mainSizer.Add(btn1, wx.EXPAND|wx.ALL)
-
-        # 
