@@ -14,6 +14,10 @@ Edit graphics in a non-destructive workflow using different nodes and view the r
 
     GIMEL STUDIO IS CURRENTLY IN BETA AND IS NOT FULLY STABLE. NOT ALL FEATURES ARE IMPLEMENTED SO THE API AND/OR USAGE MAY CHANGE AT ANY TIME.
 
+.. warning::
+    
+    The Gimel Studio API will change in 0.3.x (only slightly, so far). The current documentation is for version 0.2.0 and earlier.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
