@@ -5,15 +5,19 @@ The Gimel Studio API allows you to script your own custom nodes for Gimel Studio
 
 
 Note on Python Versions
------------------------
+#######################
 
 The Gimel Studio application comes bundled with Python 3, but specific versions may vary depending on the build and target OS:
 
-(Current builds)
-Linux 64-bit - Python 3.6
-Windows 64-bit - Python 3.8
+| (Current builds)
+| Linux 64-bit - Python 3.6
+| Windows 64-bit - Python 3.8
 
 If you built Gimel Studio from the source yourself, be sure that you used a Python version higher that 3.6. Gimel Studio is developed for Python 3.6+ and stability cannot be guaranteed with earlier versions. Please take this into account when developing custom nodes also.
+
+
+Custom Node Tutorial
+####################
 
 
 Getting Setup To Script A Custom Node
@@ -191,7 +195,7 @@ Next, import the neccessary classes from the GimelStudio API. For this node, we 
 
 .. code-block::
 
-    from GimelStudio import (Color, RenderImage, NodeBase,
+    from GimelStudio.api import (Color, RenderImage, NodeBase,
                              ParameterDefinition, PropertyDefinition,
                              RegisterNode)
 
@@ -216,7 +220,7 @@ In the ``NodeDefinition`` class we write a property method (``NodeName``) to def
 
 We write another property method (``NodeLabel``) to define the label of the node that will be seen by the user. It is conventional to have this in title-case.
 
-Yet again, in the ``NodeDefinition`` class, we write a property method (``NodeCategory``) to define the category the node will be placed in (for menus, node registry, etc.). The string must be in all upper-case.
+In the ``NodeDefinition`` class, we write a property method (``NodeCategory``) to define the category the node will be placed in (for menus, node registry, etc.). The string must be in all upper-case.
 
 .. seealso::
     See the *API Reference* for a list of valid strings for the ``NodeCategory`` method. 
@@ -282,5 +286,39 @@ Creating Node Parameters
 TODO: CHANGE NODE EXAMPLE TO USE PARAMS
 
 
+API Reference
+#############
 
+All API classes, methods and functions should be imported from the ``GimelStudio.api`` module. This is the only "safe" way to access the internal API.
+
+NodeBase
+--------
+
+.. py:class:: NodeBase(object)
+
+    Base class for all nodes which defines the node's core attributes. Subclass this to create a custom node.
+
+    **Example:**
+
+    .. code-block::
+
+        from GimelStudio.api import NodeBase, RegisterNode
+
+        class NodeDefinition(NodeBase):
+            ...
+
+        RegisterNode(NodeDefinition)
+
+
+    .. py:method:: NodeAuthor() 
+        :property:
+
+        Name of the author of this node. It should be a string.
+            
+
+    .. py:method:: NodeLabel() 
+        :property:
+
+        The shown text of the label for the node. This can be different from the node name. It should be a string.
+            
 
