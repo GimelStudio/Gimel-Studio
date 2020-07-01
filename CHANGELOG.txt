@@ -39,6 +39,8 @@ Gimel Studio v0.2.0 BETA -- "May 2020"
  * Development now uses pipenv to handle dependancies
 
 Gimel Studio v0.3.0 BETA -- ""
- * New, faster Image Viewport
+ * New, faster Image Viewport with View Image and Export Image tabs 
+   - Export Image tab added which includes (advanced) options for export and an image preview
  * Re-write/re-cleanup of core core
+ * UI re-design
 
