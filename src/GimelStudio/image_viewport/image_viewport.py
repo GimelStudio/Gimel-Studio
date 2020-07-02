@@ -30,28 +30,25 @@ from GimelStudio.datafiles.icons import *
 
 
 
-
 class ImageViewport(wx.Toolbook):
     def __init__(self, parent):
         wx.Toolbook.__init__(self, parent, -1, style=
                              #wx.BK_DEFAULT
-                             #wx.BK_TOP
+                             wx.BK_TOP
                              #wx.BK_BOTTOM
-                             wx.BK_LEFT
+                             #wx.BK_LEFT
                              #wx.BK_RIGHT
                             )
+
+        self._parent = parent
         
         img_list = [ICON_NODE_IMAGE_DARK, ICON_NODE_IMAGE_LIGHT]
         il = wx.ImageList(20, 20)
         for x in range(2):
             bmp = img_list[x].GetBitmap()
-            print("dknd", x)
             il.Add(bmp)
         self.AssignImageList(il)
-
-        self._parent = parent
-
-
+        
         # Make panels for the list book
         self._imageViewerPanel = ImageViewerPnl(self)
         self._imageExportPanel = ImageExportPnl(self)
@@ -59,34 +56,33 @@ class ImageViewport(wx.Toolbook):
         self.AddPage(self._imageViewerPanel, "View Image", imageId=0)
         self.AddPage(self._imageExportPanel, "Export Image", imageId=1)
 
-
         self.Bind(wx.EVT_TOOLBOOK_PAGE_CHANGED, self.OnPageChanged)
         self.Bind(wx.EVT_TOOLBOOK_PAGE_CHANGING, self.OnPageChanging)
-
 
 
     def OnPageChanged(self, event):
         old = event.GetOldSelection()
         new = event.GetSelection()
         sel = self.GetSelection()
-        print('OnPageChanged,  old:%d, new:%d, sel:%d\n' % (old, new, sel))
+        #print('OnPageChanged,  old:%d, new:%d, sel:%d\n' % (old, new, sel))
 
         # If the Export Image tab is selected, generate 
         # the preview image.
         if sel == 1:
             self._imageExportPanel.UpdatePreviewImage(self.GetRenderedImage())
-
         event.Skip()
 
     def OnPageChanging(self, event):
         old = event.GetOldSelection()
         new = event.GetSelection()
         sel = self.GetSelection()
-        print('OnPageChanging, old:%d, new:%d, sel:%d\n' % (old, new, sel))
+        #print('OnPageChanging, old:%d, new:%d, sel:%d\n' % (old, new, sel))
         event.Skip()
-
 
     def GetRenderedImage(self):
         return self._parent.GetRenderedImage()
+
+    def UpdateViewerImage(self, image, render_time):
+        self._imageViewerPanel.UpdateViewerImage(image, render_time)
 
             

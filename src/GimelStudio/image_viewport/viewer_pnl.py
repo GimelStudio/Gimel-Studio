@@ -26,6 +26,7 @@ from PIL import Image
 from GimelStudio.utils import ConvertImageToWx, DrawCheckerBoard
 from GimelStudio.datafiles.icons import *
 
+
 ID_IMAGE = wx.NewIdRef()
 ID_INFOTEXT = wx.NewIdRef()
 
@@ -253,7 +254,6 @@ class ImageViewerPnl(wx.Panel):
     def ZoomImage(self):
         self._UpdateImage(self._imageCopy)
         self._UpdateInfoText()
-
 
     def UpdateViewerImage(self, image, render_time):
         """ Update the Image Viewport. This refreshes everything

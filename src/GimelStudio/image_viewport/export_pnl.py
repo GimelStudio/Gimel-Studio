@@ -61,7 +61,6 @@ class ExportOptionsPnl(wx.StaticBox):
 
         self.SetSizer(sizer)
 
-
     def GetExportForWebValue(self):
         return self._exportForWebCheckBox.GetValue()
 
@@ -72,10 +71,10 @@ class ExportOptionsPnl(wx.StaticBox):
         return self._imageQualitySlider.GetValue()
 
 
+
 class ImagePreviewPnl(wx.StaticBox):
     def __init__(self, parent, label="Image Preview", size=wx.DefaultSize):
         wx.StaticBox.__init__(self, parent, label=label, size=size)
-
 
         # This gets the recommended amount of border space to use for items
         # within in the static box for the current platform.
@@ -97,9 +96,7 @@ class ImagePreviewPnl(wx.StaticBox):
         self.SetSizer(sizer)
         self.Refresh()
 
-
     def UpdatePreviewImage(self, image):
-
         img = ConvertImageToWx(image)
         img = wx.Bitmap.ConvertToImage(img)
         img_scale = self._CalculateScale(img.GetWidth(), img.GetHeight())
@@ -109,7 +106,6 @@ class ImagePreviewPnl(wx.StaticBox):
         self.Layout()
         self.Refresh()
 
-
     def _CalculateScale(self, w, h):
         h_ratio = h/self.Size[0]
         w_ratio = w/self.Size[1]
@@ -118,7 +114,6 @@ class ImagePreviewPnl(wx.StaticBox):
             return (w/h_ratio,h/h_ratio)
         else:
             return (w/w_ratio,h/w_ratio)
-
 
 
 
@@ -183,9 +178,6 @@ class ImageExportPnl(wx.Panel):
             busy = wx.BusyInfo("Exporting Image...")
             path = dlg.GetPath()
 
-
-            image = Image.open("C:/Users/doall/Pictures/meadow.jpg")
-
             # Export the image with the export options
             ExportRenderedImageToFile(rendered_image=image, export_path=path,
                 quality=self._exportOptionsPnl.GetImageQualityValue(), 
@@ -195,8 +187,6 @@ class ImageExportPnl(wx.Panel):
         dlg.Destroy()
         del busy
 
-
-
     @property
     def ExportOptionsPanel(self):
         return self._exportOptionsPnl
@@ -205,14 +195,9 @@ class ImageExportPnl(wx.Panel):
     def ImagePreviewPanel(self):
         return self._imagePreviewPnl
 
-
     def UpdatePreviewImage(self, image):
         """ Wrapper method to update the preview image. """
-
-        image = Image.new('RGBA', (256, 256), "green")
-        image = Image.open("C:/Users/doall/Pictures/meadow.jpg")
+        #image = Image.new('RGBA', (256, 256), "green")
+        #image = Image.open("C:/Users/doall/Pictures/meadow.jpg")
         return self._imagePreviewPnl.UpdatePreviewImage(image)
 
-
-
-        

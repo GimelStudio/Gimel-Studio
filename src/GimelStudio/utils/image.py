@@ -15,7 +15,7 @@
 ##
 ## FILE: image.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: Provides utility image manipulation/converting functions
+## PURPOSE: Provide utility image manipulation, converting, exporting functions
 ## ----------------------------------------------------------------------------
 
 import wx
