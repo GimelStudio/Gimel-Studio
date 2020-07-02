@@ -83,8 +83,7 @@ class ImagePreviewPnl(wx.StaticBox):
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.AddSpacer(top_bd)
 
-        self._imgPreview = wx.StaticBitmap(self, -1, wx.Bitmap(100, 100))#, 
-        # size=(self.Size[0]-130, self.Size[1]-130))
+        self._imgPreview = wx.StaticBitmap(self, -1, wx.Bitmap(100, 100))
 
         sizer.Add((1, 1), 1)
         sizer.Add(
@@ -101,7 +100,6 @@ class ImagePreviewPnl(wx.StaticBox):
         img = wx.Bitmap.ConvertToImage(img)
         img_scale = self._CalculateScale(img.GetWidth(), img.GetHeight())
         img.Rescale(img_scale[0],img_scale[1])
-        
         self._imgPreview.SetBitmap(wx.Bitmap(img))
         self.Layout()
         self.Refresh()
@@ -153,7 +151,6 @@ class ImageExportPnl(wx.Panel):
     def OnExportImageBtn(self, event):
         self.OnExportImage(event)
 
-
     def OnExportImage(self, event):
         wildcard = "JPG file (*.jpg)|*.jpg|" \
                    "PNG file (*.png)|*.png|" \
@@ -197,7 +194,9 @@ class ImageExportPnl(wx.Panel):
 
     def UpdatePreviewImage(self, image):
         """ Wrapper method to update the preview image. """
-        #image = Image.new('RGBA', (256, 256), "green")
-        #image = Image.open("C:/Users/doall/Pictures/meadow.jpg")
+        if image == None:
+            # Default preview image is a transparent 256x256 image
+            image = Image.new('RGBA', (256, 256), (0, 0, 0, 1))
         return self._imagePreviewPnl.UpdatePreviewImage(image)
 
+ 

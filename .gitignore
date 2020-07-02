@@ -15,3 +15,8 @@ tests
 
 # Ignore built docs
 docs/build
+
+# Ignore test images!!
+src/*.png
+src/*.jpg
+src/*.jpeg

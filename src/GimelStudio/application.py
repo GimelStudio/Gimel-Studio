@@ -467,10 +467,6 @@ class MainApplication(wx.Frame):
 
         # Menubar bindings
 
-
-        self.Bind(wx.EVT_MENU, self.OnPopupWindow, id=ID_MENU_pMENUITEM)
-
-
         self.Bind(wx.EVT_MENU, self.OnOpenFile, id=ID_MENU_OPENFILEMENUITEM)
         #self.Bind(wx.EVT_MENU, self.OnSaveFile, id=ID_MENU_SAVEFILEMENUITEM)
         self.Bind(wx.EVT_MENU, self.OnSaveFileAs, id=ID_MENU_SAVEFILEASMENUITEM)

@@ -32,17 +32,12 @@ from GimelStudio.datafiles.icons import *
 
 class ImageViewport(wx.Toolbook):
     def __init__(self, parent):
-        wx.Toolbook.__init__(self, parent, -1, style=
-                             #wx.BK_DEFAULT
-                             wx.BK_TOP
-                             #wx.BK_BOTTOM
-                             #wx.BK_LEFT
-                             #wx.BK_RIGHT
-                            )
+        wx.Toolbook.__init__(self, parent, -1, style=wx.BK_TOP)
 
         self._parent = parent
         
-        img_list = [ICON_NODE_IMAGE_DARK, ICON_NODE_IMAGE_LIGHT]
+        #FIXME
+        img_list = [ICON_NODE_IMAGE_DARK, ICON_NODE_IMAGE_LIGHT] 
         il = wx.ImageList(20, 20)
         for x in range(2):
             bmp = img_list[x].GetBitmap()
@@ -64,7 +59,6 @@ class ImageViewport(wx.Toolbook):
         old = event.GetOldSelection()
         new = event.GetSelection()
         sel = self.GetSelection()
-        #print('OnPageChanged,  old:%d, new:%d, sel:%d\n' % (old, new, sel))
 
         # If the Export Image tab is selected, generate 
         # the preview image.
@@ -76,7 +70,6 @@ class ImageViewport(wx.Toolbook):
         old = event.GetOldSelection()
         new = event.GetSelection()
         sel = self.GetSelection()
-        #print('OnPageChanging, old:%d, new:%d, sel:%d\n' % (old, new, sel))
         event.Skip()
 
     def GetRenderedImage(self):
