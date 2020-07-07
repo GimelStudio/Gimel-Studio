@@ -9,10 +9,15 @@ PLANNED FEATURES/FIXES, version 1x
 
 * INCLUDE ATTRIBUTION/LICENSES OF MODULES IN THE RELEASES (THIS IS IMPORTANT!!)
 
-* User preferences (the core is almost finished, but the UI and integration needs to be done.
+* User preferences (the core is almost finished, but the UI and integration needs to be done).
 
+* Nodes
+  * Opacity node - changes the opacity (transparency) of the input image
+  * 3D Wireframe/Image node - Renders a 3D wireframe image from a .obj file
 
-
+* Bugs (need to be fixed)
+  * Exporting .jpg images does not work (??)
+  * You must specify an extension in order to export an image
 
 
 POSSIBLE FUTURE FEATURES/FIXES, version 2x
