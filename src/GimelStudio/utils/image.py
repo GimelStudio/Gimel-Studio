@@ -74,5 +74,9 @@ def ExportRenderedImageToFile(rendered_image, export_path,
             bits = 6 # How much should this be lowered??
             compress_level = 7 
 
+        # Make sure JPEGs get saved as RGB mode    
+        elif rendered_image.format.lower() in ["jpg", "jpeg"]:
+            rendered_image = rendered_image.convert("RGB")
+
     rendered_image.save(fp=export_path, quality=quality, optimize=optimize, 
                         bits=bits, compress_level=compress_level)

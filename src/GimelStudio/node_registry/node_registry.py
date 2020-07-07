@@ -21,6 +21,8 @@
 import wx
 import wx.adv
 
+import wx.lib.buttons  as  buttons
+
 from .node_registry_base import _NodeRegistryBase, NodeRegistryBase
 from GimelStudio.stylesheet import STYLE_NODES_COLOR_DICT
 from GimelStudio.datafiles.icons import *
@@ -200,8 +202,7 @@ class NodeRegistryItem(wx.Control):
             w-sys_scrollbar_x-70, 
             2
             )
-
-        #
+        self.Refresh()
 
 
  
@@ -237,24 +238,27 @@ class NodeRegistry(wx.Panel, NodeRegistryBase):
         colour_grid = wx.BoxSizer(wx.VERTICAL)
 
         i = 0
-        for nodeName in self._registeredNodes:
-            if nodeName != 'gimelstudiocorenode_outputcomposite':
-                print(self._registeredNodes[nodeName]())
-                
-                nr_item = NodeRegistryItem(self, 
-                self._registeredNodes[nodeName](), 
-                _id=wx.NewIdRef(),
-                #pos=wx.Point(0, i),
-                size=wx.Size(self.Size[1], ITEM_HEIGHT)
-                )
-                #box.Draw()
-                #box.Bind(wx.EVT_LEFT_DOWN, lambda x, b=box: self.onBasicClick(x, b))
+        for nodeName in self.GetAvailableNodes():
 
-                # Check to see if this is a core node
-                if str(nodeName).startswith("corenode_"):
-                    nr_item.SetIsCoreNode(True)
-                else:
-                    nr_item.SetIsCoreNode(False)
+                print(self.GetAvailableNodes()[nodeName]())
+
+                nr_item = buttons.GenButton(self, -1, self.GetAvailableNodes()[nodeName]().NodeLabel)
+
+                
+                # nr_item = NodeRegistryItem(self, 
+                # self._registeredNodes[nodeName](), 
+                # _id=wx.NewIdRef(),
+                # #pos=wx.Point(0, i),
+                # size=wx.Size(self.Size[1], ITEM_HEIGHT)
+                # )
+                # #box.Draw()
+                # #box.Bind(wx.EVT_LEFT_DOWN, lambda x, b=box: self.onBasicClick(x, b))
+
+                # # Check to see if this is a core node
+                # if str(nodeName).startswith("corenode_"):
+                #     nr_item.SetIsCoreNode(True)
+                # else:
+                #     nr_item.SetIsCoreNode(False)
 
                 self.colour_boxs.append(nr_item)
                 colour_grid.Add(nr_item, 0, wx.EXPAND)
@@ -286,6 +290,17 @@ class NodeRegistry(wx.Panel, NodeRegistryBase):
     def _InitNodes(self):
         self._registeredNodes = self._registryBase.GetRegisteredNodes()
 
+    def GetRegisteredNodes(self):
+        """ Returns all the registered nodes, including the composite node. """
+        return self._registeredNodes
+
+    def GetAvailableNodes(self):
+        """ Returns all the registered nodes, except for the composite node. """
+        nodes = {}
+        for node_name in self.GetRegisteredNodes():
+            if node_name != 'gimelstudiocorenode_outputcomposite':
+                nodes[node_name] = self._registeredNodes[node_name]
+        return nodes
 
 
     def onBasicClick(self, event, box):

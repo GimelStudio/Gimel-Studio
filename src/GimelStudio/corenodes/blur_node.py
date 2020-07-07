@@ -1,3 +1,19 @@
+## THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
+## ----------------------------------------------------------------------------
+## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+## 
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+## ----------------------------------------------------------------------------
 
 import wx
 from PIL import Image, ImageFilter
@@ -49,7 +65,6 @@ class NodeDefinition(NodeBase):
                                 default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))),
         ]
 
-
   
     def NodePropertiesUI(self, node, parent, sizer):
 
@@ -91,8 +106,9 @@ class NodeDefinition(NodeBase):
         
         image = RenderImage()
         image.SetAsImage(image1.GetImage().filter(ImageFilter.GaussianBlur(Radius)).convert('RGBA'))
-        #self.NodeSetThumbnail(image.GetImage())
+        self.NodeSetThumb(image.GetImage())
+        image.GetImage()
         return image
 
-
+ 
 RegisterNode(NodeDefinition)

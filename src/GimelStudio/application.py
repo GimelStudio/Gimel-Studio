@@ -216,14 +216,13 @@ class MainApplication(wx.Frame):
 
 
         self._nodeGraph.AddNode(
-            _type='gimelstudiocorenode_outputcomposite', pos=wx.Point(300, 300))
+            'gimelstudiocorenode_outputcomposite', pos=wx.Point(300, 300))
 
         self._nodeGraph.AddNode(
-            _type='gimelstudiocorenode_image', pos=wx.Point(200, 240))
+            'gimelstudiocorenode_image', pos=wx.Point(200, 240))
         
         self._nodeGraph.AddNode(
-            _type='corenode_blur', pos=wx.Point(250, 200))
-
+            'corenode_blur', pos=wx.Point(250, 200))
 
         
     def GetArguments(self):
@@ -491,7 +490,8 @@ class MainApplication(wx.Frame):
                 ConvertImageToWx(render_image),
                 render_time
                 )
-            #self._nodeGraph.UpdateAllNodes()  
+            self._nodeGraph.UpdateAllNodes()
+            #self._nodeGraph.RefreshGraph()  
         del busy
 
 

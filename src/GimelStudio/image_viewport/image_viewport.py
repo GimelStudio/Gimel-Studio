@@ -32,7 +32,7 @@ from GimelStudio.datafiles.icons import *
 
 class ImageViewport(wx.Toolbook):
     def __init__(self, parent):
-        wx.Toolbook.__init__(self, parent, -1, style=wx.BK_TOP)
+        wx.Toolbook.__init__(self, parent, -1, style=wx.BK_LEFT)
 
         self._parent = parent
         
@@ -48,8 +48,8 @@ class ImageViewport(wx.Toolbook):
         self._imageViewerPanel = ImageViewerPnl(self)
         self._imageExportPanel = ImageExportPnl(self)
 
-        self.AddPage(self._imageViewerPanel, "View Image", imageId=0)
-        self.AddPage(self._imageExportPanel, "Export Image", imageId=1)
+        self.AddPage(self._imageViewerPanel, "View", imageId=0)
+        self.AddPage(self._imageExportPanel, "Export", imageId=1)
 
         self.Bind(wx.EVT_TOOLBOOK_PAGE_CHANGED, self.OnPageChanged)
         self.Bind(wx.EVT_TOOLBOOK_PAGE_CHANGING, self.OnPageChanging)

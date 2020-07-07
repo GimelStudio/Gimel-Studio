@@ -50,23 +50,23 @@ class NodeGraphDropTarget(wx.DropTarget):
             return self.OnFileDrop()
 
     def GetReceivedFormatAndId(self):
-        format = self._composite.GetReceivedFormat()
-        formatType = format.GetType()
+        _format = self._composite.GetReceivedFormat()
+        formatType = _format.GetType()
         try:
-            formatId = format.GetId() # May throw exception on unknown formats
+            formatId = _format.GetId() # May throw exception on unknown formats
         except:
             formatId = None
         return formatType, formatId
 
     def OnThunderbirdDrop(self):
         # Do we need this?
-        print(self._thunderbirdDropData.GetData().decode('utf-16'))
+        #print(self._thunderbirdDropData.GetData().decode('utf-16'))
         return wx.DragCopy
 
     def OnTextDrop(self):
         try:
-            print(self._textDropData.GetText())
-            self._window.AddNodeFromNodeRegistryDrop(self._textDropData.GetText())
+            #print(self._textDropData.GetText())
+            node = self._window.AddNode(self._textDropData.GetText(), where="CURSOR")
         except Exception as error:
             self.ShowError(error)
         return wx.DragCopy
@@ -77,7 +77,8 @@ class NodeGraphDropTarget(wx.DropTarget):
                 filename_ext = imghdr.what(filename)
                 if filename_ext in ['jpg', 'jpeg', 'bmp', 'png']:
                     if os.path.exists(filename) == True:
-                        self._window.AddImageNodeFromDrop(filename)
+                        node = self._window.AddNode(where="CURSOR")
+                        node.EditProperties('Path', filename)
                     else:
                         self.ShowError()
 
@@ -96,7 +97,7 @@ class NodeGraphDropTarget(wx.DropTarget):
 
         return wx.DragCopy
 
-    def ShowError(self, error=''):
+    def ShowError(self, error=""):
         dlg = wx.MessageDialog(
             None, 
             "Error \n {}!".format(str(error)), 

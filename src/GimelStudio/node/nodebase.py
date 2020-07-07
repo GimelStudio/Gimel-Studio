@@ -193,7 +193,7 @@ class NodeBase(object):
         self.sizer = sizer
 
     def NodeSetThumb(self, image):
-        self.NodeOBJ.UpdateThumb(image)
+        self.NodeOBJ.UpdateThumbImage(image)
 
     def NodeGetPropertyValue(self, name):
         """ Get the current value of this node's property.

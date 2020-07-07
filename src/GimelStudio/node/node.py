@@ -41,7 +41,7 @@ class Node(object):
         self._parent = parent
         self._nodedef = nodedef
 
-        #self._defaultSize = nodedef._size # TODO
+        self._defaultSize = wx.Point(160, 110) # TODO
 
         self._IDName = nodedef.NodeIDName
         self._label = nodedef.NodeLabel
@@ -180,7 +180,7 @@ class Node(object):
             if self.GetPropertyType(prop) == "LIST":
                 data = {
                     "name": self._properties[prop].Name,
-                    "value": self._properties[prop].current_value.GetValue()
+                    "value": self._properties[prop].current_value.GetDefault()
                     }
             else:
                 data = {
@@ -195,6 +195,19 @@ class Node(object):
 
     def GetNodeDef(self):
         return self._nodedef
+
+    def GetDefaultSize(self):
+        return self._defaultSize
+
+    def UpdateNodeHeight(self, thumb_height):
+        self.SetRect(
+            wx.Rect(
+                self.GetRect()[0],
+                self.GetRect()[1],
+                self.GetDefaultSize()[0],
+                20+self._thumbStartCoords+thumb_height+20
+                )
+            )
 
     def GetIDName(self):
         return self._IDName
@@ -238,7 +251,7 @@ class Node(object):
             print('PROPERTY DATA NODES:', self.GetEvaluationData())
 
     def MakeConnection(self, plug1, plug2, render=True):
-        if self.IsCompositeNode() == True:
+        if self.IsCompositeOutput() == True:
             self._evalData= {
                 "bind": str(plug1.GetNode().GetId())
                 }
@@ -308,7 +321,15 @@ class Node(object):
         return self._toggleIcon
 
     def GetThumbImage(self):
-        return self._thumbImage
+        """ Returns the thumbnail image rendered for the current node. If this is
+        the composite node, it returns the final rendered image.
+
+        :returns: ``PIL.Image`` object
+        """
+        if self.IsCompositeOutput() == True:
+            return self.GetParent().GetParent().GetRenderedImage()
+        else:
+            return self._thumbImage
 
     def SetThumbImage(self, thumb):
         """ Same as UpdateThumbImage. 
@@ -366,6 +387,11 @@ class Node(object):
         self._isDisabled = is_disabled
 
     def IsCoreNode(self):
+        """ Whether this node is a core node. 
+
+        :returns: boolean
+        """
+        # Better way to do this???
         if self.GetIDName().startswith("gimelstudiocorenode_"):
             is_corenode = True
         else:
@@ -373,7 +399,11 @@ class Node(object):
         return is_corenode
 
     def IsCompositeOutput(self):
-        if self.GetIDName() == "gimelstudiocorenode_outputcomposite":
+        """ Whether this node is the core node Output Composite. 
+
+        :returns: boolean
+        """
+        if self.GetIDName() == "gimelstudiocorenode_outputcomposite": # Hard coded!!
             is_composite_output = True
         else: 
             is_composite_output = False
@@ -459,26 +489,28 @@ class Node(object):
             "COLOR": self.GetNodeColor(),
             "ICON": self.GetToggleIcon(),
         }
-        return draw_data
+        return draw_data 
 
     def HitTest(self, x, y, thumb_btn_active=False):
-        if self.IsCompositeOutput() != True:
-            # Handle toggling the node's thumbnail
-            if thumb_btn_active != False:
-                pnt = wx.Point(x, y) - wx.Point(self.GetRect()[0]+6/2, self.GetRect()[1]+2/2)
-                dist = math.sqrt(math.pow(pnt.x, 2) + math.pow(pnt.y, 2))
+        """ Toggles the node thumbnail if the icon was clicked and handles
+        node plug hittests.
+        """
 
-                # Icon hit radius
-                if math.fabs(dist) < 16:
-                    if self.GetDrawThumbnail() == True:
-                        self.SetThumbnailPreviewClosed(redraw=False)
-                    elif self.GetDrawThumbnail() == False:
-                        self.SetThumbnailPreviewOpen(redraw=False)
+        # Handle toggling the node's thumbnail
+        if thumb_btn_active != False:
+            pnt = wx.Point(x, y) - wx.Point(self.GetRect()[0]+136, self.GetRect()[1]+2/2)
+            dist = math.sqrt(math.pow(pnt.x, 2) + math.pow(pnt.y, 2))
 
-                    self.Draw(self.GetParent().GetPDC())
-                    self.GetParent().RefreshGraph()
-                else:
-                    pass
+            if math.fabs(dist) < 18: # Icon hit radius
+                if self.GetDrawThumb() == True:
+                    self.SetThumbnailPreviewClosed(redraw=False)
+                elif self.GetDrawThumb() == False:
+                    self.SetThumbnailPreviewOpen(redraw=False)
+
+                self.Draw(self.GetParent().GetPDC())
+                self.GetParent().RefreshGraph()
+            else:
+                pass
 
         # Handle plug hittest
         for plug in self.GetPlugs():
@@ -490,7 +522,37 @@ class Node(object):
 
 
 
+    def SetThumbnailPreviewOpen(self, redraw=True):
+        """ Sets the node thumbnail preview to be toggled
+        to show the thumb. 
+        """
+        self.SetDrawThumb(True)
+        self.SetRect(
+            wx.Rect(
+                self.GetRect()[0],
+                self.GetRect()[1],
+                self.GetRect()[2],#160,
+                self.GetRect()[3]
+                )
+            )
+        if redraw == True:
+            self.Draw(self.GetParent().GetPDC())
 
+    def SetThumbnailPreviewClosed(self, redraw=True):
+        """ Sets the node thumbnail preview to be toggled
+        to hide the thumb. 
+        """
+        self.SetDrawThumb(False)
+        self.SetRect(
+            wx.Rect(
+                self.GetRect()[0],
+                self.GetRect()[1],
+                self.GetDefaultSize()[0],
+                self.GetDefaultSize()[1]
+                )
+            )
+        if redraw == True:
+            self.Draw(self.GetParent().GetPDC())
 
 
 
@@ -564,25 +626,6 @@ class Node(object):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     def Draw(self, dc, use_cache=True):
         """ Draws the node on a wx.DC.
         :param dc: wx.DC on which to draw the node
@@ -591,7 +634,34 @@ class Node(object):
         dc.ClearId(self.GetId())
         dc.SetId(self.GetId())
 
-        x, y, w, h = self.GetRect()
+        # Calculate the node height and thumb
+        if self.GetDrawThumb() == True:
+
+            # We should only NOT use the cache 
+            # when the nodegraph is rendered again
+            if use_cache != False:
+                if self.GetThumbCache() != None:
+                    thumb = self.GetThumbCache()
+                    #print('INFO: USING CACHE')
+                else:
+                    # Create the thumbnail if this is the
+                    # first time the node has been toggled
+                    # TODO: This is repeating code
+                    thumb = self.GetThumbImage().copy()
+                    thumb.thumbnail((round((self.GetRect()[2]-10)/1.1), thumb.size[1]))
+                    self.SetThumbCache(thumb) 
+            else:
+                # Make a copy of the image so that we do not edit
+                # the original with the 'thumbnail' function.
+                thumb = self.GetThumbImage().copy()
+                thumb.thumbnail((round((self.GetRect()[2]-10)/1.1), thumb.size[1]))
+                self.SetThumbCache(thumb)
+                
+            # Update the node height
+            self.UpdateNodeHeight(thumb.size[1])
+            x, y, w, h = self.GetRect()
+        else:
+            x, y, w, h = self.GetRect()
 
         fnt = self.GetParent().GetParent().GetFont()
         #fnt = fnt.MakeBold()
@@ -611,7 +681,7 @@ class Node(object):
                 dc.SetBrush(wx.Brush(wx.Colour(STYLE_NODE_BACKGROUND_NORMAL), wx.SOLID))
 
         # Draw main body of the node
-        dc.DrawRoundedRectangle(x, y, w, h, 1)
+        dc.DrawRoundedRectangle(x, y, w, h, 2)
 
         dc.SetPen(wx.TRANSPARENT_PEN)
         if self.IsActive() == True or self.IsSelected() == True:
@@ -620,13 +690,12 @@ class Node(object):
             color = wx.Colour(self.GetNodeColor()).ChangeLightness(115)
 
         dc.SetBrush(wx.Brush(color, wx.SOLID))
-        dc.DrawRoundedRectangle(x+1, y+1, w-3, h-86, 1)
+        dc.DrawRoundedRectangle(x+1, y+1, w-2, 24, 1)
 
         # Draw plugs
         dc.SetTextForeground(wx.Colour('#414141'))
         for plug in self._plugs:
             plug.Draw(dc)
-
 
         # Icon
         dc.DrawBitmap(self.GetToggleIcon(), x+136, y+3, True)
@@ -635,9 +704,33 @@ class Node(object):
         dc.SetTextForeground(wx.Colour('white'))
         dc.DrawText(TruncateText(self.GetLabel()), x+6, y+3)
 
+        # Draw thumbnail
+        if self.GetDrawThumb() == True:
+            
+            # Max size
+            thumbnail_width = round((w-10)/1.1)
+            thumbnail_height = thumb.size[1]
 
+            _x = thumbnail_width/2.0-thumb.size[0]/2.0
+            _y = thumbnail_height/2.0-thumb.size[1]/2.0
 
+            # Draw thumbnail image
+            dc.DrawBitmap(
+                wx.Bitmap(ConvertImageToWx(thumb)),
+                x+_x+((w-thumbnail_width)/2),
+                y+_y+20+self._thumbStartCoords,
+                True
+                )
 
+            # Draw thumbnail border
+            dc.SetPen(wx.Pen(wx.Colour(STYLE_NODE_BORDER_NORMAL)))
+            dc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 0), wx.TRANSPARENT))
+            dc.DrawRectangle(
+                x+((w-thumbnail_width)/2),
+                y+_y+20+self._thumbStartCoords,
+                thumbnail_width,
+                thumbnail_height,
+                )
 
         dc.SetIdBounds(self.GetId(), self.GetRect())
 

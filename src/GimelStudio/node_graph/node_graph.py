@@ -45,6 +45,9 @@ from GimelStudio.node import Node, Wire
 
 ID_SELECTION_BBOX = wx.NewIdRef()
 
+# Max number of nodes that can be added to the menu is 100, currently
+CONTEXT_MENU_IDS = wx.NewIdRef(100)
+
 
 
 class NodeGraph(wx.ScrolledCanvas):
@@ -65,10 +68,16 @@ class NodeGraph(wx.ScrolledCanvas):
         self._bboxRect = None
         self._middlePnt = None
 
+
+        self._nodeMenuItemIdMapping = {}
+
+
         self._pdc = wx.adv.PseudoDC()
 
         # Handle scrolling
         self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 0, 0)
+
+
 
         # Nodegraph Bindings
         self.Bind(wx.EVT_PAINT, self.OnPaint)
@@ -78,6 +87,82 @@ class NodeGraph(wx.ScrolledCanvas):
         self.Bind(wx.EVT_MOTION, self.OnMotion)
         self.Bind(wx.EVT_MIDDLE_DOWN, self.OnMiddleDown)
         self.Bind(wx.EVT_MIDDLE_UP, self.OnMiddleUp)
+
+        self.Bind(wx.EVT_CONTEXT_MENU, self.OnContextMenu)
+
+
+    def OnSelectMenuItem(self, event):
+        """ Event when an "Add Node" menu item is selected, which adds the
+        node to the Node Graph.
+        """
+        self.AddNode(self._nodeMenuItemIdMapping[event.GetId()], where="CURSOR")
+
+        
+    def OnContextMenu(self, event):
+        """ Event to create Node Graph context menu. """
+
+        # Context menu
+        contextmenu = wx.Menu()
+
+        # Add node submenu
+        addnodemenu = wx.Menu()
+
+        # Add submenus
+        inputnodemenu = wx.Menu()
+        distortnodemenu = wx.Menu()
+        valuenodemenu = wx.Menu()
+        filternodemenu = wx.Menu()
+        blendnodemenu = wx.Menu()
+        colornodemenu = wx.Menu()
+        convertnodemenu = wx.Menu()
+        othernodemenu = wx.Menu()
+        
+        # List nodes in menu
+        nodes = self.GetNodeRegistry().GetAvailableNodes()
+
+        i = 0
+        for node_name in nodes:
+            node_obj = nodes[node_name]()
+            node_category = node_obj.NodeCategory
+            node_label = node_obj.NodeLabel
+
+            if node_category == "INPUT":
+                inputnodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+            elif node_category == "DISTORT":
+                distortnodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+            elif node_category == "VALUE":
+                valuenodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+            elif node_category == "FILTER":
+                filternodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+            elif node_category == "BLEND":
+                blendnodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+            elif node_category == "COLOR":
+                colornodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+            elif node_category == "CONVERT":
+                convertnodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+            else:
+                othernodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+
+            self._nodeMenuItemIdMapping[CONTEXT_MENU_IDS[i]] = node_name
+            self.Bind(wx.EVT_MENU, self.OnSelectMenuItem, id=CONTEXT_MENU_IDS[i])
+            i += 1
+
+        addnodemenu.AppendSubMenu(inputnodemenu, "Input")
+        addnodemenu.AppendSubMenu(distortnodemenu, "Distort")
+        addnodemenu.AppendSubMenu(valuenodemenu, "Value")
+        addnodemenu.AppendSubMenu(filternodemenu, "Filter")
+        addnodemenu.AppendSubMenu(blendnodemenu, "Blend")
+        addnodemenu.AppendSubMenu(colornodemenu, "Color")
+        addnodemenu.AppendSubMenu(convertnodemenu, "Convert")
+        addnodemenu.AppendSubMenu(othernodemenu, "Other")
+        
+        contextmenu.Append(wx.ID_ANY, "Add Node", addnodemenu)
+
+        # Popup the menu.  If an item is selected then its handler
+        # will be called before PopupMenu returns.
+        self.PopupMenu(contextmenu)
+        contextmenu.Destroy()
+
 
     def OnPaint(self, event):
         dc = wx.BufferedPaintDC(self)
@@ -336,6 +421,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
 
     def OnMiddleDown(self, event): 
+        """ Event that updates the cursor. """
         winpnt = self.ConvertCoords(event.GetPosition())
         self._middlePnt = winpnt
 
@@ -344,6 +430,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
 
     def OnMiddleUp(self, event):
+        """ Event that resets the cursor. """
         # Reset mouse cursor
         self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
 
@@ -378,16 +465,10 @@ class NodeGraph(wx.ScrolledCanvas):
         self._activeNode = activenode
 
     def GetNodeRegistry(self):
-        return self._parent.GetNodeRegistry()
+        return self._parent.GetNodeRegistry() 
 
     def GetPDC(self):
         return self._pdc
-
-
-
-
-
-
 
     @staticmethod
     def GetNodePlug(node, plug):
@@ -435,6 +516,7 @@ class NodeGraph(wx.ScrolledCanvas):
                 self._activeNode = None
             return None
 
+
     def BoxSelectHitTest(self, bboxrect):
         nodehits = []
         for node in self._nodes.values():
@@ -452,18 +534,38 @@ class NodeGraph(wx.ScrolledCanvas):
             self._selectedNodes = []
             return []
 
+    def UpdateAllNodes(self):
+        for nodeId in self.GetNodes():
+            self._nodes[nodeId].Draw(self.GetPDC(), False)
+        self.RefreshGraph()
 
+    def AddNode(self, name="", _id=wx.ID_ANY, pos=wx.Point(0, 0), where="DEFAULT"):
+        """ Adds a node of the given name to the Node Graph. 
 
-  
-    def AddNode(self, _type, _id=wx.ID_ANY, pos=wx.Point(0, 0), 
-        fromfile=False, fromdirdnd=False, fromregistrydnd=False):
-        """ Adds a node of the given type to the nodegraph. """
+        :param name: the node IDName string to add to the Node Graph. If this is an
+        empty string (default), it will default to the core Input Image node.
+        :param _id: id of the node. Creates a new id if not specified
+        :param pos: ``wx.Point`` position to add the node to the Node Graph
+        :param where: flag specifying different positioning for adding the node.
+        This value can be a string of either:
+        DEFAULT (default): position the node based on the ``pos`` param
+        CURSOR: position the node based on the current cursor position
+        """
 
-        node = self.GetNodeRegistry().CreateNode(self, _type, pos, _id)
+        if where == "CURSOR":
+            pos = self.ConvertCoords(
+                self.ScreenToClient(wx.GetMousePosition())
+                )
+
+        # If the name param is an empty string, default to
+        # the core Input Image node. 
+        if name == "":
+            name = "gimelstudiocorenode_image" # Yes, this is hard-coded...
+
+        node = self.GetNodeRegistry().CreateNode(self, name, pos, _id)
         node_id = node.GetId()
-        #print('ADDED-> ', nId)
-        #if node._category == 'INPUT':
-            #node.SetThumbnailPreviewOpen(redraw=False)
+        if node.GetCategory() == "INPUT":
+            node.SetThumbnailPreviewOpen(redraw=False)
         node.Draw(self._pdc, False)
         self._pdc.SetIdBounds(node_id, node.GetRect())
         self._nodes[node_id] = node

@@ -19,10 +19,10 @@
 ## ----------------------------------------------------------------------------
 
 # Application window
-STYLE_APPLICATION_BG = "white"
+STYLE_APPLICATION_BG =  "#F4F4F4"
 
 # Dock panels
-STYLE_DOCK_PANEL_BG = "white"
+STYLE_DOCK_PANEL_BG = "#F4F4F4"
 STYLE_DOCK_PANEL_CAPTION_TEXT_FG = "black"
 
 # Node
