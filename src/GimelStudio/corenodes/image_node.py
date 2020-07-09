@@ -22,9 +22,7 @@ import wx
 from PIL import Image
 
 from GimelStudio.api import (Color, RenderImage, NodeBase,
-                         ParameterDefinition, PropertyDefinition,
-                         RegisterNode)
-
+                            Parameter, Property, RegisterNode)
 
  
 class NodeDefinition(NodeBase):
@@ -56,17 +54,17 @@ class NodeDefinition(NodeBase):
     @property
     def NodeProperties(self): 
         return [
-            PropertyDefinition('Path',
-                               prop_type='FILEPATH',
-                               value=''
-                               ),
+            Property('Path',
+                prop_type='FILEPATH',
+                value=''
+                ),
         ]
 
 
     def NodePropertiesUI(self, node, parent, sizer):
         self.parent = parent
 
-        current_value = self.NodeGetPropertyValue('Path')
+        current_value = self.NodeGetPropValue('Path')
  
         pathlabel = wx.StaticText(parent, label="Path:")
         sizer.Add(pathlabel, flag=wx.LEFT|wx.TOP, border=5)

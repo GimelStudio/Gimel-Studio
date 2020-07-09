@@ -15,9 +15,10 @@
 ##
 ## FILE: api.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: Define some of the end-user API functions, methods, classes, etc.
+## PURPOSE: Define end-user API functions, methods, classes at a higher-level
 ## ----------------------------------------------------------------------------
 
+from GimelStudio.node import ParameterDefinition, PropertyDefinition
 from GimelStudio.node_registry import _NodeRegistryBase
 
 
@@ -31,4 +32,10 @@ def RegisterNode(nodedef):
 
 
 def UnregisterNode(name):
+    """ Not implemented. """
     pass
+
+
+# Shorten the names for the API
+Parameter = ParameterDefinition
+Property = PropertyDefinition

@@ -18,8 +18,8 @@
 import wx
 from PIL import Image, ImageFilter
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, ParameterDefinition,
-                         PropertyDefinition, RegisterNode)
+from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
+                            Parameter, Property, RegisterNode)
 
  
 class NodeDefinition(NodeBase):
@@ -51,23 +51,24 @@ class NodeDefinition(NodeBase):
     @property
     def NodeProperties(self):
         return [
-            PropertyDefinition('Radius',
-                               prop_type='INTEGER',
-                               value=2
-                               ),
+            Property('Radius',
+                prop_type='INTEGER',
+                value=2
+                ),
             ]
 
     @property
     def NodeParameters(self):
         return [
-            ParameterDefinition('Image',
-                                param_type='RENDERIMAGE',
-                                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))),
+            Parameter('Image',
+                param_type='RENDERIMAGE',
+                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
+                ),
         ]
 
    
     def NodePropertiesUI(self, node, parent, sizer):
-        current_radius_value = self.NodeGetPropertyValue('Radius')
+        current_radius_value = self.NodeGetPropValue('Radius')
 
         radius_label = wx.StaticText(parent, label="Blur Radius:")
         sizer.Add(radius_label, border=5)

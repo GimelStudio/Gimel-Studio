@@ -19,9 +19,9 @@ import wx
 from PIL import Image, ImageChops, ImageOps
 
 from GimelStudio.api import (Color, RenderImage, List, NodeBase,
-                         ParameterDefinition, PropertyDefinition,
-                         RegisterNode)
+                            Parameter, Property, RegisterNode)
  
+
 class NodeDefinition(NodeBase):
 
     @property
@@ -51,60 +51,68 @@ class NodeDefinition(NodeBase):
     @property
     def NodeParameters(self):
         return [
-            ParameterDefinition('Image',
-                                param_type='RENDERIMAGE',
-                                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))),
-            ParameterDefinition('Overlay',
-                                param_type='RENDERIMAGE',
-                                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))),
+            Parameter('Image',
+                param_type='RENDERIMAGE',
+                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
+                ),
+            Parameter('Overlay',
+                param_type='RENDERIMAGE',
+                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
+                ),
         ]
 
     @property
     def NodeProperties(self):
         return [
-            PropertyDefinition('Blend Mode',
-                               prop_type='LIST',
-                               value=List([
-                                 'ADD',
-                                 'ADD MODULO',
-                                 'SUBTRACT',
-                                 'SUBTRACT MODULO',
-                                 'MULTIPLY',
-                                 'SCREEN',
-                                 'DIFFERENCE',
-                                 'DARKER',
-                                 'LIGHTER',
-                                 'SOFT LIGHT',
-                                 'HARD LIGHT',
-                                 'OVERLAY'
-                                 ], 'MULTIPLY')
-                               ),
+            Property('Blend Mode',
+                prop_type='LIST',
+                value=List(
+                    items=[
+                        'ADD',
+                        'ADD MODULO',
+                        'SUBTRACT',
+                        'SUBTRACT MODULO',
+                        'MULTIPLY',
+                        'SCREEN',
+                        'DIFFERENCE',
+                        'DARKER',
+                        'LIGHTER',
+                        'SOFT LIGHT',
+                        'HARD LIGHT',
+                        'OVERLAY'
+                    ], 
+                    default='MULTIPLY'
+                    )
+                ),
         ]
 
     def NodePropertiesUI(self, node, parent, sizer):
-        #self.NodePropertiesHelperInit(node, ui, parent, sizer)
         
         # Resample
-        current_blend_type_value = self.NodeGetPropertyValue('Blend Mode')
+        current_blend_type_value = self.NodeGetPropValue('Blend Mode')
 
         blendmodelabel = wx.StaticText(parent, label="Blend Mode:")
         sizer.Add(blendmodelabel, flag=wx.LEFT|wx.TOP, border=5)
 
-        self.blendmodecombobox = wx.ComboBox(parent, id=wx.ID_ANY, 
-             value=current_blend_type_value, choices=[
-                                 'ADD',
-                                 'ADD MODULO',
-                                 'SUBTRACT',
-                                 'SUBTRACT MODULO',
-                                 'MULTIPLY',
-                                 'SCREEN',
-                                 'DIFFERENCE',
-                                 'DARKER',
-                                 'LIGHTER',
-                                 'SOFT LIGHT',
-                                 'HARD LIGHT',
-                                 'OVERLAY'
-                                 ], style=wx.CB_READONLY)
+        self.blendmodecombobox = wx.ComboBox(parent, 
+            id=wx.ID_ANY, 
+            value=current_blend_type_value, 
+            choices=[
+                    'ADD',
+                    'ADD MODULO',
+                    'SUBTRACT',
+                    'SUBTRACT MODULO',
+                    'MULTIPLY',
+                    'SCREEN',
+                    'DIFFERENCE',
+                    'DARKER',
+                    'LIGHTER',
+                    'SOFT LIGHT',
+                    'HARD LIGHT',
+                    'OVERLAY'
+                ], 
+            style=wx.CB_READONLY
+            )
         sizer.Add(self.blendmodecombobox, flag=wx.TOP|wx.EXPAND, border=5)
 
         # Bindings

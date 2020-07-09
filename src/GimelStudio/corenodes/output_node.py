@@ -17,9 +17,8 @@
 
 from PIL import Image
 
-from GimelStudio.api import (Color, RenderImage, NodeBase,
-                         ParameterDefinition, PropertyDefinition,
-                         RegisterNode)
+from GimelStudio.api import (Color, RenderImage, NodeBase, 
+                            Parameter, RegisterNode)
 
 class NodeDefinition(NodeBase):
 
@@ -53,9 +52,10 @@ class NodeDefinition(NodeBase):
     @property
     def NodeParameters(self):
         return [
-            ParameterDefinition('Image',
-                                param_type='RENDERIMAGE',
-                                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))),
+            Parameter('Image', 
+                param_type='RENDERIMAGE',
+                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
+                ),
         ]
 
     def NodeEvaluation(self, eval_info):
