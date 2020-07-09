@@ -61,13 +61,19 @@ class NodePropertyPanel(wx.Panel):
             staticbox_sizer = wx.BoxSizer(wx.VERTICAL)
             staticbox_sizer.AddSpacer(top_bd)
 
+            inner_sizer = wx.BoxSizer(wx.VERTICAL)
+ 
+            flagsExpand = wx.SizerFlags(1)
+            flagsExpand.Expand().Border(wx.ALL, 18)
+            staticbox_sizer.Add(inner_sizer, flagsExpand)
+
             self.panel_staticbox.SetSizer(staticbox_sizer)
 
             panel_sizer = wx.BoxSizer(wx.VERTICAL)
             panel_sizer.Add(self.panel_staticbox, 1, wx.EXPAND|wx.ALL, other_bd+10)
 
             # Node Properties UI
-            selected_node.PropertiesUI(selected_node, self.panel_staticbox, staticbox_sizer)
+            selected_node.PropertiesUI(selected_node, self.panel_staticbox, inner_sizer)
 
             self._mainSizer.Add(panel_sizer, wx.EXPAND|wx.ALL)
 

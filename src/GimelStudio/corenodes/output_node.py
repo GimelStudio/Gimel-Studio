@@ -38,11 +38,13 @@ class NodeDefinition(NodeBase):
     @property
     def NodeDescription(self):
         return """The most important node of them all. :) 
-         This is registered here for the UI -the evaluation is handled elsewhere."""  
+        This is registered here for the UI -the evaluation is handled elsewhere.
+        This node should not be accessable by users.
+        """  
 
     @property
     def NodeVersion(self):
-        return "1.0.0" 
+        return "1.2" 
 
     @property
     def NodeAuthor(self):
@@ -58,7 +60,6 @@ class NodeDefinition(NodeBase):
 
     def NodeEvaluation(self, eval_info):
         pass
-
 
 
 RegisterNode(NodeDefinition)

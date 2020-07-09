@@ -37,7 +37,7 @@ __BUILD__ = "1"
 # USAGE: Switch to False before building as .exe or similar package to
 # enable some end-user features that would otherwise hinder development
 # and/or testing of the program.
-__DEBUG__ = False
+__DEBUG__ = True
 
 # Title string
 __TITLE__ = '{0} v{1}.{2}'.format(__NAME__, __VERSION__, __RELEASE__)

@@ -42,7 +42,7 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeVersion(self):
-        return "1.3.0"  
+        return "1.8"  
 
     @property
     def NodeAuthor(self):
@@ -88,7 +88,7 @@ class NodeDefinition(NodeBase):
         current_blend_type_value = self.NodeGetPropertyValue('Blend Mode')
 
         blendmodelabel = wx.StaticText(parent, label="Blend Mode:")
-        sizer.Add(blendmodelabel, flag=wx.LEFT|wx.TOP, border=10)
+        sizer.Add(blendmodelabel, flag=wx.LEFT|wx.TOP, border=5)
 
         self.blendmodecombobox = wx.ComboBox(parent, id=wx.ID_ANY, 
              value=current_blend_type_value, choices=[

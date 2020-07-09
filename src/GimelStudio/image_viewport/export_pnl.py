@@ -156,7 +156,6 @@ class ImageExportPnl(wx.Panel):
                    "PNG file (*.png)|*.png|" \
                    "All files (*.*)|*.*"
 
-        image = self._parent.GetRenderedImage()
 
         dlg = wx.FileDialog(
             self, 
@@ -172,17 +171,20 @@ class ImageExportPnl(wx.Panel):
         dlg.SetFilterIndex(2)
 
         if dlg.ShowModal() == wx.ID_OK:
-            busy = wx.BusyInfo("Exporting Image...")
+            #busy = wx.BusyInfo("Exporting Image...")
             path = dlg.GetPath()
 
             # Export the image with the export options
-            ExportRenderedImageToFile(rendered_image=image, export_path=path,
+            ExportRenderedImageToFile(
+                rendered_image=self._parent.GetRenderedImage(), 
+                export_path=path,
                 quality=self._exportOptionsPnl.GetImageQualityValue(), 
                 optimize=self._exportOptionsPnl.GetOpimizeImageValue(), 
-                export_for_web=self._exportOptionsPnl.GetExportForWebValue())
+                export_for_web=self._exportOptionsPnl.GetExportForWebValue()
+                )
             
         dlg.Destroy()
-        del busy
+        #del busy
 
     @property
     def ExportOptionsPanel(self):

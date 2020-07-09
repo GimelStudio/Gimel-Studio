@@ -62,6 +62,8 @@ def ExportRenderedImageToFile(rendered_image, export_path,
     :param boolean export_for_web: whether to make optimizations for use on websites, etc
     """
 
+    img_format = str(rendered_image.format).lower()
+
     # Set values to PIL defaults initially
     bits = 8
     compress_level = 6
@@ -70,13 +72,13 @@ def ExportRenderedImageToFile(rendered_image, export_path,
         optimize = True
 
         # PNG specific
-        if rendered_image.format.lower() == "png":
+        if img_format == "png":
             bits = 6 # How much should this be lowered??
             compress_level = 7 
 
-        # Make sure JPEGs get saved as RGB mode    
-        elif rendered_image.format.lower() in ["jpg", "jpeg"]:
-            rendered_image = rendered_image.convert("RGB")
+    # Make sure JPEGs get saved as RGB mode    
+    if img_format in ["jpg", "jpeg"]:
+        rendered_image = rendered_image.convert("RGB")
 
     rendered_image.save(fp=export_path, quality=quality, optimize=optimize, 
                         bits=bits, compress_level=compress_level)

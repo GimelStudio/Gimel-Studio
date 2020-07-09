@@ -564,7 +564,9 @@ class NodeGraph(wx.ScrolledCanvas):
 
         node = self.GetNodeRegistry().CreateNode(self, name, pos, _id)
         node_id = node.GetId()
-        if node.GetCategory() == "INPUT":
+
+        # Default to toggle the Input node thumb open
+        if node.GetCategory() in ["INPUT"]:
             node.SetThumbnailPreviewOpen(redraw=False)
         node.Draw(self._pdc, False)
         self._pdc.SetIdBounds(node_id, node.GetRect())

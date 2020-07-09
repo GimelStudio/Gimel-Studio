@@ -19,7 +19,6 @@
 ## ----------------------------------------------------------------------------
 
 
- 
 class NodeBase(object):
     """ Base class for all nodes which defines the node's core attributes."""
     def __init__(self):
@@ -55,7 +54,7 @@ class NodeBase(object):
         self._node_obj = node
 
     @property
-    def NodeOBJ(self):
+    def Node(self):
         """ Returns the Node object for use in this class.
         :returns: Node object
         """
@@ -180,9 +179,9 @@ class NodeBase(object):
     # Convienience methods
     def NodePropertiesUpdate(self, propertyname, value):
         """ Updates the node property to be the specified value. """
-        self.NodeOBJ.EditProperties(propertyname, value)
-        self.NodeOBJ.GetParent().RefreshGraph()
-        self.NodeOBJ.GetParent().GetParent().Render() 
+        self.Node.EditProperties(propertyname, value)
+        self.Node.GetParent().RefreshGraph()
+        self.Node.GetParent().GetParent().Render() 
 
 
     # FIXME
@@ -193,14 +192,14 @@ class NodeBase(object):
         self.sizer = sizer
 
     def NodeSetThumb(self, image):
-        self.NodeOBJ.UpdateThumbImage(image)
+        self.Node.UpdateThumbImage(image)
 
     def NodeGetPropertyValue(self, name):
         """ Get the current value of this node's property.
         """
-        for i in range (0, len(self.NodeOBJ.GetEvaluationData()["properties"])):
-            if self.NodeOBJ.GetEvaluationData()["properties"][i]["name"] == name:
-                return self.NodeOBJ.GetEvaluationData()["properties"][i]["value"]
+        for i in range (0, len(self.Node.GetEvaluationData()["properties"])):
+            if self.Node.GetEvaluationData()["properties"][i]["name"] == name:
+                return self.Node.GetEvaluationData()["properties"][i]["value"]
             else:
                 print("WARNING: The property {} could not be found.".format(name))
 

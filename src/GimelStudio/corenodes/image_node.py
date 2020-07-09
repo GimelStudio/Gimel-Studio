@@ -17,13 +17,15 @@
 
 import os
 import imghdr
+
+import wx
 from PIL import Image
 
 from GimelStudio.api import (Color, RenderImage, NodeBase,
                          ParameterDefinition, PropertyDefinition,
                          RegisterNode)
 
-import wx
+
  
 class NodeDefinition(NodeBase):
     
@@ -45,7 +47,7 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeVersion(self):
-        return "2.0.5" 
+        return "2.1" 
 
     @property
     def NodeAuthor(self):
@@ -60,15 +62,14 @@ class NodeDefinition(NodeBase):
                                ),
         ]
 
+
     def NodePropertiesUI(self, node, parent, sizer):
         self.parent = parent
-
-
 
         current_value = self.NodeGetPropertyValue('Path')
  
         pathlabel = wx.StaticText(parent, label="Path:")
-        sizer.Add(pathlabel, flag=wx.LEFT|wx.TOP, border=10)
+        sizer.Add(pathlabel, flag=wx.LEFT|wx.TOP, border=5)
 
         self.pathtxtctrl = wx.TextCtrl(parent)
         sizer.Add(self.pathtxtctrl, flag=wx.TOP|wx.EXPAND, border=5)
@@ -78,17 +79,16 @@ class NodeDefinition(NodeBase):
         sizer.Add(self.browsepathbtn, flag=wx.TOP|wx.RIGHT, border=5)
 
         infolabellbl = wx.StaticText(parent, label="Meta: ")
-        sizer.Add(infolabellbl, flag=wx.LEFT|wx.TOP, border=10)
+        sizer.Add(infolabellbl, flag=wx.LEFT|wx.TOP, border=5)
 
         self.infolabellbl = wx.StaticText(parent, label="")
-        sizer.Add(self.infolabellbl, flag=wx.LEFT|wx.TOP, border=10)
+        sizer.Add(self.infolabellbl, flag=wx.LEFT|wx.TOP, border=5)
 
         if current_value != '':
             self.UpdateInfoLabel(current_value)
             self.infolabellbl.SetLabel(self.GetInfoLabel())
 
         parent.Bind(wx.EVT_BUTTON, self.OnFilePathButton, self.browsepathbtn)
-
 
 
     def OnFilePathButton(self, evt):
@@ -98,7 +98,7 @@ class NodeDefinition(NodeBase):
                    "BMP file (*bmp)|*bmp"
 
         dlg = wx.FileDialog(
-            self.parent, message="Choose an Image",
+            self.parent, message="Choose image...",
             defaultDir=os.getcwd(),
             defaultFile="",
             wildcard=wildcard,
@@ -127,6 +127,7 @@ class NodeDefinition(NodeBase):
                 dlg.ShowModal()
                 return False       
 
+
     def UpdateInfoLabel(self, imagepath):
         try:
             img = Image.open(imagepath)
@@ -140,14 +141,15 @@ class NodeDefinition(NodeBase):
         except FileNotFoundError:
             self.infolabel = 'IMAGE COULD NOT FOUND!'
 
+
     def GetInfoLabel(self):
         return self.infolabel
 
 
     def NodeEvaluation(self, eval_info):
         path = eval_info.EvaluateProperty('Path')
-        #print('p->', path)
         image = RenderImage()
+
         if path != '':
             try:
                 image.SetAsOpenedImage(path)
@@ -157,7 +159,6 @@ class NodeDefinition(NodeBase):
 
         self.NodeSetThumb(image.GetImage())
         return image 
-
 
 
 RegisterNode(NodeDefinition)
