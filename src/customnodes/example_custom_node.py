@@ -1,15 +1,17 @@
 import os
+
+import wx
 from PIL import Image
 
 from GimelStudio.api import (Color, RenderImage, NodeBase,
-                             ParameterDefinition, PropertyDefinition,
+                             Parameter, Property,
                              RegisterNode)
 
  
 class NodeDefinition(NodeBase):
     
     @property
-    def NodeName(self):
+    def NodeIDName(self):
         return "example_custom_node"
 
     @property
@@ -26,7 +28,7 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeVersion(self):
-        return "1.0.0" 
+        return "1.1" 
 
     @property
     def NodeAuthor(self):
@@ -35,58 +37,61 @@ class NodeDefinition(NodeBase):
     @property
     def NodeProperties(self): 
         return [
-            PropertyDefinition('path',
-                               prop_type='filepath',
-                               value=''
-                               ),
+            Property('Path',
+                prop_type='FILEPATH',
+                value=''
+                ),
         ]
 
-    def NodePropertiesUI(self, node, ui, parent, sizer):
-        self.NodePropertiesHelperInit(node, ui, parent, sizer)
-        current_value = self.NodeGetPropertyValue('path')
+    def NodePropertiesUI(self, node, parent, sizer):
+        self.parent = parent
+        
+        current_value = self.NodeGetPropertyValue('Path')
  
-        pathlabel = ui.StaticText(parent, label="Path:")
-        sizer.Add(pathlabel, pos=(2, 0), flag=ui.LEFT|ui.TOP, border=10)
+        pathlabel = wx.StaticText(parent, label="Path:")
+        sizer.Add(pathlabel, flag=wx.LEFT|wx.TOP, border=5)
 
-        self.pathtxtctrl = ui.TextCtrl(parent)
-        sizer.Add(self.pathtxtctrl, pos=(2, 1), span=(1, 3), flag=ui.TOP|ui.EXPAND, border=5)
+        self.pathtxtctrl = wx.TextCtrl(parent)
+        sizer.Add(self.pathtxtctrl, flag=wx.TOP|wx.EXPAND, border=5)
         self.pathtxtctrl.ChangeValue(current_value)
 
-        self.browsepathbtn = ui.Button(parent, label="Browse...")
-        sizer.Add(self.browsepathbtn, pos=(2, 4), flag=ui.TOP|ui.RIGHT, border=5)
+        self.browsepathbtn = wx.Button(parent, label="Browse...")
+        sizer.Add(self.browsepathbtn, flag=wx.TOP|wx.RIGHT, border=5)
 
-        parent.Bind(ui.EVT_BUTTON, self.OnFilePathButton, self.browsepathbtn)
+        parent.Bind(wx.EVT_BUTTON, self.OnFilePathButton, self.browsepathbtn)
 
     def OnFilePathButton(self, evt):
-        wildcard = "JPG file (*.jpg)|*.jpg|" \
-                   "PNG file (*.png)|*.png|" \
-                   "All files (*.*)|*.*"
+        # We allow opening only .jpg files here (for fun!)
+        wildcard = "JPG file (*.jpg)|*.jpg|"
                    
-        dlg = self.ui.FileDialog(
-            self.parent, message="Choose an Image",
+        dlg = wx.FileDialog(
+            self.parent, message="Choose an Image...",
             defaultDir=os.getcwd(),
             defaultFile="",
             wildcard=wildcard,
-            style=self.ui.FD_OPEN | self.ui.FD_CHANGE_DIR | self.ui.FD_FILE_MUST_EXIST | self.ui.FD_PREVIEW
+            style=wx.FD_OPEN | wx.FD_CHANGE_DIR | wx.FD_FILE_MUST_EXIST | wx.FD_PREVIEW
             )
 
         # Show the dialog and retrieve the user response. If it is the OK response,
         # process the data.
-        if dlg.ShowModal() == self.ui.ID_OK:
+        if dlg.ShowModal() == wx.ID_OK:
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
-            self.NodePropertiesUpdate('path', paths[0])
+
+            # Update the property and txtctrl with the new file path
+            self.NodePropertiesUpdate('Path', paths[0])
             self.pathtxtctrl.ChangeValue(paths[0])
 
     def NodeEvaluation(self, eval_info):
-        path = eval_info.EvaluateProperty('path')
+        # Get the file path from the property
+        path = eval_info.EvaluateProperty('Path')
+
         image = RenderImage()
         if path != '':
             image.SetAsOpenedImage(path)
         image.SetAsImage(image.GetImage().convert('RGBA'))
-        self.NodeSetThumbnail(image.GetImage())
+        self.NodeSetThumb(image.GetImage())
         return image 
-
 
 
 RegisterNode(NodeDefinition)
