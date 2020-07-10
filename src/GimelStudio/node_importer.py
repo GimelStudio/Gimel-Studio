@@ -40,7 +40,8 @@
 ##                                          sharpness_node,
 ##                                          )
 
-from GimelStudio.corenodes import (output_node,image_node, blur_node, mix_node
+from GimelStudio.corenodes import (output_node,image_node, blur_node, 
+                                    mix_node, opacity_node,
                                           )                                      
 print('INFO: INITILIZED & LOADED CORE NODES')
 
