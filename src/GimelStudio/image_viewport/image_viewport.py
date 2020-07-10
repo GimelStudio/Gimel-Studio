@@ -36,8 +36,7 @@ class ImageViewport(wx.Toolbook):
 
         self._parent = parent
         
-        #FIXME
-        img_list = [ICON_NODE_IMAGE_DARK, ICON_NODE_IMAGE_LIGHT] 
+        img_list = [ICON_NODE_IMAGE_DARK, ICON_EXPORT_IMAGE_DARK] 
         il = wx.ImageList(20, 20)
         for x in range(2):
             bmp = img_list[x].GetBitmap()
