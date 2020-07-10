@@ -141,7 +141,7 @@ class MainApplication(wx.Frame):
 
         self._nodeGraph = NodeGraph(
             self,
-            (2000, 2000)
+            (600, 600)
             )
         # Drag image from dir or Node Registry into 
         # node graph to create image node
@@ -173,16 +173,16 @@ class MainApplication(wx.Frame):
             .CloseButton(visible=False)
             .BestSize(400, 400)
             )
-        self._mgr.AddPane(
-            self._nodeRegistry, 
-            aui.AuiPaneInfo()
-            .Left() 
-            .Name("NodeRegistry")
-            .Caption("Node Registry")
-            .Icon(ICON_PANEL_NODE_REGISTRY_DARK.GetBitmap())
-            .CloseButton(visible=False)
-            .BestSize(400, 400)
-            )
+        # self._mgr.AddPane(
+        #     self._nodeRegistry, 
+        #     aui.AuiPaneInfo()
+        #     .Left() 
+        #     .Name("NodeRegistry")
+        #     .Caption("Node Registry")
+        #     .Icon(ICON_PANEL_NODE_REGISTRY_DARK.GetBitmap())
+        #     .CloseButton(visible=False)
+        #     .BestSize(400, 400)
+        #     )
 
 
         self._mgr.AddPane(
@@ -196,10 +196,8 @@ class MainApplication(wx.Frame):
             .FloatingSize(wx.Size(200, 200))
             )
 
-
-
         # Build the menubar
-        self.BuildMenuBar()
+        self._BuildMenuBar()
 
         # Maximize the window
         self.Maximize()
@@ -209,18 +207,11 @@ class MainApplication(wx.Frame):
 
 
         # Test Nodes
-        self._nodeRegistry._InitNodes()
+        #self._nodeRegistry._InitNodes()
         #print(self._nodeRegistry.GetRegisteredNodes())
 
-        self._nodeGraph.AddNode(
-            'gimelstudiocorenode_outputcomposite', pos=wx.Point(300, 300))
-
-        self._nodeGraph.AddNode(
-            'gimelstudiocorenode_image', pos=wx.Point(200, 240))
-        
-        self._nodeGraph.AddNode(
-            'corenode_blur', pos=wx.Point(250, 200))
-
+        # Default nodes
+        self._SetupDefaultNodes()
 
         if __DEBUG__ != True:
             self.Bind(wx.EVT_CLOSE, self.OnQuit)
@@ -262,7 +253,135 @@ class MainApplication(wx.Frame):
         return self._autoRenderCheckbox.GetValue()
 
 
+    def _SetupDefaultNodes(self):
 
+        # Calculate center of Node Graph view
+        rect = self._nodeGraph.GetSize()
+
+        # 5000px is 1/2 the size of the Node Graph
+        x, y = (rect[0]/2)+5000, (rect[1]/2)+5000
+
+        # Add default nodes
+        self._nodeGraph.AddNode(
+            'gimelstudiocorenode_image', 
+            pos=wx.Point(x-340, y)
+            )
+        
+        self._nodeGraph.AddNode(
+            'corenode_opacity', # here for testing
+            pos=wx.Point(x-100, y)
+            )
+
+        self._nodeGraph.AddNode(
+            'gimelstudiocorenode_outputcomposite', 
+            pos=wx.Point(x+150, y)
+            )
+
+
+    def _BuildMenuBar(self):
+        # Menubar        
+        self.mainmenubar = wx.MenuBar()
+
+        # File menu
+        self.filemenu = wx.Menu()
+
+        self.openfile_menuitem = wx.MenuItem(
+            self.filemenu, 
+            ID_MENUITEM_OPENPROJECT, 
+            "Open Project...", 
+            "Open and load a Gimel Studio project file"
+            )
+        self.filemenu.Append(self.openfile_menuitem)
+
+        self.saveproject_menuitem = wx.MenuItem(
+            self.filemenu, 
+            ID_MENUITEM_SAVEPROJECT, 
+            "Save Project...", 
+            "Save the current Gimel Studio project file"
+            )
+        self.filemenu.Append(self.saveproject_menuitem)
+
+        self.saveprojectas_menuitem = wx.MenuItem(
+            self.filemenu, 
+            ID_MENUITEM_SAVEPROJECTAS, 
+            "Save Project As...", 
+            "Save the current project as a Gimel Studio project file"
+            )
+        self.filemenu.Append(self.saveprojectas_menuitem)
+
+        self.filemenu.AppendSeparator()
+
+        self.quit_menuitem = wx.MenuItem(
+            self.filemenu, 
+            ID_MENUITEM_QUIT, 
+            "Quit", 
+            "Quit Gimel Studio"
+            )
+        self.filemenu.Append(self.quit_menuitem)     
+
+        self.mainmenubar.Append(self.filemenu, "File")
+
+
+        # View menu
+        self.viewmenu = wx.Menu()
+
+        self.togglefullscreen_menuitem = wx.MenuItem(
+            self.viewmenu, 
+            ID_MENUITEM_TOGGLEFULLSCREEN, 
+            "Fullscreen",  
+            "Set the window size to fullscreen", 
+            wx.ITEM_CHECK
+            )
+        self.viewmenu.Append(self.togglefullscreen_menuitem)
+        self.viewmenu.Check(ID_MENUITEM_TOGGLEFULLSCREEN, True)
+
+        self.mainmenubar.Append(self.viewmenu, "View")
+
+
+        # Help menu
+        self.helpmenu = wx.Menu()
+
+        self.takefeedbacksurvey_menuitem = wx.MenuItem(
+            self.helpmenu, 
+            ID_MENUITEM_TAKEFEEDBACKSURVEY, 
+            "Feedback Survey", 
+            "Take a short survey online about Gimel Studio"
+            )
+        #self.takefeedbacksurvey_menuitem.SetBitmap(ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
+        self.helpmenu.Append(self.takefeedbacksurvey_menuitem)
+        
+        self.license_menuitem = wx.MenuItem(
+            self.helpmenu, 
+            ID_MENUITEM_LICENSE, 
+            "License", 
+            "Show Gimel Studio license"
+            )
+        #self.about_menuitem.SetBitmap(ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
+        self.helpmenu.Append(self.license_menuitem)
+
+        self.about_menuitem = wx.MenuItem(
+            self.helpmenu, 
+            ID_MENUITEM_ABOUT, 
+            "About", 
+            "Show information about GimelStudio"
+            )
+        #self.about_menuitem.SetBitmap(ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
+        self.helpmenu.Append(self.about_menuitem)
+
+        self.mainmenubar.Append(self.helpmenu, "Help")
+
+
+        self.SetMenuBar(self.mainmenubar)
+
+        # Menubar bindings
+        #self.Bind(wx.EVT_MENU, self.OnOpenFile, id=ID_MENUITEM_OPENPROJECT)
+        #self.Bind(wx.EVT_MENU, self.OnSaveFile, id=ID_MENUITEM_SAVEPROJECT)
+        #self.Bind(wx.EVT_MENU, self.OnSaveFileAs, id=ID_MENUITEM_SAVEPROJECTAS)
+        self.Bind(wx.EVT_MENU, self.OnQuit, id=ID_MENUITEM_QUIT)
+        self.Bind(wx.EVT_MENU, self.OnToggleFullscreen, id=ID_MENUITEM_TOGGLEFULLSCREEN)
+        self.Bind(wx.EVT_MENU, self.OnTakeFeedbackSurvey, id=ID_MENUITEM_TAKEFEEDBACKSURVEY)
+        self.Bind(wx.EVT_MENU, self.OnAboutGimelStudioDialog, id=ID_MENUITEM_ABOUT)
+        self.Bind(wx.EVT_MENU, self.OnGimelStudioLicenseDialog, id=ID_MENUITEM_LICENSE)
 
 
     def OnAboutGimelStudioDialog(self, event):
@@ -381,113 +500,6 @@ class MainApplication(wx.Frame):
             self.Destroy()
         else:
             event.Skip()
-
-
-    def BuildMenuBar(self):
-        # Menubar        
-        self.mainmenubar = wx.MenuBar()
-
-        # File menu
-        self.filemenu = wx.Menu()
-
-        self.openfile_menuitem = wx.MenuItem(
-            self.filemenu, 
-            ID_MENUITEM_OPENPROJECT, 
-            "Open Project...", 
-            "Open and load a Gimel Studio project file"
-            )
-        self.filemenu.Append(self.openfile_menuitem)
-
-        self.saveproject_menuitem = wx.MenuItem(
-            self.filemenu, 
-            ID_MENUITEM_SAVEPROJECT, 
-            "Save Project...", 
-            "Save the current Gimel Studio project file"
-            )
-        self.filemenu.Append(self.saveproject_menuitem)
-
-        self.saveprojectas_menuitem = wx.MenuItem(
-            self.filemenu, 
-            ID_MENUITEM_SAVEPROJECTAS, 
-            "Save Project As...", 
-            "Save the current project as a Gimel Studio project file"
-            )
-        self.filemenu.Append(self.saveprojectas_menuitem)
-
-        self.filemenu.AppendSeparator()
-
-        self.quit_menuitem = wx.MenuItem(
-            self.filemenu, 
-            ID_MENUITEM_QUIT, 
-            "Quit", 
-            "Quit Gimel Studio"
-            )
-        self.filemenu.Append(self.quit_menuitem)     
-
-        self.mainmenubar.Append(self.filemenu, "File")
-
-
-        # View menu
-        self.viewmenu = wx.Menu()
-
-        self.togglefullscreen_menuitem = wx.MenuItem(
-            self.viewmenu, 
-            ID_MENUITEM_TOGGLEFULLSCREEN, 
-            "Fullscreen",  
-            "Set the window size to fullscreen", 
-            wx.ITEM_CHECK
-            )
-        self.viewmenu.Append(self.togglefullscreen_menuitem)
-        self.viewmenu.Check(ID_MENUITEM_TOGGLEFULLSCREEN, True)
-
-        self.mainmenubar.Append(self.viewmenu, "View")
-
-
-        # Help menu
-        self.helpmenu = wx.Menu()
-
-        self.takefeedbacksurvey_menuitem = wx.MenuItem(
-            self.helpmenu, 
-            ID_MENUITEM_TAKEFEEDBACKSURVEY, 
-            "Feedback Survey", 
-            "Take a short survey online about Gimel Studio"
-            )
-        #self.takefeedbacksurvey_menuitem.SetBitmap(ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
-        self.helpmenu.Append(self.takefeedbacksurvey_menuitem)
-        
-        self.license_menuitem = wx.MenuItem(
-            self.helpmenu, 
-            ID_MENUITEM_LICENSE, 
-            "License", 
-            "Show Gimel Studio license"
-            )
-        #self.about_menuitem.SetBitmap(ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
-        self.helpmenu.Append(self.license_menuitem)
-
-        self.about_menuitem = wx.MenuItem(
-            self.helpmenu, 
-            ID_MENUITEM_ABOUT, 
-            "About", 
-            "Show information about GimelStudio"
-            )
-        #self.about_menuitem.SetBitmap(ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
-        self.helpmenu.Append(self.about_menuitem)
-
-        self.mainmenubar.Append(self.helpmenu, "Help")
-
-
-        self.SetMenuBar(self.mainmenubar)
-
-        # Menubar bindings
-        #self.Bind(wx.EVT_MENU, self.OnOpenFile, id=ID_MENUITEM_OPENPROJECT)
-        #self.Bind(wx.EVT_MENU, self.OnSaveFile, id=ID_MENUITEM_SAVEPROJECT)
-        #self.Bind(wx.EVT_MENU, self.OnSaveFileAs, id=ID_MENUITEM_SAVEPROJECTAS)
-        self.Bind(wx.EVT_MENU, self.OnQuit, id=ID_MENUITEM_QUIT)
-        self.Bind(wx.EVT_MENU, self.OnToggleFullscreen, id=ID_MENUITEM_TOGGLEFULLSCREEN)
-        self.Bind(wx.EVT_MENU, self.OnTakeFeedbackSurvey, id=ID_MENUITEM_TAKEFEEDBACKSURVEY)
-        self.Bind(wx.EVT_MENU, self.OnAboutGimelStudioDialog, id=ID_MENUITEM_ABOUT)
-        self.Bind(wx.EVT_MENU, self.OnGimelStudioLicenseDialog, id=ID_MENUITEM_LICENSE)
-
     
     def GetRenderedImage(self):
         return self._renderer.GetRenderedImage()
