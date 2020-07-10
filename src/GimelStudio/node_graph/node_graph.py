@@ -33,7 +33,6 @@
 # 5. Other
 # -----------------------------------------------------------------------------
 
-
 import math
 import wx
 import wx.adv
@@ -42,7 +41,7 @@ from GimelStudio.utils import DrawGrid
 from GimelStudio.node import Node, Wire
 
 
-
+# Create IDs
 ID_SELECTION_BBOX = wx.NewIdRef()
 
 # Max number of nodes that can be added to the menu is 100, currently
@@ -50,13 +49,15 @@ CONTEXT_MENU_IDS = wx.NewIdRef(100)
 
 
 
-class NodeGraph(wx.ScrolledCanvas):
+class NodeGraph(wx.ScrolledWindow):
     def __init__(self, parent, size=wx.DefaultSize):
         wx.ScrolledWindow.__init__(self, parent, size=size)
  
         self._parent = parent
-        self._maxWidth = size[0] #TODO
-        self._maxHeight = size[1] #TODO
+
+        # Set Node Graph to 10000x10000 pixels max
+        self._maxWidth = 10000
+        self._maxHeight = 10000
  
         self._nodes = {}
         self._selectedNodes = []
@@ -68,16 +69,12 @@ class NodeGraph(wx.ScrolledCanvas):
         self._bboxRect = None
         self._middlePnt = None
 
-
         self._nodeMenuItemIdMapping = {}
-
 
         self._pdc = wx.adv.PseudoDC()
 
         # Handle scrolling
-        self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 0, 0)
-
-
+        self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)
 
         # Nodegraph Bindings
         self.Bind(wx.EVT_PAINT, self.OnPaint)
@@ -174,13 +171,8 @@ class NodeGraph(wx.ScrolledCanvas):
         rect = self.GetViewableWindowRegion()
         self.DoPrepareDC(dc)
 
-        #self._DrawGridBackground(dc, rect)
         self._pdc.DrawToDCClipped(dc, rect)
 
-    @staticmethod
-    def _DrawGridBackground(dc, rect):
-        dc.SetBrush(wx.Brush(wx.Colour('#373737'), wx.CROSS_HATCH))
-        dc.DrawRectangle(rect)
 
     def ConvertCoords(self, pnt):
         """ Convert coords to account for scrolling.
@@ -213,7 +205,6 @@ class NodeGraph(wx.ScrolledCanvas):
         >> self.RefreshGraph()
         """
         rect = wx.Rect(0, 0, self._maxWidth, self._maxHeight)
-        #rect =  self.GetViewableWindowRegion()
         self.RefreshRect(rect, False)
         self.Refresh()
 
