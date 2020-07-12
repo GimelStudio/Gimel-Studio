@@ -54,9 +54,9 @@ ID_CONTEXTMENU_DESELECTALLNODES = wx.NewIdRef()
 ID_CONTEXTMENU_SELECTALLNODES = wx.NewIdRef() 
 
 
-class NodeGraph(wx.ScrolledWindow):
+class NodeGraph(wx.ScrolledCanvas):
     def __init__(self, parent, size=wx.DefaultSize):
-        wx.ScrolledWindow.__init__(self, parent, size=size)
+        wx.ScrolledCanvas.__init__(self, parent, size=size)
  
         self._parent = parent
 
@@ -81,6 +81,9 @@ class NodeGraph(wx.ScrolledWindow):
         # Handle scrolling
         self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)
 
+        # Keyboard shortcut bindings
+        #self.Bind(wx.EVT_KEY_UP, self.OnKeyboardEvent)
+
         # Nodegraph Bindings
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
@@ -98,6 +101,8 @@ class NodeGraph(wx.ScrolledWindow):
         self.Bind(wx.EVT_MENU, self.OnSelectAllNodes, id=ID_CONTEXTMENU_SELECTALLNODES)
         self.Bind(wx.EVT_MENU, self.OnDeselectAllNodes, id=ID_CONTEXTMENU_DESELECTALLNODES)
         self.Bind(wx.EVT_MENU, self.OnDuplicateNode, id=ID_CONTEXTMENU_DUPLICATENODE)
+        
+
 
 
     def OnPaint(self, event):
@@ -223,8 +228,8 @@ class NodeGraph(wx.ScrolledWindow):
             # Do not allow the output node to be 
             # deleted, duplicated or disabled at all.
             if self._activeNode.IsCompositeOutput() != True:
-                contextmenu.Append(ID_CONTEXTMENU_DELETENODE, "Delete")
                 contextmenu.Append(ID_CONTEXTMENU_DUPLICATENODE, "Duplicate")
+                contextmenu.Append(ID_CONTEXTMENU_DELETENODE, "Delete")
                 if self._activeNode.IsDisabled() == True: 
                    contextmenu.Append(ID_CONTEXTMENU_ENABLEDISABLENODE, "Enable")
                 else:
@@ -241,6 +246,19 @@ class NodeGraph(wx.ScrolledWindow):
         # will be called before PopupMenu returns.
         self.PopupMenu(contextmenu)
         contextmenu.Destroy()
+
+    # def OnKeyboardEvent(self, event):
+    #     print(dfffnk)
+    #     code = event.GetKeyCode()
+    #     print("code->", code)
+    #     # Delete = Delete node
+    #     if wx.GetKeyState(wx.WXK_SHIFT) == True and wx.GetKeyState(wx.WXK_D) == True:
+    #         self._nodeGraph.DeleteNodes()
+    #         self.Render()
+
+    #     # Shift + D = Duplicate node
+    #     elif code == 68:
+    #         self._nodeGraph.DuplicateNode(self._nodeGraph._activeNode)
 
 
     def OnDeleteNodes(self, event):
@@ -293,6 +311,7 @@ class NodeGraph(wx.ScrolledWindow):
 
         # Handle adding a node from the node registry 
         # if LEFT mousebtn and the CTRL key are down.
+        # TODO: UNUSED AT THE MOMENT!
         selected_item = None#self.GetParent().GetNodeRegistry().GetSelectedItem()
         if wx.GetKeyState(wx.WXK_CONTROL) == True and selected_item != None:
             self.AddNode(selected_item)
@@ -689,7 +708,7 @@ class NodeGraph(wx.ScrolledWindow):
         :param node: the ``Node`` object to duplicate
         :returns: the duplicate ``Node`` object
         """
-        duplicate_node = self.AddNode(node.GetIDName(), where="CURSOR")
+        duplicate_node = self.AddNode(where="CURSOR")
 
         # Assign the same properties to the duplicate node object
         duplicate_node.GetEvaluationData()["properties"] = node.GetEvaluationData()["properties"]
