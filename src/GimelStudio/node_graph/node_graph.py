@@ -43,10 +43,15 @@ from GimelStudio.node import Node, Wire
 
 # Create IDs
 ID_SELECTION_BBOX = wx.NewIdRef()
-
+ 
 # Max number of nodes that can be added to the menu is 100, currently
-CONTEXT_MENU_IDS = wx.NewIdRef(100)
+CONTEXTMENU_ADDNODE_IDS = wx.NewIdRef(100)
 
+ID_CONTEXTMENU_DELETENODE = wx.NewIdRef()
+ID_CONTEXTMENU_ENABLEDISABLENODE = wx.NewIdRef()
+ID_CONTEXTMENU_DUPLICATENODE = wx.NewIdRef()
+ID_CONTEXTMENU_DESELECTALLNODES = wx.NewIdRef()
+ID_CONTEXTMENU_SELECTALLNODES = wx.NewIdRef() 
 
 
 class NodeGraph(wx.ScrolledWindow):
@@ -85,7 +90,63 @@ class NodeGraph(wx.ScrolledWindow):
         self.Bind(wx.EVT_MIDDLE_DOWN, self.OnMiddleDown)
         self.Bind(wx.EVT_MIDDLE_UP, self.OnMiddleUp)
 
+        # Context menu bindings
         self.Bind(wx.EVT_CONTEXT_MENU, self.OnContextMenu)
+
+        self.Bind(wx.EVT_MENU, self.OnDeleteNodes, id=ID_CONTEXTMENU_DELETENODE)
+        self.Bind(wx.EVT_MENU, self.OnEnableDisableNode, id=ID_CONTEXTMENU_ENABLEDISABLENODE)
+        self.Bind(wx.EVT_MENU, self.OnSelectAllNodes, id=ID_CONTEXTMENU_SELECTALLNODES)
+        self.Bind(wx.EVT_MENU, self.OnDeselectAllNodes, id=ID_CONTEXTMENU_DESELECTALLNODES)
+        self.Bind(wx.EVT_MENU, self.OnDuplicateNode, id=ID_CONTEXTMENU_DUPLICATENODE)
+
+
+    def OnPaint(self, event):
+        dc = wx.BufferedPaintDC(self)
+        dc = wx.GCDC(dc)
+
+        dc.SetBackground(wx.Brush(wx.Colour('#F7F7F7')))
+        dc.Clear()
+
+        rect = self.GetViewableWindowRegion()
+        self.DoPrepareDC(dc)
+
+        self._pdc.DrawToDCClipped(dc, rect)
+
+
+    def ConvertCoords(self, pnt):
+        """ Convert coords to account for scrolling.
+
+        :param pnt: the given wx.Point coord to convert
+        :returns: wx.Point
+        """
+        xv, yv = self.GetViewStart()
+        xd, yd = self.GetScrollPixelsPerUnit()
+        return wx.Point(pnt[0] + (xv * xd), pnt[1] + (yv * yd))
+
+
+    def GetViewableWindowRegion(self):
+        """ Get the shown scrolled region of the window based on 
+        the current scrolling.
+
+        :returns: wx.Rect
+        """
+        xv, yv = self.GetViewStart()
+        xd, yd = self.GetScrollPixelsPerUnit()
+        x, y = (xv * xd, yv * yd)
+        rgn = self.GetUpdateRegion()
+        rgn.Offset(x, y)
+        return rgn.GetBox()  
+
+    def RefreshGraph(self):
+        """ Refreshes the nodegraph so that everything is redrawn. 
+        
+        Use after .Draw() calls:
+        >> node.Draw(self._pdc)
+        >> self.RefreshGraph()
+        """
+        rect = wx.Rect(0, 0, self._maxWidth, self._maxHeight)
+        self.RefreshRect(rect, False)
+        self.Refresh()
 
 
     def OnSelectMenuItem(self, event):
@@ -96,7 +157,7 @@ class NodeGraph(wx.ScrolledWindow):
 
         
     def OnContextMenu(self, event):
-        """ Event to create Node Graph context menu. """
+        """ Event to create Node Graph context menu on left click. """
 
         # Context menu
         contextmenu = wx.Menu()
@@ -124,36 +185,57 @@ class NodeGraph(wx.ScrolledWindow):
             node_label = node_obj.NodeLabel
 
             if node_category == "INPUT":
-                inputnodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+                inputnodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
             elif node_category == "DISTORT":
-                distortnodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+                distortnodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
             elif node_category == "VALUE":
-                valuenodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+                valuenodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
             elif node_category == "FILTER":
-                filternodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+                filternodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
             elif node_category == "BLEND":
-                blendnodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+                blendnodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
             elif node_category == "COLOR":
-                colornodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+                colornodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
             elif node_category == "CONVERT":
-                convertnodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+                convertnodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
             else:
-                othernodemenu.Append(CONTEXT_MENU_IDS[i], node_label)
+                othernodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
 
-            self._nodeMenuItemIdMapping[CONTEXT_MENU_IDS[i]] = node_name
-            self.Bind(wx.EVT_MENU, self.OnSelectMenuItem, id=CONTEXT_MENU_IDS[i])
+            self._nodeMenuItemIdMapping[CONTEXTMENU_ADDNODE_IDS[i]] = node_name
+            self.Bind(wx.EVT_MENU, self.OnSelectMenuItem, id=CONTEXTMENU_ADDNODE_IDS[i])
             i += 1
 
         addnodemenu.AppendSubMenu(inputnodemenu, "Input")
         addnodemenu.AppendSubMenu(distortnodemenu, "Distort")
-        addnodemenu.AppendSubMenu(valuenodemenu, "Value")
         addnodemenu.AppendSubMenu(filternodemenu, "Filter")
         addnodemenu.AppendSubMenu(blendnodemenu, "Blend")
         addnodemenu.AppendSubMenu(colornodemenu, "Color")
         addnodemenu.AppendSubMenu(convertnodemenu, "Convert")
+        addnodemenu.AppendSubMenu(valuenodemenu, "Value")
         addnodemenu.AppendSubMenu(othernodemenu, "Other")
-        
+         
         contextmenu.Append(wx.ID_ANY, "Add Node", addnodemenu)
+
+        # If there is an active node, then we know
+        # that there shouldn't be any other nodes 
+        # selected, thus we handle the active node first.
+        if self._activeNode != None:
+            # Do not allow the output node to be 
+            # deleted, duplicated or disabled at all.
+            if self._activeNode.IsCompositeOutput() != True:
+                contextmenu.Append(ID_CONTEXTMENU_DELETENODE, "Delete")
+                contextmenu.Append(ID_CONTEXTMENU_DUPLICATENODE, "Duplicate")
+                if self._activeNode.IsDisabled() == True: 
+                   contextmenu.Append(ID_CONTEXTMENU_ENABLEDISABLENODE, "Enable")
+                else:
+                   contextmenu.Append(ID_CONTEXTMENU_ENABLEDISABLENODE, "Disable")
+                
+        else:
+            if self._selectedNodes != []:
+               contextmenu.Append(ID_CONTEXTMENU_DELETENODE, "Delete Selected") 
+
+        contextmenu.Append(ID_CONTEXTMENU_SELECTALLNODES, "Select All") 
+        contextmenu.Append(ID_CONTEXTMENU_DESELECTALLNODES, "Deselect All")
 
         # Popup the menu.  If an item is selected then its handler
         # will be called before PopupMenu returns.
@@ -161,52 +243,48 @@ class NodeGraph(wx.ScrolledWindow):
         contextmenu.Destroy()
 
 
-    def OnPaint(self, event):
-        dc = wx.BufferedPaintDC(self)
-        dc = wx.GCDC(dc)
-
-        dc.SetBackground(wx.Brush(wx.Colour('#F7F7F7')))
-        dc.Clear()
-
-        rect = self.GetViewableWindowRegion()
-        self.DoPrepareDC(dc)
-
-        self._pdc.DrawToDCClipped(dc, rect)
+    def OnDeleteNodes(self, event):
+        """ Event that deletes the selected nodes. """
+        self.DeleteNodes()
+        self._parent.Render()
 
 
-    def ConvertCoords(self, pnt):
-        """ Convert coords to account for scrolling.
+    def OnEnableDisableNode(self, event):
+        """ Event that toggles a node's disabled/enabled state. """
+        if self._activeNode.IsDisabled() == True:
+            self._activeNode.SetDisabled(False)
+        else:
+            self._activeNode.SetDisabled(True)
+        self._activeNode.Draw(self._pdc)
+        self.RefreshGraph()
 
-        :param pnt: the given wx.Point coord to convert
-        :returns: wx.Point
-        """
-        xv, yv = self.GetViewStart()
-        xd, yd = self.GetScrollPixelsPerUnit()
-        return wx.Point(pnt[0] + (xv * xd), pnt[1] + (yv * yd))
 
-    def GetViewableWindowRegion(self):
-        """ Get the shown scrolled region of the window based on 
-        the current scrolling.
+    def OnSelectAllNodes(self, event):
+        """ Event that selects all the nodes in the Node Graph. """
+        for node_id in self._nodes:
+            node = self._nodes[node_id]
+            if node.IsActive() == True:
+                node.SetActive(False)
+            node.SetSelected(True)
+            node.Draw(self._pdc)
+            self._selectedNodes.append(node)
+        self.RefreshGraph()
 
-        :returns: wx.Rect
-        """
-        xv, yv = self.GetViewStart()
-        xd, yd = self.GetScrollPixelsPerUnit()
-        x, y = (xv * xd, yv * yd)
-        rgn = self.GetUpdateRegion()
-        rgn.Offset(x, y)
-        return rgn.GetBox()  
 
-    def RefreshGraph(self):
-        """ Refreshes the nodegraph so that everything is redrawn. 
-        
-        Use after .Draw() calls:
-        >> node.Draw(self._pdc)
-        >> self.RefreshGraph()
-        """
-        rect = wx.Rect(0, 0, self._maxWidth, self._maxHeight)
-        self.RefreshRect(rect, False)
-        self.Refresh()
+    def OnDeselectAllNodes(self, event):
+        """ Event that deselects all the currently selected nodes. """
+        for node_id in self._nodes:
+            node = self._nodes[node_id]
+            node.SetSelected(False)
+            node.Draw(self._pdc)
+        self._selectedNodes = []
+        self.RefreshGraph()
+
+
+    def OnDuplicateNode(self, event): 
+        """ Event that duplicates the currently selected node. """
+        self.DuplicateNode(self._activeNode)
+
 
     def OnLeftDown(self, event):
         pnt = event.GetPosition()
@@ -564,3 +642,57 @@ class NodeGraph(wx.ScrolledWindow):
         self._nodes[node_id] = node
         self.RefreshGraph()
         return node
+
+
+    def DeleteNodes(self):
+        """ Delete the currently selected nodes. This will refuse
+        to delete the Output Composite node though, for obvious reasons.
+        """
+        for node in self._selectedNodes:
+            if node.IsCompositeOutput() != True:
+                node.Delete()
+            else:
+                # In the case that this is an output node, we 
+                # want to deselect it, not delete it. :)
+                node.SetSelected(False)
+                node.Draw(self._pdc)
+        self._selectedNodes = []
+        
+        if self._activeNode != None and \
+           self._activeNode.IsCompositeOutput() != True:
+            self._activeNode.Delete()
+            self._activeNode = None
+
+        # Update the properties panel so that the deleted 
+        # nodes' properties are not still shown!
+        self.NodePropertiesPanel.UpdatePanelContents(self.GetActiveNode())
+        
+        self.RefreshGraph()
+
+
+    def ResetToDefault(self):
+        #for nodeId in self._nodes:
+            #del self._nodes[nodeId]
+            #self._nodes[nodeId].Delete(True)
+        self._nodes = {}
+        self._activeNode = None
+        self._selectedNodes = []
+        # Create the output node
+        #self.AddNode('output', pos=wx.Point(600,300))
+        self.GetPDC().RemoveAll()#Id(nodeId)
+        self.RefreshGraph()
+
+
+    def DuplicateNode(self, node):
+        """ Duplicates the given ``Node`` object with its properties.
+        
+        :param node: the ``Node`` object to duplicate
+        :returns: the duplicate ``Node`` object
+        """
+        duplicate_node = self.AddNode(node.GetIDName(), where="CURSOR")
+
+        # Assign the same properties to the duplicate node object
+        duplicate_node.GetEvaluationData()["properties"] = node.GetEvaluationData()["properties"]
+
+        self.RefreshGraph()
+        return duplicate_node
