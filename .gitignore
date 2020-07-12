@@ -20,3 +20,9 @@ docs/build
 src/*.png
 src/*.jpg
 src/*.jpeg
+
+# Ignore past splash screens
+assets/splashscreens/GIMEL_STUDIO.png
+
+# Ignore other files...
+INFO.txt
