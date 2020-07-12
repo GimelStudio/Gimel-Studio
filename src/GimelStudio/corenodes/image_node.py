@@ -45,7 +45,7 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeVersion(self):
-        return "2.1" 
+        return "2.2" 
 
     @property
     def NodeAuthor(self):
@@ -69,12 +69,17 @@ class NodeDefinition(NodeBase):
         pathlabel = wx.StaticText(parent, label="Path:")
         sizer.Add(pathlabel, flag=wx.LEFT|wx.TOP, border=5)
 
-        self.pathtxtctrl = wx.TextCtrl(parent)
-        sizer.Add(self.pathtxtctrl, flag=wx.TOP|wx.EXPAND, border=5)
-        self.pathtxtctrl.ChangeValue(current_value)
+        vbox = wx.BoxSizer(wx.VERTICAL)
+        hbox = wx.BoxSizer(wx.HORIZONTAL)
 
+        self.pathtxtctrl = wx.TextCtrl(parent)
+        self.pathtxtctrl.ChangeValue(current_value)
+        hbox.Add(self.pathtxtctrl, proportion=1)
         self.browsepathbtn = wx.Button(parent, label="Browse...")
-        sizer.Add(self.browsepathbtn, flag=wx.TOP|wx.RIGHT, border=5)
+        hbox.Add(self.browsepathbtn, flag=wx.LEFT, border=5)
+        vbox.Add(hbox, flag=wx.EXPAND)
+
+        sizer.Add(vbox, flag=wx.ALL|wx.EXPAND, border=5)
 
         infolabellbl = wx.StaticText(parent, label="Meta: ")
         sizer.Add(infolabellbl, flag=wx.LEFT|wx.TOP, border=5)
@@ -138,7 +143,7 @@ class NodeDefinition(NodeBase):
             self.NodeSetThumb(img, force_redraw=True) 
             self.infolabel = info_string
         except FileNotFoundError:
-            self.infolabel = 'IMAGE COULD NOT FOUND!'
+            self.infolabel = 'IMAGE COULD NOT BE FOUND!'
 
 
     def GetInfoLabel(self):
