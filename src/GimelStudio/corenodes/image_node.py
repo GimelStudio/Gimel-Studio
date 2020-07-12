@@ -125,7 +125,7 @@ class NodeDefinition(NodeBase):
                 dlg.ShowModal()
                 return False       
 
-
+ 
     def UpdateInfoLabel(self, imagepath):
         try:
             img = Image.open(imagepath)
@@ -135,6 +135,7 @@ class NodeDefinition(NodeBase):
                 img.mode,
                 str(os.path.getsize(imagepath)/1000)
                 )
+            self.NodeSetThumb(img, force_redraw=True) 
             self.infolabel = info_string
         except FileNotFoundError:
             self.infolabel = 'IMAGE COULD NOT FOUND!'

@@ -220,19 +220,26 @@ class NodeBase(object):
         self.Node.GetParent().RefreshGraph()
         self.Node.GetParent().GetParent().Render() 
 
-    def NodeSetThumb(self, image):
+    def NodeSetThumb(self, image, force_redraw=False):
         """ Set the image thumbnail of the node. No editing needs to
         be done to the image before calling this method as the 
         thumbnail is resized internally as needed.
 
         :param image: node thumnail as ``PIL Image`` object
+        :param force_redraw: boolean value of whether to force a redraw of the node
+        right away rather than waiting until a render show the updated node thumb.
         """
         self.Node.UpdateThumbImage(image)
+
+        if force_redraw == True:
+            self.Node.Draw(self.Node.GetParent().GetPDC(), use_cache=False)
+            self.Node.GetParent().RefreshGraph()
+        
 
     def NodeGetPropValue(self, name):
         """ Get the current value of this node's property.
 
-        :param name: Name of the property of which to get the value
+        :param name: Name of the property of which to get the value for
         """
         for i in range (0, len(self.Node.GetEvaluationData()["properties"])):
             if self.Node.GetEvaluationData()["properties"][i]["name"] == name:
