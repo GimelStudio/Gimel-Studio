@@ -205,13 +205,24 @@ class MainApplication(wx.Frame):
         # Tell the AUI window manager to "commit" all the changes just made.
         self._mgr.Update()
 
-
-        # Test Nodes
-        #self._nodeRegistry._InitNodes()
-        #print(self._nodeRegistry.GetRegisteredNodes())
-
-        # Default nodes
+        # Default nodes setup
         self._SetupDefaultNodes()
+
+        # Open the given file at the command line, if
+        # there is one -otherwise load the default setup.
+        if self._arguments.file == 'DEFAULT_FILE':
+            print('INFO: LOADING DEFAULT')
+            # For some reason, it works only when the default nodes are setup
+            # whether or not we are going to open a new file next! It could be a bug.
+            pass
+
+        else:
+            print('INFO: LOADING FILE {} FROM CMD'.format(self._arguments.file))
+            if self._arguments.file.endswith(".gimel-studio-project"):
+                self._project.OpenProjectFile(arguments.file)
+            else:
+                print("Opening other files from the CMD is not implemented yet!")
+
 
         if __DEBUG__ != True:
             self.Bind(wx.EVT_CLOSE, self.OnQuit)
@@ -285,13 +296,13 @@ class MainApplication(wx.Frame):
         # File menu
         self.filemenu = wx.Menu()
 
-        self.openfile_menuitem = wx.MenuItem(
+        self.openproject_menuitem = wx.MenuItem(
             self.filemenu, 
             ID_MENUITEM_OPENPROJECT, 
             "Open Project...", 
             "Open and load a Gimel Studio project file"
             )
-        self.filemenu.Append(self.openfile_menuitem)
+        self.filemenu.Append(self.openproject_menuitem)
 
         self.saveproject_menuitem = wx.MenuItem(
             self.filemenu, 
@@ -299,7 +310,7 @@ class MainApplication(wx.Frame):
             "Save Project...", 
             "Save the current Gimel Studio project file"
             )
-        self.filemenu.Append(self.saveproject_menuitem)
+        #self.filemenu.Append(self.saveproject_menuitem)
 
         self.saveprojectas_menuitem = wx.MenuItem(
             self.filemenu, 
@@ -374,9 +385,9 @@ class MainApplication(wx.Frame):
         self.SetMenuBar(self.mainmenubar)
 
         # Menubar bindings
-        #self.Bind(wx.EVT_MENU, self.OnOpenFile, id=ID_MENUITEM_OPENPROJECT)
+        self.Bind(wx.EVT_MENU, self.OnOpenFile, id=ID_MENUITEM_OPENPROJECT)
         #self.Bind(wx.EVT_MENU, self.OnSaveFile, id=ID_MENUITEM_SAVEPROJECT)
-        #self.Bind(wx.EVT_MENU, self.OnSaveFileAs, id=ID_MENUITEM_SAVEPROJECTAS)
+        self.Bind(wx.EVT_MENU, self.OnSaveFileAs, id=ID_MENUITEM_SAVEPROJECTAS)
         self.Bind(wx.EVT_MENU, self.OnQuit, id=ID_MENUITEM_QUIT)
         self.Bind(wx.EVT_MENU, self.OnToggleFullscreen, id=ID_MENUITEM_TOGGLEFULLSCREEN)
         self.Bind(wx.EVT_MENU, self.OnTakeFeedbackSurvey, id=ID_MENUITEM_TAKEFEEDBACKSURVEY)
@@ -475,13 +486,15 @@ class MainApplication(wx.Frame):
         if dlg.ShowModal() == wx.ID_OK:
             busy = wx.BusyInfo("Loading File...")
             wx.Yield()
+
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
             self._project.OpenProjectFile(paths[0])
             self.SetTitle("{0} - {1}".format(
                 __TITLE__,
                 dlg.GetFilename()
-                ))    
+                ))   
+
             del busy    
             
 
@@ -519,9 +532,9 @@ class MainApplication(wx.Frame):
         del busy
 
 
-
-    def RestartProgram(newArgs):
-        """
+    # FIXME
+    def RestartProgram(self, new_args):
+        """ UNUSED!!
         Restart the program so that the node registry is refreshed.
         """
         python = sys.executable
