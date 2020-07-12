@@ -128,7 +128,8 @@ class Plug(object):
             return True
 
     def Connect(self, dst_plug, render=True):
-        print ('Connecting:', self.GetLabel(), '->', dst_plug.GetLabel())
+        #print ('Connecting:', self.GetLabel(), '->', dst_plug.GetLabel())
+        
         # Make the connection
         dst_plug.GetNode().MakeConnection(self, dst_plug, render)
 
@@ -151,7 +152,7 @@ class Plug(object):
     def Disconnect(self, connected_node, render=True):
         for wire in self.GetWires():
             # Disconnect
-            #self.GetNode().MakeDisconnect(wire.srcPlug, wire.dstPlug, render)
+            self.GetNode().MakeDisconnect(wire.srcPlug, wire.dstPlug, render)
 
             del wire.srcNode# = self.GetNode()
             del wire.dstNode# = dstPlug.GetNode()
@@ -167,5 +168,3 @@ class Plug(object):
             self.GetNode().GetParent().GetPDC().RemoveId(wire.GetId())
 
         self.GetNode().GetParent().RefreshGraph()
-
-    
