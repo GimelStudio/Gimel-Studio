@@ -224,6 +224,7 @@ class MainApplication(wx.Frame):
                 print("Opening other files from the CMD is not implemented yet!")
 
 
+        # Quit prompt dialog
         if __DEBUG__ != True:
             self.Bind(wx.EVT_CLOSE, self.OnQuit)
 
@@ -256,14 +257,6 @@ class MainApplication(wx.Frame):
         return self._nodeRegistry
 
 
-
-
-
-    # TODO
-    def GetAutoRenderBoolean(self):
-        return self._autoRenderCheckbox.GetValue()
-
-
     def _SetupDefaultNodes(self):
 
         # Calculate center of Node Graph view
@@ -279,14 +272,17 @@ class MainApplication(wx.Frame):
             )
         
         self._nodeGraph.AddNode(
-            'corenode_opacity', # here for testing
-            pos=wx.Point(x-100, y)
-            )
-
-        self._nodeGraph.AddNode(
             'gimelstudiocorenode_outputcomposite', 
             pos=wx.Point(x+150, y)
             )
+
+        # The opacity node is here just for 
+        # testing during development.
+        if __DEBUG__ == True:
+            self._nodeGraph.AddNode(
+                'gimelstudiocorenode_opacity', 
+                pos=wx.Point(x-100, y)
+                )
 
 
     def _BuildMenuBar(self):
@@ -393,7 +389,6 @@ class MainApplication(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnTakeFeedbackSurvey, id=ID_MENUITEM_TAKEFEEDBACKSURVEY)
         self.Bind(wx.EVT_MENU, self.OnAboutGimelStudioDialog, id=ID_MENUITEM_ABOUT)
         self.Bind(wx.EVT_MENU, self.OnGimelStudioLicenseDialog, id=ID_MENUITEM_LICENSE)
-
 
     def OnAboutGimelStudioDialog(self, event):
         dialog = AboutGimelStudioDialog(self)
