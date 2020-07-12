@@ -249,22 +249,6 @@ class Node(object):
 
             #print('PROPERTY DATA NODES:', self.GetEvaluationData())
 
-    def MakeConnection(self, plug1, plug2, render=True):
-        if self.IsCompositeOutput() == True:
-            self._evalData= {
-                "bind": str(plug1.GetNode().GetId())
-                }
-            #print('CONNECTION DATA OUTPUT:', self._evalData)
-        else:
-            for param in self._parameters:
-                if param == plug2.GetLabel():
-                    data = {
-                        "name": self._parameters[param].Name,
-                        "bind": str(plug1.GetNode().GetId())
-                        }
-                    self._evalData["parameters"].append(data)
-
-
     def GetParameters(self):
         return self._parameters
 
