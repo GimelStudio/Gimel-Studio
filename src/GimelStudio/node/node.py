@@ -41,7 +41,7 @@ class Node(object):
         self._parent = parent
         self._nodedef = nodedef
 
-        self._defaultSize = wx.Point(160, 110) # TODO
+        self._defaultSize = wx.Point(160, 116) # TODO
 
         self._IDName = nodedef.NodeIDName
         self._label = nodedef.NodeLabel
@@ -53,7 +53,7 @@ class Node(object):
         self._evaluation = nodedef.NodeEvaluation
 
         self._id = self._GetInitID(_id)
-        self._rect = self._GetInitRect(pos, wx.Point(160, 110)) #TODO
+        self._rect = self._GetInitRect(pos, wx.Point(160, 116)) #TODO
         self._nodeColor = self._GetInitNodeColor()
         self._toggleIcon = self._GetInitToggleIcon()
         self._thumbImage = self._GetInitThumbImage()
@@ -554,17 +554,17 @@ class Node(object):
         if self.IsCompositeOutput() == True:
             pass
         else:
-            for i in range(0, len(self._evaluationData["properties"])):
+            for i in range(0, len(self.GetEvaluationData()["properties"])):
                 # Change the value of the property
-                if propertyname == self._evaluationData["properties"][i]['name']:
-                    self._evaluationData["properties"][i]['value'] = propertyvalue
+                if propertyname == self.GetEvaluationData()["properties"][i]['name']:
+                    self.GetEvaluationData()["properties"][i]['value'] = propertyvalue
 
-            #print('PROPERTY DATA NODES:', self._evaluationData)
-
+            print('PROPERTY DATA NODES:', self.GetEvaluationData())
+ 
 
     def MakeConnection(self, plug1, plug2, render=True):
         if self.IsCompositeOutput() == True:
-            self._evaluationData= {
+            self._evaluationData = {
                 "bind": str(plug1.GetNode().GetId())
                 }
             #print('CONNECTION DATA OUTPUT:', self._evalData)
