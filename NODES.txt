@@ -38,7 +38,7 @@ DISTORT: #6B8B8B (Blue-Grey)
 [x] - Resize
 - Scale
 - Crop
-- Rotate
+[x]- Rotate
 - Transform
 - Translate
 - Flip
