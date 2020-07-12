@@ -53,7 +53,7 @@ class NodePropertyPanel(wx.Panel):
                 label=selected_node.GetLabel(), 
                 size=wx.Size(self.Size[0], self.Size[1])
                 )
- 
+  
             # This gets the recommended amount of border space to use for items
             # within in the static box for the current platform.
             top_bd, other_bd = self.panel_staticbox.GetBordersForSizer()

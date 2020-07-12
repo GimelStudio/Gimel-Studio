@@ -18,6 +18,10 @@
 ## PURPOSE: Define class which handles .gimel-studio-project save, open, etc.
 ## ----------------------------------------------------------------------------
 
+
+# VERY WORK IN PROGRESS!!!
+
+
 import json
 import wx
 
@@ -61,11 +65,12 @@ class GimelStudioProject(object):
 
     def LoadDefaultProjectFile(self):
         """ Load the default project file. """
-        node_data = DEFAULT_PROJECT["nodes"]
-        meta_data = DEFAULT_PROJECT["meta"]
-        ui_data = DEFAULT_PROJECT["ui"]
+        print("UNUSED!!")
+        # node_data = DEFAULT_PROJECT["nodes"]
+        # meta_data = DEFAULT_PROJECT["meta"]
+        # ui_data = DEFAULT_PROJECT["ui"]
 
-        self._CreateNodes(node_data)
+        # self._CreateNodes(node_data)
         #self._CreateUI(ui_data)
 
     def OpenProjectFile(self, path):
@@ -104,16 +109,16 @@ class GimelStudioProject(object):
 
     def _GetNodeData(self):   
         node_data = {}
-        for nodeId in self._parent._nodegraph.GetNodes():
+        for nodeId in self._parent._nodeGraph.GetNodes():
             #print(nodeId)
-            node = self._parent._nodegraph._nodes[nodeId]
+            node = self._parent._nodeGraph._nodes[nodeId]
 
-            print(node._evalData)
+            #print(node._evaluationData)
 
             node_data[str(nodeId)] = {
-                "evaldata": node._evalData,
+                "evaldata": node.GetEvaluationData(),
                 "position": [node.GetRect()[0], node.GetRect()[1]],
-                "name": node.GetName(),
+                "name": node.GetIDName(),
                 #"active": node.IsActive(),
                 #"selected": node.IsSelected(),
                 "disabled": node.IsDisabled(),
@@ -139,16 +144,15 @@ class GimelStudioProject(object):
  
     def _CreateNodes(self, node_data):
 
-        #self._parent.imageviewer.ResetToDefault()
-        self._parent._nodegraph.ResetToDefault()
+        self._parent._nodeGraph.ResetToDefault()
         # Should a new ID be assigned to the nodes?
  
-        nodes = self._parent._nodegraph.GetNodes()
-        print(nodes, '<<<--NODES')
+        nodes = self._parent._nodeGraph.GetNodes()
+        #print(nodes, '<<<--NODES')
         for nodeId in node_data:
             nd = node_data[nodeId]
 
-            node = self._parent._nodegraph.AddNodeFromFile(
+            node = self._parent._nodeGraph.AddNode(
                 nd["name"],  
                 int(nodeId),
                 wx.Point(nd["position"][0], nd["position"][1])
@@ -173,15 +177,15 @@ class GimelStudioProject(object):
             # else: 
             #     node.SetDisabled(False)
 
-        nodes = self._parent._nodegraph.GetNodes()
-        print(nodes, '<<<--NODES')
+        nodes = self._parent._nodeGraph.GetNodes()
+        #print(nodes, '<<<--NODES')
         for nodeId in nodes:
-            if nodes[nodeId].IsCompositeNode() != True:
+            if nodes[nodeId].IsCompositeOutput() != True:
                 # pass
                 for param in node_data[str(nodeId)]["evaldata"]["parameters"]:
                     node2 = nodes[nodeId]
                     node1 = nodes[int(param["bind"])]
-                    print(param["bind"], nodeId)
+                    #print(param["bind"], nodeId)
                     node1.FindPlug('Output').Connect(node2.FindPlug(param["name"]), render=False)
             else:
                 if node_data[str(nodeId)]["evaldata"] != '':
@@ -198,9 +202,9 @@ class GimelStudioProject(object):
             #     for wire in plug.GetWires():
             #         wire.Draw(self._parent.nodegraph.GetPDC())
          
-        self._parent._nodegraph.UpdateAllNodes()
-        self._parent._nodegraph.RefreshGraph()
-        self._parent._nodegraph._parent.Render()
+        self._parent._nodeGraph.UpdateAllNodes()
+        self._parent._nodeGraph.RefreshGraph()
+        self._parent._nodeGraph._parent.Render()
 
 
     def _CreateUI(self, ui_data):

@@ -147,10 +147,9 @@ class Node(object):
         :returns: a list of Plug objects
         """
         plugs = []
- 
+        
         ins = []
         for param in self._nodedef.NodeParameters:
-            print(param)
             ins.append((param.name, param.param_type))
 
         outs = []
@@ -236,7 +235,7 @@ class Node(object):
         return self.GetProperties()[prop].definition.prop_type
 
 
-    def EditProperty(self, name, value): # EditProperties
+    def EditProperty(self, name, value):
         """ Changes the value of a property for this node.
 
         :param name: the name of the property (as a string)
@@ -248,7 +247,7 @@ class Node(object):
                 if name == self.GetEvaluationData()["properties"][i]["name"]:
                     self.GetEvaluationData()["properties"][i]["value"] = value
 
-            print('PROPERTY DATA NODES:', self.GetEvaluationData())
+            #print('PROPERTY DATA NODES:', self.GetEvaluationData())
 
     def MakeConnection(self, plug1, plug2, render=True):
         if self.IsCompositeOutput() == True:
@@ -259,7 +258,6 @@ class Node(object):
         else:
             for param in self._parameters:
                 if param == plug2.GetLabel():
-                    #print('PARAM', param)
                     data = {
                         "name": self._parameters[param].Name,
                         "bind": str(plug1.GetNode().GetId())
@@ -446,6 +444,7 @@ class Node(object):
                 }
             self.SetEvaluationData(data)
     
+
     def ReadData(self):
         """ Reads all the parameter and property data for the 
         node from the evaluation data dict.
@@ -466,7 +465,6 @@ class Node(object):
                     self.GetProperties()[prop["name"]].ReadData(prop)
                 else:
                     print("WARNING: Property '{}' does not exist in node type {}".format(prop["name"], self.GetIDName()))
-
 
 
     def GetMetaData(self):
@@ -518,10 +516,6 @@ class Node(object):
                 return plug
 
 
-
-
-
-
     def SetThumbnailPreviewOpen(self, redraw=True):
         """ Sets the node thumbnail preview to be toggled
         to show the thumb. 
@@ -537,6 +531,7 @@ class Node(object):
             )
         if redraw == True:
             self.Draw(self.GetParent().GetPDC())
+
 
     def SetThumbnailPreviewClosed(self, redraw=True):
         """ Sets the node thumbnail preview to be toggled
@@ -555,22 +550,32 @@ class Node(object):
             self.Draw(self.GetParent().GetPDC())
 
 
+    def Delete(self, skip_del=False):
+        """ Delete this node from the node graph. """
+        for plug in self.GetPlugs():
+            for wire in plug.GetWires():
+                # Clean up any wires that are
+                # connected to this node.
+                dst = wire.dstPlug
+                src = wire.srcPlug
+                dst.Disconnect(src, render=False)
+                self.GetParent().GetPDC().RemoveId(wire.GetId())
 
-
-
-
+        if skip_del == False:
+            del self.GetParent()._nodes[self.GetId()]
+        self.GetParent().GetPDC().RemoveId(self.GetId()) 
 
 
     def EditProperties(self, propertyname, propertyvalue):
         if self.IsCompositeOutput() == True:
             pass
         else:
-            for i in range (0, len(self._evaluationData["properties"])):
+            for i in range(0, len(self._evaluationData["properties"])):
                 # Change the value of the property
                 if propertyname == self._evaluationData["properties"][i]['name']:
                     self._evaluationData["properties"][i]['value'] = propertyvalue
 
-            print('PROPERTY DATA NODES:', self._evaluationData)
+            #print('PROPERTY DATA NODES:', self._evaluationData)
 
 
     def MakeConnection(self, plug1, plug2, render=True):
@@ -593,9 +598,7 @@ class Node(object):
 
         # See if we should be updating (rendering) automatically
         if render == True:
-            #pass
             self.RenderNodeGraph()
-
 
 
     def MakeDisconnect(self, plug1, plug2, render=True):
@@ -604,26 +607,15 @@ class Node(object):
                 "bind": ""
             }
         else:
-            val = 0
-            for param in self._evaluationData["parameters"]:
-
-                #print(self._evalData["parameters"], param, 'i')
-
-                if self._evaluationData["parameters"][val]["bind"] == str(plug1.GetNode().GetId()):
-                    #print('deleting ->', self._evalData["parameters"][val])
-                    del self._evaluationData["parameters"][val]
+            for i in range(0, len(self._evaluationData["parameters"])):
+                if self._evaluationData["parameters"][i]["bind"] == str(plug1.GetNode().GetId()):
+                    #print('deleting ->', self._evalData["parameters"][i])
+                    del self._evaluationData["parameters"][i]
                     self._parameters[plug2.GetLabel()].binding = None
-
-                else:
-                    pass
 
 
     def RenderNodeGraph(self):
         self._parent._parent.Render()
-
-
-
-
 
 
     def Draw(self, dc, use_cache=True):

@@ -91,7 +91,7 @@ class NodeRegistryItem(wx.Control):
         return self._label
 
     def GetColor(self):
-        print(self._category, "<<---")
+        #print(self._category, "<<---")
         if self._category in STYLE_NODES_COLOR_DICT.keys():
             return STYLE_NODES_COLOR_DICT[self._category]
         else:
@@ -142,7 +142,7 @@ class NodeRegistryItem(wx.Control):
 
         x, y, w, h = self.GetRect()
 
-        print(self.GetId(), x, y, w, h, "fknfkfnfknkn")
+        #print(self.GetId(), x, y, w, h, "fknfkfnfknkn")
 
         #dc.SetIdBounds(self.GetId(), self.GetRect())
 
@@ -206,10 +206,12 @@ class NodeRegistryItem(wx.Control):
 
 
  
+# class NodeRegistry(wx.Panel, NodeRegistryBase):
+#     def __init__(self, parent, size=wx.DefaultSize):
+#         wx.Panel.__init__(self, parent)
 
-class NodeRegistry(wx.Panel, NodeRegistryBase):
+class NodeRegistry(NodeRegistryBase):
     def __init__(self, parent, size=wx.DefaultSize):
-        wx.Panel.__init__(self, parent)
 
         self._parent = parent
         self._registeredNodes = {}
@@ -231,46 +233,46 @@ class NodeRegistry(wx.Panel, NodeRegistryBase):
 
         self._InitNodes()
 
-        self.Bind(wx.EVT_SIZE, self.OnSize)
+        #self.Bind(wx.EVT_SIZE, self.OnSize)
 
 
-        self.colour_boxs = [ ]
-        colour_grid = wx.BoxSizer(wx.VERTICAL)
+        # self.colour_boxs = [ ]
+        # colour_grid = wx.BoxSizer(wx.VERTICAL)
 
-        i = 0
-        for nodeName in self.GetAvailableNodes():
+        # i = 0
+        # for nodeName in self.GetAvailableNodes():
 
-                print(self.GetAvailableNodes()[nodeName]())
+        #         #print(self.GetAvailableNodes()[nodeName]())
 
-                nr_item = buttons.GenButton(self, -1, self.GetAvailableNodes()[nodeName]().NodeLabel)
+        #         nr_item = buttons.GenButton(self, -1, self.GetAvailableNodes()[nodeName]().NodeLabel)
 
                 
-                # nr_item = NodeRegistryItem(self, 
-                # self._registeredNodes[nodeName](), 
-                # _id=wx.NewIdRef(),
-                # #pos=wx.Point(0, i),
-                # size=wx.Size(self.Size[1], ITEM_HEIGHT)
-                # )
-                # #box.Draw()
-                # #box.Bind(wx.EVT_LEFT_DOWN, lambda x, b=box: self.onBasicClick(x, b))
+        #         # nr_item = NodeRegistryItem(self, 
+        #         # self._registeredNodes[nodeName](), 
+        #         # _id=wx.NewIdRef(),
+        #         # #pos=wx.Point(0, i),
+        #         # size=wx.Size(self.Size[1], ITEM_HEIGHT)
+        #         # )
+        #         # #box.Draw()
+        #         # #box.Bind(wx.EVT_LEFT_DOWN, lambda x, b=box: self.onBasicClick(x, b))
 
-                # # Check to see if this is a core node
-                # if str(nodeName).startswith("corenode_"):
-                #     nr_item.SetIsCoreNode(True)
-                # else:
-                #     nr_item.SetIsCoreNode(False)
+        #         # # Check to see if this is a core node
+        #         # if str(nodeName).startswith("corenode_"):
+        #         #     nr_item.SetIsCoreNode(True)
+        #         # else:
+        #         #     nr_item.SetIsCoreNode(False)
 
-                self.colour_boxs.append(nr_item)
-                colour_grid.Add(nr_item, 0, wx.EXPAND)
+        #         self.colour_boxs.append(nr_item)
+        #         colour_grid.Add(nr_item, 0, wx.EXPAND)
 
-                i =+ ITEM_HEIGHT + 8
+        #         i =+ ITEM_HEIGHT + 8
 
 
-        csizer = wx.BoxSizer(wx.VERTICAL)
+        # csizer = wx.BoxSizer(wx.VERTICAL)
 
-        csizer.Add(colour_grid, 0, wx.EXPAND)
+        # csizer.Add(colour_grid, 0, wx.EXPAND)
 
-        self.SetSizer(csizer)
+        # self.SetSizer(csizer)
 
         
 
@@ -280,7 +282,7 @@ class NodeRegistry(wx.Panel, NodeRegistryBase):
         for n in self.colour_boxs:
             n.SetSize(self.Size[0], ITEM_HEIGHT)
             n.SetPosition(wx.Point(0, i))
-            print(n.GetRect(), n.GetName(), "s")
+            #print(n.GetRect(), n.GetName(), "s")
 
             #n.Draw()
             i =+ ITEM_HEIGHT
