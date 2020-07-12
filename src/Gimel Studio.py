@@ -24,7 +24,7 @@ import wx
 from GimelStudio.node_importer import *
 from GimelStudio.meta import  __TITLE__, __DEBUG__
 from GimelStudio.application import MainApplication
-#from GimelStudio.ui import StartupSplashScreen
+from GimelStudio.program import StartupSplashScreen
 
 
 if __name__ == '__main__':
@@ -37,7 +37,7 @@ if __name__ == '__main__':
         'file',
         nargs='?',
         default="DEFAULT_FILE",
-        help="Open a Gimel Studio Project file in Gimel Studio"
+        help="Open a Gimel Studio Project file or a supported image file in Gimel Studio"
         )
     args = parser.parse_args()
 
@@ -49,9 +49,8 @@ if __name__ == '__main__':
         )
     
     if __DEBUG__ != True:
-        #splash = StartupSplashScreen()
-        #splash.Show()
-        pass
+        splash = StartupSplashScreen()
+        splash.Show()
     frame.Show()
     app.SetTopWindow(frame)
     app.MainLoop()
