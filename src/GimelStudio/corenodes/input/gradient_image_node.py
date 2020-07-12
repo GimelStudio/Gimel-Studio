@@ -29,7 +29,7 @@ class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "corenode_gradientimage"
+        return "gimelstudiocorenode_gradientimage"
 
     @property
     def NodeLabel(self):

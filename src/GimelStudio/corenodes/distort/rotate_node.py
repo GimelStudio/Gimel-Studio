@@ -29,7 +29,7 @@ class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "corenode_rotate"
+        return "gimelstudiocorenode_rotate"
 
     @property
     def NodeLabel(self):

@@ -26,7 +26,7 @@ class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "corenode_invertalpha"
+        return "gimelstudiocorenode_invertalpha"
 
     @property
     def NodeLabel(self):

@@ -27,7 +27,7 @@ class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "corenode_opacity"
+        return "gimelstudiocorenode_opacity"
 
     @property
     def NodeLabel(self):

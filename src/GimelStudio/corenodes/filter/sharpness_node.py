@@ -27,7 +27,7 @@ class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "corenode_sharpness"
+        return "gimelstudiocorenode_sharpness"
 
     @property
     def NodeLabel(self):

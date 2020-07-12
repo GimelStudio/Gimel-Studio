@@ -31,7 +31,7 @@ class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "corenode_tonormalmap"
+        return "gimelstudiocorenode_tonormalmap"
 
     @property
     def NodeLabel(self):

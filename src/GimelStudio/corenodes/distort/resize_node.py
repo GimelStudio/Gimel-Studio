@@ -28,7 +28,7 @@ class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "corenode_resize"
+        return "gimelstudiocorenode_resize"
 
     @property
     def NodeLabel(self):

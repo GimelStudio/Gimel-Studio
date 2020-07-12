@@ -26,7 +26,7 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeIDName(self):
-        return "corenode_mix"
+        return "gimelstudiocorenode_mix"
 
     @property
     def NodeLabel(self):

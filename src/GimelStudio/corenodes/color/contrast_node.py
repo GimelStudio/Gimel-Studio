@@ -27,7 +27,7 @@ class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "corenode_contrast"
+        return "gimelstudiocorenode_contrast"
 
     @property
     def NodeLabel(self):
