@@ -43,4 +43,19 @@ Gimel Studio v0.3.0 BETA -- ""
    - Export Image tab added which includes (advanced) options for export and an image preview
  * Re-write/re-cleanup of core core
  * UI re-design
+ * Wrote docstrings for most important methods
+ * Many Node Graph fixes and improvements
+   - Larger node graph area which defaults in the center
+   - Context menu now shows Custom Nodes as well as the Core Nodes
+   - Bug fixes
+ * Nodes
+   - New Opacity node
+   - Output Composite now has a thumb preview like the rest of the nodes
+   - Image node now shows preview when image file is selected
+ * Custom Nodes API
+   - Cleaned-up API (method names, performance, etc.)
+   - Added docstrings
+   - API now uses wxPython directly for widgets in the Node Prroperties Panel
+ * Fixed bug with application freeze on saving .jpeg images
+ NOTES: Node Registry panel removed (for now)
 
