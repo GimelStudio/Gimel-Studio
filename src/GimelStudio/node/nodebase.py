@@ -241,9 +241,11 @@ class NodeBase(object):
 
         :param name: Name of the property of which to get the value for
         """
-        for i in range (0, len(self.Node.GetEvaluationData()["properties"])):
-            if self.Node.GetEvaluationData()["properties"][i]["name"] == name:
-                return self.Node.GetEvaluationData()["properties"][i]["value"]
-            else:
-                print("WARNING: The property {} could not be found.".format(name))
-
+        try:
+            for i in range (0, len(self.Node.GetEvaluationData()["properties"])):
+                if self.Node.GetEvaluationData()["properties"][i]["name"] == name:
+                    return self.Node.GetEvaluationData()["properties"][i]["value"]
+        except KeyError:
+            print("WARNING: The property {} could not be found.".format(name))
+        finally:
+            pass

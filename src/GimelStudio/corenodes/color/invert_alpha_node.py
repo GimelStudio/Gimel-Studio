@@ -16,46 +16,37 @@
 ## ----------------------------------------------------------------------------
 
 import wx
-from PIL import Image, ImageFilter
+from PIL import Image, ImageChops
 
 from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
                             Parameter, Property, RegisterNode)
 
- 
+  
 class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "corenode_blur"
+        return "corenode_invertalpha"
 
     @property
     def NodeLabel(self):
-        return "Blur"
+        return "Invert Alpha"
 
     @property
     def NodeCategory(self):
-        return "FILTER"
+        return "COLOR"
 
     @property
     def NodeDescription(self):
-        return "Blurs the given image using the specified blur radius." 
+        return "Inverts an image alpha channel." 
 
     @property
     def NodeVersion(self):
-        return "2.1" 
+        return "1.1" 
 
     @property
     def NodeAuthor(self):
         return "Correct Syntax Software" 
-
-    @property
-    def NodeProperties(self):
-        return [
-            Property('Radius',
-                prop_type='INTEGER',
-                value=2
-                ),
-            ]
 
     @property
     def NodeParameters(self):
@@ -66,37 +57,11 @@ class NodeDefinition(NodeBase):
                 ),
         ]
 
-   
-    def NodePropertiesUI(self, node, parent, sizer):
-        current_radius_value = self.NodeGetPropValue('Radius')
-
-        radius_label = wx.StaticText(parent, label="Blur Radius:")
-        sizer.Add(radius_label, border=5)
-
-        self.radiusspinctrl = wx.Slider(
-            parent, 100, 25, 1, 100,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
-            )
-        self.radiusspinctrl.SetTickFreq(5)
-
-        self.radiusspinctrl.SetRange(1, 100)
-        self.radiusspinctrl.SetValue(current_radius_value)
-        sizer.Add(self.radiusspinctrl, flag=wx.EXPAND|wx.ALL, border=5)
-
-        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnRadiusSpin, self.radiusspinctrl)
-
-
-    def OnRadiusSpin(self, evt):
-        self.NodePropertiesUpdate('Radius', self.radiusspinctrl.GetValue())
-    
     def NodeEvaluation(self, eval_info):
         image1  = eval_info.EvaluateParameter('Image')
-        radius = eval_info.EvaluateProperty('Radius')
-        
+
         image = RenderImage()
-        image.SetAsImage(image1.GetImage().filter(
-            ImageFilter.GaussianBlur(radius)
-            ).convert('RGBA'))
+        image.SetAsImage(ImageChops.invert(image1.GetImage()).convert('RGBA'))
         self.NodeSetThumb(image.GetImage())
         return image
 

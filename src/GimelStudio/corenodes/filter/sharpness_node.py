@@ -22,16 +22,16 @@ from PIL import Image, ImageEnhance
 from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
                             Parameter, Property, RegisterNode)
 
- 
+  
 class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "corenode_opacity"
+        return "corenode_sharpness"
 
     @property
     def NodeLabel(self):
-        return "Opacity"
+        return "Sharpness"
 
     @property
     def NodeCategory(self):
@@ -39,11 +39,11 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeDescription(self):
-        return "Reduces the image transparency/opacity." 
+        return "Sharpens the image by the given amount." 
 
     @property
     def NodeVersion(self):
-        return "1.0" 
+        return "1.1" 
 
     @property
     def NodeAuthor(self):
@@ -52,9 +52,9 @@ class NodeDefinition(NodeBase):
     @property
     def NodeProperties(self):
         return [
-            Property('Opacity',
+            Property('Amount',
                 prop_type='INTEGER',
-                value=50
+                value=4
                 ),
             ]
 
@@ -69,43 +69,33 @@ class NodeDefinition(NodeBase):
 
    
     def NodePropertiesUI(self, node, parent, sizer):
-        current_radius_value = self.NodeGetPropValue('Opacity')
+        current_amount_value = self.NodeGetPropValue('Amount')
 
-        radius_label = wx.StaticText(parent, label="Opacity:")
-        sizer.Add(radius_label, border=5)
+        sharpness_label = wx.StaticText(parent, label="Sharpness amount:")
+        sizer.Add(sharpness_label, border=5)
 
-        self.radiusspinctrl = wx.Slider(
+        self.sharpness_slider = wx.Slider(
             parent, 100, 25, 1, 100,
             style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
             )
-        self.radiusspinctrl.SetTickFreq(5)
+        self.sharpness_slider.SetTickFreq(5)
+        self.sharpness_slider.SetRange(1, 100)
+        self.sharpness_slider.SetValue(current_amount_value)
+        sizer.Add(self.sharpness_slider, flag=wx.EXPAND|wx.ALL, border=5)
 
-        self.radiusspinctrl.SetRange(1, 100)
-        self.radiusspinctrl.SetValue(current_radius_value)
-        sizer.Add(self.radiusspinctrl, flag=wx.EXPAND|wx.ALL, border=5)
-
-        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnRadiusSpin, self.radiusspinctrl)
+        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnSharpnessChange, self.sharpness_slider)
 
  
-    def OnRadiusSpin(self, evt):
-        self.NodePropertiesUpdate('Opacity', self.radiusspinctrl.GetValue())
+    def OnSharpnessChange(self, event):
+        self.NodePropertiesUpdate('Amount', self.sharpness_slider.GetValue())
     
     def NodeEvaluation(self, eval_info):
         image1  = eval_info.EvaluateParameter('Image')
-        opacity = eval_info.EvaluateProperty('Opacity')
+        sharpness_amount = eval_info.EvaluateProperty('Amount')
 
-        img = image1.GetImage().convert("RGBA")
- 
-        # Make correction for slider range of 1-100
-        image_opacity = (opacity*0.01)
-
-        # Only reduce the opacity if the value is acceptable
-        if not image_opacity < 0 or not image_opacity > 1:
-            alpha = ImageEnhance.Brightness(img.split()[-1]).enhance(image_opacity)
-            img.putalpha(alpha)
-        
         image = RenderImage()
-        image.SetAsImage(img)
+        enhancer = ImageEnhance.Sharpness(image1.GetImage())
+        image.SetAsImage(enhancer.enhance(sharpness_amount).convert('RGBA'))
         self.NodeSetThumb(image.GetImage())
         return image
 
