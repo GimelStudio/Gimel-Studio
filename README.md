@@ -18,7 +18,7 @@ It provides basic image editing features such as rotate, resize and blur effects
 
 # News
 
-v0.3.x is in major development, but it may not release officially for a while. This release will be a major refactoring of the core code and will include some new features and a re-design of the UI. To help out with latest development, contact me at <correctsyntax@yahoo.com> or submit a Pull Request. Thanks!
+The v0.3.x major development is almost complete. I plan to release binaries soon. Documentation for the latest API is coming too. This release is a major refactoring of the core code and includes some new features and a re-design of the UI. To help out with latest development, contact me at <correctsyntax@yahoo.com> or submit a Pull Request. Thanks!
 
 
 # Development 
@@ -38,7 +38,7 @@ See the [ROADMAP.txt](ROADMAP.txt) and [IDEAS.txt](IDEAS.txt) for a general idea
   * Support for opening and saving your nodegraph as a GIMEL-STUDIO-PROJECT
   * 10+ nodes (currently) with a wide range of functionality 
   * Rearrangable and resizable panels for the main UI
-  * Drag 'n drop nodes from the Node Registry
+  * Drag 'n drop nodes from the Node Registry `(temorarily removed in v0.3.0)`
   * Node-based workflow (similar to Blender 3D)
   * JPEG, PNG, BMP file types support
   * API for scripting custom nodes
