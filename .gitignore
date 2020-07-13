@@ -13,9 +13,10 @@ ideas
 reference
 tests
 
-# Ignore built application folders
+# Ignore built application folders/files
 build
 dist
+*.spec
 
 # Ignore built docs
 docs/build
