@@ -1,0 +1,27 @@
+0.1.1
+=====
+
+Gimel Studio v0.1.1 BETA -- "Apr. 2020"
+
+General
+-------
+
+ * Moved public releases to https://correctsyntax.com/projects/gimel-studio/
+ 
+
+Performance optimizations
+-------------------------
+
+ * Huge improvements to the Node Registry & Image Viewport 
+ * Node Registry is now custom-drawn
+ * Image Viewport auto-resizes and has "modes"
+
+
+Fixes for the Node Graph
+------------------------
+
+ * INPUT nodes now default to showing thumbs
+ * Bug fixes for Linux
+
+
+NOTES: Asset Library removed (for now)

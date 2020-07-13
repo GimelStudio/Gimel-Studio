@@ -1,0 +1,32 @@
+0.2.0
+=====
+
+Gimel Studio v0.2.0 BETA -- "May 2020"
+
+General
+-------
+
+ * About dialog now shows libraries used (wxPython, Pillow, etc.)
+ * Development now uses pipenv to handle dependancies
+
+
+UI
+--
+
+ * Visual popup message has been added for rendering and file operations
+ * Rearranged the default layout
+
+
+Nodes
+-----
+
+ * Updated Mix node to use the newest blend types from Pillow
+ * Tweaked the look of the nodes, scaled down the default size to be the "classic" size
+
+
+Optimizations
+-------------
+
+ * File operation optimizations
+ * Renderer optimizations
+

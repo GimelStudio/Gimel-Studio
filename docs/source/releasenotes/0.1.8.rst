@@ -1,0 +1,23 @@
+0.1.8
+=====
+
+Gimel Studio v0.1.8 BETA -- "May 2020"
+
+General
+-------
+
+ * First offical release on Github.com
+ * Now open-source under the Apache 2.0 license
+
+Nodes
+-----
+   
+ * Combined 3 old nodes into the new Mix node
+ * Added 5 new nodes
+ * Node thumbnail images are now cached for better nodegraph performance
+ * Duplicate Node now does what is expected: duplicates the node properties as well as the node type
+
+ * Drag and drop node items from Node Registry
+ * Bug fixes
+
+NOTES: No Linux build for this release

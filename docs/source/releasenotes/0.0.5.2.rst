@@ -1,0 +1,10 @@
+0.0.5.2
+=======
+
+Gimel Studio v0.0.5.2 ALPHA -- "Feb. 2020"
+
+General
+-------
+
+ * First public release at https://correctsyntax.com/software/gimel-studio/
+ * First Windows & Linux (Debian) builds

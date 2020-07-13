@@ -4,6 +4,26 @@ Gimel Studio API
 The Gimel Studio API allows you to script your own custom nodes for Gimel Studio in Python.
 
 
+Overview Of The API 
+###################
+
+The Gimel Studio API is created with flexibility in mind and offers a lot of control for those who are willing to "get their hands dirty" and simplicity for those who just want to go ahead and create a node.
+
+The API is based on 2 popular, open-source libraries: 
+
+* Pillow, the friendly fork of PIL
+* WxPython
+
+with the option to use both `Numpy` and `Scipy` as well for your own custom-optimized manipulation, effects, etc.
+
+The Gimel Studio API itself is quite small. Thus, the majority of the learning is learning to use these libraries in Gimel Studio to create a node. If you already have experience with these, learning the Gimel Studio API is even more simple.
+
+.. note::
+
+    All API classes, methods and functions should be imported from the ``GimelStudio.api`` module. 
+    This is the only "safe" way to access the internal API.
+
+
 Note on Python Versions
 #######################
 
@@ -16,20 +36,18 @@ The Gimel Studio application comes bundled with Python 3, but specific versions 
 If you built Gimel Studio from the source yourself, be sure that you used a Python version higher that 3.6. Gimel Studio is developed for Python 3.6+ and stability cannot be guaranteed with earlier versions. Please take this into account when developing custom nodes also.
 
 
-Custom Node Tutorial
-####################
+Simple Custom Node Tutorial
+###########################
+
+.. note::
+
+  The following is documentation for the v0.2.0 of the API (but can be adapted for v0.3.0). This will be updated for v0.3.0 soon, Yahweh-willing...
 
 
 Getting Setup To Script A Custom Node
 -------------------------------------
 
 Before starting to use the Gimel Studio API to script a custom node, you need to gain some knowledge of how to get setup.
-
-
-Overview Of The API 
-^^^^^^^^^^^^^^^^^^^
-
-Gimel Studio API
 
 
 Understand The Directory Structure
@@ -286,39 +304,5 @@ Creating Node Parameters
 TODO: CHANGE NODE EXAMPLE TO USE PARAMS
 
 
-API Reference
-#############
-
-All API classes, methods and functions should be imported from the ``GimelStudio.api`` module. This is the only "safe" way to access the internal API.
-
-NodeBase
---------
-
-.. py:class:: NodeBase(object)
-
-    Base class for all nodes which defines the node's core attributes. Subclass this to create a custom node.
-
-    **Example:**
-
-    .. code-block::
-
-        from GimelStudio.api import NodeBase, RegisterNode
-
-        class NodeDefinition(NodeBase):
-            ...
-
-        RegisterNode(NodeDefinition)
-
-
-    .. py:method:: NodeAuthor() 
-        :property:
-
-        Name of the author of this node. It should be a string.
-            
-
-    .. py:method:: NodeLabel() 
-        :property:
-
-        The shown text of the label for the node. This can be different from the node name. It should be a string.
             
 
