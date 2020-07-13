@@ -75,7 +75,7 @@ This assumes you have **Python 3.6 or higher** installed on your system and you 
     This will install the core dependancies for Gimel Studio.
 
 2. Run  ``pipenv shell`` and you should be able to now run 
-   ``python "/src/Gimel Studio.py"`` or ``python3 "/src/Gimel Studio.py"`` depending on your setup to launch Gimel Studio.
+   ``python "src/Gimel Studio.py"`` or ``python3 "src/Gimel Studio.py"`` depending on your setup to launch Gimel Studio.
 
 3. If you want to build Gimel Studio as an .exe for Windows or build an executable for Linux, you will also need the PyInstaller package.
 
