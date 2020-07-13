@@ -20,7 +20,6 @@
 
 
 class NodeBase(object):
-    """ Base class for all nodes which defines a node's core attributes."""
     def __init__(self):
         # Node Meta
         self._author = self.NodeAuthor
@@ -43,12 +42,11 @@ class NodeBase(object):
         self._isCompositeOutput = None 
 
         # Variables for convienience 
-        self.ui = None
         self.parent = None
         self.sizer = None
 
     def _Init(self, node):
-        """ Internal method: PLEASE DO NOT OVERRIDE! 
+        """ Internal init method. Do not override! 
         This will be set automatically on runtime.
         """
         self._node_obj = node
@@ -58,11 +56,10 @@ class NodeBase(object):
         """ Returns the ``Node`` object for use in 
         this API class.
 
-        NOTE: Be careful when accessing internal
-        values. Changing values on runtime may result
-        in unstablity and unusabilty of the program.
+        .. note::
+            Be careful when accessing internal values via this property. Changing values on runtime may result in unstablity and unusabilty of the program.
 
-        :returns: Node object
+        :returns: ``Node`` object
         """
         return self._node_obj
 
@@ -109,8 +106,10 @@ class NodeBase(object):
         
         Leaving this blank will result in an error.
         
-        WARNING: THIS MUST BE UNIQUE FROM OTHER NODES IN THE 
-        NODE REGISTRY!
+        .. warning::
+            THIS MUST BE UNIQUE FROM OTHER NODES IN THE NODE REGISTRY!
+            Avoid starting the Id name with "gimelstudio" to prevent possible
+            clashes between Core nodes and your custom node.
 
         :returns: a string
         """
@@ -118,8 +117,9 @@ class NodeBase(object):
 
     @property
     def NodeLabel(self):
-        """ The shown text of the label for the node. This can be 
-        different from the node name.
+        """ The shown (human-readable) text of the label for the node. This can be 
+        different from the node Id name.
+
         :returns: a string
         """
         return "N/A"
@@ -130,17 +130,17 @@ class NodeBase(object):
         following category values (in all uppercase):
 
         Category | Hex Value | Color Name
-        ---------------------------------
-        "INPUT": "#975B5B", # Burgendy
-        "DRAW": "#AF4467", # Pink
-        "CONVERT": "#564B7C", # Purple
-        "VALUE": "#CC783D", # Orange
-        "FILTER": "#558333", # Green
-        "BLEND": "#498DB8", # Light blue
-        "COLOR": "#C2AF3A", # Yellow
-        "DISTORT": "#6B8B8B", # Blue-Grey
-        "OUTPUT": "#B33641", # Red
-        "DEFAULT": "#975B5B" # Burgendy
+
+        | "INPUT": "#975B5B", # Burgendy
+        | "DRAW": "#AF4467", # Pink
+        | "CONVERT": "#564B7C", # Purple
+        | "VALUE": "#CC783D", # Orange
+        | "FILTER": "#558333", # Green
+        | "BLEND": "#498DB8", # Light blue
+        | "COLOR": "#C2AF3A", # Yellow
+        | "DISTORT": "#6B8B8B", # Blue-Grey
+        | "OUTPUT": "#B33641", # Red
+        | "DEFAULT": "#975B5B" # Burgendy
 
         :returns: a string
         """
@@ -152,8 +152,8 @@ class NodeBase(object):
         following data types:
 
         Data type | Description
-        ------------------------------------------------
-        "RENDERIMAGE": will output a ``RenderImage`` object instance
+
+        | "RENDERIMAGE": will output a ``RenderImage`` object instance
 
         :returns: a string
         """
@@ -184,17 +184,18 @@ class NodeBase(object):
         is selected. Widgets should be provided for all Properties the
         end-user will be able to change.
         
-        wxPython widgets are to be used as normal:
+        wxPython widgets are to be used normally as children of the ``parent`` 
+        variable and added to the ``sizer`` variable:
 
-        ``import wx``
-        
-        as children of the ``parent`` variable: 
+        .. code-block:: python
 
-        ``example_lbl = wx.StaticText(parent, label="Example:")``
+            import wx
+            example_lbl = wx.StaticText(parent, label="Example:")
+            sizer.Add(example_lbl, flag=wx.ALL, border=5)
 
-        and added to the ``sizer`` variable: 
-
-        ``sizer.Add(example_lbl, border=5)``
+        :param node: ``Node`` object of the currently selected node. Also accessible from ``self.Node``.
+        :param parent: parent wxPython panel of the Node Property Panel
+        :param sizer: main wxPython sizer of the Node Property Panel
         """
         pass
 
@@ -204,6 +205,7 @@ class NodeBase(object):
         something to the data type (e.g: blurs the image, RENDERIMAGE data type)
         and should return it as that same data type.
 
+        :param eval_info: object exposing methods to get evaluated ``Parameter`` and ``Property`` values to use for evaluating this node.
         :returns: the same data type as specified by ``NodeOutputType``
         """
         pass
@@ -225,9 +227,8 @@ class NodeBase(object):
         be done to the image before calling this method as the 
         thumbnail is resized internally as needed.
 
-        :param image: node thumnail as ``PIL Image`` object
-        :param force_redraw: boolean value of whether to force a redraw of the node
-        right away rather than waiting until a render show the updated node thumb.
+        :param image: node thumbnail as ``PIL Image`` object
+        :param force_redraw: boolean value of whether to force a redraw of the node right away rather than waiting until a render show the updated node thumb.
         """
         self.Node.UpdateThumbImage(image)
 
@@ -240,6 +241,7 @@ class NodeBase(object):
         """ Get the current value of this node's property.
 
         :param name: Name of the property of which to get the value for
+        :returns: the value of the node property, if it exists
         """
         try:
             for i in range (0, len(self.Node.GetEvaluationData()["properties"])):
