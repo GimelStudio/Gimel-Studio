@@ -28,7 +28,7 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeLabel(self):
-        return "Composite"
+        return "Output"
 
     @property
     def NodeCategory(self):
@@ -38,7 +38,7 @@ class NodeDefinition(NodeBase):
     def NodeDescription(self):
         return """The most important node of them all. :) 
         This is registered here for the UI -the evaluation is handled elsewhere.
-        This node should not be accessable by users.
+        This node should not be accessed by outside users.
         """  
 
     @property
