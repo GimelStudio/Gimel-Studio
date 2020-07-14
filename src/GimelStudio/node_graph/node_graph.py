@@ -708,10 +708,11 @@ class NodeGraph(wx.ScrolledCanvas):
         :param node: the ``Node`` object to duplicate
         :returns: the duplicate ``Node`` object
         """
-        duplicate_node = self.AddNode(where="CURSOR")
+        duplicate_node = self.AddNode(node.GetIDName(),  _id=wx.ID_ANY, where="CURSOR")
 
         # Assign the same properties to the duplicate node object
-        duplicate_node.GetEvaluationData()["properties"] = node.GetEvaluationData()["properties"]
-
+        for prop in node.GetEvaluationData()["properties"]:
+            duplicate_node.EditProperties(prop["name"], prop["value"])
+ 
         self.RefreshGraph()
         return duplicate_node
