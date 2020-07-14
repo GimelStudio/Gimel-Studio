@@ -34,6 +34,7 @@ from GimelStudio.corenodes.color import (
                                         )
 
 from GimelStudio.corenodes.blend import (mix_node,
+                                        composite_node,
                                         alpha_composite_node,
                                         )
 

@@ -26,11 +26,11 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeIDName(self):
-        return "gimelstudiocorenode_alphacomposite"
+        return "gimelstudiocorenode_composite"
 
     @property
     def NodeLabel(self):
-        return "Alpha Composite"
+        return "Composite"
 
     @property
     def NodeCategory(self):
@@ -38,11 +38,11 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeDescription(self):
-        return "Creates a new image by interpolating between two input images, using a constant alpha." 
+        return "Creates composite image by blending images using a transparency mask." 
 
     @property
     def NodeVersion(self):
-        return "1.1"  
+        return "1.0"  
 
     @property
     def NodeAuthor(self):
@@ -59,17 +59,23 @@ class NodeDefinition(NodeBase):
                 param_type='RENDERIMAGE',
                 default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
                 ),
+            Parameter('Mask',
+                param_type='RENDERIMAGE',
+                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
+                ),
         ]
 
     def NodeEvaluation(self, eval_info):
         image1 = eval_info.EvaluateParameter('Image 1')
         image2 = eval_info.EvaluateParameter('Image 2')
+        mask = eval_info.EvaluateParameter('Mask')
 
         image = RenderImage() 
         main_image = image1.GetImage()
         layer_image = ImageOps.fit(image2.GetImage(), main_image.size)
+        mask_image = ImageOps.fit(mask.GetImage(), main_image.size).convert('RGBA')
         
-        image.SetAsImage(Image.alpha_composite(main_image, layer_image))
+        image.SetAsImage(Image.composite(main_image, layer_image, mask_image))
         self.NodeSetThumb(image.GetImage())
         return image
 
