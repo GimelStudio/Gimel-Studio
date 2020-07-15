@@ -89,7 +89,6 @@ class Wire(object):
     def SetDrawShadow(self, draw_shadow=True):
         self._drawShadow = draw_shadow
 
-    # TODO: is this being used?
     def GetRect(self):
         minX = min(self._pnt1[0], self._pnt2[0])
         minY = min(self._pnt1[1], self._pnt2[1])
@@ -99,6 +98,7 @@ class Wire(object):
 
     def Draw(self, dc): 
         """ Draw the wire. 
+        
         :param dc: the wx DC to draw on
         """
         dc.ClearId(self.GetId())

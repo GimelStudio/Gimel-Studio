@@ -81,9 +81,6 @@ class NodeGraph(wx.ScrolledCanvas):
         # Handle scrolling
         self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)
 
-        # Keyboard shortcut bindings
-        #self.Bind(wx.EVT_KEY_UP, self.OnKeyboardEvent)
-
         # Nodegraph Bindings
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
@@ -96,13 +93,21 @@ class NodeGraph(wx.ScrolledCanvas):
         # Context menu bindings
         self.Bind(wx.EVT_CONTEXT_MENU, self.OnContextMenu)
 
-        self.Bind(wx.EVT_MENU, self.OnDeleteNodes, id=ID_CONTEXTMENU_DELETENODE)
-        self.Bind(wx.EVT_MENU, self.OnEnableDisableNode, id=ID_CONTEXTMENU_ENABLEDISABLENODE)
-        self.Bind(wx.EVT_MENU, self.OnSelectAllNodes, id=ID_CONTEXTMENU_SELECTALLNODES)
-        self.Bind(wx.EVT_MENU, self.OnDeselectAllNodes, id=ID_CONTEXTMENU_DESELECTALLNODES)
-        self.Bind(wx.EVT_MENU, self.OnDuplicateNode, id=ID_CONTEXTMENU_DUPLICATENODE)
+        self._parent.Bind(wx.EVT_MENU, self.OnDeleteNodes, id=ID_CONTEXTMENU_DELETENODE)
+        self._parent.Bind(wx.EVT_MENU, self.OnEnableDisableNode, id=ID_CONTEXTMENU_ENABLEDISABLENODE)
+        self._parent.Bind(wx.EVT_MENU, self.OnSelectAllNodes, id=ID_CONTEXTMENU_SELECTALLNODES)
+        self._parent.Bind(wx.EVT_MENU, self.OnDeselectAllNodes, id=ID_CONTEXTMENU_DESELECTALLNODES)
+        self._parent.Bind(wx.EVT_MENU, self.OnDuplicateNode, id=ID_CONTEXTMENU_DUPLICATENODE)
         
-
+        # Keyboard shortcut bindings
+        self.accel_tbl = wx.AcceleratorTable([(wx.ACCEL_ALT, ord('M'), 
+                                              ID_CONTEXTMENU_ENABLEDISABLENODE),
+                                              (wx.ACCEL_SHIFT, ord('X'), 
+                                              ID_CONTEXTMENU_DELETENODE),
+                                              (wx.ACCEL_SHIFT, ord('D'), 
+                                              ID_CONTEXTMENU_DUPLICATENODE)
+                                             ])
+        self._parent.SetAcceleratorTable(self.accel_tbl)
 
 
     def OnPaint(self, event):
@@ -145,9 +150,10 @@ class NodeGraph(wx.ScrolledCanvas):
     def RefreshGraph(self):
         """ Refreshes the nodegraph so that everything is redrawn. 
         
-        Use after .Draw() calls:
-        >> node.Draw(self._pdc)
-        >> self.RefreshGraph()
+        Use after ``.Draw()`` calls:
+
+            node.Draw(self._pdc)
+            self.RefreshGraph()
         """
         rect = wx.Rect(0, 0, self._maxWidth, self._maxHeight)
         self.RefreshRect(rect, False)
@@ -228,16 +234,26 @@ class NodeGraph(wx.ScrolledCanvas):
             # Do not allow the output node to be 
             # deleted, duplicated or disabled at all.
             if self._activeNode.IsCompositeOutput() != True:
-                contextmenu.Append(ID_CONTEXTMENU_DUPLICATENODE, "Duplicate")
-                contextmenu.Append(ID_CONTEXTMENU_DELETENODE, "Delete")
+                contextmenu.Append(
+                    ID_CONTEXTMENU_DUPLICATENODE, "Duplicate\tShift+D"
+                    )
+                contextmenu.Append(
+                    ID_CONTEXTMENU_DELETENODE, "Delete\tShift+X"
+                    )
                 if self._activeNode.IsDisabled() == True: 
-                   contextmenu.Append(ID_CONTEXTMENU_ENABLEDISABLENODE, "Enable")
+                   contextmenu.Append(
+                       ID_CONTEXTMENU_ENABLEDISABLENODE, "Toggle Mute\tAlt+M"
+                       )
                 else:
-                   contextmenu.Append(ID_CONTEXTMENU_ENABLEDISABLENODE, "Disable")
+                   contextmenu.Append(
+                       ID_CONTEXTMENU_ENABLEDISABLENODE, "Toggle Mute\tAlt+M"
+                       )
                 
         else:
             if self._selectedNodes != []:
-               contextmenu.Append(ID_CONTEXTMENU_DELETENODE, "Delete Selected") 
+               contextmenu.Append(
+                   ID_CONTEXTMENU_DELETENODE, "Delete Selected\tShift+X"
+                   ) 
 
         contextmenu.Append(ID_CONTEXTMENU_SELECTALLNODES, "Select All") 
         contextmenu.Append(ID_CONTEXTMENU_DESELECTALLNODES, "Deselect All")
@@ -246,19 +262,6 @@ class NodeGraph(wx.ScrolledCanvas):
         # will be called before PopupMenu returns.
         self.PopupMenu(contextmenu)
         contextmenu.Destroy()
-
-    # def OnKeyboardEvent(self, event):
-    #     print(dfffnk)
-    #     code = event.GetKeyCode()
-    #     print("code->", code)
-    #     # Delete = Delete node
-    #     if wx.GetKeyState(wx.WXK_SHIFT) == True and wx.GetKeyState(wx.WXK_D) == True:
-    #         self._nodeGraph.DeleteNodes()
-    #         self.Render()
-
-    #     # Shift + D = Duplicate node
-    #     elif code == 68:
-    #         self._nodeGraph.DuplicateNode(self._nodeGraph._activeNode)
 
 
     def OnDeleteNodes(self, event):
@@ -331,6 +334,30 @@ class NodeGraph(wx.ScrolledCanvas):
                         if self._srcPlug.IsOutputType() == True:
                             pnt1 = self._srcNode.GetRect().GetPosition() \
                                     + self._srcPlug.GetPosition()
+                            
+                            self._tmpWire = Wire(
+                                pnt1, 
+                                pnt, 
+                                None, 
+                                None, 
+                                self._srcPlug.GetType()
+                                )
+  
+                    else:
+                        # Do not allow disconnections from the output socket
+                        if self._srcPlug.IsOutputType() != True:
+                            wires = self._srcPlug.GetWires()
+                            dst = wires[0].dstPlug
+                            self._srcPlug = wires[0].srcPlug
+                            dst.Disconnect(self._srcPlug)
+
+                            # Create the temp wire again
+                            pnt = event.GetPosition()
+                            winpnt = self.ConvertCoords(pnt)
+                            pnt1 = self._srcPlug.GetNode().GetRect().GetPosition() \
+                                    + self._srcPlug.GetPosition()
+
+                            # Draw the temp wire with the new values
                             self._tmpWire = Wire(
                                 pnt1, 
                                 pnt, 
@@ -339,14 +366,9 @@ class NodeGraph(wx.ScrolledCanvas):
                                 self._srcPlug.GetType()
                                 )
 
-                    else:
-                        # Do not allow disconnections from the output socket
-                        if self._srcPlug.IsOutputType() != True:
-                            wires = self._srcPlug.GetWires()
-                            dst = wires[0].dstPlug
-                            src = wires[0].srcPlug
-                            dst.Disconnect(src)
-
+                            # Important: we re-assign the source node variable
+                            self._srcNode = self._srcPlug.GetNode()
+                               
             else:
                 # Start the box select bbox
                 self._bboxStart = winpnt
@@ -392,6 +414,7 @@ class NodeGraph(wx.ScrolledCanvas):
         if not event.LeftIsDown() or self._srcNode == None:
             return
 
+        # Move the node
         if self._srcNode.IsDisabled() != True:
             if self._srcPlug == None:
                 dpnt = pnt - self._lastPnt
@@ -404,8 +427,10 @@ class NodeGraph(wx.ScrolledCanvas):
                 if self._srcNode.GetPlugs() != []:
                     for plug in self._srcNode.GetPlugs():
                         for wire in plug.GetWires(): 
-                            pnt1 = wire.srcNode.GetRect().GetPosition() + wire.srcPlug.GetPosition()
-                            pnt2 = wire.dstNode.GetRect().GetPosition() + wire.dstPlug.GetPosition()
+                            pnt1 = wire.srcNode.GetRect().GetPosition() \
+                                    + wire.srcPlug.GetPosition()
+                            pnt2 = wire.dstNode.GetRect().GetPosition() \
+                                    + wire.dstPlug.GetPosition()
                             self.DrawNodeWire(self._pdc, wire, pnt1, pnt2)
 
             elif self._tmpWire != None:
@@ -521,11 +546,6 @@ class NodeGraph(wx.ScrolledCanvas):
         """ Event that resets the cursor. """
         # Reset mouse cursor
         self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
-
-
-
-
-
 
 
     @property
@@ -708,7 +728,12 @@ class NodeGraph(wx.ScrolledCanvas):
         :param node: the ``Node`` object to duplicate
         :returns: the duplicate ``Node`` object
         """
-        duplicate_node = self.AddNode(node.GetIDName(),  _id=wx.ID_ANY, where="CURSOR")
+
+        duplicate_node = self.AddNode(
+            node.GetIDName(),  
+            _id=wx.ID_ANY, 
+            where="CURSOR"
+            )
 
         # Assign the same properties to the duplicate node object
         for prop in node.GetEvaluationData()["properties"]:
