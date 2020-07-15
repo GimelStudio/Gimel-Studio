@@ -295,7 +295,7 @@ class MainApplication(wx.Frame):
         self.openproject_menuitem = wx.MenuItem(
             self.filemenu, 
             ID_MENUITEM_OPENPROJECT, 
-            "Open Project...", 
+            "Open Project... \tCtrl+O", 
             "Open and load a Gimel Studio project file"
             )
         self.filemenu.Append(self.openproject_menuitem)
@@ -303,7 +303,7 @@ class MainApplication(wx.Frame):
         self.saveproject_menuitem = wx.MenuItem(
             self.filemenu, 
             ID_MENUITEM_SAVEPROJECT, 
-            "Save Project...", 
+            "Save Project... \tCtrl+S", 
             "Save the current Gimel Studio project file"
             )
         #self.filemenu.Append(self.saveproject_menuitem)
@@ -311,7 +311,7 @@ class MainApplication(wx.Frame):
         self.saveprojectas_menuitem = wx.MenuItem(
             self.filemenu, 
             ID_MENUITEM_SAVEPROJECTAS, 
-            "Save Project As...", 
+            "Save Project As... \tCtrl+Shift+S", 
             "Save the current project as a Gimel Studio project file"
             )
         self.filemenu.Append(self.saveprojectas_menuitem)
@@ -321,7 +321,7 @@ class MainApplication(wx.Frame):
         self.quit_menuitem = wx.MenuItem(
             self.filemenu, 
             ID_MENUITEM_QUIT, 
-            "Quit", 
+            "Quit \tCtrl+Q", 
             "Quit Gimel Studio"
             )
         self.filemenu.Append(self.quit_menuitem)     
