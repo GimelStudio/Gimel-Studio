@@ -26,6 +26,14 @@ from GimelStudio.meta import  __TITLE__, __DEBUG__
 from GimelStudio.application import MainApplication
 from GimelStudio.program import StartupSplashScreen
 
+# Fix blurry text on Windows 10
+# from https://stackoverflow.com/questions/50884283/how-to-fix-blurry-text-in-wxpython-controls-on-windows
+import ctypes
+try:
+    ctypes.windll.shcore.SetProcessDpiAwareness(True)
+except:
+    pass
+
 
 if __name__ == '__main__':
     # Parse the arguments to see if a file is given, otherwise
