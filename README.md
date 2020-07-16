@@ -3,22 +3,19 @@ Gimel Studio
 
 Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
 
-!["Gimel Studio"](/screenshots/gimel-studio-v0.3.0-pre-release-ui.JPG?raw=true "Gimel Studio")
+!["Gimel Studio"](/screenshots/gimel-studio-v0.3.0.JPG?raw=true "Gimel Studio")
 
 # Introduction
 
-Gimel Studio has a node-based workflow for realtime compositing, manipulating, generating and adding effects to images -complete with a registry of 10+ nodes (currently) and an API allowing users to script their own custom nodes.
+Gimel Studio has a node-based workflow for realtime compositing, manipulating, generating and adding effects to images -complete with a registry of 15+ nodes and an API allowing users to script their own custom nodes in Python.
 
 It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capabilities such as generating normal maps for use in 3D from images.
 
 *Still in BETA stage, but can be considered stable enough for light production work.*
 
-**NOTE: This development version (0.3.x) is in major development at the moment and is very unstable, please use v0.2.0 for any production work!**
-
-
 # News
 
-The v0.3.x major development is almost complete. I plan to release binaries soon. Documentation for the latest API is coming too. This release is a major refactoring of the core code and includes some new features and a re-design of the UI. To help out with latest development, contact me at <correctsyntax@yahoo.com> or submit a Pull Request. Thanks!
+See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases. Documentation for the latest API is a bit behind. To help out with latest development and/or documentation, contact me at <correctsyntax@yahoo.com> or submit a Pull Request. Thanks!
 
 
 # Development 
@@ -27,7 +24,7 @@ The v0.3.x major development is almost complete. I plan to release binaries soon
 
 Pull requests and/or feature suggestions are welcome!
 
-See the [ROADMAP.txt](ROADMAP.txt) and [IDEAS.txt](IDEAS.txt) for a general idea of the possible future goals of the development of Gimel Studio - or, if you are interested in helping out wherever, look throught the code for the ``TODOS``. :)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROADMAP.txt) and [IDEAS.txt](IDEAS.txt) for a general idea of the possible future goals of the development of Gimel Studio.
 
 
 # Features
@@ -36,10 +33,11 @@ See the [ROADMAP.txt](ROADMAP.txt) and [IDEAS.txt](IDEAS.txt) for a general idea
   
   * Written in pure Python with minimal dependancies
   * Support for opening and saving your nodegraph as a GIMEL-STUDIO-PROJECT
-  * 10+ nodes (currently) with a wide range of functionality 
+  * 15+ nodes with a wide range of functionality 
   * Rearrangable and resizable panels for the main UI
   * Drag 'n drop nodes from the Node Registry `(temorarily removed in v0.3.0)`
-  * Node-based workflow (similar to Blender 3D)
+  * Node Graph featuring node deletion, duplication, selection, etc. 
+  * Node-based workflow with (similar to Blender 3D)
   * JPEG, PNG, BMP file types support
   * API for scripting custom nodes
   * Zoomable Image Viewport for viewing renders in real-time
