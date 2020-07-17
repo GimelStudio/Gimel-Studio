@@ -13,7 +13,8 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../../src/'))
-#print(os.path.abspath('../../src/GimelStudio/'), " doc")
+
+import GimelStudio
 
 
 # -- Project information -----------------------------------------------------
@@ -23,7 +24,8 @@ copyright = '2020, Noah Rahm, Correct Syntax'
 author = 'Noah Rahm'
 
 # The full version, including alpha/beta/rc tags
-release = '0.3.0.0'
+release = GimelStudio.__VERSION__
+version = GimelStudio.__VERSION__
 
 
 # -- General configuration ---------------------------------------------------
@@ -57,3 +59,8 @@ html_theme = "sphinx_rtd_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# Logo
+html_favicon = "../../assets/GIMELSTUDIO_ICO.ico"
+html_logo = "../../assets/GIMELSTUDIO_ICO.ico"
+

@@ -41,7 +41,7 @@ First Steps: Input Node Tutorial
 
 This is a tutorial to create a simple, custom Input Node usng the Gimel Studio API. It gives first steps in creating custom nodes and shows some of the core API concepts. The example node we will be creating is a simplified version of the Image Core Node in Gimel Studio and is an easy way to get going creating a custom node (it can be used as a template).
 
-.. figure:: _static/simple_input_node_finished_result.png
+.. figure:: _images/simple_input_node_finished_result.png
     :align: center
 
     The finished custom input node that we'll be scripting.
@@ -309,7 +309,7 @@ Finally, write a ``NodeAuthor`` method which shows the user (in the node registr
 
 We have now defined the custom node's meta information. However, that isn't good enough because if you registered it as-is, it wouldn't actually *do* anything. 
 
-.. figure:: _static/simple_input_node.png
+.. figure:: _images/simple_input_node.png
     :align: center
 
     Our node so far -if you went ahead and registered it.
@@ -402,7 +402,7 @@ Here is the code:
                 self.pathtxtctrl.ChangeValue(paths[0])
 
 
-.. figure:: _static/simple_input_node_properties_ui.png
+.. figure:: _images/simple_input_node_properties_ui.png
     :align: center
 
     Our completed Node Property panel UI
@@ -461,7 +461,7 @@ Finished Result
 
 You can now launch the Gimel Studio Application and you should see the custom node in the *Add Node* menu and/or the Node Registry. Add the node and connect it to the Output node. Click on the simple custom input node and click the browse button in the Node Property panel. It should prompt with a dialog allowing you to choose an image to input.
 
-.. figure:: _static/simple_input_node_finished_result.png
+.. figure:: _images/simple_input_node_finished_result.png
     :align: center
 
     The finished custom input node.
