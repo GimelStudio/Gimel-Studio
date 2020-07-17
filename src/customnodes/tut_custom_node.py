@@ -12,11 +12,11 @@ class NodeDefinition(NodeBase):
     
     @property
     def NodeIDName(self):
-        return "example_custom_node"
+        return "simple_input_node"
 
     @property
     def NodeLabel(self):
-        return "Example Custom Node"
+        return "Simple Input"
 
     @property
     def NodeCategory(self):
