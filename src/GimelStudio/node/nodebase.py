@@ -129,18 +129,29 @@ class NodeBase(object):
         """ The category of the node. This can be one of the 
         following category values (in all uppercase):
 
-        Category | Hex Value | Color Name
-
-        | "INPUT": "#975B5B", # Burgendy
-        | "DRAW": "#AF4467", # Pink
-        | "CONVERT": "#564B7C", # Purple
-        | "VALUE": "#CC783D", # Orange
-        | "FILTER": "#558333", # Green
-        | "BLEND": "#498DB8", # Light blue
-        | "COLOR": "#C2AF3A", # Yellow
-        | "DISTORT": "#6B8B8B", # Blue-Grey
-        | "OUTPUT": "#B33641", # Red
-        | "DEFAULT": "#975B5B" # Burgendy
+        +------------+-----------+---------------+-------------------------------------------------------------+
+        | Category   | Hex Value | Color Name    | Descriptions of Nodes that Fit in Category                  |
+        +============+===========+===============+=============================================================+
+        | "INPUT"    | "#975B5B" | Burgendy      | Inputs an image (e.g: image, blank image, gradient)         |
+        +------------+-----------+---------------+-------------------------------------------------------------+
+        | "DRAW"     | "#AF4467" | Pink          | Draws something on the image (e.g: add-text, drawing)       |
+        +------------+-----------+---------------+-------------------------------------------------------------+
+        | "CONVERT"  | "#564B7C" | Purple        | Converts one type of image to another (e.g: normal-map)     |
+        +------------+-----------+---------------+-------------------------------------------------------------+
+        | "VALUE"    | "#CC783D" | Orange        | Inputs a value (e.g: integer, color)                        |
+        +------------+-----------+---------------+-------------------------------------------------------------+
+        | "FILTER"   | "#558333" | Green         | Filters the image  (e.g: blur, sharpness, sepia)            |
+        +------------+-----------+---------------+-------------------------------------------------------------+
+        | "BLEND"    | "#498DB8" | Light blue    | Blends/mixes 2+ images together (e.g: alpha composite)      |
+        +------------+-----------+---------------+-------------------------------------------------------------+
+        | "COLOR"    | "#C2AF3A" | Yellow        | Adjusts colors of the image (e.g: color-balance, constrast) |
+        +------------+-----------+---------------+-------------------------------------------------------------+
+        | "DISTORT"  | "#6B8B8B" | Blue-Grey     | Manipulates rotation, angle, etc of the image (e.g: rotate) |
+        +------------+-----------+---------------+-------------------------------------------------------------+
+        | "OUTPUT"   | "#B33641" | Red           | (For internal use only)                                     |
+        +------------+-----------+---------------+-------------------------------------------------------------+
+        | "DEFAULT"  | "#975B5B" | Burgendy      | (For uncategorized nodes)                                   |
+        +------------+-----------+---------------+-------------------------------------------------------------+
 
         :returns: a string
         """
@@ -151,9 +162,11 @@ class NodeBase(object):
         """ The type of data the node outputs. This can be one of the 
         following data types:
 
-        Data type | Description
-
-        | "RENDERIMAGE": will output a ``RenderImage`` object instance
+        +----------------+------------------------------------------------------+
+        | Data type      | Description                                          |
+        +================+======================================================+
+        | "RENDERIMAGE"  | Will output a ``RenderImage`` object instance        |
+        +----------------+------------------------------------------------------+
 
         :returns: a string
         """

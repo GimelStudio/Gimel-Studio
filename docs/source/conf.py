@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../../src/'))
 # -- Project information -----------------------------------------------------
 
 project = 'Gimel Studio'
-copyright = '2020, Noah Rahm'
+copyright = '2020, Noah Rahm, Correct Syntax'
 author = 'Noah Rahm'
 
 # The full version, including alpha/beta/rc tags

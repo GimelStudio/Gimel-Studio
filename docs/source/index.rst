@@ -6,13 +6,13 @@
 Welcome to Gimel Studio's documentation!
 ========================================
 
-Gimel Studio is a Non-Destructive, Node-Based Graphics Editing Software with realtime composite rendering. 
+Gimel Studio is a Non-Destructive, Node-Based Graphics Editing Software with realtime composite rendering and an API to script your own custom nodes in Python. 
 
-Edit graphics in a non-destructive workflow using different nodes and view the rendered image in realtime. Edit image textures and convert to maps for use in 3D using special nodes from the node registry. Using the Gimel Studio API you can also script your own custom nodes in Python.
+Edit graphics in a non-destructive workflow using different nodes and view the rendered image in realtime. Edit image textures and convert to maps for use in 3D using special nodes from the node registry. 
 
-.. warning::
+.. note::
 
-    GIMEL STUDIO IS CURRENTLY IN BETA AND IS NOT FULLY STABLE. NOT ALL FEATURES ARE IMPLEMENTED SO THE API AND/OR USAGE MAY CHANGE AT ANY TIME.
+    GIMEL STUDIO IS CURRENTLY IN BETA AND IS NOT FULLY STABLE. NOT ALL FEATURES ARE IMPLEMENTED SO THE API AND/OR USAGE MAY CHANGE.
 
 
 .. toctree::
@@ -23,7 +23,6 @@ Edit graphics in a non-destructive workflow using different nodes and view the r
    api
    reference/index.rst
    releasenotes/index.rst
-
 
 
 

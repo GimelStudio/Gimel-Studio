@@ -30,18 +30,21 @@ class List(object):
 
     def GetItems(self):
         """ Return all of the items.
+
         :returns: list
         """
         return self.items
 
     def GetDefault(self):
-        """ Get the default value of this List. 
+        """ Get the default value of this List.
+
         :returns: the default value (string, int, etc)
         """
         return self.default
 
     def SetAsValue(self, item):
-        """ Set the default value of this List. 
+        """ Set the default value of this List.
+
         :param item: the item to set as the default
         """
         self.value = item
@@ -53,12 +56,24 @@ class RenderImage(object):
         self.img = Image.new(mode, (size[0], size[1]), color)
 
     def GetImage(self):
+        """ Returns the image.
+
+        :returns: PIL ``Image`` object
+        """
         return self.img
 
     def SetAsOpenedImage(self, path):
+        """ Sets the image and opens it.
+
+        :param path: image filepath to be opened
+        """
         self.img = Image.open(path)
 
     def SetAsImage(self, image):
+        """ Sets the image.
+
+        :param image: PIL ``Image`` object
+        """
         self.img = image
         
 # UNUSED?        
