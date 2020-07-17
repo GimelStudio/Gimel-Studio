@@ -24,8 +24,7 @@ import PIL
 import wx
 from wx.lib.wordwrap import wordwrap
 
-from GimelStudio.meta import (__NAME__, __AUTHOR__, __VERSION__,
-                              __BUILD__, __RELEASE__, __TITLE__)
+from GimelStudio.meta import (__NAME__, __AUTHOR__, __VERSION__, __TITLE__)
 
 
 class AboutGimelStudioDialog(object):
@@ -35,8 +34,6 @@ class AboutGimelStudioDialog(object):
         self._title = __TITLE__
         self._author = __AUTHOR__
         self._version = __VERSION__
-        self._build = __BUILD__
-        self._release = __RELEASE__
         self._pillowVersion = PIL.__version__
         self._wxPythonVersion = wx.VERSION_STRING
         self._pythonVersion = sys.version.split()[0]
@@ -44,7 +41,7 @@ class AboutGimelStudioDialog(object):
     def ShowDialog(self):
         info = wx.adv.AboutDialogInfo()
         info.SetName(self._name)
-        info.SetVersion("v{0}.{1}".format(self._version, self._release))
+        info.SetVersion("v{0}".format(self._version))
         info.SetCopyright("© 2020 {}. All rights reserved.".format(self._author))
         info.SetDescription(
             wordwrap(

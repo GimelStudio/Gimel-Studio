@@ -26,8 +26,7 @@ import json
 import wx
 
 from GimelStudio.meta import (__NAME__, __AUTHOR__, __VERSION__,
-                              __BUILD__, __RELEASE__, __DEBUG__,
-                              __TITLE__)
+                              __DEBUG__, __TITLE__)
 
 DEFAULT_PROJECT = {
     "nodes": {
@@ -46,7 +45,7 @@ DEFAULT_PROJECT = {
         },
     "meta": {
         "content": "Gimel Studio project file",
-        "version": "{}.{}".format(__VERSION__, __RELEASE__)
+        "version": __VERSION__,
         },
     "ui": {
         }
@@ -54,11 +53,10 @@ DEFAULT_PROJECT = {
 
 
 class GimelStudioProject(object):
-    def __init__(self, parent, version, build, release):
+    def __init__(self, parent):
         self._parent = parent
-        self._version = version
-        self._build = build
-        self._release = release
+        self._version = __VERSION__
+
         #self._nodes = {}
         #self._projectData = {}
 

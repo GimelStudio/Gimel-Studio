@@ -24,8 +24,7 @@ import wx
 import wx.lib.agw.aui as aui
 
 from GimelStudio.meta import (__NAME__, __AUTHOR__, __VERSION__,
-                              __BUILD__, __RELEASE__, __DEBUG__,
-                              __TITLE__)
+                              __DEBUG__, __TITLE__)
 
 from GimelStudio.project import GimelStudioProject
 from GimelStudio.renderer import Renderer
@@ -64,15 +63,8 @@ class MainApplication(wx.Frame):
         self.SetIcon(ICON_GIMELSTUDIO_ICO.GetIcon())
 
         # Init project, renderer and user preferences manager
-        self._project = GimelStudioProject(
-            self,
-            __VERSION__,
-            __BUILD__,
-            __RELEASE__
-            )
-        self._renderer = Renderer(
-            self
-            )
+        self._project = GimelStudioProject(self)
+        self._renderer = Renderer(self)
         # self._userprefmanager = UserPreferencesManager(
         #     self
         #     )
