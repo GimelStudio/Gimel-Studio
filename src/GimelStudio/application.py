@@ -319,7 +319,7 @@ class MainApplication(wx.Frame):
         self.filemenu.Append(self.quit_menuitem)     
 
         self.mainmenubar.Append(self.filemenu, "File")
-
+ 
 
         # View menu
         self.viewmenu = wx.Menu()
@@ -389,35 +389,6 @@ class MainApplication(wx.Frame):
     def OnGimelStudioLicenseDialog(self, event):
         dialog = GimelStudioLicenseDialog(self)
         dialog.ShowDialog()
-
-    def OnExportImage(self, event):
-        wildcard = "JPG file (*.jpg)|*.jpg|" \
-                   "PNG file (*.png)|*.png|" \
-                   "All files (*.*)|*.*"
-
-        image = self._renderer.GetRenderedImage()
-
-        dlg = wx.FileDialog(
-            self, 
-            message="Export rendered image as...", 
-            defaultDir=os.getcwd(),
-            defaultFile="image.png", 
-            wildcard=wildcard, 
-            style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
-            )
-
-        # This sets the default filter that the user will initially see. 
-        # Otherwise, the first filter in the list will be used by default.
-        dlg.SetFilterIndex(2)
-
-        if dlg.ShowModal() == wx.ID_OK:
-            busy = wx.BusyInfo("Exporting Image...")
-            path = dlg.GetPath()
-            image.save(path)
-            #self.statusbar.SetStatusText("Image saved as: {}".format(path))
-            
-        dlg.Destroy()
-        del busy
 
     def OnRenderImage(self, event):
         self.Render()
