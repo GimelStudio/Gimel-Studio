@@ -184,7 +184,13 @@ class ImageExportPnl(wx.Panel):
                 )
             
         dlg.Destroy()
-        #del busy
+
+        notify = wx.adv.NotificationMessage(
+            title="Image Exported Sucessfully",
+            message="Your image was exported to \n {}".format(path),
+            parent=None, flags=wx.ICON_INFORMATION)
+        notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
+
 
     @property
     def ExportOptionsPanel(self):
