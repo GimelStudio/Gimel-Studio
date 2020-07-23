@@ -30,6 +30,7 @@ from GimelStudio.project import GimelStudioProject
 from GimelStudio.renderer import Renderer
 from GimelStudio.program import (ProgramUpdateChecker, AboutGimelStudioDialog,
                                 GimelStudioLicenseDialog)
+from GimelStudio.user_preferences import UserPreferencesManager
 from GimelStudio.node_registry import NodeRegistry
 from GimelStudio.node_graph import NodeGraph, NodeGraphDropTarget
 from GimelStudio.node_property_panel import NodePropertyPanel
@@ -65,13 +66,14 @@ class MainApplication(wx.Frame):
         # Init project, renderer and user preferences manager
         self._project = GimelStudioProject(self)
         self._renderer = Renderer(self)
-        # self._userprefmanager = UserPreferencesManager(
-        #     self
-        #     )
+        self._userprefmanager = UserPreferencesManager(
+            self
+            )
 
         # Load the user preferences from the .json file
         # otherwise use the default, built-in preferences.
-        #self._userprefmanager.Load()
+        self._userprefmanager.Load()
+        #self._userprefmanager.Save()
 
         # Setup the AUI window manager and configure settings so
         # that we get the light white theme that we want instead
@@ -95,27 +97,27 @@ class MainApplication(wx.Frame):
             )
         self._mgr.GetArtProvider().SetColour(
             aui.AUI_DOCKART_BACKGROUND_COLOUR, 
-            wx.Colour(STYLE_APPLICATION_BG)
+            wx.Colour(self.Theme["app_bg"])
             )
         self._mgr.GetArtProvider().SetColour(
             aui.AUI_DOCKART_INACTIVE_CAPTION_COLOUR, 
-            wx.Colour(STYLE_DOCK_PANEL_BG)
+            wx.Colour(self.Theme["dock_pnl_bg"])
             )
         self._mgr.GetArtProvider().SetColour(
             aui.AUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR, 
-            wx.Colour(STYLE_DOCK_PANEL_CAPTION_TEXT_FG)
+            wx.Colour(self.Theme["dock_pnl_caption_txt"])
             )
         self._mgr.GetArtProvider().SetColour(
             aui.AUI_DOCKART_BORDER_COLOUR, 
-            wx.Colour(STYLE_DOCK_PANEL_BG)
+            wx.Colour(self.Theme["dock_pnl_bg"])
             )
         self._mgr.GetArtProvider().SetColour(
             aui.AUI_DOCKART_SASH_COLOUR, 
-            wx.Colour(STYLE_APPLICATION_BG)
+            wx.Colour(self.Theme["app_bg"])
             )
         self._mgr.GetArtProvider().SetColour(
             aui.AUI_DOCKART_GRIPPER_COLOUR, 
-            wx.Colour(STYLE_APPLICATION_BG)
+            wx.Colour(self.Theme["app_bg"])
             )
 
         # Init the panes
@@ -236,6 +238,11 @@ class MainApplication(wx.Frame):
     def GetUserPrefManager(self):
         return self._userprefmanager
 
+    @property
+    def Theme(self):
+        """ Get the active UI theme. """
+        return self._userprefmanager.GetTheme()
+
     def GetImageViewport(self):
         return self._imageViewport
 
@@ -248,9 +255,7 @@ class MainApplication(wx.Frame):
     def GetNodeRegistry(self): 
         return self._nodeRegistry
 
-
     def _SetupDefaultNodes(self):
-
         # Calculate center of Node Graph view
         rect = self._nodeGraph.GetSize()
 
