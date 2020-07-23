@@ -21,35 +21,19 @@
 
 # VERY WORK IN PROGRESS!!!
 
-
+import io
+import pickle
+import os.path
 import json
+
 import wx
+
+from PIL import Image
+import numpy as np
 
 from GimelStudio.meta import (__NAME__, __AUTHOR__, __VERSION__,
                               __DEBUG__, __TITLE__)
 
-DEFAULT_PROJECT = {
-    "nodes": {
-        "-31962": {
-            "evaldata": {"bind": "-31956"},
-            "position": [915, 222],
-            "name": "corenode_outputcomposite",
-            "disabled": False
-            },
-        "-31956": {
-            "evaldata": {"parameters": [], "properties": [{"name": "Path", "value": ""}]},
-            "position": [563, 205],
-            "name": "corenode_image",
-            "disabled": False
-            }
-        },
-    "meta": {
-        "content": "Gimel Studio project file",
-        "version": __VERSION__,
-        },
-    "ui": {
-        }
-    }
 
 
 class GimelStudioProject(object):
@@ -60,28 +44,25 @@ class GimelStudioProject(object):
         #self._nodes = {}
         #self._projectData = {}
 
-
-    def LoadDefaultProjectFile(self):
-        """ Load the default project file. """
-        print("UNUSED!!")
-        # node_data = DEFAULT_PROJECT["nodes"]
-        # meta_data = DEFAULT_PROJECT["meta"]
-        # ui_data = DEFAULT_PROJECT["ui"]
-
-        # self._CreateNodes(node_data)
-        #self._CreateUI(ui_data)
-
     def OpenProjectFile(self, path):
         """ Opens a Gimel Studio Project file at the given path. """
-        with open(path, "r") as project_file:
-            project_data = json.load(project_file)
+        # with open(path, "r") as project_file:
+        #     project_data = json.load(project_file)
+
+        with open(path, 'rb') as project_file:
+            project_data = pickle.load(project_file)
         
         node_data = project_data["nodes"]
         meta_data = project_data["meta"]
-        ui_data = project_data["ui"]
+        #ui_data = project_data["ui"]
         
-        self._CreateUI(ui_data)
-        self._CreateNodes(node_data)
+        if meta_data["application_version"] == "0.4.0":
+
+            #self._CreateUI(ui_data)
+            self._CreateNodes(node_data)
+
+        else:
+            print("Files earlier than v0.4.0")
         
         #self._parent.Render()
 
@@ -91,74 +72,92 @@ class GimelStudioProject(object):
 
         node_data = self._GetNodeData()
         meta_data = self._GetMetaData()
-        ui_data = self._GetUIData()
+        #ui_data = self._GetUIData()
 
         #print(meta_data, node_data, layout_data)
 
         project_data["nodes"] = node_data
         project_data["meta"] = meta_data
-        project_data["ui"] = ui_data
+        #project_data["ui"] = ui_data
 
         #print(project_data)
 
-        with open(path, "w") as project_file:
-            json.dump(project_data, project_file)  
+        # with open(path, "w") as project_file:
+        #     json.dump(project_data, project_file)  
+
+        with open(path, 'wb') as project_file:
+            pickle.dump(project_data, project_file, pickle.DEFAULT_PROTOCOL)
 
 
     def _GetNodeData(self):   
         node_data = {}
-        for nodeId in self._parent._nodeGraph.GetNodes():
-            #print(nodeId)
-            node = self._parent._nodeGraph._nodes[nodeId]
 
-            #print(node._evaluationData)
+        for node_id in self._parent._nodeGraph.GetNodes():
+            node = self._parent._nodeGraph._nodes[node_id]
+            node_id = str(node_id)
 
-            node_data[str(nodeId)] = {
+            node_data[node_id] = {
                 "evaldata": node.GetEvaluationData(),
                 "position": [node.GetRect()[0], node.GetRect()[1]],
                 "name": node.GetIDName(),
-                #"active": node.IsActive(),
-                #"selected": node.IsSelected(),
+                "active": node.IsActive(),
+                "selected": node.IsSelected(),
                 "disabled": node.IsDisabled(),
             }
+
+            # Check if the node supports packing 
+            # images into the file.
+            if node.GetSupportsImagePacking() == True:
+
+                # Convert the image to a numpy array before
+                # packing into the file.
+                img_data = np.asarray(node.GetPackedImageData())
+                node_data[node_id]["packed_data"] = img_data
+                node_data[node_id]["supports_packing"] = True
+
+            else:
+                node_data[node_id]["supports_packing"] = False
 
         return node_data
 
     def _GetMetaData(self):
         meta_data = {}
-        meta_data["content"] = "Gimel Studio Project file"
-        meta_data["version"] = self._version
-        meta_data["build"] = self._build
-        meta_data["release"] = self._release
+        meta_data["file_content"] = "Gimel Studio Project file"
+        meta_data["application_version"] = self._version
 
         return meta_data
 
-    def _GetUIData(self):
-        ui_data = {}
-        ui_data["perspective"] = str(self._parent._mgr.SavePerspective())
+    # def _GetUIData(self):
+    #     ui_data = {}
+    #     ui_data["perspective"] = str(self._parent._mgr.SavePerspective())
 
-        return ui_data
+    #     return ui_data
 
  
     def _CreateNodes(self, node_data):
 
+        # Reset node graph
         self._parent._nodeGraph.ResetToDefault()
-        # Should a new ID be assigned to the nodes?
  
+        # Create the nodes
         nodes = self._parent._nodeGraph.GetNodes()
-        #print(nodes, '<<<--NODES')
-        for nodeId in node_data:
-            nd = node_data[nodeId]
+        #print(node_data)
+        for node_id in node_data:
+            nd = node_data[node_id]
 
             node = self._parent._nodeGraph.AddNode(
                 nd["name"],  
-                int(nodeId),
+                int(node_id),
                 wx.Point(nd["position"][0], nd["position"][1])
                 )
             node.SetData(nd["evaldata"])
-            #print(node._evalData, '<<<<<<<<<<')
 
-            # print(nodeId,  ' ID', nd["name"])
+            if node.GetSupportsImagePacking() == True:
+
+                img = Image.fromarray(nd["packed_data"])
+                node.UpdatePackedImageData(img)
+            else:
+                pass
 
             # if nd["selected"] == True:
             #     node.SetSelected(True)
@@ -175,6 +174,8 @@ class GimelStudioProject(object):
             # else: 
             #     node.SetDisabled(False)
 
+
+        # Connect the nodes
         nodes = self._parent._nodeGraph.GetNodes()
         #print(nodes, '<<<--NODES')
         for nodeId in nodes:
@@ -192,6 +193,7 @@ class GimelStudioProject(object):
                     node1.FindPlug('Output').Connect(node2.FindPlug('Image'), render=False)
                     #self._parent.nodegraph.RefreshGraph()
 
+
             # We need these redraws here (even though we draw again later)
             # otherwise one node seems to not be drawn on file open.
             #nodes[nodeId].Draw(self._parent.nodegraph.GetPDC())
@@ -201,7 +203,7 @@ class GimelStudioProject(object):
             #         wire.Draw(self._parent.nodegraph.GetPDC())
          
         self._parent._nodeGraph.UpdateAllNodes()
-        self._parent._nodeGraph.RefreshGraph()
+        #self._parent._nodeGraph.RefreshGraph()
         self._parent._nodeGraph._parent.Render()
 
 
