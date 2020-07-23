@@ -40,6 +40,10 @@ class Plug(object):
         self._dataType = datatype
         self._wires = []
 
+    @property
+    def Theme(self):
+        return self.GetNode().Theme
+
     def GetId(self):
         return self._id
 
@@ -91,7 +95,7 @@ class Plug(object):
         final = self.GetPosition() + self.GetNode().GetRect().GetPosition()
          
         # Set color
-        dc.SetPen(wx.Pen(wx.Colour(STYLE_NODE_PLUG_BORDER), 2))
+        dc.SetPen(wx.Pen(wx.Colour(self.Theme["node_plug_border"]), 2))
 
         datatype = self.GetDataType()
         if datatype == "RENDERIMAGE":
@@ -135,7 +139,7 @@ class Plug(object):
 
         pt1 = self.GetNode().GetRect().GetPosition() + self.GetPosition()
         pt2 = dst_plug.GetNode().GetRect().GetPosition() + dst_plug.GetPosition()
-        wire = Wire(pt1, pt2, self, dst_plug, self.GetType())
+        wire = Wire(self, pt1, pt2, self, dst_plug, self.GetType())
         wire.srcNode = self.GetNode()
         wire.dstNode = dst_plug.GetNode()
         wire.srcPlug = self

@@ -24,13 +24,12 @@
 
 import wx
 
-from GimelStudio.stylesheet import *
-
 
 class Wire(object):
     """ Wire for connecting nodes. """
-    def __init__(self, pnt1, pnt2, srcplug, dstplug, dir_, 
+    def __init__(self, parent, pnt1, pnt2, srcplug, dstplug, dir_, 
         isactive=False, curvature=0, drawshadow=False):
+        self._parent = parent
         self._pnt1 = pnt1
         self._pnt2 = pnt2
         self._id = wx.NewIdRef()
@@ -40,6 +39,10 @@ class Wire(object):
         self._isActive = isactive
         self._curvature = curvature
         self._drawShadow = drawshadow # FIXME
+
+    @property
+    def Theme(self):
+        return self._parent.Theme
 
     def GetPoint1(self):
         return self._pnt1
@@ -121,9 +124,9 @@ class Wire(object):
             pnts.append(self._pnt2)
 
             if self.IsActive() == True:
-                dc.SetPen(wx.Pen('#ECECEC', 2))
+                dc.SetPen(wx.Pen(self.Theme["node_wire_active"], 3))
             else:
-                dc.SetPen(wx.Pen('#C1C1C1', 2))
+                dc.SetPen(wx.Pen(self.Theme["node_wire_normal"], 3))
             dc.DrawSpline(pnts)
 
             # Draw shadow
@@ -140,9 +143,9 @@ class Wire(object):
         else:
             # Draw wire
             if self.IsActive() == True:
-                dc.SetPen(wx.Pen(wx.Colour(STYLE_NODE_WIRE_ACTIVE), 3))
+                dc.SetPen(wx.Pen(wx.Colour(self.Theme["node_wire_active"]), 3))
             else:
-                dc.SetPen(wx.Pen(wx.Colour(STYLE_NODE_WIRE_NORMAL), 3))
+                dc.SetPen(wx.Pen(wx.Colour(self.Theme["node_wire_normal"]), 3))
             dc.DrawLine(self._pnt1[0], self._pnt1[1], self._pnt2[0], self._pnt2[1])
 
             # Draw shadow
