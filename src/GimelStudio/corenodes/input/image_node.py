@@ -44,8 +44,12 @@ class NodeDefinition(NodeBase):
         return "Inputs an image from the specified file path." 
 
     @property
+    def NodeSupportsImagePacking(self):
+        return True
+
+    @property
     def NodeVersion(self):
-        return "2.2" 
+        return "2.5" 
 
     @property
     def NodeAuthor(self):
@@ -60,7 +64,7 @@ class NodeDefinition(NodeBase):
                 ),
         ]
 
-
+ 
     def NodePropertiesUI(self, node, parent, sizer):
         self.parent = parent
 
@@ -143,7 +147,7 @@ class NodeDefinition(NodeBase):
             self.NodeSetThumb(img, force_redraw=True) 
             self.infolabel = info_string
         except FileNotFoundError:
-            self.infolabel = 'IMAGE COULD NOT BE FOUND!'
+            self.infolabel = 'FILE NOT FOUND AT THAT LOCATION!\nUSING PACKED IMAGE'
 
 
     def GetInfoLabel(self):
@@ -152,7 +156,7 @@ class NodeDefinition(NodeBase):
 
     def NodeEvaluation(self, eval_info):
         path = eval_info.EvaluateProperty('Path')
-        image = RenderImage()
+        image = RenderImage(packed_data=self.Node.GetPackedImageData())
 
         if path != '':
             try:
@@ -160,8 +164,9 @@ class NodeDefinition(NodeBase):
                 image.SetAsImage(image.GetImage().convert('RGBA'))
             except FileNotFoundError:
                 pass
-
+ 
         self.NodeSetThumb(image.GetImage())
+        self.NodeSetPackedImageData(image.GetImage())
         return image 
 
 

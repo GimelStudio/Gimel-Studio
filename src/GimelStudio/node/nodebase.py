@@ -26,6 +26,7 @@ class NodeBase(object):
         self._version = self.NodeVersion
         self._description = self.NodeDescription
         self._isDepreciated = self.NodeIsDepreciated
+        self._supportsImagePacking = self.NodeSupportsImagePacking
  
         # Node Attributes
         self._IDName = self.NodeIDName
@@ -93,6 +94,15 @@ class NodeBase(object):
         """ UNUSED!!!!
         Whether this node is being depreciated or removed from 
         the Node Registry soon.
+
+        :returns: a boolean value of True or False
+        """
+        return False
+
+    @property
+    def NodeSupportsImagePacking(self):
+        """ Whether this node supports packing image files from
+        this node to a gimel-studio-project.
 
         :returns: a boolean value of True or False
         """
@@ -248,7 +258,16 @@ class NodeBase(object):
         if force_redraw == True:
             self.Node.Draw(self.Node.GetParent().GetPDC(), use_cache=False)
             self.Node.GetParent().RefreshGraph()
-        
+
+    def NodeSetPackedImageData(self, image):
+        """ Set the packed image data for this node which will be saved
+        in gimel-studio-project files.
+
+        See also ``NodeSupportsImagePacking``
+
+        :param image: ``PIL Image`` object
+        """
+        self.Node.UpdatePackedImageData(image)
 
     def NodeGetPropValue(self, name):
         """ Get the current value of this node's property.

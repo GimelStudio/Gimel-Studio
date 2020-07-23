@@ -52,29 +52,37 @@ class List(object):
 
 class RenderImage(object):
     """ Represents an image data type for the renderer. """
-    def __init__(self, mode='RGBA', size=(256, 256), color=(0, 0, 0, 1)):
-        self.img = Image.new(mode, (size[0], size[1]), color)
+    def __init__(self, mode='RGBA', size=(256, 256), color=(0, 0, 0, 1), packed_data=None):
+        self._img = Image.new(mode, (size[0], size[1]), color)
+        self._packedData = packed_data
 
     def GetImage(self):
         """ Returns the image.
 
         :returns: PIL ``Image`` object
         """
-        return self.img
+        return self._img
 
     def SetAsOpenedImage(self, path):
-        """ Sets the image and opens it.
+        """ Sets the image and opens it. If the image is non-existent,
+        it will try to get packed data from the file, if possible.
 
         :param path: image filepath to be opened
         """
-        self.img = Image.open(path)
+        try:
+            self._img = Image.open(path)
+        except FileNotFoundError:
+            if self._packedData != None:
+                self._img = self._packedData
+            else:
+                print("WARNING: COULD NOT GET PACKED IMAGE DATA!")
 
     def SetAsImage(self, image):
         """ Sets the image.
 
         :param image: PIL ``Image`` object
         """
-        self.img = image
+        self._img = image
         
 # UNUSED?        
 class Color(object):
