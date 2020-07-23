@@ -47,6 +47,8 @@ class Node(object):
         self._label = nodedef.NodeLabel
         self._category = nodedef.NodeCategory
         self._outputType  = nodedef.NodeOutputType
+        self._supportsImagePacking = nodedef.NodeSupportsImagePacking
+        self._packedImageData = {}
         self._properties = self._GetInitProperties()
         self._parameters = self._GetInitParameters()
         self._propertiesUI = nodedef.NodePropertiesUI
@@ -226,6 +228,15 @@ class Node(object):
         :returns: string
         """
         return self._outputType
+
+    def GetSupportsImagePacking(self):
+        return self._supportsImagePacking
+
+    def UpdatePackedImageData(self, image):
+        self._packedImageData = image
+
+    def GetPackedImageData(self):
+        return self._packedImageData
 
     def GetProperties(self):
         return self._properties
@@ -559,7 +570,7 @@ class Node(object):
                 if propertyname == self.GetEvaluationData()["properties"][i]['name']:
                     self.GetEvaluationData()["properties"][i]['value'] = propertyvalue
 
-            print('PROPERTY DATA NODES:', self.GetEvaluationData())
+            #print('PROPERTY DATA NODES:', self.GetEvaluationData())
  
 
     def MakeConnection(self, plug1, plug2, render=True):
@@ -599,9 +610,25 @@ class Node(object):
 
 
     def RenderNodeGraph(self):
+        """ Render the Node Graph. """
         self._parent._parent.Render()
 
 
+    def UpdateThumbCache(self):
+        thumb = self.GetThumbImage().copy()
+        thumb.thumbnail((round((self.GetRect()[2]-10)/1.1), thumb.size[1]))
+        self.SetThumbCache(thumb)
+        return thumb
+
+    @property
+    def Theme(self):
+        """ Gets the active UI theme. 
+
+        :returns: theme dict
+        """
+        return self._parent.Theme
+
+ 
     def Draw(self, dc, use_cache=True):
         """ Draws the node on a wx.DC.
         :param dc: wx.DC on which to draw the node
@@ -622,16 +649,11 @@ class Node(object):
                 else:
                     # Create the thumbnail if this is the
                     # first time the node has been toggled
-                    # TODO: This is repeating code
-                    thumb = self.GetThumbImage().copy()
-                    thumb.thumbnail((round((self.GetRect()[2]-10)/1.1), thumb.size[1]))
-                    self.SetThumbCache(thumb) 
+                    thumb = self.UpdateThumbCache()
             else:
                 # Make a copy of the image so that we do not edit
                 # the original with the 'thumbnail' function.
-                thumb = self.GetThumbImage().copy()
-                thumb.thumbnail((round((self.GetRect()[2]-10)/1.1), thumb.size[1]))
-                self.SetThumbCache(thumb)
+                thumb = self.UpdateThumbCache()
                 
             # Update the node height
             self.UpdateNodeHeight(thumb.size[1])
@@ -645,16 +667,16 @@ class Node(object):
 
         # Active/Unactive node
         if self.IsActive() == True:
-            dc.SetPen(wx.Pen(wx.Colour(STYLE_NODE_BORDER_ACTIVE), 2))
-            dc.SetBrush(wx.Brush(wx.Colour(STYLE_NODE_BACKGROUND_ACTIVE), wx.SOLID))
+            dc.SetPen(wx.Pen(wx.Colour(self.Theme["node_border_active"]), 2))
+            dc.SetBrush(wx.Brush(wx.Colour(self.Theme["node_bg_active"]), wx.SOLID))
         elif self.IsActive() == False:
             # Select/Deselect node
             if self.IsSelected() == True:
-                dc.SetPen(wx.Pen(wx.Colour(STYLE_NODE_BORDER_SELECTED), 2))
-                dc.SetBrush(wx.Brush(wx.Colour(STYLE_NODE_BACKGROUND_SELECTED), wx.SOLID))
+                dc.SetPen(wx.Pen(wx.Colour(self.Theme["node_border_selected"]), 2))
+                dc.SetBrush(wx.Brush(wx.Colour(self.Theme["node_bg_selected"]), wx.SOLID))
             elif self.IsSelected() == False:
-                dc.SetPen(wx.Pen(STYLE_NODE_BORDER_NORMAL, 2))
-                dc.SetBrush(wx.Brush(wx.Colour(STYLE_NODE_BACKGROUND_NORMAL), wx.SOLID))
+                dc.SetPen(wx.Pen(self.Theme["node_border_normal"], 2))
+                dc.SetBrush(wx.Brush(wx.Colour(self.Theme["node_bg_normal"]), wx.SOLID))
 
         # Draw main body of the node
         dc.DrawRoundedRectangle(x, y, w, h, 2)
@@ -663,13 +685,13 @@ class Node(object):
         if self.IsActive() == True or self.IsSelected() == True:
             color = wx.Colour(self.GetNodeColor())
         else:
-            color = wx.Colour(self.GetNodeColor()).ChangeLightness(115)
+            color = wx.Colour(self.GetNodeColor()).ChangeLightness(105)
 
         dc.SetBrush(wx.Brush(color, wx.SOLID))
         dc.DrawRoundedRectangle(x+1, y+1, w-2, 24, 1)
 
         # Draw plugs
-        dc.SetTextForeground(wx.Colour('#414141'))
+        dc.SetTextForeground(wx.Colour(self.Theme["node_plug_labels"]))
         for plug in self._plugs:
             plug.Draw(dc)
 
@@ -677,7 +699,7 @@ class Node(object):
         dc.DrawBitmap(self.GetToggleIcon(), x+136, y+3, True)
 
         # Draw node text
-        dc.SetTextForeground(wx.Colour('white'))
+        dc.SetTextForeground(wx.Colour('#FFFFFF'))
         dc.DrawText(TruncateText(self.GetLabel()), x+6, y+3)
 
         # Draw thumbnail
@@ -699,7 +721,7 @@ class Node(object):
                 )
 
             # Draw thumbnail border
-            dc.SetPen(wx.Pen(wx.Colour(STYLE_NODE_BORDER_NORMAL)))
+            dc.SetPen(wx.Pen(wx.Colour(self.Theme["node_border_normal"])))
             dc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 0), wx.TRANSPARENT))
             dc.DrawRectangle(
                 x+((w-thumbnail_width)/2),

@@ -118,14 +118,21 @@ class NodeGraph(wx.ScrolledCanvas):
         dc = wx.BufferedPaintDC(self)
         dc = wx.GCDC(dc)
 
-        dc.SetBackground(wx.Brush(wx.Colour('#F7F7F7')))
+        dc.SetBackground(wx.Brush(wx.Colour(self.Theme["node_graph_bg"])))
         dc.Clear()
 
         rect = self.GetViewableWindowRegion()
         self.DoPrepareDC(dc)
 
+        # Draw the grid background if the active UI theme allows it
+        if self.Theme["node_graph_grid"] == "true":
+            self._DrawGridBackground(dc, rect)
+
         self._pdc.DrawToDCClipped(dc, rect)
 
+    def _DrawGridBackground(self, dc, rect):
+        dc.SetBrush(wx.Brush(wx.Colour('#373737'), wx.CROSS_HATCH))
+        dc.DrawRectangle(rect)
 
     def ConvertCoords(self, pnt):
         """ Convert coords to account for scrolling.
@@ -242,7 +249,7 @@ class NodeGraph(wx.ScrolledCanvas):
                     ID_CONTEXTMENU_DUPLICATENODE, "Duplicate\tShift+D"
                     )
                 contextmenu.Append(
-                    ID_CONTEXTMENU_DELETENODE, "Delete\Alt+X"
+                    ID_CONTEXTMENU_DELETENODE, "Delete\tAlt+X"
                     )
                 if self._activeNode.IsDisabled() == True: 
                    contextmenu.Append(
@@ -354,6 +361,7 @@ class NodeGraph(wx.ScrolledCanvas):
                                     + self._srcPlug.GetPosition()
                             
                             self._tmpWire = Wire(
+                                self,
                                 pnt1, 
                                 pnt, 
                                 None, 
@@ -377,6 +385,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
                             # Draw the temp wire with the new values
                             self._tmpWire = Wire(
+                                self,
                                 pnt1, 
                                 pnt, 
                                 None, 
@@ -565,10 +574,13 @@ class NodeGraph(wx.ScrolledCanvas):
         # Reset mouse cursor
         self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
 
-
     @property
     def NodePropertiesPanel(self):
         return self._parent.GetNodePropertyPanel()
+
+    @property
+    def Theme(self):
+        return self._parent.Theme
 
     def GetParent(self):
         return self._parent
@@ -728,15 +740,14 @@ class NodeGraph(wx.ScrolledCanvas):
 
 
     def ResetToDefault(self):
+        """ Reset the Node Graph back to default. """
         #for nodeId in self._nodes:
             #del self._nodes[nodeId]
             #self._nodes[nodeId].Delete(True)
         self._nodes = {}
         self._activeNode = None
         self._selectedNodes = []
-        # Create the output node
-        #self.AddNode('output', pos=wx.Point(600,300))
-        self.GetPDC().RemoveAll()#Id(nodeId)
+        self.GetPDC().RemoveAll()
         self.RefreshGraph()
 
 
