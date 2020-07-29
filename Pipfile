@@ -15,5 +15,3 @@ wxpython = "*"
 scipy = "*"
 numpy = "*"
 
-[requires]
-python_version = "3.8"
