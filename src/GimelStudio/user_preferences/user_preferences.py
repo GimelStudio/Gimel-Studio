@@ -43,6 +43,7 @@ DEFAULT_USER_PREFERENCES = {
             "node_wire_normal": "#808080",
             "node_plug_border": "#808080",
             "node_plug_labels": "#414141",
+            "node_wire_curving": 0,
             },
 
         "dark_theme": {
@@ -61,11 +62,9 @@ DEFAULT_USER_PREFERENCES = {
             "node_wire_normal": "#C1C1C1",
             "node_plug_border": "#373737",
             "node_plug_labels": "#FFFFFF",
+            "node_wire_curving": 0,
             },
         },
-        "wire_curving": 0,
-        "wire_shadow": True,
-        "node_shadow": False,
     "renderer": {
         "auto_render": True,
     }
@@ -91,23 +90,14 @@ class UserPreferencesManager(object):
     def GetTheme(self):
         return self._userprefs["ui"][self.GetActiveTheme()]
 
-    def GetUIWireCurving(self):
-        return self._userprefs["ui"]["wire_curving"]
+    def SetActiveTheme(self, theme_name):
+        self._userprefs["ui"]["active_theme"] = theme_name
 
-    def SetUIWireCurving(self, wirecurving):
-        self._userprefs["ui"]["wire_curving"] = wirecurving
+    def GetNodeWireCurving(self):
+        return self._userprefs["ui"][self.GetActiveTheme()]["node_wire_curving"]
 
-    def GetUIWireShadow(self):
-        return self._userprefs["ui"]["wire_shadow"]
-
-    def SetUIWireShadow(self, wireshadow):
-        self._userprefs["ui"]["wire_shadow"] = wireshadow
-
-    def GetUINodeShadow(self):
-        return self._userprefs["ui"]["node_shadow"]
-
-    def SetUINodeShadow(self, nodeshadow):
-        self._userprefs["ui"]["node_shadow"] = nodeshadow
+    def SetNodeWireCurving(self, wirecurving):
+        self._userprefs["ui"][self.GetActiveTheme()]["node_wire_curving"] = wirecurving
 
     def GetRendererAutoRender(self):
         return self._userprefs["renderer"]["auto_render"]
