@@ -366,7 +366,8 @@ class NodeGraph(wx.ScrolledCanvas):
                                 pnt, 
                                 None, 
                                 None, 
-                                self._srcPlug.GetType()
+                                self._srcPlug.GetType(),
+                                curvature=self.Theme["node_wire_curving"]
                                 )
   
                     else:
@@ -390,7 +391,8 @@ class NodeGraph(wx.ScrolledCanvas):
                                 pnt, 
                                 None, 
                                 None, 
-                                self._srcPlug.GetType()
+                                self._srcPlug.GetType(),
+                                curvature=self.Theme["node_wire_curving"]
                                 )
 
                             # Important: we re-assign the source node variable

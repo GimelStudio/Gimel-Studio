@@ -139,7 +139,14 @@ class Plug(object):
 
         pt1 = self.GetNode().GetRect().GetPosition() + self.GetPosition()
         pt2 = dst_plug.GetNode().GetRect().GetPosition() + dst_plug.GetPosition()
-        wire = Wire(self, pt1, pt2, self, dst_plug, self.GetType())
+        wire = Wire(self, 
+                    pt1, 
+                    pt2, 
+                    self, 
+                    dst_plug, 
+                    self.GetType(), 
+                    curvature=self.Theme["node_wire_curving"]
+                    )
         wire.srcNode = self.GetNode()
         wire.dstNode = dst_plug.GetNode()
         wire.srcPlug = self
