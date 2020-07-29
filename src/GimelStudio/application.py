@@ -30,7 +30,8 @@ from GimelStudio.project import GimelStudioProject
 from GimelStudio.renderer import Renderer
 from GimelStudio.program import (ProgramUpdateChecker, AboutGimelStudioDialog,
                                 GimelStudioLicenseDialog)
-from GimelStudio.user_preferences import UserPreferencesManager
+from GimelStudio.user_preferences import (UserPreferencesDialog, 
+                                         UserPreferencesManager)
 from GimelStudio.node_registry import NodeRegistry
 from GimelStudio.node_graph import NodeGraph, NodeGraphDropTarget
 from GimelStudio.node_property_panel import NodePropertyPanel
@@ -46,6 +47,7 @@ from GimelStudio.datafiles.icons import *
 ID_MENUITEM_OPENPROJECT = wx.NewIdRef()
 ID_MENUITEM_SAVEPROJECT = wx.NewIdRef()
 ID_MENUITEM_SAVEPROJECTAS = wx.NewIdRef()
+ID_MENUITEM_USERPREFERENCES = wx.NewIdRef()
 ID_MENUITEM_QUIT = wx.NewIdRef()
 ID_MENUITEM_TOGGLEFULLSCREEN = wx.NewIdRef()
 ID_MENUITEM_TAKEFEEDBACKSURVEY = wx.NewIdRef()
@@ -252,7 +254,7 @@ class MainApplication(wx.Frame):
     def GetNodeGraph(self):
         return self._nodeGraph
 
-    def GetNodeRegistry(self): 
+    def GetNodeRegistry(self):  
         return self._nodeRegistry
 
     def _SetupDefaultNodes(self):
@@ -312,6 +314,16 @@ class MainApplication(wx.Frame):
             "Save the current project as a Gimel Studio project file"
             )
         self.filemenu.Append(self.saveprojectas_menuitem)
+
+        self.filemenu.AppendSeparator()
+
+        self.userpreferences_menuitem = wx.MenuItem(
+            self.filemenu,
+            ID_MENUITEM_USERPREFERENCES,
+            "User Preferences",
+            "Open the user preferences dialog"
+        )
+        self.filemenu.Append(self.userpreferences_menuitem)  
 
         self.filemenu.AppendSeparator()
 
@@ -381,6 +393,7 @@ class MainApplication(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnOpenFile, id=ID_MENUITEM_OPENPROJECT)
         #self.Bind(wx.EVT_MENU, self.OnSaveFile, id=ID_MENUITEM_SAVEPROJECT)
         self.Bind(wx.EVT_MENU, self.OnSaveFileAs, id=ID_MENUITEM_SAVEPROJECTAS)
+        self.Bind(wx.EVT_MENU, self.OnUserPreferencesDialog, id=ID_MENUITEM_USERPREFERENCES)
         self.Bind(wx.EVT_MENU, self.OnQuit, id=ID_MENUITEM_QUIT)
         self.Bind(wx.EVT_MENU, self.OnToggleFullscreen, id=ID_MENUITEM_TOGGLEFULLSCREEN)
         self.Bind(wx.EVT_MENU, self.OnTakeFeedbackSurvey, id=ID_MENUITEM_TAKEFEEDBACKSURVEY)
@@ -394,6 +407,10 @@ class MainApplication(wx.Frame):
     def OnGimelStudioLicenseDialog(self, event):
         dialog = GimelStudioLicenseDialog(self)
         dialog.ShowDialog()
+
+    def OnUserPreferencesDialog(self, event):
+        dialog = UserPreferencesDialog(self)
+        dialog.ShowModal() 
 
     def OnRenderImage(self, event):
         self.Render()
