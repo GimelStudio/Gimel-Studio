@@ -61,6 +61,7 @@ class MainApplication(wx.Frame):
                           pos=(0, 0), size=(1000, 800))
 
         self._arguments = arguments
+        self._activeprojectfile = None
 
         # Set the program icon
         self.SetIcon(ICON_GIMELSTUDIO_ICO.GetIcon())
@@ -228,6 +229,12 @@ class MainApplication(wx.Frame):
     def GetArguments(self):
         return self._arguments
 
+    def GetActiveProjectFile(self):
+        return self._activeprojectfile
+
+    def SetActiveProjectFile(self, project_path):
+        self._activeprojectfile = project_path
+
     def GetAUIManager(self):
         return self._mgr
     
@@ -305,7 +312,9 @@ class MainApplication(wx.Frame):
             "Save Project... \tCtrl+S", 
             "Save the current Gimel Studio project file"
             )
-        #self.filemenu.Append(self.saveproject_menuitem)
+        if self.GetActiveProjectFile() == None:
+            self.saveproject_menuitem.Enable(enable=False)
+        self.filemenu.Append(self.saveproject_menuitem)
 
         self.saveprojectas_menuitem = wx.MenuItem(
             self.filemenu, 
@@ -391,7 +400,7 @@ class MainApplication(wx.Frame):
 
         # Menubar bindings
         self.Bind(wx.EVT_MENU, self.OnOpenFile, id=ID_MENUITEM_OPENPROJECT)
-        #self.Bind(wx.EVT_MENU, self.OnSaveFile, id=ID_MENUITEM_SAVEPROJECT)
+        self.Bind(wx.EVT_MENU, self.OnSaveFile, id=ID_MENUITEM_SAVEPROJECT)
         self.Bind(wx.EVT_MENU, self.OnSaveFileAs, id=ID_MENUITEM_SAVEPROJECTAS)
         self.Bind(wx.EVT_MENU, self.OnUserPreferencesDialog, id=ID_MENUITEM_USERPREFERENCES)
         self.Bind(wx.EVT_MENU, self.OnQuit, id=ID_MENUITEM_QUIT)
@@ -427,6 +436,20 @@ class MainApplication(wx.Frame):
         elif self.IsMaximized() == True:
             self.Restore()
 
+
+    def OnSaveFile(self, event):
+        if self.GetActiveProjectFile() != None:
+            path = self.GetActiveProjectFile()
+            self._project.SaveProjectFile(path)
+            
+            notify = wx.adv.NotificationMessage(
+                title="Project File Saved",
+                message="{} was saved.".format(os.path.split(path)[1]),
+                parent=None, flags=wx.ICON_INFORMATION
+                )
+            notify.Show(timeout=1) # 1 for short timeout, 100 for long timeout
+            
+
     def OnSaveFileAs(self, event):
         wildcard = "GIMEL STUDIO PROJECT file (*.gimel-studio-project)|*.gimel-studio-project|" \
                    "All files (*.*)|*.*"
@@ -444,11 +467,22 @@ class MainApplication(wx.Frame):
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
             self._project.SaveProjectFile(paths[0])
+            self.SetActiveProjectFile(paths[0])
             self.SetTitle("{0} - {1}".format(
                 __TITLE__,
                 dlg.GetFilename()
                 ))
             del busy
+
+            notify = wx.adv.NotificationMessage(
+                title="Project File Saved",
+                message="Project was saved to \n {}".format(paths[0]),
+                parent=None, flags=wx.ICON_INFORMATION
+                )
+            notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
+
+            # Enable save file
+            self.saveproject_menuitem.Enable(enable=True)
             
     
     def OnOpenFile(self, event):
@@ -470,13 +504,24 @@ class MainApplication(wx.Frame):
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
             self._project.OpenProjectFile(paths[0])
+            self.SetActiveProjectFile(paths[0])
             self.SetTitle("{0} - {1}".format(
                 __TITLE__,
                 dlg.GetFilename()
                 ))   
 
             del busy    
-            
+
+            notify = wx.adv.NotificationMessage(
+                title="Project File Opened",
+                message="Project opened and loaded from \n {}".format(paths[0]),
+                parent=None, flags=wx.ICON_INFORMATION
+                )
+            notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
+
+            # Enable save file
+            self.saveproject_menuitem.Enable(enable=True)
+             
 
     def OnQuit(self, event):
         quitdialog = wx.MessageDialog(
@@ -511,7 +556,7 @@ class MainApplication(wx.Frame):
             self._nodeGraph.UpdateAllNodes()
         del busy
 
-
+ 
     # FIXME
     def RestartProgram(self, new_args):
         """ UNUSED!!
