@@ -17,6 +17,8 @@ It provides basic image editing features such as rotate, resize and blur effects
 
 See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases. Documentation for the latest API is a bit behind. To help out with latest development and/or documentation, contact me at <correctsyntax@yahoo.com> or submit a Pull Request. Thanks!
 
+**IMPORTANT: Old files from versions prior to v0.4.0 (currently this dev version) cannot be opened in this and future versions.**
+
 
 # Development 
 
@@ -33,19 +35,23 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROA
   
   * Written in pure Python with minimal dependancies
   * Support for opening and saving your nodegraph as a GIMEL-STUDIO-PROJECT
+  * Features packing images into the project file (meaning project files can be shared between users on different computers and Operating Systems without hassle)
   * 15+ nodes with a wide range of functionality 
-  * Rearrangable and resizable panels for the main UI
-  * Drag 'n drop nodes from the Node Registry `(temorarily removed in v0.3.0)`
   * Node Graph featuring node deletion, duplication, selection, etc. 
-  * Node-based workflow with (similar to Blender 3D)
+  * Node-based workflow (similar to Blender 3D)
   * JPEG, PNG, BMP file types support
-  * API for scripting custom nodes
+  * API for scripting custom nodes in Python
+  * Dark & Light UI themes w/ wire curving
   * Zoomable Image Viewport for viewing renders in real-time
 
 **Tidbits**
 
-  * Auto-renders as the Node Graph is edited
+  * Auto-renders as the Node Graph is edited `now, a setting that you can change if you so desire`
   * Toggle-able thumbnails on nodes showing the steps of the rendered image
+  * Rearrangable and resizable panels for the main UI
+  * Drag 'n drop nodes from the Node Registry `(temorarily removed in v0.3.0, v0.4.0)`
+
+**And More...**
 
 
 # Releases
