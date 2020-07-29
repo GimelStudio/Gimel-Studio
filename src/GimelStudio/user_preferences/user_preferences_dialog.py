@@ -34,7 +34,7 @@ class UserPreferencesDialog(wx.Dialog):
 
 
     def _InitUI(self):
-
+        
         panel = wx.Panel(self)
         sizer = wx.GridBagSizer(5, 5)
 
@@ -71,29 +71,51 @@ class UserPreferencesDialog(wx.Dialog):
         self._OnLoadSettings()
 
     def _OnLoadSettings(self):
+        """ Loads the current user preferences settings and
+        sets the intial values for the widgets. 
 
+        Does the opposite of the `self._OnSaveSettings` method.
+        """
+
+        # Node wire curving
         if self.UserPrefs.GetNodeWireCurving() == 10:
             self.node_wire_curving.SetValue(True) # hard-coded value...
         else:
             self.node_wire_curving.SetValue(False)
 
+        # Active theme
         if self.UserPrefs.GetActiveTheme() == "light_theme":
             self.enable_light_theme.SetValue(True)
         else:
             self.enable_light_theme.SetValue(False)
 
+        # Auto render
+        if self.UserPrefs.GetRendererAutoRender() == True:
+            self.auto_render_checkbox.SetValue(True)
+        else:
+            self.auto_render_checkbox.SetValue(False)
+
 
     def _OnSaveSettings(self): 
+        """ Saves the current user preferences settings. """
 
+        # Node wire curving
         if self.node_wire_curving.GetValue() == True:
             self.UserPrefs.SetNodeWireCurving(10) # hard-coded value...
         else:
             self.UserPrefs.SetNodeWireCurving(0)
 
+        # Active theme
         if self.enable_light_theme.GetValue() == True:
             self.UserPrefs.SetActiveTheme("light_theme")
         else:
             self.UserPrefs.SetActiveTheme("dark_theme")
+
+        # Auto render
+        if self.auto_render_checkbox.GetValue() == True:
+            self.UserPrefs.SetRendererAutoRender(True)
+        else:
+            self.UserPrefs.SetRendererAutoRender(False)
 
         # Update everything in the Node Graph
         self._parent.GetNodeGraph().UpdateAllNodes()

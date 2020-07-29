@@ -376,7 +376,10 @@ class NodeGraph(wx.ScrolledCanvas):
                             wires = self._srcPlug.GetWires()
                             dst = wires[0].dstPlug
                             self._srcPlug = wires[0].srcPlug
-                            dst.Disconnect(self._srcPlug)
+                            dst.Disconnect(
+                                self._srcPlug,
+                                render=self.UserPrefs.GetRendererAutoRender()
+                                )
 
                             # Create the temp wire again
                             pnt = event.GetPosition()
@@ -495,7 +498,10 @@ class NodeGraph(wx.ScrolledCanvas):
                     # Only allow a single node to be
                     # connected to any one socket.
                     if len(dstplug.GetWires()) < 1:
-                        self._srcPlug.Connect(dstplug)
+                        self._srcPlug.Connect(
+                            dstplug,
+                            render=self.UserPrefs.GetRendererAutoRender()
+                            )
                         
                     # If there is already a connection,
                     # but a wire is "dropped" into the plug
@@ -506,7 +512,10 @@ class NodeGraph(wx.ScrolledCanvas):
                         dst = wires[0].dstPlug
                         src = wires[0].srcPlug
                         dst.Disconnect(src, render=False)
-                        self._srcPlug.Connect(dstplug)
+                        self._srcPlug.Connect(
+                            dstplug, 
+                            render=self.UserPrefs.GetRendererAutoRender()
+                            )
  
         # We can erase the temp wire.
         if self._tmpWire != None:
@@ -583,6 +592,10 @@ class NodeGraph(wx.ScrolledCanvas):
     @property
     def Theme(self):
         return self._parent.Theme
+
+    @property
+    def UserPrefs(self):
+        return self._parent.GetUserPrefManager()
 
     def GetParent(self):
         return self._parent
