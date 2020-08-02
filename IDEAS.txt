@@ -10,13 +10,6 @@ If you would like to help develop Gimel Studio, you can work on any of these or 
 Please contact me at <correctsyntax@yahoo.com> if you would like more information on any of these ideas, on the roadmap itself or if you would like to contribute to the Gimel Studio software project.
 
 
-* Really, at this point, a major refinement of the code-base needs to be done
-  [x]- This means "a separation of concerns", etc.
-  - For example, it's really difficult to manipulate the node connections in the code right now...
-  [x]- Meta info
-  [x]- Docstrings
-  - Core and custom nodes (corenode_ & customnode_)
-
 * Render speed (a BIG issue right now)
   - Stop in the midst of a render if values of a node are changed?
   - Only re-render nodes that have values changed (cache nodes themselves)?
@@ -24,15 +17,9 @@ Please contact me at <correctsyntax@yahoo.com> if you would like more informatio
   - Compile renderer, etc with Cython for speed?
 
 
-* File opening and saving is a weak point (including error handling)
-  - Images are saved to the file as bytes with the file path still available if it has not changed since the file was saved.?
+* File opening and saving (including error handling)
   - Error handing for inconsistancies with node versions, support, etc.? 
   - Support opening old/new files with new/old software versions?
-  - How to handle filepaths for images (see above): Linux vs Windows, different users, etc
-
-
-* Node Graph
-  [x]- Zoom in and out (this is really badly needed)
 
 
 * Asset Library (needs a better reworking before it comes back)
