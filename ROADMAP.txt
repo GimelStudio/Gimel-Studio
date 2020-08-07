@@ -1,25 +1,45 @@
 Gimel Studio Official Roadmap
 =============================
 
-see IDEAS.txt for a list of possible features/fixes and ideas about how to possibly implement them.
+Possible features/fixes and ideas about how to possibly implement them.
+
+If you would like to help develop Gimel Studio, you can work on any of these or present your own ideas of how to implement/fix these. Other feature ideas are welcome too. :)
 
 
-PLANNED FEATURES/FIXES, version 1x 
+PLANNED FEATURES/FIXES, beta versions - 1x 
 ----------------------------------
 
-* INCLUDE ATTRIBUTION/LICENSES OF MODULES IN THE RELEASES (THIS IS IMPORTANT!!)
-
+* INCLUDE ATTRIBUTION/LICENSES OF MODULES IN THE RELEASES
 
 * Nodes
-  * 3D Wireframe/Image node - Renders a 3D wireframe image from a .obj file
+  * Add Text node - adds text to a given image
 
 * Bugs (need to be fixed)
   * You must specify an extension in order to export an image??
+  * "to normal map" node - resize auto if image is bigger than req size (otherwise there is memory issues)
 
-* Asset Library, Node Registry (needs a better reworking before it comes back)
+* File opening and saving (including error handling)
+  * Error handing for node versions, support, etc. 
+  * Support opening old/new files with new/old software versions?
+
+* Asset Library 
+
+* Node Registry UI
+
+* Custom widgets/better layout for node property panel
+
+* Python console in application for developing custom node? (This would help users to be able to debug their code)
 
 
 POSSIBLE FUTURE FEATURES/FIXES, version 2x
 ------------------------------------------
+
+* Renderer and Nodes
+  * Only re-render nodes that have values changed (cache nodes themselves)?
+  * Multi-thread the ui and renderer?
+  * Compile renderer, etc with Cython for speed?
+
+* Nodes
+  * 3D Wireframe/Image node - Renders a 3D wireframe image from a .obj file
 
 ...
