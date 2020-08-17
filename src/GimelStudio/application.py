@@ -37,7 +37,7 @@ from GimelStudio.node_graph import NodeGraph, NodeGraphDropTarget
 from GimelStudio.node_property_panel import NodePropertyPanel
 from GimelStudio.image_viewport import ImageViewport
 
-from GimelStudio.utils import ConvertImageToWx
+from GimelStudio.utils import ConvertImageToWx, ExportRenderedImageToFile
 
 from GimelStudio.stylesheet import *
 from GimelStudio.datafiles.icons import *
@@ -53,6 +53,9 @@ ID_MENUITEM_TOGGLEFULLSCREEN = wx.NewIdRef()
 ID_MENUITEM_TAKEFEEDBACKSURVEY = wx.NewIdRef()
 ID_MENUITEM_LICENSE = wx.NewIdRef()
 ID_MENUITEM_ABOUT = wx.NewIdRef()
+
+ID_RENDERTOOLBAR_RENDERBTN = wx.NewIdRef()
+ID_VIEWERTOOLBAR_QUICKEXPORTIMGBTN = wx.NewIdRef()
 
 
 class MainApplication(wx.Frame):
@@ -196,6 +199,9 @@ class MainApplication(wx.Frame):
         # Build the menubar
         self._BuildMenuBar()
 
+        # Build the UI toolbar(s)
+        self._BuildUIToolbars()
+
         # Maximize the window
         self.Maximize()
 
@@ -289,6 +295,47 @@ class MainApplication(wx.Frame):
                 'gimelstudiocorenode_opacity', 
                 pos=wx.Point(x-100, y)
                 )
+
+
+    def _BuildUIToolbars(self):
+
+        # Render Toolbar
+        render_toolbar = wx.ToolBar(self, -1, wx.DefaultPosition, wx.DefaultSize,
+                         wx.TB_FLAT | wx.TB_NODIVIDER | wx.TB_HORZ_TEXT)
+        render_toolbar.AddTool(
+            ID_RENDERTOOLBAR_RENDERBTN, 
+            "Render Image", 
+            ICON_RENDER_IMAGE_DARK.GetBitmap(), 
+            """Force an immediate, updated render of the current node graph image. """
+            )
+
+        render_toolbar.Realize()
+
+        # Viewer Toolbar
+        viewer_toolbar = wx.ToolBar(self, -1, wx.DefaultPosition, wx.DefaultSize,
+                         wx.TB_FLAT | wx.TB_NODIVIDER | wx.TB_HORZ_TEXT)
+        viewer_toolbar.AddTool(
+            ID_VIEWERTOOLBAR_QUICKEXPORTIMGBTN, 
+            "Quick Export", 
+            ICON_EXPORT_IMAGE_DARK.GetBitmap(), 
+            "Export rendered image as a numbered file in your user home directory."
+            )
+        viewer_toolbar.Realize()
+
+        # Add the toolbars to the manager
+        self._mgr.AddPane(render_toolbar, aui.AuiPaneInfo().
+                          Name("RenderToolbar").Caption("Render Toolbar").
+                          ToolbarPane().Top().Row(0).Position(1).
+                          LeftDockable(False).RightDockable(False))
+
+        self._mgr.AddPane(viewer_toolbar, aui.AuiPaneInfo().
+                          Name("ImageViewerToolbar").Caption("Image Viewer Toolbar").
+                          ToolbarPane().Top().Row(0).Position(2).
+                          LeftDockable(False).RightDockable(False))
+
+        # Bindings
+        self.Bind(wx.EVT_TOOL, self.OnRenderImage, id=ID_RENDERTOOLBAR_RENDERBTN)
+        self.Bind(wx.EVT_TOOL, self.OnQuickExport, id=ID_VIEWERTOOLBAR_QUICKEXPORTIMGBTN)
 
 
     def _BuildMenuBar(self):
@@ -423,6 +470,36 @@ class MainApplication(wx.Frame):
 
     def OnRenderImage(self, event):
         self.Render()
+
+    def OnQuickExport(self, event):
+        """ A quick and dirty export option for quick image 
+        render comparisons, etc. 
+        """
+        rendered_img = self.GetRenderedImage()
+
+        if rendered_img != None:
+            base_path = os.path.expanduser('~/')
+            directory = os.listdir(base_path)
+            
+            num = 0
+            for file in directory:
+                if file.startswith("~"):
+                    num = num + 1
+
+            path = os.path.join(base_path, "~{}.png".format(num))
+
+            ExportRenderedImageToFile(
+                    rendered_image=rendered_img, 
+                    export_path=path,
+                    )
+
+            notify = wx.adv.NotificationMessage(
+                title="Quick Export",
+                message="Image was saved to {}.".format(path),
+                parent=None, flags=wx.ICON_INFORMATION
+                )
+            notify.Show(timeout=1) # 1 for short timeout, 100 for long timeout
+
 
     def OnTakeFeedbackSurvey(self, event):
         """ Go to the feedback survey webpage. """
