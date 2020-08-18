@@ -31,7 +31,7 @@ __VERSION__ = "0.4.0"
 # USAGE: Switch to False before building as .exe or similar package to
 # enable/disable some end-user features that would otherwise hinder
 # development and/or testing of the program.
-__DEBUG__ = True
+__DEBUG__ = False
 
 # Title string
 __TITLE__ = '{0} v{1}'.format(__NAME__, __VERSION__)

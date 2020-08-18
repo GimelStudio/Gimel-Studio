@@ -756,9 +756,6 @@ class NodeGraph(wx.ScrolledCanvas):
 
     def ResetToDefault(self):
         """ Reset the Node Graph back to default. """
-        #for nodeId in self._nodes:
-            #del self._nodes[nodeId]
-            #self._nodes[nodeId].Delete(True)
         self._nodes = {}
         self._activeNode = None
         self._selectedNodes = []

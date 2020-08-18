@@ -26,7 +26,7 @@ from GimelStudio.meta import __VERSION__
 
 DEFAULT_USER_PREFERENCES = {
     "ui": {
-        "active_theme": "dark_theme",
+        "active_theme": "light_theme",
         "light_theme": {
             "app_bg": "#FFFFFF",
             "dock_pnl_bg": "#FFFFFF",
