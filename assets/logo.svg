@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="600"
+   height="140"
+   viewBox="0 0 158.75 37.041667"
+   version="1.1"
+   id="svg1945"
+   sodipodi:docname="logo.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:export-filename="C:\Users\doall\GimelStudio\assets\gimel-studio-logo.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs1939">
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter1256">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood1246" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite1248" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="3"
+         result="blur"
+         id="feGaussianBlur1250" />
+      <feOffset
+         dx="1"
+         dy="1"
+         result="offset"
+         id="feOffset1252" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite1254" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter1178">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood1168" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite1170" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="3"
+         result="blur"
+         id="feGaussianBlur1172" />
+      <feOffset
+         dx="1"
+         dy="1"
+         result="offset"
+         id="feOffset1174" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite1176" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter1067">
+      <feFlood
+         flood-opacity="0.294118"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood1057" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite1059" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="1.2"
+         result="blur"
+         id="feGaussianBlur1061" />
+      <feOffset
+         dx="1"
+         dy="1"
+         result="offset"
+         id="feOffset1063" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite1065" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter898">
+      <feFlood
+         flood-opacity="0.294118"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood888" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite890" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="1.2"
+         result="blur"
+         id="feGaussianBlur892" />
+      <feOffset
+         dx="1"
+         dy="1"
+         result="offset"
+         id="feOffset894" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite896" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter910">
+      <feFlood
+         flood-opacity="0.294118"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood900" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite902" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="1.2"
+         result="blur"
+         id="feGaussianBlur904" />
+      <feOffset
+         dx="1"
+         dy="1"
+         result="offset"
+         id="feOffset906" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite908" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="247.40603"
+     inkscape:cy="111.3034"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     units="px" />
+  <metadata
+     id="metadata1942">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(119.24323,-150.75589)">
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot837-7"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:39.99982834px;line-height:1.25;font-family:Corbel;-inkscape-font-specification:'Corbel, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;opacity:0.97000002;fill:#b2b2b2;fill-opacity:0.98924734;stroke:none"
+       transform="matrix(0.49121634,0,0,0.49121634,-168.69741,-183.91799)"><flowRegion
+         id="flowRegion839-2"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:39.99982834px;font-family:Corbel;-inkscape-font-specification:'Corbel, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#b2b2b2;fill-opacity:0.98924734"><rect
+           id="rect841-8"
+           width="478.81232"
+           height="103.03556"
+           x="176.7767"
+           y="691.18457"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:39.99982834px;font-family:Corbel;-inkscape-font-specification:'Corbel, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#b2b2b2;fill-opacity:0.98924734" /></flowRegion><flowPara
+         id="flowPara843-6">Gimel Studio</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot947-7-4-4"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:62.74570465px;line-height:1.25;font-family:Candara;-inkscape-font-specification:'Candara, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#b2b2b2;fill-opacity:1;stroke:none"
+       transform="matrix(0.06822166,0,0,0.06822166,-51.363745,-25.091884)"><flowRegion
+         id="flowRegion949-1-1-8"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:62.74570465px;font-family:Candara;-inkscape-font-specification:'Candara, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#b2b2b2;fill-opacity:1"><rect
+           id="rect951-2-8-0"
+           width="1690.8712"
+           height="120.93945"
+           x="-430.15662"
+           y="2928.5884"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:62.74570465px;font-family:Candara;-inkscape-font-specification:'Candara, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#b2b2b2;fill-opacity:1" /></flowRegion><flowPara
+         id="flowPara1005-3-6">Graphical Illustration Masking, Editing &amp; Layering Software</flowPara></flowRoot>    <path
+       inkscape:connector-curvature="0"
+       id="path36653-7-7-0-6-9"
+       style="display:inline;fill:none;stroke:#bfbfbf;stroke-width:0.74931788;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -101.74548,159.17429 -4.18209,3.21524 v 16.07624 h 21.747445 v -19.29148 z" />
+    <path
+       d="m -90.976652,176.20733 q -0.798437,-0.79843 -1.596874,-3.44321 h -0.24947 l -1.49705,3.44321 h -2.84437 l 0.72358,-2.71963 3.21859,-0.72358 q 0.37427,-0.49896 0.44913,-0.59878 0.24947,-0.37428 0.27445,-0.67371 0,-0.0251 0.299419,-1.92113 0.199591,-1.19762 0.199591,-1.94617 0,-1.17265 -0.44913,-1.59681 -0.32433,-0.3244 -1.04791,-0.3244 -0.12474,0 -0.37428,0.0251 -0.24947,0 -0.39918,0 -1.47207,0 -1.92121,-1.37231 -0.0495,-0.17462 -0.0495,-0.42416 0,-0.49902 0.29942,-1.19762 0.32433,-0.72352 0.69861,-1.12277 0,0.5489 0.17461,0.79845 0.0998,0.17461 1.47214,0.29941 1.372238,0.12474 1.67166,0.69861 0.324329,0.57387 0.324329,2.22055 v 6.33748 q 0,1.19762 0.623819,4.24159 z"
+       style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:medium;line-height:1.25;font-family:BSTHebrew;-inkscape-font-specification:'BSTHebrew, Thin';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#bfbfbf;fill-opacity:1;stroke:#bfbfbf;stroke-width:1.29853821;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+       id="path878"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1;fill:#bfbfbf;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:4.43704557;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+       d="m -101.17656,158.91406 -0.79745,4.3401 -4.2914,-0.78767 v 0.69408 l 4.92897,0.9047 0.94563,-5.15121 z"
+       id="rect2835-9" />
+  </g>
+</svg>
