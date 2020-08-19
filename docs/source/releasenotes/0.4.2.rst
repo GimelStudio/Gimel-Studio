@@ -1,0 +1,27 @@
+0.4.2
+=====
+
+Gimel Studio v0.4.2 BETA -- ""
+
+v0.4.2 was mainly focused on improving stability and fixing bugs.
+
+
+General
+-------
+
+
+UI
+--
+
+
+
+Project File
+------------
+
+
+
+Node Graph
+----------
+
+
+

@@ -1,0 +1,38 @@
+0.4.0
+=====
+
+Gimel Studio v0.4.0 BETA -- "Aug. 2020"
+
+v0.4.0 was mainly focused on improving stability and features of the GIMEL-STUDIO-PROJECT project file system, adding User Preferences and fixing features of the Node Graph.
+
+
+General
+-------
+
+ * Improved documentation with Node API tutorials, etc.
+ * New User Preferences dialog with settings
+ * Native notification messages have been added for operations like file open, save, etc.
+ * Many bug fixes
+
+
+UI
+--
+
+ * Added Save Project menu item
+ * New Light and Dark Node Graph theme
+ * Added new toolbar with Render and Quick Export options
+
+
+Project File
+------------
+
+ * Added ability to pack images directly into the project file (meaning project files can be shared between users on different computers and Operating Systems without hassle)
+ * Stability of project files was improved
+
+
+Node Graph
+----------
+
+ * Node Graph "Delete" node was improved to minimize accidental deletion of a single node.
+ * Node wire curving was implemented as a setting the user can toggle in User Preferences
+
