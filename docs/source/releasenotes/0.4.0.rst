@@ -6,6 +6,12 @@ Gimel Studio v0.4.0 BETA -- "Aug. 2020"
 v0.4.0 was mainly focused on improving stability and features of the GIMEL-STUDIO-PROJECT project file system, adding User Preferences and fixing features of the Node Graph.
 
 
+Breaking changes
+----------------
+
+ * IMPORTANT: Old project files created in versions prior to v0.4.0 cannot be opened in version v0.4.0 and onward due to major changes in the Gimel Studio project file system.
+
+
 General
 -------
 
@@ -35,4 +41,3 @@ Node Graph
 
  * Node Graph "Delete" node was improved to minimize accidental deletion of a single node.
  * Node wire curving was implemented as a setting the user can toggle in User Preferences
-
