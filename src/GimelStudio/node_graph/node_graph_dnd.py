@@ -19,8 +19,10 @@
 ## ----------------------------------------------------------------------------
 
 import os
-import imghdr
 import wx
+
+from GimelStudio.utils import GetFileExt
+from GimelStudio.file_support import SupportFTOpen
 
 
 class NodeGraphDropTarget(wx.DropTarget):
@@ -30,8 +32,6 @@ class NodeGraphDropTarget(wx.DropTarget):
         self._composite = wx.DataObjectComposite()
         self._textDropData = wx.TextDataObject()
         self._fileDropData = wx.FileDataObject()
-        self._thunderbirdDropData = wx.CustomDataObject('text/x-moz-message')
-        self._composite.Add(self._thunderbirdDropData)
         self._composite.Add(self._textDropData)
         self._composite.Add(self._fileDropData)
         self.SetDataObject(self._composite)
@@ -42,9 +42,7 @@ class NodeGraphDropTarget(wx.DropTarget):
     def OnData(self, x, y, result):
         self.GetData()
         formatType, formatId = self.GetReceivedFormatAndId()
-        if formatId == 'text/x-moz-message':
-            return self.OnThunderbirdDrop()
-        elif formatType in (wx.DF_TEXT, wx.DF_UNICODETEXT):
+        if formatType in (wx.DF_TEXT, wx.DF_UNICODETEXT):
             return self.OnTextDrop()
         elif formatType == wx.DF_FILENAME:
             return self.OnFileDrop()
@@ -58,11 +56,6 @@ class NodeGraphDropTarget(wx.DropTarget):
             formatId = None
         return formatType, formatId
 
-    def OnThunderbirdDrop(self):
-        # Do we need this?
-        #print(self._thunderbirdDropData.GetData().decode('utf-16'))
-        return wx.DragCopy
-
     def OnTextDrop(self):
         try:
             #print(self._textDropData.GetText())
@@ -74,8 +67,8 @@ class NodeGraphDropTarget(wx.DropTarget):
     def OnFileDrop(self):
         for filename in self._fileDropData.GetFilenames():
             try:
-                filename_ext = imghdr.what(filename)
-                if filename_ext in ['jpg', 'jpeg', 'bmp', 'png']:
+                ext = GetFileExt(filename, add_dot=True)
+                if ext in SupportFTOpen(list_all=True):
                     if os.path.exists(filename) == True:
                         node = self._window.AddNode(where="CURSOR")
                         node.EditProperties('Path', filename)

@@ -16,13 +16,13 @@
 ## ----------------------------------------------------------------------------
 
 import os
-import imghdr
 
 import wx
 from PIL import Image
 
 from GimelStudio.api import (Color, RenderImage, NodeBase,
-                            Parameter, Property, RegisterNode)
+                            Parameter, Property, RegisterNode, 
+                            SupportFTOpen, GetFileExt)
 
  
 class NodeDefinition(NodeBase):
@@ -49,7 +49,7 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeVersion(self):
-        return "2.5" 
+        return "3.0" 
 
     @property
     def NodeAuthor(self):
@@ -96,13 +96,17 @@ class NodeDefinition(NodeBase):
             self.infolabellbl.SetLabel(self.GetInfoLabel())
 
         parent.Bind(wx.EVT_BUTTON, self.OnFilePathButton, self.browsepathbtn)
-
-
+ 
+     
     def OnFilePathButton(self, evt):
         wildcard = "All files (*.*)|*.*|" \
+                   "JPEG file (*.jpeg)|*.jpeg|" \
                    "JPG file (*.jpg)|*.jpg|" \
                    "PNG file (*.png)|*.png|" \
-                   "BMP file (*bmp)|*bmp"
+                   "BMP file (*.bmp)|*.bmp|" \
+                   "WEBP file (*.webp)|*.webp|" \
+                   "TGA file (*.tga)|*.tga|" \
+                   "TIFF file (*.tiff)|*.tiff"
 
         dlg = wx.FileDialog(
             self.parent, message="Choose image...",
@@ -116,10 +120,11 @@ class NodeDefinition(NodeBase):
         # process the data.
         if dlg.ShowModal() == wx.ID_OK:
             # This returns a Python list of files that were selected.
-            paths = dlg.GetPaths() 
+            paths = dlg.GetPaths()  
+            ext = GetFileExt(paths[0], add_dot=True)
 
-            filename_ext = imghdr.what(paths[0])
-            if filename_ext in ['jpg', 'jpeg', 'bmp', 'png']:
+            # We add the . here for this comparison
+            if ext in SupportFTOpen(list_all=True):
                 self.NodePropertiesUpdate('Path', paths[0])
                 self.pathtxtctrl.ChangeValue(paths[0])
                 self.UpdateInfoLabel(paths[0])
