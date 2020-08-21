@@ -25,13 +25,13 @@ __NAME__ = "Gimel Studio"
 __AUTHOR__ = "Noah Rahm, Correct Syntax"
 
 # Release version: [major].[minor].[build]
-__VERSION__ = "0.4.0"
+__VERSION__ = "0.4.2"
 
 # Whether this program is in development mode
 # USAGE: Switch to False before building as .exe or similar package to
 # enable/disable some end-user features that would otherwise hinder
 # development and/or testing of the program.
-__DEBUG__ = False
+__DEBUG__ = True
 
 # Title string
 __TITLE__ = '{0} v{1}'.format(__NAME__, __VERSION__)
