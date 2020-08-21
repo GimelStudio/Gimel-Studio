@@ -18,16 +18,11 @@
 ## PURPOSE: Define class which handles .gimel-studio-project save, open, etc.
 ## ----------------------------------------------------------------------------
 
-
-# VERY WORK IN PROGRESS!!!
-
 import io
 import pickle
 import os.path
-import json
 
 import wx
-
 from PIL import Image
 import numpy as np
 
@@ -46,8 +41,6 @@ class GimelStudioProject(object):
 
     def OpenProjectFile(self, path):
         """ Opens a Gimel Studio Project file at the given path. """
-        # with open(path, "r") as project_file:
-        #     project_data = json.load(project_file)
 
         with open(path, 'rb') as project_file:
             project_data = pickle.load(project_file)
@@ -55,14 +48,20 @@ class GimelStudioProject(object):
         node_data = project_data["nodes"]
         meta_data = project_data["meta"]
         #ui_data = project_data["ui"]
-        
-        if meta_data["application_version"] == "0.4.0":
 
+        # Make sure files before v0.4.0 are not opened
+        min_app_version = "0.4.0".split(".")
+        file_app_version = meta_data["application_version"].split(".")
+
+        #print(file_app_version, ' > ', min_app_version)
+    
+        if file_app_version >= min_app_version:
             #self._CreateUI(ui_data)
             self._CreateNodes(node_data)
-
+            return True
         else:
-            print("Files earlier than v0.4.0")
+            print("File earlier than v0.4.0!")
+            return False
         
         #self._parent.Render()
 
@@ -81,9 +80,6 @@ class GimelStudioProject(object):
         #project_data["ui"] = ui_data
 
         #print(project_data)
-
-        # with open(path, "w") as project_file:
-        #     json.dump(project_data, project_file)  
 
         with open(path, 'wb') as project_file:
             pickle.dump(project_data, project_file, pickle.DEFAULT_PROTOCOL)
@@ -159,21 +155,20 @@ class GimelStudioProject(object):
             else:
                 pass
 
-            # if nd["selected"] == True:
-            #     node.SetSelected(True)
-            # else:
-            #     node.SetSelected(False)
+            if nd["selected"] == True:
+                node.SetSelected(True)
+            else:
+                node.SetSelected(False)
 
-            # if nd["active"] == True:
-            #     node.SetActive(True)
-            # else:
-            #     node.SetActive(False)
+            if nd["active"] == True:
+                node.SetActive(True)
+            else:
+                node.SetActive(False)
 
-            # if nd["disabled"] == True:
-            #     node.SetDisabled(True)
-            # else: 
-            #     node.SetDisabled(False)
-
+            if nd["disabled"] == True:
+                node.SetDisabled(True)
+            else: 
+                node.SetDisabled(False)
 
         # Connect the nodes
         nodes = self._parent._nodeGraph.GetNodes()
@@ -203,7 +198,7 @@ class GimelStudioProject(object):
             #         wire.Draw(self._parent.nodegraph.GetPDC())
          
         self._parent._nodeGraph.UpdateAllNodes()
-        #self._parent._nodeGraph.RefreshGraph()
+        self._parent._nodeGraph.RefreshGraph()
         self._parent._nodeGraph._parent.Render()
 
 
