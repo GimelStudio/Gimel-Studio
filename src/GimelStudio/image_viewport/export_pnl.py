@@ -18,15 +18,16 @@
 ## PURPOSE: Define the image export options tab of the Image Viewport
 ## ----------------------------------------------------------------------------
 
+
 import os
 
 import wx
 import wx.adv
-
 from PIL import Image
 
 from GimelStudio.utils import (ConvertImageToWx, ExportRenderedImageToFile, 
                                 DrawCheckerBoard)
+from GimelStudio.file_support import SupportFTSave
 from GimelStudio.datafiles.icons import *
 
 
@@ -153,44 +154,61 @@ class ImageExportPnl(wx.Panel):
 
     def OnExportImage(self, event):
         wildcard = "JPG file (*.jpg)|*.jpg|" \
+                   "JPEG file (*.jpeg)|*.jpeg|" \
                    "PNG file (*.png)|*.png|" \
+                   "BMP file (*.bmp)|*.bmp|" \
+                   "GIF file (*.gif)|*.gif|" \
+                   "EPS file (*.eps)|*.eps|" \
+                   "PCX file (*.pcx)|*.pcx|" \
+                   "XBM file (*.xbm)|*.xbm|" \
+                   "WEBP file (*.webp)|*.webp|" \
+                   "TGA file (*.tga)|*.tga|" \
+                   "TIFF file (*.tiff)|*.tiff|" \
                    "All files (*.*)|*.*"
-
 
         dlg = wx.FileDialog(
             self, 
             message="Export rendered image as...", 
             defaultDir=os.getcwd(),
-            defaultFile="image.png", 
+            defaultFile="untitled.png", 
             wildcard=wildcard, 
             style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
             )
 
         # This sets the default filter that the user will initially see. 
         # Otherwise, the first filter in the list will be used by default.
-        dlg.SetFilterIndex(2)
+        dlg.SetFilterIndex(12)
 
         if dlg.ShowModal() == wx.ID_OK:
-            #busy = wx.BusyInfo("Exporting Image...")
             path = dlg.GetPath()
+            filetype = os.path.splitext(path)[1]
 
-            # Export the image with the export options
-            ExportRenderedImageToFile(
-                rendered_image=self._parent.GetRenderedImage(), 
-                export_path=path,
-                quality=self._exportOptionsPnl.GetImageQualityValue(), 
-                optimize=self._exportOptionsPnl.GetOpimizeImageValue(), 
-                export_for_web=self._exportOptionsPnl.GetExportForWebValue()
-                )
+            if filetype not in SupportFTSave(list_all=True):
+                dlg = wx.MessageDialog(
+                    None, 
+                    "That file type isn't currently supported!", 
+                    "Cannot Save Image!", 
+                    style=wx.ICON_EXCLAMATION
+                    )
+                dlg.ShowModal()    
+
+            else:
+                # Export the image with the export options
+                ExportRenderedImageToFile(
+                    rendered_image=self._parent.GetRenderedImage(), 
+                    export_path=path,
+                    quality=self._exportOptionsPnl.GetImageQualityValue(), 
+                    optimize=self._exportOptionsPnl.GetOpimizeImageValue(), 
+                    export_for_web=self._exportOptionsPnl.GetExportForWebValue()
+                    )
+
+                notify = wx.adv.NotificationMessage(
+                    title="Image Exported Sucessfully",
+                    message="Your image was exported to \n {}".format(path),
+                    parent=None, flags=wx.ICON_INFORMATION)
+                notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
             
         dlg.Destroy()
-
-        notify = wx.adv.NotificationMessage(
-            title="Image Exported Sucessfully",
-            message="Your image was exported to \n {}".format(path),
-            parent=None, flags=wx.ICON_INFORMATION)
-        notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
-
 
     @property
     def ExportOptionsPanel(self):
@@ -206,5 +224,3 @@ class ImageExportPnl(wx.Panel):
             # Default preview image is a transparent 256x256 image
             image = Image.new('RGBA', (256, 256), (0, 0, 0, 1))
         return self._imagePreviewPnl.UpdatePreviewImage(image)
-
- 

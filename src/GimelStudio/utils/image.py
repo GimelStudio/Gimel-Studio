@@ -41,13 +41,34 @@ def ConvertImageToWx(image):
     return bitmap
 
 
-def IsFilePathExt(path, ext):
+def IsFPExt(path, extentions):
+    """ Returns whether the file in the filepath is in the extension/type list given.
+    :param path str: file path
+    :param extentions list: extension/type list
+    :returns boolean: 
+    """
     is_ext = False
-    if path.endswith(ext):
-        is_ext = True
+    for ext in extentions:
+        if path.endswith(ext):
+            is_ext = True
     return is_ext
+ 
 
+def GetFileExt(path, add_dot=False):
+    """ Returns the filetype extension from the given file path.
+    
+    :param str path: file path
+    :param boolean add_dot: whether to append a period/dot to the returned extension
+    :returns str: filetype extension (e.g: png)
+    """
+    ext = path.split(".")
+    ext.reverse()
+    if add_dot == True:
+        return ".{}".format(ext[0])
+    else:
+        return ext[0]
 
+ 
 def ExportRenderedImageToFile(rendered_image, export_path, 
                             quality=75, optimize=False, export_for_web=False):
     """ Smooths out the various export options for exporting images and
@@ -82,16 +103,25 @@ def ExportRenderedImageToFile(rendered_image, export_path,
         optimize = True
 
         # PNG specific
-        if IsFilePathExt(export_path, ".png"):
+        if IsFPExt(export_path, [".png"]):
             bits = 6 # How much should this be lowered??
             compress_level = 7 
 
-    # Make sure JPEGs get saved as RGB mode    
-    if IsFilePathExt(export_path, ".jpg") or IsFilePathExt(export_path, ".jpeg"):
+    # Make sure JPG, JPEG, PCX, EPS files get saved as RGB mode  
+    if IsFPExt(export_path, [".jpg", ".jpeg", ".pcx", ".eps"]):
         rendered_image = rendered_image.convert("RGB")
 
-    rendered_image.save(fp=export_path, quality=quality, optimize=optimize, 
-                        bits=bits, compress_level=compress_level)
+    # XBM needs mode 1
+    elif IsFPExt(export_path, [".xbm"]):
+        rendered_image = rendered_image.convert("1")
+
+    # TIFF doesn't have a quality param
+    if IsFPExt(export_path, [".tiff"]):
+        rendered_image.save(fp=export_path, optimize=optimize, bits=bits, 
+                            compress_level=compress_level)
+    else:
+        rendered_image.save(fp=export_path, quality=quality, optimize=optimize, 
+                            bits=bits, compress_level=compress_level)
 
 
 
