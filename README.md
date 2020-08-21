@@ -5,6 +5,7 @@ Gimel Studio is a **non-destructive, realtime image graphics editing software pr
 
 !["Gimel Studio"](/screenshots/gimel-studio-v0.3.0.JPG?raw=true "Gimel Studio")
 
+
 # Introduction
 
 Gimel Studio has a node-based workflow for realtime compositing, manipulating, generating and adding effects to images -complete with a registry of 15+ nodes and an API allowing users to script their own custom nodes in Python.
@@ -13,11 +14,12 @@ It provides basic image editing features such as rotate, resize and blur effects
 
 *Still in BETA stage, but can be considered stable enough for light production work.*
 
+
 # News
 
-See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases. Documentation for the latest API is a bit behind. To help out with latest development and/or documentation, contact me at <correctsyntax@yahoo.com> or submit a Pull Request. Thanks!
+See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases. To help out with latest development and/or documentation, contact me at <correctsyntax@yahoo.com> or submit a Github Pull Request. Thanks!
 
-**IMPORTANT: Old files from versions prior to v0.4.0 (currently this dev version) cannot be opened in this and future versions.**
+**IMPORTANT: Old project files created in versions prior to v0.4.0 cannot be opened in version v0.4.0 and onward due to major changes in the Gimel Studio project file system.**
 
 
 # Development 
@@ -26,7 +28,7 @@ See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for ne
 
 Pull requests and/or feature suggestions are welcome!
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROADMAP.txt) and [IDEAS.txt](IDEAS.txt) for a general idea of the possible future goals of the development of Gimel Studio.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROADMAP.txt) for a general idea of the possible future goals of the development of Gimel Studio.
 
 
 # Features
@@ -58,11 +60,13 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROA
 
 Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Studio homepage</a> to download the latest release or <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">click here</a> to see past releases on Github.
 
+
 # Documentation
 
 You can find the latest documentation at the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Studio homepage</a> or build it yourself following the steps in the section *Building the documentation from source* below.
 
 Documentation for past Gimel Studio releases can be <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">here</a>.
+
 
 # Installing from source
 
