@@ -33,7 +33,7 @@ def RegisterNode(nodedef):
 
 def UnregisterNode(name):
     """ Not implemented. """
-    pass
+    raise NotImplementedError
 
 
 # Shorten the names for the API
