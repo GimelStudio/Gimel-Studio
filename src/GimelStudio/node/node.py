@@ -319,10 +319,16 @@ class Node(object):
 
         :returns: ``PIL.Image`` object
         """
-        if self.IsCompositeOutput() == True:
-            return self.GetParent().GetParent().GetRenderedImage()
-        else:
+        if self.IsCompositeOutput() != True:
             return self._thumbImage
+        else:
+            # If there is no rendered image yet, return 
+            # the default transparent image
+            rendered_img = self.GetRenderedImage()
+            if rendered_img != None: 
+                return rendered_img
+            else:
+                return self._GetInitThumbImage()
 
     def SetThumbImage(self, thumb):
         """ Same as UpdateThumbImage. 
@@ -619,6 +625,10 @@ class Node(object):
         thumb.thumbnail((round((self.GetRect()[2]-10)/1.1), thumb.size[1]))
         self.SetThumbCache(thumb)
         return thumb
+
+    def GetRenderedImage(self):
+        """ Get the completed rendered composite image. """
+        return self.GetParent().GetParent().GetRenderedImage()
 
     @property
     def Theme(self):
