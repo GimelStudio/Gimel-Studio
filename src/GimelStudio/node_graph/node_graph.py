@@ -94,12 +94,36 @@ class NodeGraph(wx.ScrolledCanvas):
         # Context menu bindings
         self.Bind(wx.EVT_CONTEXT_MENU, self.OnContextMenu)
 
-        self._parent.Bind(wx.EVT_MENU, self.OnDeleteNode, id=ID_CONTEXTMENU_DELETENODE)
-        self._parent.Bind(wx.EVT_MENU, self.OnDeleteNodes, id=ID_CONTEXTMENU_DELETENODES)
-        self._parent.Bind(wx.EVT_MENU, self.OnEnableDisableNode, id=ID_CONTEXTMENU_ENABLEDISABLENODE)
-        self._parent.Bind(wx.EVT_MENU, self.OnSelectAllNodes, id=ID_CONTEXTMENU_SELECTALLNODES)
-        self._parent.Bind(wx.EVT_MENU, self.OnDeselectAllNodes, id=ID_CONTEXTMENU_DESELECTALLNODES)
-        self._parent.Bind(wx.EVT_MENU, self.OnDuplicateNode, id=ID_CONTEXTMENU_DUPLICATENODE)
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnDeleteNode, 
+            id=ID_CONTEXTMENU_DELETENODE
+            )
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnDeleteNodes, 
+            id=ID_CONTEXTMENU_DELETENODES
+            )
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnEnableDisableNode, 
+            id=ID_CONTEXTMENU_ENABLEDISABLENODE
+            )
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnSelectAllNodes, 
+            id=ID_CONTEXTMENU_SELECTALLNODES
+            )
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnDeselectAllNodes, 
+            id=ID_CONTEXTMENU_DESELECTALLNODES
+            )
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnDuplicateNode, 
+            id=ID_CONTEXTMENU_DUPLICATENODE
+            )
         
         # Keyboard shortcut bindings
         self.accel_tbl = wx.AcceleratorTable([(wx.ACCEL_ALT, ord('M'), 
@@ -224,7 +248,11 @@ class NodeGraph(wx.ScrolledCanvas):
                 othernodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
 
             self._nodeMenuItemIdMapping[CONTEXTMENU_ADDNODE_IDS[i]] = node_name
-            self.Bind(wx.EVT_MENU, self.OnSelectMenuItem, id=CONTEXTMENU_ADDNODE_IDS[i])
+            self.Bind(
+                wx.EVT_MENU, 
+                self.OnSelectMenuItem, 
+                id=CONTEXTMENU_ADDNODE_IDS[i]
+                )
             i += 1
 
         addnodemenu.AppendSubMenu(inputnodemenu, "Input")
@@ -282,8 +310,8 @@ class NodeGraph(wx.ScrolledCanvas):
 
     def OnDeleteNode(self, event):
         """ Event that deletes a single selected node. """
-        if self._activeNode != None and \
-           self._activeNode.IsCompositeOutput() != True:
+        if self._activeNode != None \
+            and self._activeNode.IsCompositeOutput() != True:
             self._activeNode.Delete()
             self._activeNode = None
 
@@ -423,7 +451,9 @@ class NodeGraph(wx.ScrolledCanvas):
                 )
 
         # Draw box selection bbox
-        if event.LeftIsDown() == True and self._srcNode == None:
+        if event.LeftIsDown() == True \
+            and self._srcNode == None and self._bboxStart != None:
+
             self._bboxRect = wx.Rect(
                 topLeft=self._bboxStart, 
                 bottomRight=winpnt
@@ -727,7 +757,7 @@ class NodeGraph(wx.ScrolledCanvas):
         self.RefreshGraph()
         return node
 
-
+ 
     def DeleteNodes(self):
         """ Delete the currently selected nodes. This will refuse
         to delete the Output Composite node though, for obvious reasons.
@@ -742,8 +772,9 @@ class NodeGraph(wx.ScrolledCanvas):
                 node.Draw(self._pdc)
         self._selectedNodes = []
         
-        if self._activeNode != None and \
-           self._activeNode.IsCompositeOutput() != True:
+        if self._activeNode != None \
+            and self._activeNode.IsCompositeOutput() != True:
+
             self._activeNode.Delete()
             self._activeNode = None
 
