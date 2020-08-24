@@ -128,7 +128,8 @@ class MainApplication(wx.Frame):
 
         # Init the panes
         self._imageViewport = ImageViewport(
-            self
+            self,
+            #(500, 600)
             )
         self._nodeRegistry = NodeRegistry(
             self
@@ -136,7 +137,7 @@ class MainApplication(wx.Frame):
 
         self._nodePropertyPanel = NodePropertyPanel(
             self,
-            (400, 800)
+            (500, 800)
             )
 
         self._nodeGraph = NodeGraph(
@@ -161,7 +162,7 @@ class MainApplication(wx.Frame):
             .Caption("Image Viewport")
             .Icon(ICON_PANEL_IMAGE_VIEWPORT_DARK.GetBitmap())
             .CloseButton(visible=False)
-            .BestSize(400, 400)
+            .BestSize(750, 500)
             )
         self._mgr.AddPane(
             self._nodePropertyPanel, 
@@ -171,7 +172,7 @@ class MainApplication(wx.Frame):
             .Caption("Node Properties")
             .Icon(ICON_PANEL_NODE_PROPERTY_PANEL_DARK.GetBitmap())
             .CloseButton(visible=False)
-            .BestSize(400, 400)
+            .BestSize(750, 400)
             )
         # self._mgr.AddPane(
         #     self._nodeRegistry, 
@@ -193,7 +194,9 @@ class MainApplication(wx.Frame):
             .Caption("Node Graph")
             .Icon(ICON_PANEL_NODE_GRAPH_DARK.GetBitmap())
             .CloseButton(visible=False)
-            .FloatingSize(wx.Size(200, 200))
+            .BestSize(750, 400)
+            .Floatable(False)
+            .Movable(False)
             )
 
         # Build the menubar
@@ -221,8 +224,10 @@ class MainApplication(wx.Frame):
 
         else:
             print('INFO: LOADING FILE {} FROM CMD'.format(self._arguments.file))
+            print(arguments.file, "<<")
             if self._arguments.file.endswith(".gimel-studio-project"):
-                self._project.OpenProjectFile(arguments.file)
+                self._project.OpenProjectFile(arguments.file) 
+                self.OnProjectSetTitle(arguments.file)
             else:
                 print("Opening other files from the CMD is not implemented yet!")
 
@@ -544,11 +549,8 @@ class MainApplication(wx.Frame):
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
             self._project.SaveProjectFile(paths[0])
-            self.SetActiveProjectFile(paths[0])
-            self.SetTitle("{0} - {1}".format(
-                __TITLE__,
-                dlg.GetFilename()
-                ))
+            self.OnProjectSetTitle(paths[0])
+
             del busy
 
             notify = wx.adv.NotificationMessage(
@@ -581,11 +583,7 @@ class MainApplication(wx.Frame):
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
             self._project.OpenProjectFile(paths[0])
-            self.SetActiveProjectFile(paths[0])
-            self.SetTitle("{0} - {1}".format(
-                __TITLE__,
-                dlg.GetFilename()
-                ))   
+            self.OnProjectSetTitle(paths[0])
 
             del busy    
 
@@ -620,8 +618,8 @@ class MainApplication(wx.Frame):
         return self._renderer.GetRenderedImage()
 
     def Render(self):
-        busy = wx.BusyInfo("Rendering Image...")
-        wx.Yield()
+        #busy = wx.BusyInfo("Rendering Image...")
+        #wx.Yield()
         self._renderer.Render(self._nodeGraph.GetNodes())
         render_time = self._renderer.GetRenderTime()
         render_image = self.GetRenderedImage()
@@ -631,8 +629,15 @@ class MainApplication(wx.Frame):
                 render_time
                 )
             self._nodeGraph.UpdateAllNodes()
-        del busy
+        #del busy
 
+    def OnProjectSetTitle(self, project_path):
+        """ Sets the window title for when a project is opened or edited. """
+        self.SetActiveProjectFile(project_path)
+        self.SetTitle("{0} - {1}".format(
+            __TITLE__,
+            project_path
+            ))  
  
     # FIXME
     def RestartProgram(self, new_args):
