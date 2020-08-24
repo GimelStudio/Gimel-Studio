@@ -58,7 +58,7 @@ class NodeDefinition(NodeBase):
         return [
             Property('Sigma',
                 prop_type='INTEGER',
-                value=0
+                value=1
                 ),
             Property('Intensity',
                 prop_type='INTEGER',
@@ -87,7 +87,7 @@ class NodeDefinition(NodeBase):
         self.sigma_slider = wx.Slider(
             parent, wx.ID_ANY, 
             value=current_sigma_value,
-            minValue=0, maxValue=8,
+            minValue=1, maxValue=8,
             style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
             )
         self.sigma_slider.SetTickFreq(1)
@@ -101,7 +101,7 @@ class NodeDefinition(NodeBase):
         self.intensity_slider = wx.Slider(
             parent, wx.ID_ANY, 
             value=current_intensity_value,
-            minValue=0, maxValue=6,
+            minValue=1, maxValue=6,
             style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
             )
         self.intensity_slider.SetTickFreq(1)
