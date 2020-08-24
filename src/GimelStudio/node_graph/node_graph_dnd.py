@@ -68,7 +68,7 @@ class NodeGraphDropTarget(wx.DropTarget):
         for filename in self._fileDropData.GetFilenames():
             try:
                 ext = GetFileExt(filename, add_dot=True)
-                if ext in SupportFTOpen(list_all=True):
+                if ext.lower() in SupportFTOpen(list_all=True):
                     if os.path.exists(filename) == True:
                         node = self._window.AddNode(where="CURSOR")
                         node.EditProperties('Path', filename)

@@ -124,7 +124,7 @@ class NodeDefinition(NodeBase):
             ext = GetFileExt(paths[0], add_dot=True)
 
             # We add the . here for this comparison
-            if ext in SupportFTOpen(list_all=True):
+            if ext.lower() in SupportFTOpen(list_all=True):
                 self.NodePropertiesUpdate('Path', paths[0])
                 self.pathtxtctrl.ChangeValue(paths[0])
                 self.UpdateInfoLabel(paths[0])
