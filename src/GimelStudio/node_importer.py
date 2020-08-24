@@ -21,6 +21,8 @@
  
 from GimelStudio.corenodes.input import (
                                         image_node,
+                                        color_image_node,
+                                        noise_image_node,
                                         gradient_image_node,
                                         )
 
@@ -47,6 +49,7 @@ from GimelStudio.corenodes.filter import (
                                         blur_node,
                                         opacity_node,
                                         sharpness_node,
+                                        effect_spread_node,
                                         )
 
 from GimelStudio.corenodes.output import output_node 
