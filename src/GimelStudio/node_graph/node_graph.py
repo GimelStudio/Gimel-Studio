@@ -73,6 +73,7 @@ class NodeGraph(wx.ScrolledCanvas):
         self._srcPlug = None
         self._tmpWire = None
         self._bboxRect = None
+        self._bboxStart = None
         self._middlePnt = None
 
         self._nodeMenuItemIdMapping = {}
