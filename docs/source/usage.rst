@@ -4,6 +4,29 @@ Gimel Studio Usage
 This part of the documentation shows basic usage of Gimel Studio.
 
 
+Launching the Application
+-------------------------
+
+Windows
+^^^^^^^
+
+1. Copy the downloaded zip file into the desired folder on your system and unzip it. 
+2. Find the 'Gimel Studio' executable file.
+
+Double-click on the executable file to launch Gimel Studio.
+
+
+Linux
+^^^^^
+
+1. Copy the downloaded compressed file into the desired folder on your system and uncompress in the same directory. 
+2. Find the 'Gimel Studio' executable file and right-click it to bring up the context menu. 
+3. Click *Properties* and navigate to the *Permissions* tab. 
+4. Under *Execute*, check the *Allow executing file* as program checkbox. 
+
+You should now be able to double-click on the executable file to launch Gimel Studio.
+
+
 Gimel Studio Panels
 -------------------
 
