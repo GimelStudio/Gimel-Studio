@@ -4,6 +4,19 @@ Gimel Studio Usage
 This part of the documentation shows basic usage of Gimel Studio.
 
 
+System Support
+--------------
+
+Gimel Studio has been tested to run on:
+
+* Windows 10 (64-bit)
+* Linux Mint 19 (64-bit)
+
+
+.. note::
+    Feel free to submit a Github pull request with a system you've tested Gimel Studio on in the above list.
+
+
 Launching the Application
 -------------------------
 
