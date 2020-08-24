@@ -20,6 +20,7 @@
 
 import os
 import wx
+from PIL import Image
 
 from GimelStudio.utils import GetFileExt
 from GimelStudio.file_support import SupportFTOpen
@@ -63,15 +64,20 @@ class NodeGraphDropTarget(wx.DropTarget):
         except Exception as error:
             self.ShowError(error)
         return wx.DragCopy
-
+ 
     def OnFileDrop(self):
         for filename in self._fileDropData.GetFilenames():
             try:
                 ext = GetFileExt(filename, add_dot=True)
                 if ext.lower() in SupportFTOpen(list_all=True):
                     if os.path.exists(filename) == True:
+                        # Create Image node with path
                         node = self._window.AddNode(where="CURSOR")
                         node.EditProperties('Path', filename)
+
+                        # Set initial thumb for Image node
+                        img = Image.open(filename)
+                        node.GetNodeDef().NodeSetThumb(img, force_redraw=True) 
                     else:
                         self.ShowError()
 
