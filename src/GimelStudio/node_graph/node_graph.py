@@ -214,6 +214,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
         # Add submenus
         inputnodemenu = wx.Menu()
+        drawnodemenu = wx.Menu()
         distortnodemenu = wx.Menu()
         valuenodemenu = wx.Menu()
         filternodemenu = wx.Menu()
@@ -233,6 +234,8 @@ class NodeGraph(wx.ScrolledCanvas):
 
             if node_category == "INPUT":
                 inputnodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
+            elif node_category == "DRAW":
+                drawnodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
             elif node_category == "DISTORT":
                 distortnodemenu.Append(CONTEXTMENU_ADDNODE_IDS[i], node_label)
             elif node_category == "VALUE":
@@ -257,10 +260,11 @@ class NodeGraph(wx.ScrolledCanvas):
             i += 1
 
         addnodemenu.AppendSubMenu(inputnodemenu, "Input")
-        addnodemenu.AppendSubMenu(distortnodemenu, "Distort")
-        addnodemenu.AppendSubMenu(filternodemenu, "Filter")
         addnodemenu.AppendSubMenu(blendnodemenu, "Blend")
+        addnodemenu.AppendSubMenu(filternodemenu, "Filter")
         addnodemenu.AppendSubMenu(colornodemenu, "Color")
+        addnodemenu.AppendSubMenu(distortnodemenu, "Distort")
+        addnodemenu.AppendSubMenu(drawnodemenu, "Draw")
         addnodemenu.AppendSubMenu(convertnodemenu, "Convert")
         addnodemenu.AppendSubMenu(valuenodemenu, "Value")
         addnodemenu.AppendSubMenu(othernodemenu, "Other")
