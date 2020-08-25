@@ -577,26 +577,41 @@ class MainApplication(wx.Frame):
             )
 
         if dlg.ShowModal() == wx.ID_OK:
-            busy = wx.BusyInfo("Loading File...")
+            busy = wx.BusyInfo("Loading Project File...")
             wx.Yield()
 
             # This returns a Python list of files that were selected.
             paths = dlg.GetPaths()
-            self._project.OpenProjectFile(paths[0])
-            self.OnProjectSetTitle(paths[0])
+            success = self._project.OpenProjectFile(paths[0])
 
-            del busy    
+            if success == True:
+                self.OnProjectSetTitle(paths[0])
 
-            notify = wx.adv.NotificationMessage(
-                title="Project File Opened",
-                message="Project opened and loaded from \n {}".format(paths[0]),
-                parent=None, flags=wx.ICON_INFORMATION
-                )
-            notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
+                notify = wx.adv.NotificationMessage(
+                    title="Project File Opened",
+                    message="Project opened and loaded from \n {}".format(paths[0]),
+                    parent=None, flags=wx.ICON_INFORMATION
+                    )
+                notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
 
-            # Enable save file
-            self.saveproject_menuitem.Enable(enable=True)
-             
+                del busy   
+
+                # Enable save file
+                self.saveproject_menuitem.Enable(enable=True)
+
+            elif success == False:
+                del busy    
+
+                errordialog = wx.MessageDialog(
+                    self,
+                    "This project could not be opened due to an unknown error.\n Please report this as a bug to the developer and/or upgrade to the latest version of Gimel Studio.", 
+                    "Cannot Open Project!", 
+                    wx.OK
+                    )
+
+                if errordialog.ShowModal() == wx.ID_YES:
+                    errordialog.Destroy()
+
 
     def OnQuit(self, event):
         quitdialog = wx.MessageDialog(

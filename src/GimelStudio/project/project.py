@@ -42,29 +42,33 @@ class GimelStudioProject(object):
     def OpenProjectFile(self, path):
         """ Opens a Gimel Studio Project file at the given path. """
 
-        with open(path, 'rb') as project_file:
-            project_data = pickle.load(project_file)
+        try:
+
+            with open(path, 'rb') as project_file:
+                project_data = pickle.load(project_file)
+            
+            node_data = project_data["nodes"]
+            meta_data = project_data["meta"]
+            #ui_data = project_data["ui"]
+
+            # Make sure files before this version are not opened
+            min_app_version = "0.4.0".split(".")
+            file_app_version = meta_data["application_version"].split(".")
+
+            #print(file_app_version, ' > ', min_app_version)
         
-        node_data = project_data["nodes"]
-        meta_data = project_data["meta"]
-        #ui_data = project_data["ui"]
-
-        # Make sure files before v0.4.0 are not opened
-        min_app_version = "0.4.0".split(".")
-        file_app_version = meta_data["application_version"].split(".")
-
-        #print(file_app_version, ' > ', min_app_version)
-    
-        if file_app_version >= min_app_version:
-            #self._CreateUI(ui_data)
-            self._CreateNodes(node_data)
-            return True
-        else:
-            print("File earlier than v0.4.0!")
+            if file_app_version >= min_app_version:
+                #self._CreateUI(ui_data)
+                self._CreateNodes(node_data)
+                return True
+            else:
+                print("File earlier than v0.4.0!")
+                return False
+            
+            #self._parent.Render()
+        except Exception as e:
+            print(e)
             return False
-        
-        #self._parent.Render()
-
 
     def SaveProjectFile(self, path):
         project_data = {}
