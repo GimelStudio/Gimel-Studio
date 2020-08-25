@@ -53,6 +53,7 @@ ID_CONTEXTMENU_ENABLEDISABLENODE = wx.NewIdRef()
 ID_CONTEXTMENU_DUPLICATENODE = wx.NewIdRef()
 ID_CONTEXTMENU_DESELECTALLNODES = wx.NewIdRef()
 ID_CONTEXTMENU_SELECTALLNODES = wx.NewIdRef() 
+ID_CONTEXTMENU_TOGGLENODEPREVIEWS = wx.NewIdRef()
 
 
 class NodeGraph(wx.ScrolledCanvas):
@@ -75,6 +76,7 @@ class NodeGraph(wx.ScrolledCanvas):
         self._bboxRect = None
         self._bboxStart = None
         self._middlePnt = None
+        self._nodePreviewToggled = False
 
         self._nodeMenuItemIdMapping = {}
 
@@ -125,6 +127,11 @@ class NodeGraph(wx.ScrolledCanvas):
             self.OnDuplicateNode, 
             id=ID_CONTEXTMENU_DUPLICATENODE
             )
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnToggleNodePreviews, 
+            id=ID_CONTEXTMENU_TOGGLENODEPREVIEWS
+            )
         
         # Keyboard shortcut bindings
         self.accel_tbl = wx.AcceleratorTable([(wx.ACCEL_ALT, ord('M'), 
@@ -134,7 +141,9 @@ class NodeGraph(wx.ScrolledCanvas):
                                               (wx.ACCEL_SHIFT, ord('X'), 
                                               ID_CONTEXTMENU_DELETENODES),
                                               (wx.ACCEL_SHIFT, ord('D'), 
-                                              ID_CONTEXTMENU_DUPLICATENODE)
+                                              ID_CONTEXTMENU_DUPLICATENODE),
+                                              (wx.ACCEL_SHIFT, ord('P'), 
+                                              ID_CONTEXTMENU_TOGGLENODEPREVIEWS)
                                              ])
         self._parent.SetAcceleratorTable(self.accel_tbl)
 
@@ -298,9 +307,19 @@ class NodeGraph(wx.ScrolledCanvas):
                contextmenu.Append(
                    ID_CONTEXTMENU_DELETENODES, "Delete Selected\tShift+X"
                    ) 
-
-        contextmenu.Append(ID_CONTEXTMENU_SELECTALLNODES, "Select All") 
-        contextmenu.Append(ID_CONTEXTMENU_DESELECTALLNODES, "Deselect All")
+ 
+        contextmenu.Append(
+            ID_CONTEXTMENU_SELECTALLNODES, 
+            "Select All"
+            ) 
+        contextmenu.Append(
+            ID_CONTEXTMENU_DESELECTALLNODES, 
+            "Deselect All"
+            )
+        contextmenu.Append(
+            ID_CONTEXTMENU_TOGGLENODEPREVIEWS, 
+            "Toggle Node Previews\tShift+P"
+            )
 
         # Popup the menu.  If an item is selected then its handler
         # will be called before PopupMenu returns.
@@ -364,6 +383,9 @@ class NodeGraph(wx.ScrolledCanvas):
         """ Event that duplicates the currently selected node. """
         self.DuplicateNode(self._activeNode)
 
+    def OnToggleNodePreviews(self, event):
+        """ Event that toggles the thumbnail preview of all the nodes. """
+        self.ToggleNodePreviews()
 
     def OnLeftDown(self, event):
         pnt = event.GetPosition()
@@ -797,6 +819,40 @@ class NodeGraph(wx.ScrolledCanvas):
         self._selectedNodes = []
         self.GetPDC().RemoveAll()
         self.RefreshGraph()
+
+
+    def ToggleNodePreviews(self):
+        """ Toggle node thumbnail previews. """
+        toggle = self.CalcNodePreviewToggle()
+        for node_id in self._nodes:
+            node = self._nodes[node_id]
+            if toggle == False:
+                node.SetThumbnailPreviewClosed()
+            else:
+                node.SetThumbnailPreviewOpen()
+            node.Draw(self._pdc)
+        
+        self.RefreshGraph()
+
+
+    def CalcNodePreviewToggle(self):
+        """ Calculate whether all the node previews should be
+        opened or closed based on the number of previews toggled already.
+
+        :returns boolean: whether all node previews should be opened or not
+        """
+        full_count = len(self._nodes)
+        toggled_count = 0
+
+        for node_id in self._nodes:
+            node = self._nodes[node_id]
+            if node.GetDrawThumb() == True:
+                toggled_count += 1
+
+        if toggled_count < (full_count - toggled_count):
+            return True
+        else:
+            return False
 
 
     def DuplicateNode(self, node):
