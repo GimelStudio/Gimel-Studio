@@ -3,25 +3,56 @@
 
 Gimel Studio v0.4.2 BETA -- ""
 
-v0.4.2 was mainly focused on improving stability and fixing bugs.
+v0.4.2 was mainly focused on adding more filetype support, improving stability and fixing bugs.
 
 
 General
 -------
 
 
+
+ * Added support for importing image filetypes:
+  - JPEG
+  - WEBP
+  - TGA
+  - TIFF
+
+ * Added support for exporting images as:
+  - BMP
+  - PCX
+  - GIF
+  - XBM
+  - EPS
+  - WEBP
+  - TGA
+  - TIFF
+
+  * Fixed bug with Output node preview
+  * Fixed bug with Image thumb not showing on file drag n' drop
+
+
 UI
 --
 
+ * Fixed layout issues
+  - Expanded Properties Panel and Image Viewport panels to look better by default
+  - Node Graph panel is now not dockable. The other panels can dock around it.
 
+Nodes
+-----
 
-Project File
-------------
-
+ * Added 3 new core nodes
+  - Image Color node
+  - Noise Image node
+  - Effect Spread node
 
 
 Node Graph
 ----------
 
+ * Added Toggle Node Previews feature in context menu
 
+
+Project File
+------------
 
