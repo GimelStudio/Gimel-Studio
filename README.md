@@ -63,7 +63,7 @@ Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Stu
 
 # Documentation
 
-You can find the latest documentation at the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Studio homepage</a> or build it yourself following the steps in the section *Building the documentation from source* below.
+You can find the latest documentation on <a href="https://gimel-studio.readthedocs.io/en/latest/">Read the docs</a> or build it yourself following the steps in the section *Building the documentation from source* below.
 
 Documentation for past Gimel Studio releases can be <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">here</a>.
 
