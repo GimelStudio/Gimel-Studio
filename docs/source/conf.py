@@ -64,3 +64,6 @@ html_static_path = ['_static']
 html_favicon = "../../assets/GIMELSTUDIO_ICO.ico"
 html_logo = "../../assets/GIMELSTUDIO_ICO.ico"
 
+
+master_doc = 'index'
+
