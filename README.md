@@ -2,8 +2,8 @@ Gimel Studio
 ============
 
 Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
-
-!["Gimel Studio"](/screenshots/gimel-studio-v0.3.0.JPG?raw=true "Gimel Studio")
+ 
+!["Gimel Studio"](/screenshots/gimel-studio-v0.4.2-pre-release-ui.JPG?raw=true "Gimel Studio")
 
 
 # Introduction
@@ -17,9 +17,7 @@ It provides basic image editing features such as rotate, resize and blur effects
 
 # News
 
-See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases. To help out with latest development and/or documentation, contact me at <correctsyntax@yahoo.com> or submit a Github Pull Request. Thanks!
-
-**IMPORTANT: Old project files created in versions prior to v0.4.0 cannot be opened in version v0.4.0 and onward due to major changes in the Gimel Studio project file system.**
+See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases.
 
 
 # Development 
