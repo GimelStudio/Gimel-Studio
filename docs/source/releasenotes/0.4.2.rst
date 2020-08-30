@@ -9,8 +9,6 @@ v0.4.2 was mainly focused on adding more filetype support, improving stability a
 General
 -------
 
-
-
  * Added support for importing image filetypes:
   - JPEG
   - WEBP
@@ -27,16 +25,16 @@ General
   - TGA
   - TIFF
 
-  * Fixed bug with Output node preview
-  * Fixed bug with Image thumb not showing on file drag n' drop
-
 
 UI
 --
 
  * Fixed layout issues
   - Expanded Properties Panel and Image Viewport panels to look better by default
-  - Node Graph panel is now not dockable. The other panels can dock around it.
+  - Node Graph panel is now NOT floatable/dockable. The other panels can be docked around it though.
+ * Dark theme is now the default
+ * Fixed window title on project load and save
+
 
 Nodes
 -----
@@ -56,3 +54,11 @@ Node Graph
 Project File
 ------------
 
+ * Added intial error handling for opening corrupted/old files
+
+
+Bug Fixes
+---------
+
+  * Fixed bug with Output node preview
+  * Fixed bug with Image thumb not showing on file drag n' drop
