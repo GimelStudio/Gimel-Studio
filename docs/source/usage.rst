@@ -1,7 +1,23 @@
 Gimel Studio Usage
 ==================
 
-This part of the documentation shows basic usage of Gimel Studio.
+This part of the documentation shows basic installation and usage of Gimel Studio.
+
+
+Download Release Builds
+-----------------------
+
+Executable builds for Windows and Linux can be downloaded from the  `Gimel Studio homepage`_.
+
+.. _Gimel Studio homepage: https://correctsyntax.com/projects/gimel-studio/
+
+
+Building from Source
+--------------------
+ 
+Please see the README in the `Github repository`_ for information on bulding from source.
+
+.. _Github repository: https://github.com/Correct-Syntax/Gimel-Studio
 
 
 System Support
