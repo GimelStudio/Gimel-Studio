@@ -3,9 +3,9 @@ Gimel Studio Nodes & Colors
 
 INPUT #975B5B (Burgendy)
 [x]- Image
-[] - Color Image
+[x]- Color Image
 [x]- Gradient Image
-- Texture/noise?
+[x]- Texture/noise
 
 DRAW #AF4467 (Pink)
 - Text?
@@ -14,8 +14,8 @@ DRAW #AF4467 (Pink)
 CONVERT #564B7C (Purple)
 [x]-Normal Map
 
-VALUE #CC783D (Orange)
-[x]-Color
+VALUE #CC783D (Orange) - MAY BE REMOVED
+-Color ?
 - Font ?
 
 FILTERS #558333 (Green)
