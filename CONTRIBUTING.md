@@ -1,6 +1,7 @@
 # How to contribute to Gimel Studio
 
-Thanks for wanting to contribute!
+Thanks for wanting to contribute! All contributions will be given due credit. :)
+
 
 ## Bugs (*You found a bug*)
 
@@ -19,4 +20,4 @@ Thanks for wanting to contribute!
 
 Please contact me at <correctsyntax@yahoo.com> for feature suggestions, ideas, or if you want to make a change to something. I welcome feedback.
 
-Take a look at the [ROADMAP.txt](ROADMAP.txt) and [IDEAS.txt](IDEAS.txt) too. :)
+Take a look at the [ROADMAP.txt](ROADMAP.txt) too. :)
