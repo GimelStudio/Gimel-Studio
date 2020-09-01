@@ -21,7 +21,7 @@ Edit graphics in a non-destructive workflow using different nodes and view the r
    
    usage
    api
-   reference/index.rst
+   apireference/index.rst
    faq
    releasenotes/index.rst
 
