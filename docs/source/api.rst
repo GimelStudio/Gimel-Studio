@@ -41,11 +41,6 @@ First Steps: Input Node Tutorial
 
 This is a tutorial to create a simple, custom Input Node usng the Gimel Studio API. It gives first steps in creating custom nodes and shows some of the core API concepts. The example node we will be creating is a simplified version of the Image Core Node in Gimel Studio and is an easy way to get going creating a custom node (it can be used as a template).
 
-.. figure:: _images/simple_input_node_finished_result.png
-    :align: center
-
-    The finished custom input node that we'll be scripting.
-
 
 Getting Setup to Script a Custom Node
 -------------------------------------
@@ -60,7 +55,7 @@ Within the directory of the Gimel Studio Program is a folder called **customnode
 
 In this folder you will find an example Python script for an "Example Custom Node" which illustrates how to script and register a NodeDefinition class to create a custom node. The *example_custom_node.py* contents should look similar to the following code:
 
-.. code-block::
+.. code-block:: python
 
     import os
 
@@ -169,7 +164,7 @@ This is a basic custom node which inputs an image from a filepath (similar to th
 
 You should also see a *__init__.py* file with the following contents:
 
-.. code-block::
+.. code-block:: python
 
     # Gimel Studio - (Custom Nodes)
 
@@ -212,7 +207,7 @@ Now that we're setup, let's start using the Gimel Studio API to create a custom 
 
 To script a custom node, we start with some imports:
 
-.. code-block::
+.. code-block:: python
     
     # from the standard library
     import os 
@@ -233,7 +228,7 @@ Start by importing any of the available outside API modules. In this case, we ne
 
 Next, import the neccessary classes from the GimelStudio API. For this node, we need ``Color, RenderImage, NodeBase, Parameter, Property,`` and ``RegisterNode``. 
 
-.. code-block::
+.. code-block:: python
 
     from GimelStudio.api import (Color, RenderImage, NodeBase,
                                 Parameter, Property,
@@ -251,7 +246,7 @@ Make a class that inherits from ``NodeBase``. By convention, this is called ``No
 
 Inside this class, we write the methods which override the default ``NodeBase`` methods which define the properties for our custom node.
 
-.. code-block::
+.. code-block:: python
 
         class NodeDefinition(NodeBase):
 
@@ -273,7 +268,7 @@ We will put ``"INPUT"`` for the catgory since we are creating an image input nod
 
 Write a property method (``NodeDescription``) to define a short description of the node that will be seen by the user in the node registry. It is conventional to have this in sentence-case with less than 20 words.
 
-.. code-block::
+.. code-block:: python
 
             @property
             def NodeIDName(self):
@@ -297,7 +292,7 @@ Next, write a ``NodeVersion`` method which will show the user (in the node regis
 
 Finally, write a ``NodeAuthor`` method which shows the user (in the node registry) who scripted/authored the node. (So, put your name there!) 
 
-.. code-block::
+.. code-block:: python
 
             @property
             def NodeVersion(self):
@@ -322,7 +317,7 @@ Now we start using the API to declare the data we want to handle.
 
 We write a ``NodeProperties`` method and return a list of ``Property`` objects. Properties, created via the ``Property`` class, hold the data so that we can set, update and get the data at any time within the API.
 
-.. code-block::
+.. code-block:: python
 
         @property
         def NodeProperties(self): 
@@ -351,7 +346,7 @@ In our case, we are going to create a text control widget and a browse button wi
 
 Here is the code:
 
-.. code-block::
+.. code-block:: python
 
         def NodePropertiesUI(self, node, parent, sizer):
             self.parent = parent
@@ -415,7 +410,7 @@ Of course, at this stage our node **still** doesn't actually *do* anything...so 
             
 Now, let's add the functionality of the node. We do so by writing a ``NodeEvaluation`` method which returns the render-image datatype.
 
-.. code-block::
+.. code-block:: python
 
     def NodeEvaluation(self, eval_info):
         # Get the file path from the property
@@ -450,7 +445,7 @@ The final step is to register our node in the Node Registry by calling the ``Reg
 
     If you have followed this tutorial from the beginning, the *__init__.py* file in the **customnodes** directory should have your node's file name (without the .py extension) listed. If not, please see :ref:`edit-custom-node-list`.
 
-.. code-block::
+.. code-block:: python
 
     # Register the node
     RegisterNode(NodeDefinition)
@@ -470,7 +465,7 @@ There we have it: a simple, custom input node. Feel free to edit as you like.
 
 Here is the full code for the simple input node:
 
-.. code-block::
+.. code-block:: python
 
     import os
 
@@ -627,7 +622,7 @@ Next, we add the name of our custom node file (without the ".py" extension) to t
 
 In your custom node file (opened in the code editor of your choice), start by writing the imports, meta information, etc. for the node like below:
 
-.. code-block::
+.. code-block:: python
 
     import wx
     from PIL import Image, ImageFilter
