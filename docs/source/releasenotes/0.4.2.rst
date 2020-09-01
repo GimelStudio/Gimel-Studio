@@ -1,9 +1,9 @@
 0.4.2
 =====
 
-Gimel Studio v0.4.2 BETA -- ""
+Gimel Studio v0.4.2 BETA -- "NOT RELEASED YET"
 
-v0.4.2 was mainly focused on adding more filetype support, improving stability and fixing bugs.
+v0.4.2 was mainly focused on adding more filetype support, improving stability/performance and fixing bugs.
 
 
 General
@@ -34,6 +34,13 @@ UI
   - Node Graph panel is now NOT floatable/dockable. The other panels can be docked around it though.
  * Dark theme is now the default
  * Fixed window title on project load and save
+ * Rendering message now shows up in the Image Viewport instead of in the center of the screen. :)
+
+
+Performance Improvements
+------------------------
+
+ * UI and renderer now run on separate threads (this means more speed and less GUI freeze!)
 
 
 Nodes
