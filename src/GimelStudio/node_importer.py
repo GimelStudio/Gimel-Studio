@@ -26,6 +26,8 @@ from GimelStudio.corenodes.input import (
                                         gradient_image_node,
                                         )
 
+from GimelStudio.corenodes.draw import add_text_node
+
 from GimelStudio.corenodes.convert import to_normal_map_node
 
 from GimelStudio.corenodes.color import (
