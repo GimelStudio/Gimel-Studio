@@ -29,6 +29,7 @@ from GimelStudio.datafiles.icons import *
 
 ID_IMAGE = wx.NewIdRef()
 ID_INFOTEXT = wx.NewIdRef()
+ID_RENDERTEXT = wx.NewIdRef()
 
 
 class ViewerImage(object):
@@ -236,7 +237,7 @@ class ImageViewerPnl(wx.Panel):
         self._pdc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 120)))
         self._pdc.DrawRectangle(0, 0, self.Size[0], 26)
         
-        text = 'Render Time: {0} sec. | Zoom: {1}%'.format(
+        text = 'Render Finished in {0} sec. | Zoom: {1}%'.format(
             round(self._renderTime, 3), 
             round(self.zoomValue*100)
             )
@@ -244,6 +245,17 @@ class ImageViewerPnl(wx.Panel):
         self._pdc.DrawText(text, 22, 2)
         self.RefreshViewer()
 
+    def UpdateRenderText(self, render=True):
+        """ Update the text durring a render. """
+        if render == True:
+            self._pdc.ClearId(ID_INFOTEXT)
+            self._pdc.SetId(ID_INFOTEXT)
+            self._pdc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 120)))
+            self._pdc.DrawRectangle(0, 0, self.Size[0], 26)
+        
+            self._pdc.SetTextForeground(wx.Colour('white'))
+            self._pdc.DrawText('Rendering Image...', 22, 2)
+            self.RefreshViewer()
 
     def SetRenderTime(self, render_time):
         self._renderTime = render_time

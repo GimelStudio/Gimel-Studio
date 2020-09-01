@@ -77,4 +77,7 @@ class ImageViewport(wx.Toolbook):
     def UpdateViewerImage(self, image, render_time):
         self._imageViewerPanel.UpdateViewerImage(image, render_time)
 
+    def UpdateRenderText(self, render):
+        self._imageViewerPanel.UpdateRenderText(render)
+
             
