@@ -402,7 +402,7 @@ Here is the code:
                 self.pathtxtctrl.ChangeValue(paths[0])
 
 
-.. figure:: _images/simple_input_node_properties_ui.png
+.. figure:: _images/simple_input_node_properties_ui.PNG
     :align: center
 
     Our completed Node Property panel UI
@@ -461,7 +461,7 @@ Finished Result
 
 You can now launch the Gimel Studio Application and you should see the custom node in the *Add Node* menu and/or the Node Registry. Add the node and connect it to the Output node. Click on the simple custom input node and click the browse button in the Node Property panel. It should prompt with a dialog allowing you to choose an image to input.
 
-.. figure:: _images/simple_input_node_finished_result.png
+.. figure:: _images/simple_input_node_finished_result.PNG
     :align: center
 
     The finished custom input node.
