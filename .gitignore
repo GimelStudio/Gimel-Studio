@@ -10,7 +10,7 @@ Pipfile.lock
 
 # Ignore my personal development file folders
 ideas
-reference
+myreference
 tests
 
 # Ignore built application folders/files
