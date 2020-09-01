@@ -22,6 +22,7 @@ import os
 import webbrowser
 import wx
 import wx.lib.agw.aui as aui
+import wx.lib.delayedresult as delayedresult
 
 from GimelStudio.meta import (__NAME__, __AUTHOR__, __VERSION__,
                               __DEBUG__, __TITLE__)
@@ -65,10 +66,12 @@ class MainApplication(wx.Frame):
 
         self._arguments = arguments
         self._activeprojectfile = None
+        self._jobID = 0
+        self._abortEvent = delayedresult.AbortEvent()
 
         # Set the program icon
         self.SetIcon(ICON_GIMELSTUDIO_ICO.GetIcon())
-
+ 
         # Init project, renderer and user preferences manager
         self._project = GimelStudioProject(self)
         self._renderer = Renderer(self)
@@ -224,7 +227,7 @@ class MainApplication(wx.Frame):
 
         else:
             print('INFO: LOADING FILE {} FROM CMD'.format(self._arguments.file))
-            print(arguments.file, "<<")
+            #print(arguments.file, "<<")
             if self._arguments.file.endswith(".gimel-studio-project"):
                 self._project.OpenProjectFile(arguments.file) 
                 self.OnProjectSetTitle(arguments.file)
@@ -293,11 +296,11 @@ class MainApplication(wx.Frame):
             pos=wx.Point(x+150, y)
             )
 
-        # The opacity node is here just for 
+        # This node is here just for 
         # testing during development.
         if __DEBUG__ == True:
             self._nodeGraph.AddNode(
-                'gimelstudiocorenode_opacity', 
+                'gimelstudiocorenode_addtext', 
                 pos=wx.Point(x-100, y)
                 )
 
@@ -633,18 +636,49 @@ class MainApplication(wx.Frame):
         return self._renderer.GetRenderedImage()
 
     def Render(self):
-        #busy = wx.BusyInfo("Rendering Image...")
-        #wx.Yield()
-        self._renderer.Render(self._nodeGraph.GetNodes())
-        render_time = self._renderer.GetRenderTime()
-        render_image = self.GetRenderedImage()
-        if render_image != None:
-            self._imageViewport.UpdateViewerImage(
-                ConvertImageToWx(render_image),
-                render_time
-                )
+        """ Callable render method. This is intended to be the 'master' render
+        method, called when the Node Graph image is to be rendered.
+        """
+        self._abortEvent.clear()
+        self._jobID += 1
+        #print( "Starting job %s in thread: GUI remains responsive" % self._jobID )
+        delayedresult.startWorker(
+            self._postRender, 
+            self._Render,
+            wargs=(self._jobID, self._abortEvent), 
+            jobID=self._jobID
+            )
+        
+    def _Render(self, jobID, abort_event):
+        """ Internal rendering method. """
+        if not abort_event():
+            self._imageViewport.UpdateRenderText(True)
+            self._renderer.Render(self._nodeGraph.GetNodes())
+            render_time = self._renderer.GetRenderTime()
+            render_image = self.GetRenderedImage()
+            if render_image != None:
+                self._imageViewport.UpdateViewerImage(
+                    ConvertImageToWx(render_image),
+                    render_time
+                    )
+                self._abortEvent.set()
+        else:
+            self._abortEvent.clear()
+
+        self._imageViewport.UpdateRenderText(False)
+        return jobID
+
+    def _postRender(self, delayedResult):
+        """ Internal post-render misc. """
+        try:
+            result = delayedResult.get()
+            #print("Aborting result for job %s" % self.jobID)
             self._nodeGraph.UpdateAllNodes()
-        #del busy
+            self._abortEvent.clear()
+            return result
+        except Exception as exc:
+            #print(exc)
+            return
 
     def OnProjectSetTitle(self, project_path):
         """ Sets the window title for when a project is opened or edited. """
