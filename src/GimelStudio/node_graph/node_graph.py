@@ -59,7 +59,7 @@ ID_CONTEXTMENU_TOGGLENODEPREVIEWS = wx.NewIdRef()
 class NodeGraph(wx.ScrolledCanvas):
     def __init__(self, parent, size=wx.DefaultSize):
         wx.ScrolledCanvas.__init__(self, parent, size=size)
- 
+        
         self._parent = parent
 
         # Set Node Graph to 10000x10000 pixels max
@@ -269,10 +269,10 @@ class NodeGraph(wx.ScrolledCanvas):
             i += 1
 
         addnodemenu.AppendSubMenu(inputnodemenu, "Input")
-        addnodemenu.AppendSubMenu(blendnodemenu, "Blend")
         addnodemenu.AppendSubMenu(filternodemenu, "Filter")
         addnodemenu.AppendSubMenu(colornodemenu, "Color")
         addnodemenu.AppendSubMenu(distortnodemenu, "Distort")
+        addnodemenu.AppendSubMenu(blendnodemenu, "Blend")
         addnodemenu.AppendSubMenu(drawnodemenu, "Draw")
         addnodemenu.AppendSubMenu(convertnodemenu, "Convert")
         addnodemenu.AppendSubMenu(valuenodemenu, "Value")
