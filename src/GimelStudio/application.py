@@ -301,7 +301,7 @@ class MainApplication(wx.Frame):
         # testing during development.
         if __DEBUG__ == True:
             self._nodeGraph.AddNode(
-                'gimelstudiocorenode_addtext', 
+                'gimelstudiocorenode_toaomap', 
                 pos=wx.Point(x-100, y)
                 )
 
