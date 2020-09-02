@@ -1,19 +1,13 @@
 0.4.2
 =====
 
-Gimel Studio v0.4.2 BETA -- "NOT RELEASED YET"
+Gimel Studio v0.4.2 BETA -- "September 2020"
 
-v0.4.2 was mainly focused on adding more filetype support, improving stability/performance and fixing bugs.
+v0.4.2 was mainly focused on adding more filetype support, improving stability/performance and fixing bugs. This release also includes 4 new core nodes for converting images to PBR maps for 3D as well as some misc. input and effect nodes.
 
 
 General
 -------
-
- * Added support for importing image filetypes:
-  - JPEG
-  - WEBP
-  - TGA
-  - TIFF
 
  * Added support for exporting images as:
   - BMP
@@ -24,6 +18,8 @@ General
   - WEBP
   - TGA
   - TIFF
+
+ * Added OpenCV as a dependancy
 
 
 UI
@@ -46,10 +42,20 @@ Performance Improvements
 Nodes
 -----
 
- * Added 3 new core nodes
-  - Image Color node
-  - Noise Image node
-  - Effect Spread node
+ * Image node now has additional support for importing image filetypes:
+  - JPEG
+  - WEBP
+  - TGA
+  - TIFF
+
+ * Added 7 new core nodes
+  - Image Color
+  - Noise Image
+  - Effect Spread
+  - To AO Map
+  - To Specular Map
+  - To Bump Map
+  - To Roughness Map
 
 
 Node Graph
@@ -69,3 +75,4 @@ Bug Fixes
 
   * Fixed bug with Output node preview
   * Fixed bug with Image thumb not showing on file drag n' drop
+  * Fixed some issues on Linux
