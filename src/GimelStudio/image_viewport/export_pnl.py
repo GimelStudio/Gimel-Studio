@@ -177,7 +177,7 @@ class ImageExportPnl(wx.Panel):
 
         # This sets the default filter that the user will initially see. 
         # Otherwise, the first filter in the list will be used by default.
-        dlg.SetFilterIndex(12)
+        dlg.SetFilterIndex(11)
 
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()

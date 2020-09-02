@@ -18,6 +18,7 @@
 ## PURPOSE: Main application class which ties all the elements into one window
 ## ----------------------------------------------------------------------------
 
+
 import os
 import webbrowser
 import wx
@@ -367,9 +368,9 @@ class MainApplication(wx.Frame):
             "Save Project... \tCtrl+S", 
             "Save the current Gimel Studio project file"
             )
-        if self.GetActiveProjectFile() == None:
-            self.saveproject_menuitem.Enable(enable=False)
         self.filemenu.Append(self.saveproject_menuitem)
+        if self.GetActiveProjectFile() == None:
+            self.saveproject_menuitem.Enable(False)
 
         self.saveprojectas_menuitem = wx.MenuItem(
             self.filemenu, 
