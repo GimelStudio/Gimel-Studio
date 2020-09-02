@@ -14,4 +14,4 @@ pillow = "*"
 wxpython = "*"
 scipy = "*"
 numpy = "*"
-
+opencv-python = "*"
