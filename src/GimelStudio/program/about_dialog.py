@@ -56,6 +56,7 @@ This version of Gimel Studio is made possible thanks to the following open-sourc
 - wxPython {2}
 - Numpy 
 - Scipy
+- OpenCV
 
 Praise to our Heavenly Father, YAHWEH for allowing the time and resources to make this software program a reality. 
 
