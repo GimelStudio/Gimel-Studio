@@ -287,12 +287,12 @@ class MainApplication(wx.Frame):
         x, y = (rect[0]/2)+5000, (rect[1]/2)+5000
 
         # Add default nodes
-        self._nodeGraph.AddNode(
+        img_node = self._nodeGraph.AddNode(
             'gimelstudiocorenode_image', 
             pos=wx.Point(x-340, y)
             )
         
-        self._nodeGraph.AddNode(
+        comp_node = self._nodeGraph.AddNode(
             'gimelstudiocorenode_outputcomposite', 
             pos=wx.Point(x+150, y)
             )
@@ -304,6 +304,9 @@ class MainApplication(wx.Frame):
                 'gimelstudiocorenode_toaomap', 
                 pos=wx.Point(x-100, y)
                 )
+
+        # Connect the default nodes
+        img_node.FindPlug('Output').Connect(comp_node.FindPlug('Image'))
 
 
     def _BuildUIToolbars(self):
@@ -678,7 +681,7 @@ class MainApplication(wx.Frame):
             self._abortEvent.clear()
             return result
         except Exception as exc:
-            #print(exc)
+            print('ERROR: PLEASE REPORT THE FOLLOWING ERROR TO THE DEVELOPERS: \n', exc)
             return
 
     def OnProjectSetTitle(self, project_path):
