@@ -8,9 +8,9 @@ Gimel Studio is a **non-destructive, realtime image graphics editing software pr
 
 # Introduction
 
-Gimel Studio has a node-based workflow for realtime compositing, manipulating, generating and adding effects to images -complete with a registry of 15+ nodes and an API allowing users to script their own custom nodes in Python.
+Gimel Studio has a node-based workflow for realtime compositing, manipulating, generating and adding effects to images -complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
 
-It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capabilities such as generating normal maps for use in 3D from images.
+It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
 *Still in BETA stage, but can be considered stable enough for light production work.*
 
@@ -34,22 +34,21 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROA
 **Highlights**
   
   * Written in pure Python with minimal dependancies
-  * Support for opening and saving your nodegraph as a GIMEL-STUDIO-PROJECT
+  * Support for opening and saving your full nodegraph as a GIMEL-STUDIO-PROJECT
   * Features packing images into the project file (meaning project files can be shared between users on different computers and Operating Systems without hassle)
-  * 15+ nodes with a wide range of functionality 
+  * 20+ nodes with a wide range of functionality 
   * Node Graph featuring node deletion, duplication, selection, etc. 
   * Node-based workflow (similar to Blender 3D)
-  * JPEG, PNG, BMP file types support
+  * JPEG, JPG, PNG, BMP, WEBP (and more...) file type support
   * API for scripting custom nodes in Python
   * Dark & Light UI themes w/ wire curving
   * Zoomable Image Viewport for viewing renders in real-time
 
 **Tidbits**
 
-  * Auto-renders as the Node Graph is edited `now, a setting that you can change if you so desire`
+  * Auto-renders as the Node Graph is edited (this is a setting that you can change if you so desire)`
   * Toggle-able thumbnails on nodes showing the steps of the rendered image
   * Rearrangable and resizable panels for the main UI
-  * Drag 'n drop nodes from the Node Registry `(temorarily removed in v0.3.0, v0.4.0)`
 
 **And More...**
 
