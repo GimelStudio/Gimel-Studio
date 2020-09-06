@@ -25,7 +25,7 @@ __NAME__ = "Gimel Studio"
 __AUTHOR__ = "Noah Rahm, Correct Syntax"
 
 # Release version: [major].[minor].[build]
-__VERSION__ = "0.4.2"
+__VERSION__ = "0.5.0"
 
 # Whether this program is in development mode
 # USAGE: Switch to False before building as .exe or similar package to
