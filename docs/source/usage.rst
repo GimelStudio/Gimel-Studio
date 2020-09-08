@@ -23,11 +23,24 @@ Please see the README in the `Github repository`_ for information on bulding fro
 System Support
 --------------
 
-Gimel Studio has been tested to run on:
+Gimel Studio has been tested to run the following systems:
+
+Windows
+^^^^^^^
 
 * Windows 10 (64-bit)
-* Linux Mint 19 (64-bit)
+* Apparently, it also runs on Windows 7 and 8 (64-bit) as well.
 
+ 
+Linux
+^^^^^
+
+* Linux Mint 20 (64-bit)
+
+.. warning::
+    It is likely that the *built executable* (available for download on the website) only supports Ubuntu 20.04.1 LTS/Linux Mint 20 and onwards. 
+    
+    *Building from source* should work on any system that supports Python 3.6+
 
 .. note::
     Feel free to submit a Github pull request with a system you've tested Gimel Studio on in the above list.

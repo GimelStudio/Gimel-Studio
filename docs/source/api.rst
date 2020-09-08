@@ -30,7 +30,7 @@ Note on Python Versions
 The Gimel Studio application comes bundled with Python 3, but specific versions may vary depending on the build and target OS:
 
 | (Current builds)
-| Linux 64-bit - Python 3.6
+| Linux 64-bit - Python 3.8
 | Windows 64-bit - Python 3.8
 
 If you built Gimel Studio from the source yourself, be sure that you used a Python version higher that 3.6. Gimel Studio is developed for Python 3.6+ and stability cannot be guaranteed with earlier versions. Please take this into account when developing custom nodes also.
