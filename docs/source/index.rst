@@ -19,6 +19,7 @@ Edit graphics in a non-destructive workflow using different nodes and view the r
    :maxdepth: 2
    :caption: Contents:
    
+   install
    usage
    api
    apireference/index.rst

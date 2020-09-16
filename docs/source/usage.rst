@@ -1,72 +1,7 @@
 Gimel Studio Usage
 ==================
 
-This part of the documentation shows basic installation and usage of Gimel Studio.
-
-
-Download Release Builds
------------------------
-
-Executable builds for Windows and Linux can be downloaded from the  `Gimel Studio homepage`_.
-
-.. _Gimel Studio homepage: https://correctsyntax.com/projects/gimel-studio/
-
-
-Building from Source
---------------------
- 
-Please see the README in the `Github repository`_ for information on bulding from source.
-
-.. _Github repository: https://github.com/Correct-Syntax/Gimel-Studio
-
-
-System Support
---------------
-
-Gimel Studio has been tested to run the following systems:
-
-Windows
-^^^^^^^
-
-* Windows 10 (64-bit)
-* Apparently, it also runs on Windows 7 and 8 (64-bit) as well.
-
- 
-Linux
-^^^^^
-
-* Linux Mint 20 (64-bit)
-
-.. warning::
-    It is likely that the *built executable* (available for download on the website) only supports Ubuntu 20.04.1 LTS/Linux Mint 20 and onwards. 
-    
-    *Building from source* should work on any system that supports Python 3.6+
-
-.. note::
-    Feel free to submit a Github pull request with a system you've tested Gimel Studio on in the above list.
-
-
-Launching the Application
--------------------------
-
-Windows
-^^^^^^^
-
-1. Copy the downloaded zip file into the desired folder on your system and unzip it. 
-2. Find the 'Gimel Studio' executable file.
-
-Double-click on the executable file to launch Gimel Studio.
-
-
-Linux
-^^^^^
-
-1. Copy the downloaded compressed file into the desired folder on your system and uncompress in the same directory. 
-2. Find the 'Gimel Studio' executable file and right-click it to bring up the context menu. 
-3. Click *Properties* and navigate to the *Permissions* tab. 
-4. Under *Execute*, check the *Allow executing file* as program checkbox. 
-
-You should now be able to double-click on the executable file to launch Gimel Studio.
+This part of the documentation shows basic usage of Gimel Studio.
 
 
 Gimel Studio Panels
