@@ -1,7 +1,7 @@
 Gimel Studio
 ============
 
-Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
+Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux. 
  
 !["Gimel Studio"](/screenshots/gimel-studio-v0.4.2-pre-release-ui.JPG?raw=true "Gimel Studio")
 
@@ -12,21 +12,14 @@ Gimel Studio has a node-based workflow for realtime compositing, manipulating, g
 
 It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
+Gimel Studio aims to be simple enough for non-technical people to use, yet provide a powerful and streamlined experience for professional editing.
+
 *Still in BETA stage, but can be considered stable enough for light production work.*
 
 
 # News
 
 See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases.
-
-
-# Development 
-
-**Help develop Gimel Studio**
-
-Pull requests and/or feature suggestions are welcome!
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROADMAP.txt) for a general idea of the possible future goals of the development of Gimel Studio.
 
 
 # Features
@@ -46,7 +39,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROA
 
 **Tidbits**
 
-  * Auto-renders as the Node Graph is edited (this is a setting that you can change if you so desire)`
+  * Auto-renders as the Node Graph is edited (this is a setting that you can change if you so desire)
   * Toggle-able thumbnails on nodes showing the steps of the rendered image
   * Rearrangable and resizable panels for the main UI
 
@@ -62,7 +55,16 @@ Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Stu
 
 You can find the latest documentation on <a href="https://gimel-studio.readthedocs.io/en/latest/">Read the docs</a> or build it yourself following the steps in the section *Building the documentation from source* below.
 
-Documentation for past Gimel Studio releases can be <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">here</a>.
+Documentation for past Gimel Studio releases can be found <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">here</a>.
+
+
+# Development 
+
+**Help develop Gimel Studio**
+
+Pull requests and/or feature suggestions are welcome!
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROADMAP.txt) for a general idea of the possible future goals of the development of Gimel Studio.
 
 
 # Installing from source
