@@ -8,15 +8,15 @@ INPUT #975B5B (Burgendy)
 [x]- Texture/noise
 
 DRAW #AF4467 (Pink)
-- Text?
-- Shape?
+- Add Text?
+- Add Shape?
 
 CONVERT #564B7C (Purple)
-[x]-Normal Map
-
-VALUE #CC783D (Orange) - MAY BE REMOVED
--Color ?
-- Font ?
+[x]- To Normal Map
+[x]- To AO Map
+[x]- To Specular Map
+[x]- To Bump Map
+[x]- To Roughness Map
 
 FILTERS #558333 (Green)
 [x]- Blur
