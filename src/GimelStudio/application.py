@@ -1,16 +1,41 @@
- 
+## ----------------------------------------------------------------------------
+## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+##
+## FILE: application.py
+## AUTHOR(S): Noah Rahm
+## PURPOSE: Main application class which ties all the elements into one window
+## ----------------------------------------------------------------------------
+
 import os 
+import webbrowser
 
 import wx
 import wx.lib.agw.aui as aui
 import wx.lib.delayedresult as delayedresult
 
-from GimelStudio.interface import NodeGraph, NodePropertyPanel, ImageViewport
+from GimelStudio.interface import (
+    NodeGraph, NodePropertyPanel, 
+    ImageViewport
+    )
+from GimelStudio.program import (
+    AboutDialog, LicenseDialog
+    ) 
 from GimelStudio.renderer import Renderer
 from GimelStudio import utils
 from GimelStudio import meta
 from GimelStudio.datafiles import *
-
 
 
 # Create IDs
@@ -40,6 +65,12 @@ class MainApplication(wx.Frame):
         # Init everything
         self._InitApp()
 
+        self.SetBackgroundColour(wx.Colour("#C7C7C7"))
+        self.statusbar = self.CreateStatusBar()
+        self.statusbar.SetStatusText("")
+        self.statusbar.SetBackgroundColour(wx.Colour("#C7C7C7"))
+        self.statusbar.SetForegroundColour(wx.Colour("white"))
+
 
         self._nodeGraph.AddNode("corenode_outputcomposite", 
         wx.NewIdRef(), pos=wx.Point(5010, 5010))
@@ -60,8 +91,8 @@ class MainApplication(wx.Frame):
         self._nodeGraph.AddNode("corenode_brightness", 
         wx.NewIdRef(), pos=wx.Point(5660, 5660))
 
-
-        
+        self._nodeGraph.AddNode("examplecustomnode_brightness", 
+        wx.NewIdRef(), pos=wx.Point(5960, 5660))
 
 
     def _InitApp(self):
@@ -201,21 +232,6 @@ class MainApplication(wx.Frame):
         # View menu
         self.viewmenu = wx.Menu()
 
-        # View mode submenu
-        # self.viewmode_submenu = wx.Menu()
-
-        # self.viewmode_menuitem = wx.MenuItem(
-        #     self.viewmode_submenu, 
-        #     wx.ID_ANY, 
-        #     "Optimized",  
-        #     "",  
-        #     )
-        # self.viewmode_submenu.Append(self.viewmode_menuitem)
-
-        # self.viewmenu.Append(wx.ID_ANY, "View Mode", self.viewmode_submenu)
-
-        # self.viewmenu.AppendSeparator()
-
         self.togglefullscreen_menuitem = wx.MenuItem(
             self.viewmenu, 
             wx.ID_ANY, 
@@ -230,7 +246,7 @@ class MainApplication(wx.Frame):
             self.viewmenu, 
             wx.ID_ANY, 
             "Show Grid",  
-            "Toggle the Node Graph grid", 
+            "Toggle the Node Graph grid background", 
             wx.ITEM_CHECK
             )
         self.viewmenu.Append(self.togglenodegraphgrid_menuitem)
@@ -242,16 +258,15 @@ class MainApplication(wx.Frame):
         # Render menu
         self.rendermenu = wx.Menu()
 
-        self.autorender_menuitem = wx.MenuItem(
+        self.toggleautorender_menuitem = wx.MenuItem(
             self.rendermenu, 
             wx.ID_ANY, 
             "Auto Render",  
-            "Toggle whether to auto render after editing node properties, \
-                connections, etc", 
+            "Toggle whether to auto render after editing node properties, connections, etc", 
             wx.ITEM_CHECK
             )
-        self.rendermenu.Append(self.autorender_menuitem)
-        self.rendermenu.Check(self.autorender_menuitem.GetId(), True)
+        self.rendermenu.Append(self.toggleautorender_menuitem)
+        self.rendermenu.Check(self.toggleautorender_menuitem.GetId(), True)
 
         self.renderimage_menuitem = wx.MenuItem(
             self.rendermenu, 
@@ -267,24 +282,34 @@ class MainApplication(wx.Frame):
         # Help menu
         self.helpmenu = wx.Menu()
 
-        self.takefeedbacksurvey_menuitem = wx.MenuItem(
-            self.helpmenu, 
-            wx.ID_ANY, 
-            "Feedback Survey", 
-            "Take a short survey online about Gimel Studio"
-            )
-        #self.takefeedbacksurvey_menuitem.SetBitmap(
-        # ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
-        self.helpmenu.Append(self.takefeedbacksurvey_menuitem)
-
         self.onlinedocs_menuitem = wx.MenuItem(
             self.helpmenu, 
             wx.ID_ANY, 
-            "Online Docs", 
+            "Online Documentation", 
             "Open the Gimel Studio documentation in browser"
             )
         self.helpmenu.Append(self.onlinedocs_menuitem)
-        
+
+        self.helpmenu.AppendSeparator()
+
+        self.visithomepage_menuitem = wx.MenuItem(
+            self.helpmenu, 
+            wx.ID_ANY, 
+            "Visit Website", 
+            "Visit the Gimel Studio home page"
+            )
+        self.helpmenu.Append(self.visithomepage_menuitem)
+
+        self.feedbacksurvey_menuitem = wx.MenuItem(
+            self.helpmenu, 
+            wx.ID_ANY, 
+            "Feedback Survey", 
+            "Take a short survey online about Gimel Studio v0.5.x beta"
+            )
+        #self.feedbacksurvey_menuitem.SetBitmap(
+        # ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
+        self.helpmenu.Append(self.feedbacksurvey_menuitem)
+
         self.license_menuitem = wx.MenuItem(
             self.helpmenu, 
             wx.ID_ANY, 
@@ -293,6 +318,8 @@ class MainApplication(wx.Frame):
             )
         #self.about_menuitem.SetBitmap(ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
         self.helpmenu.Append(self.license_menuitem)
+
+        self.helpmenu.AppendSeparator()
 
         self.about_menuitem = wx.MenuItem(
             self.helpmenu, 
@@ -308,8 +335,38 @@ class MainApplication(wx.Frame):
 
         self.SetMenuBar(self.mainmenubar)
 
+
         # Menubar bindings
-        self.Bind(wx.EVT_MENU, self.OnRender, self.renderimage_menuitem)
+        self.Bind(wx.EVT_MENU, self.OnToggleFullscreen, 
+            self.togglefullscreen_menuitem
+            )
+        self.Bind(wx.EVT_MENU, 
+            self.OnToggleNodeGraphGrid, 
+            self.togglenodegraphgrid_menuitem
+            ) 
+
+        self.Bind(wx.EVT_MENU, self.OnToggleAutoRender, 
+            self.toggleautorender_menuitem
+            )
+        self.Bind(wx.EVT_MENU, self.OnRender, 
+            self.renderimage_menuitem
+            )
+
+        self.Bind(wx.EVT_MENU, self.OnReadOnlineDocs, 
+            self.onlinedocs_menuitem
+            ) 
+        self.Bind(wx.EVT_MENU, self.OnVisitWebsite, 
+            self.visithomepage_menuitem
+            )
+        self.Bind(wx.EVT_MENU, self.OnFeedbackSurvey, 
+            self.feedbacksurvey_menuitem
+            )
+        self.Bind(wx.EVT_MENU, self.OnLicenseDialog, 
+            self.license_menuitem
+            )
+        self.Bind(wx.EVT_MENU, self.OnAboutDialog, 
+            self.about_menuitem
+            )
 
 
     def _InitUIPanels(self):
@@ -374,10 +431,69 @@ class MainApplication(wx.Frame):
             self.Bind(wx.EVT_CLOSE, self.OnQuit)
 
 
+    def OnToggleFullscreen(self, event):
+        if self.IsMaximized() == False:
+            self.Maximize()
+        elif self.IsMaximized() == True:
+            self.Restore()
+
+    def OnToggleNodeGraphGrid(self, event):
+        if self.togglenodegraphgrid_menuitem.IsChecked() == False:
+            self._nodeGraph.SetShouldDrawGrid(False)
+        else:
+            self._nodeGraph.SetShouldDrawGrid(True)
+        self._nodeGraph.RefreshGraph()
+
+    def OnToggleAutoRender(self, event):
+        if self.toggleautorender_menuitem.IsChecked() == False:
+            print("no auto render")
+        else:
+            print("render")
+        self._nodeGraph.RefreshGraph()
 
     def OnRender(self, event):
         """ Event handler for rendering the current Node Graph. """
         self.Render()  
+
+    def OnQuit(self, event):
+        quitdialog = wx.MessageDialog(
+            self, 
+            "Do you really want to quit? You will lose any unsaved data.", 
+            "Quit Gimel Studio?", 
+            wx.YES_NO|wx.YES_DEFAULT
+            )
+
+        if quitdialog.ShowModal() == wx.ID_YES:
+            quitdialog.Destroy()
+            self._mgr.UnInit()
+            del self._mgr
+            self.Destroy()
+        else:
+            event.Skip()
+
+    def OnFeedbackSurvey(self, event):
+        """ Go to the feedback survey webpage. """
+        # Will be removed after BETA stage
+        url = ("https://www.surveymonkey.com/r/RSRD556")
+        webbrowser.open(url) 
+
+    def OnReadOnlineDocs(self, event):
+        """ Go to the Gimel Studio documentation online. """
+        url = ("https://gimel-studio.readthedocs.io/en/latest/")
+        webbrowser.open(url) 
+
+    def OnVisitWebsite(self, event):
+        """ Go to the Gimel Studio home page. """
+        url = ("https://correctsyntax.com/projects/gimel-studio/")
+        webbrowser.open(url) 
+
+    def OnAboutDialog(self, event):
+        dialog = AboutDialog(self)
+        dialog.ShowDialog()
+
+    def OnLicenseDialog(self, event):
+        dialog = LicenseDialog(self)
+        dialog.ShowDialog()
 
     def Render(self):
         """ Callable render method. This is intended to be the 'master' render
@@ -425,18 +541,4 @@ class MainApplication(wx.Frame):
             return
 
 
-    def OnQuit(self, event):
-        quitdialog = wx.MessageDialog(
-            self, 
-            "Do you really want to quit? You will lose any unsaved data.", 
-            "Quit Gimel Studio?", 
-            wx.YES_NO|wx.YES_DEFAULT
-            )
 
-        if quitdialog.ShowModal() == wx.ID_YES:
-            quitdialog.Destroy()
-            self._mgr.UnInit()
-            del self._mgr
-            self.Destroy()
-        else:
-            event.Skip()

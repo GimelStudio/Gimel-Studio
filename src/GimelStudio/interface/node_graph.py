@@ -56,6 +56,7 @@ class NodeGraph(wx.ScrolledCanvas):
         self._nodeMenuItemIdMapping = {}
 
         self._pdc = wx.adv.PseudoDC()
+        self._drawGrid = True
 
         # Handle scrolling
         self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)
@@ -89,7 +90,8 @@ class NodeGraph(wx.ScrolledCanvas):
         self.DoPrepareDC(dc)
   
         # Draw the grid background
-        self._DrawGridBackground(dc, rect)
+        if self.ShouldDrawGrid() == True:
+            self._DrawGridBackground(dc, rect)
 
         self._pdc.DrawToDCClipped(dc, rect)
 
@@ -392,6 +394,12 @@ class NodeGraph(wx.ScrolledCanvas):
 
     def GetPDC(self):
         return self._pdc
+
+    def ShouldDrawGrid(self):
+        return self._drawGrid
+
+    def SetShouldDrawGrid(self, draw_grid=True):
+        self._drawGrid = draw_grid
 
     @staticmethod
     def GetNodePlug(node, plug):
