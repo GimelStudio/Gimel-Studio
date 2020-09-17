@@ -13,9 +13,9 @@
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
 ## 
-## FILE: plug.py
+## FILE: socket.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the node plug class
+## PURPOSE: Define the node socket class
 ##
 ## This file includes code that was modified from wxnodegraph 
 ## (https://github.com/Derfies/wxnodegraph) which is licensed under the MIT 
@@ -26,10 +26,12 @@ import math
 import wx
 
 from .wire import Wire
-from GimelStudio.stylesheet import *
+#from GimelStudio.stylesheet import *
+
+from .wire import Wire
 
  
-class Plug(object):
+class Socket(object):
     def __init__(self, label, datatype, pos, radius, type_, node):
         self._id = wx.NewIdRef()
         self._label = label 
@@ -39,10 +41,6 @@ class Plug(object):
         self._type = type_
         self._dataType = datatype
         self._wires = []
-
-    @property
-    def Theme(self):
-        return self.GetNode().Theme
 
     def GetId(self):
         return self._id
@@ -90,32 +88,26 @@ class Plug(object):
         return self._wires
 
     def Draw(self, dc):
+        #print(self.GetLabel(), "wires>>> ", self._wires)
         #print(self.GetNode().GetName(), self.GetLabel(), self.GetWires())
 
         final = self.GetPosition() + self.GetNode().GetRect().GetPosition()
          
         # Set color
-        dc.SetPen(wx.Pen(wx.Colour(self.Theme["node_plug_border"]), 2))
+        dc.SetPen(wx.Pen(wx.Colour(55, 55, 55, 255), 2))
 
-        datatype = self.GetDataType()
-        if datatype == "RENDERIMAGE":
-            dc.SetBrush(wx.Brush(wx.Colour('#C7C729'), wx.SOLID))
+        #datatype = self.GetDataType()
+        #if datatype == "RENDERIMAGE":
+        dc.SetBrush(wx.Brush(wx.Colour('#C7C729'), wx.SOLID))
 
-        # Other data-type that have not been defined in the API, yet...
-        elif datatype == "COLOR":
-            dc.SetBrush(wx.Brush(wx.Colour('#63C763'), wx.SOLID))
-        elif datatype == "VECTOR":
-            dc.SetBrush(wx.Brush(wx.Colour('#6363C7'), wx.SOLID))
-        else:
-            dc.SetBrush(wx.Brush(wx.Colour('#9B9B9B'), wx.SOLID))
 
         # Draw the plug
         dc.DrawCircle(final.x, final.y, self.GetRadius())
 
         tdc = wx.WindowDC(wx.GetApp().GetTopWindow())
         w, h = tdc.GetTextExtent(self.GetLabel())
-
-        # Plug title margin
+ 
+        # Plug label margin
         if self._type == 0:
             x = final.x + 12 
         else:
@@ -131,22 +123,25 @@ class Plug(object):
         if math.fabs(dist) < 10:
             return True
 
-    def Connect(self, dst_plug, render=True):
-        #print ('Connecting:', self.GetLabel(), '->', dst_plug.GetLabel())
-        
-        # Make the connection
-        dst_plug.GetNode().MakeConnection(self, dst_plug, render)
 
-        pt1 = self.GetNode().GetRect().GetPosition() + self.GetPosition()
-        pt2 = dst_plug.GetNode().GetRect().GetPosition() + dst_plug.GetPosition()
+    def Connect(self, ng, dst_plug, render=True):
+        #print ('Connecting:', self.GetLabel(), '->', dst_plug.GetLabel())
+         
+        # Make the connection
+        #dst_plug.GetNode().MakeConnection(self, dst_plug, render)
+
+        dst_plug.GetNode().GetParameters()[dst_plug.GetLabel()].binding = ng.GetNodes()[self.GetNode().GetId()]
+
+        pt1 = self.GetNode().GetPosition() + self.GetPosition()
+        pt2 = dst_plug.GetNode().GetPosition() + dst_plug.GetPosition()
         wire = Wire(self, 
                     pt1, 
                     pt2, 
                     self, 
                     dst_plug, 
                     self.GetType(), 
-                    curvature=self.Theme["node_wire_curving"]
-                    )
+                    curvature=8#self.Theme["node_wire_curving"]
+                    ) 
         wire.srcNode = self.GetNode()
         wire.dstNode = dst_plug.GetNode()
         wire.srcPlug = self
@@ -154,28 +149,30 @@ class Plug(object):
         self._wires.append(wire)
         dst_plug.GetWires().append(wire)
 
-        dc = self.GetNode().GetParent().GetPDC()
+        dc = ng.GetPDC()
         wire.Draw(dc)
-        self.GetNode().GetParent().RefreshRect(wire.GetRect(), False)
 
-        self.GetNode().GetParent().RefreshGraph()
+        ng.RefreshGraph()
 
-    def Disconnect(self, connected_node, render=True):
+    def Disconnect(self, ng, connected_node, render=True):
+
+        #print(self.GetWires(), connected_node.GetNode().GetType())
         for wire in self.GetWires():
+
             # Disconnect
-            self.GetNode().MakeDisconnect(wire.srcPlug, wire.dstPlug, render)
+            #self.GetNode().MakeDisconnect(wire.srcPlug, wire.dstPlug, render)
+            wire.dstPlug.GetNode().GetParameters()[wire.dstPlug.GetLabel()].binding = None
 
             del wire.srcNode# = self.GetNode()
             del wire.dstNode# = dstPlug.GetNode()
             del wire.srcPlug# = self
             del wire.dstPlug# = dstPlug
-            self.GetNode().GetParent().RefreshRect(wire.GetRect(), False)
             self._wires = []
-            self.GetNode().GetParent().GetPDC().RemoveId(wire.GetId())
+            ng.GetPDC().RemoveId(wire.GetId())
 
         for wire in connected_node.GetWires():
-            connected_node.GetNode().GetParent().RefreshRect(wire.GetRect(), False)
-            connected_node._wires = []
-            self.GetNode().GetParent().GetPDC().RemoveId(wire.GetId())
+            if wire.GetDstPlug() == self:
+                connected_node._wires.remove(wire)
+                ng.GetPDC().RemoveId(wire.GetId())
 
-        self.GetNode().GetParent().RefreshGraph()
+        ng.RefreshGraph()

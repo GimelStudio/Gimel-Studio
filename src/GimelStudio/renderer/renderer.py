@@ -24,91 +24,78 @@
 ## ----------------------------------------------------------------------------
 
 import time
-import json
 
 from .output_node import OutputNode
 
 
 class Renderer(object):
-    """ The renderer which builds the node tree, resolves 
-    each node's evaldata and outputs the final image and rendertime.
+    """ The core renderer which evaluates the data of the node tree and 
+    outputs the final render image and render time.
     """
     def __init__(self, parent):
         self._parent = parent
-        self._renderedimg = None
-        self._rendertime = 0.00
-
-    def GetRenderedImage(self):
-        return self._renderedimg
-    
-    def SetRenderedImage(self, renderedimage):
-        self._renderedimg = renderedimage
-        
-    def GetRenderTime(self):
-        return self._rendertime
-
-    def SetRenderTime(self, rendertime):
-        self._rendertime = rendertime
+        self._render = None
+        self._time = 0.00
 
     def GetParent(self):
         return self._parent
 
+    def GetRender(self):
+        return self._render
+    
+    def SetRender(self, render):
+        self._render = render
+        
+    def GetTime(self):
+        return self._time
+
+    def SetTime(self, time):
+        self._time = time
+
     def Render(self, nodes):
-        """ Main render method for rendering a nodegraph."""
-        # Start timing rendertime
+        """ Render method for evaluating the Node Graph 
+        to render an image.
+
+        :param nodes: dictionary of nodes of the Node Graph
+        """
+        # Start timing the render
         start_time = time.time()
 
-        # Build node tree and render the image
-        output = self._BuildNodeTree(nodes)
-        image = output.RenderImage()
+        # Render the image
+        output_node = self.GetOutputNode(nodes)
+        rendered_image = self.RenderNodeGraph(output_node, nodes)
 
-        if image != None: 
-            # Set renderedimg
-            self.SetRenderedImage(image.GetImage())
- 
-            # Set rendertime
-            self.SetRenderTime(time.time() - start_time)
+        # Get rendered image, otherwise use 
+        # the default transparent image.
+        if rendered_image != None: 
+            image = rendered_image.GetImage()
+        else:
+            image = output_node.Parameters["Image"].value.GetImage()
 
+        output_node.NodeSetThumb(image)
+        self.SetRender(image)
 
-    def _BuildNodeTree(self, nodes):
-        """ Builds the node tree and resolves the node parameters
-        and properties and returns the output.
+        # Set rendertime
+        self.SetTime(time.time() - start_time)
+
+    def RenderNodeGraph(self, output_node, nodes):
+        """ Render the image, starting from the output node.
+
+        :param output_node: the output node object
+        :param nodes: dictionary of nodes of the Node Graph
+        :returns: RenderImage object
         """
-        nodetree = {}
+        output_data = OutputNode()
+        output_data.SetNode(output_node)
+        return output_data.RenderImage()
+
+    def GetOutputNode(self, nodes):
+        """ Get the output composite node.
+        
+        :param nodes: dictionary of nodes of the Node Graph
+        :returns: node object of output node
+        """
         for nodeId in nodes:
-            if nodes[nodeId].IsCompositeOutput() != True:
-                nodetree[str(nodes[nodeId].GetId())] = nodes[nodeId] 
-                nodes[nodeId].ReadData()
-            else:
-                outputnode = nodes[nodeId]
-
-        self._ResolveNodes(nodetree)
-
-        return self._CreateOutput(outputnode.GetEvaluationData(), nodetree)  
-
-    def _ResolveParameters(self, node, nodes):
-        """
-        Given a single node, this method resolves any references to other nodes
-        within the parameter list.
-        """
-        for _, param in node._parameters.items():
-            if param.binding != None:
-                param.binding = nodes[param.binding]
-
-    def _ResolveNodes(self, nodes):
-        """
-        Given a list of nodes, this method resolves all the parameters that make
-        reference to other nodes.
-        """
-        for item in nodes.items():
-            self._ResolveParameters(item[1], nodes)
- 
-    def _CreateOutput(self, data, nodes):
-        """
-        Creates the output node from the supplied data.
-        """
-        if 'bind' in data:
-            output = OutputNode()
-            output.ReadData(data, nodes)
-     
-        return output
+            if nodes[nodeId].IsOutputNode() == True:
+                output_node = nodes[nodeId]
+        return output_node

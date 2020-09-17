@@ -15,13 +15,13 @@
 ##
 ## FILE: exceptions.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: Define exceptions for the Node Registry
+## PURPOSE: Define exceptions for Gimel Studio
 ## ----------------------------------------------------------------------------
 
 
 class NodeExistsError(Exception):
     """ This exception is raised when a node is registered 
-    that already exists. """
+    that already exists in the Node Registry. """
     def __init__(self, name):
         super(NodeExistsError, self).__init__(name)
         self._name = name

@@ -26,7 +26,6 @@ from GimelStudio.datafiles.icons import *
 class NodePropertyPanel(wx.Panel):
     def __init__(self, parent, size=wx.DefaultSize):
         wx.Panel.__init__(self, parent, wx.ID_ANY, size=size)
-
         self._parent = parent
         self._selectedNode = None
 
@@ -73,7 +72,7 @@ class NodePropertyPanel(wx.Panel):
             panel_sizer.Add(self.panel_staticbox, 1, wx.EXPAND|wx.ALL, other_bd+10)
 
             # Node Properties UI
-            selected_node.PropertiesUI(selected_node, self.panel_staticbox, inner_sizer)
+            selected_node.NodePanelUI(self.panel_staticbox, inner_sizer)
 
             self._mainSizer.Add(panel_sizer, wx.EXPAND|wx.ALL)
 

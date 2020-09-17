@@ -15,90 +15,53 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import wx
-import numpy as np
-from PIL import Image, ImageEnhance
+from PIL import ImageEnhance
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
-                            Parameter, Property, RegisterNode)
-
-  
-class NodeDefinition(NodeBase):
-    
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_brightness"
-
-    @property
-    def NodeLabel(self):
-        return "Brightness"
-
-    @property
-    def NodeCategory(self):
-        return "COLOR"
-
-    @property
-    def NodeDescription(self):
-        return "Adjusts the image brightness." 
-
-    @property
-    def NodeVersion(self):
-        return "1.1" 
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeProperties(self):
-        return [
-            Property('Amount',
-                prop_type='INTEGER',
-                value=1
-                ),
-            ]
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
-
-   
-    def NodePropertiesUI(self, node, parent, sizer):
-        current_amount_value = self.NodeGetPropValue('Amount')
-
-        brightness_label = wx.StaticText(parent, label="Brightness amount:")
-        sizer.Add(brightness_label, border=5)
-
-        self.brightness_slider = wx.Slider(
-            parent, wx.ID_ANY, 
-            value=current_amount_value,
-            minValue=1, maxValue=20,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
-            )
-        self.brightness_slider.SetTickFreq(5)
-
-        sizer.Add(self.brightness_slider, flag=wx.EXPAND|wx.ALL, border=5)
-
-        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnBrightnessChange, self.brightness_slider)
+from GimelStudio import api
 
  
-    def OnBrightnessChange(self, event):
-        self.NodePropertiesUpdate('Amount', self.brightness_slider.GetValue())
-    
-    def NodeEvaluation(self, eval_info):
-        image1  = eval_info.EvaluateParameter('Image')
-        brightness_amount = eval_info.EvaluateProperty('Amount')
+class BrightnessNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
-        image = RenderImage()
+    @property
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Brightness",
+            "author": "Correct Syntax",
+            "version": (0, 0, 1),
+            "supported_app_version": (0, 5, 0),
+            "category": "COLOR",
+            "description": "Adjusts the image brightness.",
+        }
+        return meta_info
+
+    def NodeInitProps(self):
+        p = api.PositiveIntegerProp(
+            idname="Amount", 
+            default=1, 
+            min_val=0, 
+            max_val=25, 
+            widget=api.SLIDER_WIDGET,
+            label="Amount:",
+            )
+        self.NodeAddProp(p)
+
+    def NodeInitParams(self):
+        p = api.RenderImageParam('Image')
+
+        self.NodeAddParam(p)
+
+    def NodeEvaluation(self, eval_info):
+        image1 = eval_info.EvaluateParameter('Image')
+        amount = eval_info.EvaluateProperty('Amount')
+
+        image = api.RenderImage()
         enhancer = ImageEnhance.Brightness(image1.GetImage())
-        image.SetAsImage(enhancer.enhance(brightness_amount).convert('RGBA'))
+        image.SetAsImage(enhancer.enhance(amount).convert('RGBA'))
+
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
-RegisterNode(NodeDefinition)
+
+api.RegisterNode(BrightnessNode, "corenode_brightness")

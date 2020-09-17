@@ -27,28 +27,20 @@ from .eval_info import EvalInfo
 
 
 class OutputNode(object):
-    """
-    This class describes the composite output node.
-    """
+    """ Represents the evaluation of the composite output node. """
     def __init__(self):
         self.node = None
 
-    def ReadData(self, desc, nodes):
+    def SetNode(self, node):
+        """ Set the node object connected to the output node 
+        this class represents.
+
+        :param node: output node object
         """
-        Reads the content of the supplied json data.
-        """
-        try:
-            node = nodes[str(desc['bind'])]
-            if node.IsDisabled() != True:
-                self.node = node
-            else:
-                self.node = None
-        except KeyError:
-            self.node = None
+        self.node = node.Parameters["Image"].binding 
 
     def RenderImage(self):
-        """
-        This method renders the image for this output node. If the output
+        """ Render the image for this output node. If the output
         node is not connected then the default image will be rendered.
         """
         if self.node != None:

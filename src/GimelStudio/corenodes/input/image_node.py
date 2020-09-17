@@ -16,152 +16,72 @@
 ## ----------------------------------------------------------------------------
 
 import os
-
-import wx
 from PIL import Image
 
-from GimelStudio.api import (Color, RenderImage, NodeBase,
-                            Parameter, Property, RegisterNode, 
-                            SupportFTOpen, GetFileExt)
+from GimelStudio import api
 
- 
-class NodeDefinition(NodeBase):
-    
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_image"
+
+class ImageNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
     @property
-    def NodeLabel(self):
-        return "Image"
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Image",
+            "author": "Correct Syntax",
+            "version": (3, 0, 5),
+            "supported_app_version": (0, 5, 0),
+            "category": "INPUT",
+            "description": "Loads an image from the specified file path."
+        }
+        return meta_info
 
-    @property
-    def NodeCategory(self):
-        return "INPUT"
-
-    @property
-    def NodeDescription(self):
-        return "Inputs an image from the specified file path." 
-
-    @property
-    def NodeSupportsImagePacking(self):
-        return True
-
-    @property
-    def NodeVersion(self):
-        return "3.0" 
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeProperties(self): 
-        return [
-            Property('Path',
-                prop_type='FILEPATH',
-                value=''
-                ),
-        ]
-
- 
-    def NodePropertiesUI(self, node, parent, sizer):
-        self.parent = parent
-
-        current_value = self.NodeGetPropValue('Path')
- 
-        pathlabel = wx.StaticText(parent, label="Path:")
-        sizer.Add(pathlabel, flag=wx.LEFT|wx.TOP, border=5)
-
-        vbox = wx.BoxSizer(wx.VERTICAL)
-        hbox = wx.BoxSizer(wx.HORIZONTAL)
-
-        self.pathtxtctrl = wx.TextCtrl(parent)
-        self.pathtxtctrl.ChangeValue(current_value)
-        hbox.Add(self.pathtxtctrl, proportion=1)
-        self.browsepathbtn = wx.Button(parent, label="Browse...")
-        hbox.Add(self.browsepathbtn, flag=wx.LEFT, border=5)
-        vbox.Add(hbox, flag=wx.EXPAND)
-
-        sizer.Add(vbox, flag=wx.ALL|wx.EXPAND, border=5)
-
-        infolabellbl = wx.StaticText(parent, label="Meta: ")
-        sizer.Add(infolabellbl, flag=wx.LEFT|wx.TOP, border=5)
-
-        self.infolabellbl = wx.StaticText(parent, label="")
-        sizer.Add(self.infolabellbl, flag=wx.LEFT|wx.TOP, border=5)
-
-        if current_value != '':
-            self.UpdateInfoLabel(current_value)
-            self.infolabellbl.SetLabel(self.GetInfoLabel())
-
-        parent.Bind(wx.EVT_BUTTON, self.OnFilePathButton, self.browsepathbtn)
- 
-     
-    def OnFilePathButton(self, evt):
+    def NodeInitProps(self):
         wildcard = "All files (*.*)|*.*|" \
-                   "JPEG file (*.jpeg)|*.jpeg|" \
-                   "JPG file (*.jpg)|*.jpg|" \
-                   "PNG file (*.png)|*.png|" \
-                   "BMP file (*.bmp)|*.bmp|" \
-                   "WEBP file (*.webp)|*.webp|" \
-                   "TGA file (*.tga)|*.tga|" \
-                   "TIFF file (*.tiff)|*.tiff"
+                "JPEG file (*.jpeg)|*.jpeg|" \
+                "JPG file (*.jpg)|*.jpg|" \
+                "PNG file (*.png)|*.png|" \
+                "BMP file (*.bmp)|*.bmp|" \
+                "WEBP file (*.webp)|*.webp|" \
+                "TGA file (*.tga)|*.tga|" \
+                "TIFF file (*.tiff)|*.tiff"
 
-        dlg = wx.FileDialog(
-            self.parent, message="Choose image...",
-            defaultDir=os.getcwd(),
-            defaultFile="",
-            wildcard=wildcard,
-            style=wx.FD_OPEN | wx.FD_CHANGE_DIR | wx.FD_FILE_MUST_EXIST | wx.FD_PREVIEW
+        self.fp_prop = api.OpenFileChooserProp(
+            idname="File Path", 
+            default="", 
+            dlg_msg="Choose image...", 
+            wildcard=wildcard, 
+            btn_lbl="Choose...", 
+            label="Image path:"
             )
 
-        # Show the dialog and retrieve the user response. If it is the OK response,
-        # process the data.
-        if dlg.ShowModal() == wx.ID_OK:
-            # This returns a Python list of files that were selected.
-            paths = dlg.GetPaths()  
-            ext = GetFileExt(paths[0], add_dot=True)
-
-            # We add the . here for this comparison
-            if ext.lower() in SupportFTOpen(list_all=True):
-                self.NodePropertiesUpdate('Path', paths[0])
-                self.pathtxtctrl.ChangeValue(paths[0])
-                self.UpdateInfoLabel(paths[0])
-                self.infolabellbl.SetLabel(self.GetInfoLabel())
-            else:
-                dlg = wx.MessageDialog(
-                    None, 
-                    "That file type isn't currently supported!", 
-                    "Cannot Open File!", 
-                    style=wx.ICON_EXCLAMATION
-                    )
-                dlg.ShowModal()
-                return False       
-
+        self.lbl_prop = api.LabelProp(
+            idname="Meta Info",
+            default="", 
+            label="Meta info:"
+            )
  
-    def UpdateInfoLabel(self, imagepath):
-        try:
-            img = Image.open(imagepath)
+        self.NodeAddProp(self.fp_prop)
+        self.NodeAddProp(self.lbl_prop)
+
+    def WidgetEventHook(self, idname, value):
+        if idname == 'File Path':
+            img = Image.open(value) 
             info_string = "{}x{}px | {} | {}kB".format(
                 img.size[0], 
                 img.size[1],
                 img.mode,
-                str(os.path.getsize(imagepath)/1000)
+                str(os.path.getsize(value)/1000)
                 )
-            self.NodeSetThumb(img, force_redraw=True) 
-            self.infolabel = info_string
-        except FileNotFoundError:
-            self.infolabel = 'FILE NOT FOUND AT THAT LOCATION!\nUSING PACKED IMAGE'
+            self.lbl_prop.SetValue(info_string)
+            self.RefreshPropertyPanel()
 
-
-    def GetInfoLabel(self):
-        return self.infolabel
-
+            self.NodeSetThumb(img, force_refresh=True)
 
     def NodeEvaluation(self, eval_info):
-        path = eval_info.EvaluateProperty('Path')
-        image = RenderImage(packed_data=self.Node.GetPackedImageData())
+        path = eval_info.EvaluateProperty('File Path')
+        image = api.RenderImage()
 
         if path != '':
             try:
@@ -169,10 +89,8 @@ class NodeDefinition(NodeBase):
                 image.SetAsImage(image.GetImage().convert('RGBA'))
             except FileNotFoundError:
                 pass
- 
         self.NodeSetThumb(image.GetImage())
-        self.NodeSetPackedImageData(image.GetImage())
-        return image 
+        return image
 
 
-RegisterNode(NodeDefinition)
+api.RegisterNode(ImageNode, "corenode_image")

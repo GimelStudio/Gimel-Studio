@@ -37,19 +37,19 @@ class EvalInfo(object):
         """
         Evaluates the value of a parameter.
         """
-        p = self.node._parameters[name]
+        p = self.node.Parameters[name]
         if p.binding:
             # Make sure the next node is not disabled
-            if p.binding.IsDisabled() != True:
+            if p.binding.IsMuted() != True:
                 # Evaluate the next node
                 info = EvalInfo(p.binding)
                 return p.binding.EvaluateNode(info)
-        return p.current_value
+        return p.value
 
-
+ 
     def EvaluateProperty(self, name):
         """
         Evaluates the value of a property.
         """
-        p = self.node._properties[name]
-        return p.current_value
+        p = self.node.Properties[name]
+        return p.value

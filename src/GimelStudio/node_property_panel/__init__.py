@@ -1,1 +1,0 @@
-from .node_property_panel import NodePropertyPanel

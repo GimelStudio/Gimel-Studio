@@ -13,9 +13,9 @@
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
 ##
-## FILE: viewer.py
+## FILE: image_viewport.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the image viewer tab of the Image Viewport
+## PURPOSE: Define the Image Viewport panel
 ## ----------------------------------------------------------------------------
 
 import wx
@@ -23,7 +23,7 @@ import wx.adv
 
 from PIL import Image
 
-from GimelStudio.utils import ConvertImageToWx, DrawCheckerBoard
+from GimelStudio import utils
 from GimelStudio.datafiles.icons import *
 
 
@@ -88,7 +88,7 @@ class ViewerImage(object):
             )
 
 
-class ImageViewerPnl(wx.Panel):
+class ImageViewport(wx.Panel):
     def __init__(self, parent, size=wx.DefaultSize):
         wx.Panel.__init__(self, parent, size=size)
 
@@ -101,7 +101,7 @@ class ImageViewerPnl(wx.Panel):
         self.zoomValue = 0.05
         self._renderTime = 0.00
 
-        default_img = ConvertImageToWx(Image.new('RGBA', (256, 256)))
+        default_img = utils.ConvertImageToWx(Image.new('RGBA', (256, 256)))
         self._viewportImage = ViewerImage(self, image=default_img,  _id=ID_IMAGE) 
         self._imageCopy = self._viewportImage.GetImage()
 
@@ -125,7 +125,7 @@ class ImageViewerPnl(wx.Panel):
         rect = wx.Rect(0, 0, self.Size[0], self.Size[1])
 
         # Draw the checkered alpha background
-        DrawCheckerBoard(dc, rect, wx.Colour(0, 0, 0, 98), box=8)
+        utils.DrawCheckerBoard(dc, rect, wx.Colour(0, 0, 0, 98), box=8)
 
         self._pdc.DrawToDC(dc)
 

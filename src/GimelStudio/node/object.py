@@ -13,32 +13,37 @@
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
 ##
-## FILE: meta.py
+## FILE: object.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: Define program meta info
+## PURPOSE: Define a class to tie together the model & view of the node
 ## ----------------------------------------------------------------------------
 
-# Program name
-APP_NAME = "Gimel Studio"
+from .model import NodeModel
+from .view import NodeView
 
-# Program author
-APP_AUTHOR = "Noah Rahm, Correct Syntax"
 
-# Release version: [major].[minor].[build]
-APP_VERSION = (0, 5, 0)
-APP_VERSION_TAG = "beta"
+class NodeObject(object):
+    """ Base node object which ties together the model and view. """
+    def __init__(self, _id):
+        self._model = NodeModel(_id)
+        self._view = NodeView(_id)
 
-# Whether this program is in development mode
-# USAGE: Switch to False before building as .exe or similar package to
-# enable/disable some end-user features that would otherwise hinder
-# development and/or testing of the program.
-APP_DEBUG = True
+    @property
+    def Model(self):
+        """ Return the node model.
 
-# Title string
-APP_TITLE = "{0} v{1}.{2}.{3} {4}".format(
-    APP_NAME,
-    APP_VERSION[0],
-    APP_VERSION[1],
-    APP_VERSION[2],
-    APP_VERSION_TAG
-    )
+        :returns: the node model object.
+        """
+        return self._model
+
+    @property
+    def View(self):
+        """ Return the node view.
+
+        :returns: the node view object.
+        """
+        return self._view
+
+    def UpdateView(self):
+        """ Update the view from the model. """
+        self.View._viewData = self.Model.ModelViewData

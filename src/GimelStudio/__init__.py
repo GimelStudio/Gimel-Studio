@@ -1,4 +1,9 @@
-from GimelStudio.meta import (__NAME__, __AUTHOR__, __VERSION__,
-                              __DEBUG__, __TITLE__)
-from GimelStudio.file_support import SupportFTOpen, SupportFTSave
-
+from .meta import (
+    APP_NAME, APP_AUTHOR,
+    APP_VERSION, APP_DEBUG,
+    APP_TITLE
+    )
+from .file_support import (
+    SupportFTOpen,
+    SupportFTSave
+    )

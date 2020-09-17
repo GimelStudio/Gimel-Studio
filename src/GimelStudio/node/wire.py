@@ -40,10 +40,6 @@ class Wire(object):
         self._curvature = curvature
         self._drawShadow = drawshadow # FIXME
 
-    @property
-    def Theme(self):
-        return self._parent.Theme
-
     def GetPoint1(self):
         return self._pnt1
 
@@ -124,9 +120,9 @@ class Wire(object):
             pnts.append(self._pnt2)
 
             if self.IsActive() == True:
-                dc.SetPen(wx.Pen(self.Theme["node_wire_active"], 3))
+                dc.SetPen(wx.Pen(wx.Colour("#ECECEC"), 3))
             else:
-                dc.SetPen(wx.Pen(self.Theme["node_wire_normal"], 3))
+                dc.SetPen(wx.Pen(wx.Colour("#C1C1C1"), 3))
             dc.DrawSpline(pnts)
 
             # Draw shadow
@@ -143,9 +139,9 @@ class Wire(object):
         else:
             # Draw wire
             if self.IsActive() == True:
-                dc.SetPen(wx.Pen(wx.Colour(self.Theme["node_wire_active"]), 3))
+                dc.SetPen(wx.Pen(wx.Colour("#ECECEC"), 3))
             else:
-                dc.SetPen(wx.Pen(wx.Colour(self.Theme["node_wire_normal"]), 3))
+                dc.SetPen(wx.Pen(wx.Colour(wx.Colour("#C1C1C1")), 3))
             dc.DrawLine(self._pnt1[0], self._pnt1[1], self._pnt2[0], self._pnt2[1])
 
             # Draw shadow

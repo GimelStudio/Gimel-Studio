@@ -15,88 +15,32 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import wx
-from PIL import Image, ImageChops, ImageOps
+from PIL import ImageChops, ImageOps
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase,
-                            Parameter, Property, RegisterNode)
- 
+from GimelStudio import api
 
-class NodeDefinition(NodeBase):
 
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_mix"
+class MixNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
     @property
-    def NodeLabel(self):
-        return "Mix"
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Mix",
+            "author": "Correct Syntax",
+            "version": (1, 8, 5),
+            "supported_app_version": (0, 5, 0),
+            "category": "BLEND",
+            "description": "Layers two images together using the specified blend type.",
+        }
+        return meta_info
 
-    @property
-    def NodeCategory(self):
-        return "BLEND"
-
-    @property
-    def NodeDescription(self):
-        return "Blends two images together using the specified blend type." 
-
-    @property
-    def NodeVersion(self):
-        return "1.8"  
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-            Parameter('Overlay',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
-
-    @property
-    def NodeProperties(self):
-        return [
-            Property('Blend Mode',
-                prop_type='LIST',
-                value=List(
-                    items=[
-                        'ADD',
-                        'ADD MODULO',
-                        'SUBTRACT',
-                        'SUBTRACT MODULO',
-                        'MULTIPLY',
-                        'SCREEN',
-                        'DIFFERENCE',
-                        'DARKER',
-                        'LIGHTER',
-                        'SOFT LIGHT',
-                        'HARD LIGHT',
-                        'OVERLAY'
-                    ], 
-                    default='MULTIPLY'
-                    )
-                ),
-        ]
-
-    def NodePropertiesUI(self, node, parent, sizer):
-        
-        # Resample
-        current_blend_type_value = self.NodeGetPropValue('Blend Mode')
-
-        blendmodelabel = wx.StaticText(parent, label="Blend Mode:")
-        sizer.Add(blendmodelabel, flag=wx.LEFT|wx.TOP, border=5)
-
-        self.blendmodecombobox = wx.ComboBox(parent, 
-            id=wx.ID_ANY, 
-            value=current_blend_type_value, 
+    def NodeInitProps(self):
+        p = api.ChoiceProp(
+            idname="Blend Mode", 
+            default="MULTIPLY", 
+            label="Blend Mode:",
             choices=[
                     'ADD',
                     'ADD MODULO',
@@ -110,26 +54,24 @@ class NodeDefinition(NodeBase):
                     'SOFT LIGHT',
                     'HARD LIGHT',
                     'OVERLAY'
-                ], 
-            style=wx.CB_READONLY
+                ]
             )
-        sizer.Add(self.blendmodecombobox, flag=wx.TOP|wx.EXPAND, border=5)
 
-        # Bindings
-        parent.Bind(wx.EVT_COMBOBOX, self.EvtChoice, self.blendmodecombobox)
+        self.NodeAddProp(p)
 
-    def EvtChoice(self, evt):
-        value = evt.GetString()
-        if not value:
-            return
-        self.NodePropertiesUpdate('Blend Mode', value)
+    def NodeInitParams(self):
+        p1 = api.RenderImageParam('Image')
+        p2 = api.RenderImageParam('Overlay')
+
+        self.NodeAddParam(p1)
+        self.NodeAddParam(p2)
 
     def NodeEvaluation(self, eval_info):
         image1 = eval_info.EvaluateParameter('Image')
         image2 = eval_info.EvaluateParameter('Overlay')
         blendmode = eval_info.EvaluateProperty('Blend Mode')
 
-        image = RenderImage() 
+        image = api.RenderImage() 
         main_image = image1.GetImage()
         layer_image = ImageOps.fit(image2.GetImage(), main_image.size)
 
@@ -174,4 +116,4 @@ class NodeDefinition(NodeBase):
         return image
 
 
-RegisterNode(NodeDefinition)
+api.RegisterNode(MixNode, "corenode_mix")
