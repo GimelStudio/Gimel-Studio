@@ -9,7 +9,12 @@ If you would like to help develop Gimel Studio, you can work on any of these or 
 PLANNED FEATURES/FIXES, beta versions - 1x 
 ----------------------------------
 
-* INCLUDE ATTRIBUTION/LICENSES OF MODULES IN THE RELEASES
+* INCLUDE ATTRIBUTION/LICENSES OF MODULES IN THE RELEASES (about dialog)
+
+* Print image (export to PDF, etc.)
+* Project templates (ready-made node setups for cropping an image, converting an image to PBR maps, etc)
+
+* Support for other languages (will need help from others)
 
 * Nodes
   * Add Text node - adds text to a given image
@@ -22,9 +27,6 @@ PLANNED FEATURES/FIXES, beta versions - 1x
   * Error handing for node versions, support, etc. 
   * Support opening old/new files with new/old software versions?
 
-* Asset Library 
-
-* Node Registry UI
 
 * Custom widgets/better layout for node property panel
 
@@ -36,10 +38,14 @@ POSSIBLE FUTURE FEATURES/FIXES, version 2x
 
 * Renderer and Nodes
   * Only re-render nodes that have values changed (cache nodes themselves)?
-  * Multi-thread the ui and renderer?
   * Compile renderer, etc with Cython for speed?
 
 * Nodes
   * 3D Wireframe/Image node - Renders a 3D wireframe image from a .obj file
+  * HDR creation support (node)
+
+* 16 bit PNG support, etc.?
+
+* Asset Library?
 
 ...
