@@ -1,102 +1,60 @@
-import os
+# This example file (example_custom_node.py) is public domain under the condition
+# that it is NOT sold in any way and is used ONLY in the context of Gimel Studio.
+# AKA: You are free to use this as a template for your own custom nodes.
+#
+# This is an example node script showing how you can use the Gimel Studio API
+# to script your own custom nodes in Python.
+#
+# Updated for: v0.5.0 beta
 
-import wx
-from PIL import Image
+from PIL import ImageEnhance
 
-from GimelStudio.api import (Color, RenderImage, NodeBase,
-                             Parameter, Property,
-                             RegisterNode)
+from GimelStudio import api
 
  
-class NodeDefinition(NodeBase):
-    
-    @property
-    def NodeIDName(self):
-        return "example_custom_node"
+class ExampleCustomNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
     @property
-    def NodeLabel(self):
-        return "Example Custom Node"
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Example Custom Node",
+            "author": "Your Name...",
+            "version": (0, 0, 1),
+            "supported_app_version": (0, 5, 0),
+            "category": "COLOR",
+            "description": """Example custom node showing how you can
+                create a custom node with the Gimel Studio API"""
+        }
+        return meta_info
 
-    @property
-    def NodeCategory(self):
-        return "INPUT"
-
-    @property
-    def NodeDescription(self):
-        return "This is an example custom node showing how you can\n create a custom node with the Gimel Studio API" 
-
-    @property
-    def NodeVersion(self):
-        return "1.1" 
-
-    @property
-    def NodeAuthor(self):
-        return "[author's name]"
-
-    @property
-    def NodeProperties(self): 
-        return [
-            Property('Path',
-                prop_type='FILEPATH',
-                value=''
-                ),
-        ]
-
-    def NodePropertiesUI(self, node, parent, sizer):
-        self.parent = parent
-        
-        current_value = self.NodeGetPropValue('Path')
- 
-        pathlabel = wx.StaticText(parent, label="Path:")
-        sizer.Add(pathlabel, flag=wx.LEFT|wx.TOP, border=5)
-
-        vbox = wx.BoxSizer(wx.VERTICAL)
-        hbox = wx.BoxSizer(wx.HORIZONTAL)
-
-        self.pathtxtctrl = wx.TextCtrl(parent)
-        self.pathtxtctrl.ChangeValue(current_value)
-        hbox.Add(self.pathtxtctrl, proportion=1)
-        self.browsepathbtn = wx.Button(parent, label="Browse...")
-        hbox.Add(self.browsepathbtn, flag=wx.LEFT, border=5)
-        vbox.Add(hbox, flag=wx.EXPAND)
-
-        sizer.Add(vbox, flag=wx.ALL|wx.EXPAND, border=5)
-
-        parent.Bind(wx.EVT_BUTTON, self.OnFilePathButton, self.browsepathbtn)
-
-    def OnFilePathButton(self, evt):
-        # We allow opening only .jpg files here (for fun!)
-        wildcard = "JPG file (*.jpg)|*.jpg|"
-                   
-        dlg = wx.FileDialog(
-            self.parent, message="Choose an Image...",
-            defaultDir=os.getcwd(),
-            defaultFile="",
-            wildcard=wildcard,
-            style=wx.FD_OPEN | wx.FD_CHANGE_DIR | wx.FD_FILE_MUST_EXIST | wx.FD_PREVIEW
+    def NodeInitProps(self):
+        p = api.PositiveIntegerProp(
+            idname="Amount", 
+            default=1, 
+            min_val=0, 
+            max_val=25, 
+            widget=api.SLIDER_WIDGET,
+            label="Amount:",
             )
+        self.NodeAddProp(p)
 
-        # Show the dialog and retrieve the user response. If it is the OK response,
-        # process the data.
-        if dlg.ShowModal() == wx.ID_OK:
-            # This returns a Python list of files that were selected.
-            paths = dlg.GetPaths()
+    def NodeInitParams(self):
+        p = api.RenderImageParam('Image')
 
-            # Update the property and txtctrl with the new file path
-            self.NodePropertiesUpdate('Path', paths[0])
-            self.pathtxtctrl.ChangeValue(paths[0])
+        self.NodeAddParam(p)
 
     def NodeEvaluation(self, eval_info):
-        # Get the file path from the property
-        path = eval_info.EvaluateProperty('Path')
+        image1 = eval_info.EvaluateParameter('Image')
+        amount = eval_info.EvaluateProperty('Amount')
 
-        image = RenderImage()
-        if path != '':
-            image.SetAsOpenedImage(path)
-        image.SetAsImage(image.GetImage().convert('RGBA'))
+        image = api.RenderImage()
+        enhancer = ImageEnhance.Brightness(image1.GetImage())
+        image.SetAsImage(enhancer.enhance(amount).convert('RGBA'))
+
         self.NodeSetThumb(image.GetImage())
-        return image 
+        return image
 
 
-RegisterNode(NodeDefinition)
+api.RegisterNode(ExampleCustomNode, "examplecustomnode_brightness")
