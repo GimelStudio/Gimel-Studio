@@ -24,16 +24,82 @@ import PIL
 import wx
 from wx.lib.wordwrap import wordwrap
 
-from GimelStudio.meta import (__NAME__, __AUTHOR__, __VERSION__, __TITLE__)
+from GimelStudio import meta
+
+ 
+# class AboutDialog(wx.Dialog):
+#     def __init__(self, size=wx.Size(700, 1000), *args, **kwds):
+#         wx.Dialog.__init__(self, size, *args, **kwds)
+
+#         self.notebook = wx.Notebook(self, -1, style=0)
+#         self.notebook_pane_6 = wx.Panel(self.notebook, -1)
+#         self.notebook_1_pane_5 = wx.Panel(self.notebook, -1)
+#         self.notebook_1_pane_4 = wx.Panel(self.notebook, -1)
+#         self.notebook_1_pane_3 = wx.Panel(self.notebook, -1)
+#         self.notebook_1_pane_2 = wx.Panel(self.notebook, -1)
+#         self.notebook_1_pane_1 = wx.Panel(self.notebook, -1)
 
 
-class AboutGimelStudioDialog(object):
+#         self.credits_code = wx.TextCtrl(self.notebook_1_pane_1, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
+#         self.credits_documentation = wx.TextCtrl(self.notebook_1_pane_2, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
+#         self.credits_translation = wx.TextCtrl(self.notebook_1_pane_3, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
+#         self.credits_graphics = wx.TextCtrl(self.notebook_1_pane_4, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
+#         self.credits_libraries = wx.TextCtrl(self.notebook_1_pane_5, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
+#         self.credits_sponsors = wx.TextCtrl(self.notebook_pane_6, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
+#         self.close = wx.Button(self, wx.ID_CLOSE, "&Close")
+
+#         self.SetTitle("About Gimel Studio")
+#         self.__do_layout()
+
+#         self.Bind(wx.EVT_BUTTON, self.OnClose, id=wx.ID_CLOSE)
+#         # end wxGlade
+
+
+#     def __do_layout(self):
+#         # begin wxGlade: wxgCreditsDialog.__do_layout
+#         sizer_100 = wx.BoxSizer(wx.VERTICAL)
+#         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
+#         sizer_11_copy_3 = wx.BoxSizer(wx.HORIZONTAL)
+#         sizer_11_copy_2 = wx.BoxSizer(wx.HORIZONTAL)
+#         sizer_11_copy_1 = wx.BoxSizer(wx.HORIZONTAL)
+#         sizer_11_copy = wx.BoxSizer(wx.HORIZONTAL)
+#         sizer_11 = wx.BoxSizer(wx.HORIZONTAL)
+#         sizer_11.Add(self.credits_code, 1, wx.EXPAND, 0)
+#         self.notebook_1_pane_1.SetSizer(sizer_11)
+#         sizer_11_copy.Add(self.credits_documentation, 1, wx.EXPAND, 0)
+#         self.notebook_1_pane_2.SetSizer(sizer_11_copy)
+#         sizer_11_copy_1.Add(self.credits_translation, 1, wx.EXPAND, 0)
+#         self.notebook_1_pane_3.SetSizer(sizer_11_copy_1)
+#         sizer_11_copy_2.Add(self.credits_graphics, 1, wx.EXPAND, 0)
+#         self.notebook_1_pane_4.SetSizer(sizer_11_copy_2)
+#         sizer_11_copy_3.Add(self.credits_libraries, 1, wx.EXPAND, 0)
+#         self.notebook_1_pane_5.SetSizer(sizer_11_copy_3)
+#         sizer_1.Add(self.credits_sponsors, 1, wx.EXPAND, 0)
+#         self.notebook_pane_6.SetSizer(sizer_1)
+#         self.notebook.AddPage(self.notebook_1_pane_1, "Code")
+#         self.notebook.AddPage(self.notebook_1_pane_2, "Documentation")
+#         self.notebook.AddPage(self.notebook_1_pane_3, "Translation")
+#         self.notebook.AddPage(self.notebook_1_pane_5, "Libraries")
+#         self.notebook.AddPage(self.notebook_pane_6, "Sponsors")
+#         sizer_100.Add(self.notebook, 1, wx.EXPAND, 0)
+#         sizer_100.Add(self.close, 0, wx.ALL|wx.ALIGN_RIGHT, 4)
+#         self.SetSizer(sizer_100)
+  
+
+#     def OnClose(self,event):
+#         self.Destroy()
+
+
+
+
+class AboutDialog(object):
     def __init__(self, parent):
         self._parent = parent
-        self._name = __NAME__
-        self._title = __TITLE__
-        self._author = __AUTHOR__
-        self._version = __VERSION__
+        self._name = meta.APP_NAME
+        self._title = meta.APP_TITLE
+        self._author = meta.APP_AUTHOR
+        self._version = meta.APP_VERSION
+        self._versionTag = meta.APP_VERSION_TAG
         self._pillowVersion = PIL.__version__
         self._wxPythonVersion = wx.VERSION_STRING
         self._pythonVersion = sys.version.split()[0]
@@ -41,7 +107,7 @@ class AboutGimelStudioDialog(object):
     def ShowDialog(self):
         info = wx.adv.AboutDialogInfo()
         info.SetName(self._name)
-        info.SetVersion("v{0}".format(self._version))
+        info.SetVersion("v{0}.{1}.{2} {3}".format(self._version[0], self._version[1], self._version[2], self._versionTag))
         info.SetCopyright("© 2020 {}. All rights reserved.".format(self._author))
         info.SetDescription(
             wordwrap(

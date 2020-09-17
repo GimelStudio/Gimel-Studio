@@ -21,14 +21,15 @@
 import wx
 import wx.lib.dialogs
 
-from GimelStudio.meta import (__NAME__, __AUTHOR__, __VERSION__, __TITLE__)
+from GimelStudio import meta
 
-class GimelStudioLicenseDialog(object):
+
+class LicenseDialog(object):
     def __init__(self, parent):
         self._parent = parent
 
     def ShowDialog(self):
-        LICENSE = """
+        LICENSE_TEXT = """
 Gimel Studio © 2020 Noah Rahm, Correct Syntax. All rights reserved.
 
 IMPORTANT - PLEASE READ BEFORE COPYING, INSTALLING OR USING GIMEL STUDIO VERSION {0}
@@ -235,11 +236,11 @@ IMPORTANT - PLEASE READ BEFORE COPYING, INSTALLING OR USING GIMEL STUDIO VERSION
    See the License for the specific language governing permissions and
    limitations under the License.
 
-        """.format(__VERSION__)
+        """.format(meta.APP_VERSION)
 
         dlg = wx.lib.dialogs.ScrolledMessageDialog(
             self._parent, 
-            LICENSE, 
+            LICENSE_TEXT, 
             "Gimel Studio License",
             size=(600, 750)
             )
