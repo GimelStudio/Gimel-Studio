@@ -46,11 +46,14 @@ class Renderer(object):
     def SetRender(self, render):
         self._render = render
         
-    def GetTime(self):
-        return self._time
+    def GetTime(self, exact=False):
+        if exact == True:
+            return self._time
+        else:
+            return round(self._time, 3)
 
     def SetTime(self, time):
-        self._time = round(time, 3)
+        self._time = time
 
     def Render(self, nodes):
         """ Render method for evaluating the Node Graph 
