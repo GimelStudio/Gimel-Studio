@@ -93,7 +93,6 @@ class MainApplication(wx.Frame):
         self._InitAUIManagerStyles()
         self._InitMenuBar()
         self._InitUIPanels()
-
         self._SetupWindowStartup()
 
     def _InitProgramBackend(self):
@@ -429,7 +428,6 @@ class MainApplication(wx.Frame):
             self.about_menuitem
             )
 
-
     def _InitUIPanels(self):
         # Image Viewport Panel
         self._imageViewport = ImageViewport(
@@ -479,7 +477,6 @@ class MainApplication(wx.Frame):
                 .Floatable(False)
                 .Movable(False)
             )
-
 
     def _SetupWindowStartup(self):
         # Set statusbar

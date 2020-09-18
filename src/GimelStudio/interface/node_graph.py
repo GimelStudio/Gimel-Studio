@@ -131,16 +131,13 @@ class NodeGraph(wx.ScrolledCanvas):
         self.Refresh()
 
     def CenterNodeGraph(self):
+        """ Set the view to be the center of the Node Graph panel. """
         self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)
         self.RefreshGraph()
-
-
 
     def OnSize(self, event):
         """ Panel resize event handler. """
         self.RefreshGraph()
-
-
 
     def OnLeftDown(self, event):
         pnt = event.GetPosition()
@@ -155,12 +152,13 @@ class NodeGraph(wx.ScrolledCanvas):
 
             # Handle plugs and wires
             self._srcPlug = self._srcNode.HitTest(winpnt.x, winpnt.y)
-            if self._srcPlug != None:
-                # Handle disconnecting and connecting plugs
-                #if len(self._srcPlug.GetWires()) < 3:# == []:
 
-                # Do not allow connections from anything except
-                # the output socket
+            # Handle disconnecting and connecting plugs
+            if self._srcPlug != None:
+                
+                # We do not allow connections from anything except
+                # the output socket. If this is an Output socket,
+                # we create the temp wire.
                 if self._srcPlug.IsOutputType() == True:
                     pnt1 = self._srcNode.GetPosition() \
                             + self._srcPlug.GetPosition()
@@ -175,8 +173,9 @@ class NodeGraph(wx.ScrolledCanvas):
                         curvature=8
                         )
 
-                #else:
-                # Do not allow disconnections from the output socket
+                # If this is an input socket, we disconnect any already-existing
+                # sockets and connect the new wire. We do not allow disconnections 
+                # from the output socket
                 elif self._srcPlug.IsOutputType() != True:
                     wires = self._srcPlug.GetWires()
                     dst = wires[0].dstPlug
@@ -206,8 +205,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
                     # Important: we re-assign the source node variable
                     self._srcNode = self._srcPlug.GetNode()
-
-                            
+    
         else:
             # Start the box select bbox
             self._bboxStart = winpnt
@@ -228,7 +226,6 @@ class NodeGraph(wx.ScrolledCanvas):
                 winpnt[0] - self._middlePnt[0],
                 winpnt[1] - self._middlePnt[1]
                 )
-
 
         if not event.LeftIsDown() or self._srcNode == None:
             return
@@ -256,8 +253,6 @@ class NodeGraph(wx.ScrolledCanvas):
                 # Set the wire to be active when it is being edited.
                 self._tmpWire.SetActive(True)
                 self.DrawNodeWire(self._pdc, self._tmpWire, pnt2=winpnt)
-
-
 
         # Refresh the nodegraph
         self.RefreshGraph()
@@ -350,25 +345,19 @@ class NodeGraph(wx.ScrolledCanvas):
 
 
     def OnMiddleDown(self, event): 
-        """ Event that updates the cursor. """
+        """ Event that updates the mouse cursor. """
         winpnt = self.ConvertCoords(event.GetPosition())
         self._middlePnt = winpnt
 
-        # Update mouse cursor
         self.SetCursor(wx.Cursor(wx.CURSOR_SIZING))
 
     def OnMiddleUp(self, event):
-        """ Event that resets the cursor. """
-        # Reset mouse cursor
+        """ Event that resets the mouse cursor. """
         self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
 
     @property
     def NodePropertiesPanel(self):
         return self._parent._nodePropertyPanel
-
-    # @property
-    # def Theme(self):
-    #     return self._parent.Theme
 
     # @property
     # def UserPrefs(self):
@@ -399,9 +388,11 @@ class NodeGraph(wx.ScrolledCanvas):
         return self._pdc
 
     def ShouldDrawGrid(self):
+        """ Return whether the Node Graph grid should be drawn. """
         return self._drawGrid
 
     def SetShouldDrawGrid(self, draw_grid=True):
+        """ Set whether the Node Graph grid should be drawn. """
         self._drawGrid = draw_grid
 
     @staticmethod
@@ -415,7 +406,6 @@ class NodeGraph(wx.ScrolledCanvas):
         if pnt2 != None:
             wire.SetPoint2(pnt2)
         wire.Draw(dc)
-
 
     def ScrollNodeGraph(self, pos_x, pos_y):
         """ Scrolls the scrollbars to the specified position. """
