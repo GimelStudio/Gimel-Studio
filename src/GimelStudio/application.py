@@ -234,7 +234,7 @@ class MainApplication(wx.Frame):
         self.viewmenu.Append(self.togglenodegraphgrid_menuitem)
         self.viewmenu.Check(self.togglenodegraphgrid_menuitem.GetId(), True)
 
-        self.viewmenu.AppendSeparator()
+        #self.viewmenu.AppendSeparator()
 
         self.centernodegraph_menuitem = wx.MenuItem(
             self.viewmenu, 
@@ -584,30 +584,20 @@ class MainApplication(wx.Frame):
         """
         self._abortEvent.clear()
         self._jobID += 1
-        #print( "Starting job %s in thread: GUI remains responsive" % self._jobID )
         delayedresult.startWorker(
-            self._postRender, 
+            self._PostRender, 
             self._Render,
             wargs=(self._jobID, self._abortEvent), 
             jobID=self._jobID
             )
         
-    def _Render(self, jobID, abort_event):
+    def _Render(self, jobID, abort_event): 
         """ Internal rendering method. """
         if not abort_event(): 
-            self._statusBar.SetStatusText("Rendering...")
-            self._imageViewport.UpdateRenderText(True)
-            self._renderer.Render(self._nodeGraph.GetNodes())
-            render_time = self._renderer.GetTime()
-            render_image = self._renderer.GetRender()
+            self._PreRenderUISetup()
+            render_image = self._renderer.Render(self._nodeGraph.GetNodes())
             if render_image != None:
-                self._imageViewport.UpdateViewerImage(
-                    utils.ConvertImageToWx(render_image),
-                    render_time
-                    )
-                self._statusBar.SetStatusText(
-                    "Render Finished in {} sec.".format(render_time)
-                    )
+                self._PostRenderUIUpdate(render_image, self._renderer.GetTime())
                 self._abortEvent.set()
         else:
             self._abortEvent.clear()
@@ -615,17 +605,29 @@ class MainApplication(wx.Frame):
         self._imageViewport.UpdateRenderText(False)
         return jobID
 
-    def _postRender(self, delayedResult):
+    def _PostRender(self, delayedResult):
         """ Internal post-render misc. """
         try:
             result = delayedResult.get()
-            #print("Aborting result for job %s" % self.jobID)
             self._nodeGraph.UpdateAllNodes()
             self._abortEvent.clear()
             return result
         except Exception as exc:
             print('ERROR: PLEASE REPORT THE FOLLOWING ERROR TO THE DEVELOPERS: \n', exc)
             return
+
+    def _PreRenderUISetup(self):
+        self._statusBar.SetStatusText("Rendering...")
+        self._imageViewport.UpdateRenderText(True)
+
+    def _PostRenderUIUpdate(self, image, time):
+        self._imageViewport.UpdateViewerImage(
+            utils.ConvertImageToWx(image),
+            time
+            )
+        self._statusBar.SetStatusText(
+            "Render Finished in {} sec.".format(time)
+            )
 
 
 

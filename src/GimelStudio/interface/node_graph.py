@@ -417,6 +417,12 @@ class NodeGraph(wx.ScrolledCanvas):
                     )
         self.RefreshGraph()
 
+    def UpdateAllNodes(self):
+        """ Re-draw all the nodes in the Node Graph and refresh. """
+        for nodeId in self.GetNodes():
+            self._nodes[nodeId].Draw(self._pdc)
+        self.RefreshGraph()
+
 
     def NodeHitTest(self, pnt):
         idxs = self._pdc.FindObjects(pnt[0], pnt[1], 5)
@@ -444,11 +450,6 @@ class NodeGraph(wx.ScrolledCanvas):
             self._activeNode.Draw(self._pdc)
             self._activeNode = None
 
-
-    def UpdateAllNodes(self):
-        for nodeId in self.GetNodes():
-            self._nodes[nodeId].Draw(self._pdc)
-        self.RefreshGraph()
 
     def AddNode(self, name="", _id=wx.ID_ANY, pos=wx.Point(0, 0), where="DEFAULT"):
         """ Adds a node of the given name to the Node Graph. 

@@ -60,6 +60,7 @@ class Renderer(object):
         to render an image.
 
         :param nodes: dictionary of nodes of the Node Graph
+        :returns: rendered image
         """
         # Start timing the render
         start_time = time.time()
@@ -80,6 +81,8 @@ class Renderer(object):
 
         # Set rendertime
         self.SetTime(time.time() - start_time)
+
+        return image
 
     def RenderNodeGraph(self, output_node, nodes):
         """ Render the image, starting from the output node.
