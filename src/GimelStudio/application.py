@@ -159,39 +159,39 @@ class MainApplication(wx.Frame):
         # File menu
         self.filemenu = wx.Menu()
 
-        self.openproject_menuitem = wx.MenuItem(
-            self.filemenu, 
-            wx.ID_ANY, 
-            "Open Project... \tCtrl+O", 
-            "Open and load a Gimel Studio project file"
-            )
-        self.filemenu.Append(self.openproject_menuitem)
+        # self.openproject_menuitem = wx.MenuItem(
+        #     self.filemenu, 
+        #     wx.ID_ANY, 
+        #     "Open Project... \tCtrl+O", 
+        #     "Open and load a Gimel Studio project file"
+        #     )
+        # self.filemenu.Append(self.openproject_menuitem)
 
-        self.saveproject_menuitem = wx.MenuItem(
-            self.filemenu, 
-            wx.ID_ANY, 
-            "Save Project... \tCtrl+S", 
-            "Save the current Gimel Studio project file"
-            )
-        self.filemenu.Append(self.saveproject_menuitem)
-        #if self.GetActiveProjectFile() == None:
-        #    self.saveproject_menuitem.Enable(False)
+        # self.saveproject_menuitem = wx.MenuItem(
+        #     self.filemenu, 
+        #     wx.ID_ANY, 
+        #     "Save Project... \tCtrl+S", 
+        #     "Save the current Gimel Studio project file"
+        #     )
+        # self.filemenu.Append(self.saveproject_menuitem)
+        # #if self.GetActiveProjectFile() == None:
+        # #    self.saveproject_menuitem.Enable(False)
 
-        self.saveprojectas_menuitem = wx.MenuItem(
-            self.filemenu, 
-            wx.ID_ANY, 
-            "Save Project As... \tCtrl+Shift+S", 
-            "Save the current project as a Gimel Studio project file"
-            )
-        self.filemenu.Append(self.saveprojectas_menuitem)
+        # self.saveprojectas_menuitem = wx.MenuItem(
+        #     self.filemenu, 
+        #     wx.ID_ANY, 
+        #     "Save Project As... \tCtrl+Shift+S", 
+        #     "Save the current project as a Gimel Studio project file"
+        #     )
+        # self.filemenu.Append(self.saveprojectas_menuitem)
 
-        self.filemenu.AppendSeparator()
+        # self.filemenu.AppendSeparator()
 
         self.export_menuitem = wx.MenuItem(
             self.filemenu, 
             wx.ID_ANY, 
             "Export Image", 
-            "Export rendered composite image to file as-is"
+            "Export rendered composite image to file"
             )
         self.filemenu.Append(self.export_menuitem)    
 
@@ -594,7 +594,8 @@ class MainApplication(wx.Frame):
         
     def _Render(self, jobID, abort_event):
         """ Internal rendering method. """
-        if not abort_event():
+        if not abort_event(): 
+            self._statusBar.SetStatusText("Rendering...")
             self._imageViewport.UpdateRenderText(True)
             self._renderer.Render(self._nodeGraph.GetNodes())
             render_time = self._renderer.GetTime()
@@ -603,6 +604,9 @@ class MainApplication(wx.Frame):
                 self._imageViewport.UpdateViewerImage(
                     utils.ConvertImageToWx(render_image),
                     render_time
+                    )
+                self._statusBar.SetStatusText(
+                    "Render Finished in {} sec.".format(render_time)
                     )
                 self._abortEvent.set()
         else:
