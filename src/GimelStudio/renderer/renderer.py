@@ -50,7 +50,7 @@ class Renderer(object):
         return self._time
 
     def SetTime(self, time):
-        self._time = time
+        self._time = round(time, 3)
 
     def Render(self, nodes):
         """ Render method for evaluating the Node Graph 
