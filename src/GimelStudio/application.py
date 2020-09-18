@@ -65,13 +65,6 @@ class MainApplication(wx.Frame):
         # Init everything
         self._InitApp()
 
-        self.SetBackgroundColour(wx.Colour("#C7C7C7"))
-        self.statusbar = self.CreateStatusBar()
-        self.statusbar.SetStatusText("")
-        self.statusbar.SetBackgroundColour(wx.Colour("#C7C7C7"))
-        self.statusbar.SetForegroundColour(wx.Colour("white"))
-
-
         self._nodeGraph.AddNode("corenode_outputcomposite", 
         wx.NewIdRef(), pos=wx.Point(5010, 5010))
 
@@ -125,11 +118,11 @@ class MainApplication(wx.Frame):
             )
         self._mgr.GetArtProvider().SetMetric(
             aui.AUI_DOCKART_SASH_SIZE,
-            6
+            2
             )
         self._mgr.GetArtProvider().SetMetric(
             aui.AUI_DOCKART_PANE_BORDER_SIZE,
-            2
+            3
             )
         self._mgr.GetArtProvider().SetMetric(
             aui.AUI_DOCKART_GRADIENT_TYPE, 
@@ -216,41 +209,41 @@ class MainApplication(wx.Frame):
         self.mainmenubar.Append(self.filemenu, "File")
 
         # Edit menu
-        self.editmenu = wx.Menu()
+        # self.editmenu = wx.Menu()
 
-        self.userpreferences_menuitem = wx.MenuItem(
-            self.editmenu,
-            wx.ID_ANY,
-            "Preferences",
-            "Open the user preferences dialog"
-        )
-        self.editmenu.Append(self.userpreferences_menuitem)  
+        # self.userpreferences_menuitem = wx.MenuItem(
+        #     self.editmenu,
+        #     wx.ID_ANY,
+        #     "Preferences",
+        #     "Open the user preferences dialog"
+        # )
+        # self.editmenu.Append(self.userpreferences_menuitem)  
 
-        self.mainmenubar.Append(self.editmenu, "Edit")
+        # self.mainmenubar.Append(self.editmenu, "Edit")
 
 
         # View menu
         self.viewmenu = wx.Menu()
 
-        self.togglefullscreen_menuitem = wx.MenuItem(
-            self.viewmenu, 
-            wx.ID_ANY, 
-            "Fullscreen",  
-            "Set the window size to fullscreen", 
-            wx.ITEM_CHECK
-            )
-        self.viewmenu.Append(self.togglefullscreen_menuitem)
-        self.viewmenu.Check(self.togglefullscreen_menuitem.GetId(), True)
-
         self.togglenodegraphgrid_menuitem = wx.MenuItem(
             self.viewmenu, 
             wx.ID_ANY, 
-            "Show Grid",  
+            "Node Graph Grid",  
             "Toggle the Node Graph grid background", 
             wx.ITEM_CHECK
             )
         self.viewmenu.Append(self.togglenodegraphgrid_menuitem)
         self.viewmenu.Check(self.togglenodegraphgrid_menuitem.GetId(), True)
+
+        self.viewmenu.AppendSeparator()
+
+        self.centernodegraph_menuitem = wx.MenuItem(
+            self.viewmenu, 
+            wx.ID_ANY, 
+            "Center Node Graph",  
+            "Move the view to the center of the Node Graph"
+            )
+        self.viewmenu.Append(self.centernodegraph_menuitem)
 
         self.mainmenubar.Append(self.viewmenu, "View")
 
@@ -277,6 +270,51 @@ class MainApplication(wx.Frame):
         self.rendermenu.Append(self.renderimage_menuitem)
 
         self.mainmenubar.Append(self.rendermenu, "Render")
+
+
+        # Window menu
+        self.windowmenu = wx.Menu()
+
+        self.togglefullscreen_menuitem = wx.MenuItem(
+            self.windowmenu, 
+            wx.ID_ANY, 
+            "Toggle Window Fullscreen",  
+            "Set the window size to fullscreen", 
+            wx.ITEM_CHECK
+            )
+        self.windowmenu.Append(self.togglefullscreen_menuitem)
+
+        self.maximizewindow_menuitem = wx.MenuItem(
+            self.windowmenu, 
+            wx.ID_ANY, 
+            "Maximize Window",  
+            "Maximize the window size"
+            )
+        self.windowmenu.Append(self.maximizewindow_menuitem)
+
+        self.windowmenu.AppendSeparator()
+
+        self.toggleimageviewport_menuitem = wx.MenuItem(
+            self.windowmenu, 
+            wx.ID_ANY, 
+            "Show Image Viewport",  
+            "Toggle the Image Viewport panel", 
+            wx.ITEM_CHECK
+            )
+        self.windowmenu.Append(self.toggleimageviewport_menuitem)
+        self.windowmenu.Check(self.toggleimageviewport_menuitem.GetId(), True)
+
+        self.togglestatusbar_menuitem = wx.MenuItem(
+            self.windowmenu, 
+            wx.ID_ANY, 
+            "Show Statusbar",  
+            "Toggle the statusbar", 
+            wx.ITEM_CHECK
+            )
+        self.windowmenu.Append(self.togglestatusbar_menuitem)
+        self.windowmenu.Check(self.togglestatusbar_menuitem.GetId(), True)
+
+        self.mainmenubar.Append(self.windowmenu, "Window")
 
 
         # Help menu
@@ -337,13 +375,36 @@ class MainApplication(wx.Frame):
 
 
         # Menubar bindings
-        self.Bind(wx.EVT_MENU, self.OnToggleFullscreen, 
-            self.togglefullscreen_menuitem
+        self.Bind(wx.EVT_MENU, 
+            self.OnQuit, 
+            self.quit_menuitem
             )
+
+
         self.Bind(wx.EVT_MENU, 
             self.OnToggleNodeGraphGrid, 
             self.togglenodegraphgrid_menuitem
             ) 
+        self.Bind(wx.EVT_MENU, 
+            self.OnCenterNodeGraph, 
+            self.centernodegraph_menuitem
+            ) 
+
+        self.Bind(wx.EVT_MENU, self.OnToggleFullscreen, 
+            self.togglefullscreen_menuitem
+            )
+        self.Bind(wx.EVT_MENU,
+            self.OnToggleStatusbar,
+            self.togglestatusbar_menuitem
+            )
+        self.Bind(wx.EVT_MENU,
+            self.OnToggleShowImageViewport,
+            self.toggleimageviewport_menuitem
+            )   
+        self.Bind(wx.EVT_MENU,
+            self.OnMaximizeWindow,
+            self.maximizewindow_menuitem
+            )   
 
         self.Bind(wx.EVT_MENU, self.OnToggleAutoRender, 
             self.toggleautorender_menuitem
@@ -421,6 +482,9 @@ class MainApplication(wx.Frame):
 
 
     def _SetupWindowStartup(self):
+        # Set statusbar
+        self._statusBar = self.CreateStatusBar()
+
         # Maximize the window & tell the AUI window 
         # manager to "commit" all the changes just made.
         self.Maximize()
@@ -430,12 +494,34 @@ class MainApplication(wx.Frame):
         if meta.APP_DEBUG != True:
             self.Bind(wx.EVT_CLOSE, self.OnQuit)
 
-
     def OnToggleFullscreen(self, event):
-        if self.IsMaximized() == False:
-            self.Maximize()
-        elif self.IsMaximized() == True:
-            self.Restore()
+        if self.togglefullscreen_menuitem.IsChecked() == False:
+            self.ShowFullScreen(False)
+        else:
+            self.ShowFullScreen(
+                True,
+                style=wx.FULLSCREEN_NOCAPTION | wx.FULLSCREEN_NOBORDER
+                )
+
+    def OnCenterNodeGraph(self, event): 
+        self._nodeGraph.CenterNodeGraph()
+
+    def OnMaximizeWindow(self, event):
+        self.Maximize()
+
+    def OnToggleStatusbar(self, event):
+        if self.togglestatusbar_menuitem.IsChecked() == False:
+            self._statusBar.Hide()
+        else:
+            self._statusBar.Show()
+        self.Layout()
+
+    def OnToggleShowImageViewport(self, event):
+        if self.toggleimageviewport_menuitem.IsChecked() == False:
+            self._mgr.GetPane("ImageViewport").Hide()
+        else:
+            self._mgr.GetPane("ImageViewport").Show()
+        self._mgr.Update()
 
     def OnToggleNodeGraphGrid(self, event):
         if self.togglenodegraphgrid_menuitem.IsChecked() == False:

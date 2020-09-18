@@ -72,7 +72,6 @@ class NodeGraph(wx.ScrolledCanvas):
 
         self.Bind(wx.EVT_SIZE, self.OnSize)
 
- 
     def _DrawGridBackground(self, dc, rect):
         dc.SetPen(wx.TRANSPARENT_PEN)
         dc.SetBrush(wx.Brush(wx.Colour('#525960'), wx.CROSS_HATCH))
@@ -130,6 +129,10 @@ class NodeGraph(wx.ScrolledCanvas):
         rect = wx.Rect(0, 0, self._maxWidth, self._maxHeight)
         self.RefreshRect(rect, True) # False
         self.Refresh()
+
+    def CenterNodeGraph(self):
+        self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)
+        self.RefreshGraph()
 
 
 
