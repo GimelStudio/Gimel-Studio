@@ -238,7 +238,7 @@ class ImageViewport(wx.Panel):
         self._pdc.DrawRectangle(0, 0, self.Size[0], 26)
         
         text = 'Render Finished in {0} sec. | Zoom: {1}%'.format(
-            round(self._renderTime, 3), 
+            self._renderTime, 
             round(self.zoomValue*100)
             )
         self._pdc.SetTextForeground(wx.Colour('white'))
