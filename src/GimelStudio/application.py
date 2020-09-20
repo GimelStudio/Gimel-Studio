@@ -37,6 +37,8 @@ from GimelStudio import utils
 from GimelStudio import meta
 from GimelStudio.datafiles import *
 
+from GimelStudio.file_support import SupportFTSave
+
 
 # Create IDs
 # ID_MENUITEM_OPENPROJECT = wx.NewIdRef()
@@ -83,6 +85,9 @@ class MainApplication(wx.Frame):
 
         self._nodeGraph.AddNode("corenode_brightness", 
         wx.NewIdRef(), pos=wx.Point(5660, 5660))
+
+        self._nodeGraph.AddNode("corenode_blur", 
+        wx.NewIdRef(), pos=wx.Point(5680, 5680))
 
         self._nodeGraph.AddNode("examplecustomnode_brightness", 
         wx.NewIdRef(), pos=wx.Point(5960, 5660))
@@ -187,13 +192,13 @@ class MainApplication(wx.Frame):
 
         # self.filemenu.AppendSeparator()
 
-        self.export_menuitem = wx.MenuItem(
+        self.exportimage_menuitem = wx.MenuItem(
             self.filemenu, 
             wx.ID_ANY, 
-            "Export Image", 
-            "Export rendered composite image to file"
+            "Export Image As... \tCtrl+E", 
+            "Export rendered composite image to a file"
             )
-        self.filemenu.Append(self.export_menuitem)    
+        self.filemenu.Append(self.exportimage_menuitem)    
 
         self.filemenu.AppendSeparator()
 
@@ -207,22 +212,18 @@ class MainApplication(wx.Frame):
 
         self.mainmenubar.Append(self.filemenu, "File")
 
-        # Edit menu
-        # self.editmenu = wx.Menu()
-
-        # self.userpreferences_menuitem = wx.MenuItem(
-        #     self.editmenu,
-        #     wx.ID_ANY,
-        #     "Preferences",
-        #     "Open the user preferences dialog"
-        # )
-        # self.editmenu.Append(self.userpreferences_menuitem)  
-
-        # self.mainmenubar.Append(self.editmenu, "Edit")
-
-
         # View menu
         self.viewmenu = wx.Menu()
+
+        self.livenodepreviewupdate_menuitem = wx.MenuItem(
+            self.viewmenu, 
+            wx.ID_ANY, 
+            "Live Node Previews",  
+            "Toggle showing live node previews as the renderer is processing each node, at the cost of a slightly longer render", 
+            wx.ITEM_CHECK
+            )
+        self.viewmenu.Append(self.livenodepreviewupdate_menuitem)
+        self.viewmenu.Check(self.livenodepreviewupdate_menuitem.GetId(), True)
 
         self.togglenodegraphgrid_menuitem = wx.MenuItem(
             self.viewmenu, 
@@ -234,7 +235,7 @@ class MainApplication(wx.Frame):
         self.viewmenu.Append(self.togglenodegraphgrid_menuitem)
         self.viewmenu.Check(self.togglenodegraphgrid_menuitem.GetId(), True)
 
-        #self.viewmenu.AppendSeparator()
+        self.viewmenu.AppendSeparator()
 
         self.centernodegraph_menuitem = wx.MenuItem(
             self.viewmenu, 
@@ -254,7 +255,7 @@ class MainApplication(wx.Frame):
             self.rendermenu, 
             wx.ID_ANY, 
             "Auto Render",  
-            "Toggle whether to auto render after editing node properties, connections, etc", 
+            "Toggle auto rendering after editing node properties, connections, etc", 
             wx.ITEM_CHECK
             )
         self.rendermenu.Append(self.toggleautorender_menuitem)
@@ -264,7 +265,7 @@ class MainApplication(wx.Frame):
             self.rendermenu, 
             wx.ID_ANY, 
             "Render Image \tF12",  
-            "Force an immediate, updated render of the current node graph image."
+            "Force an immediate, updated render of the current node graph image"
             )
         self.rendermenu.Append(self.renderimage_menuitem)
 
@@ -278,7 +279,7 @@ class MainApplication(wx.Frame):
             self.windowmenu, 
             wx.ID_ANY, 
             "Toggle Window Fullscreen",  
-            "Set the window size to fullscreen", 
+            "Toggle the window fullscreen", 
             wx.ITEM_CHECK
             )
         self.windowmenu.Append(self.togglefullscreen_menuitem)
@@ -297,7 +298,7 @@ class MainApplication(wx.Frame):
             self.windowmenu, 
             wx.ID_ANY, 
             "Show Image Viewport",  
-            "Toggle the Image Viewport panel", 
+            "Toggle showing the Image Viewport panel", 
             wx.ITEM_CHECK
             )
         self.windowmenu.Append(self.toggleimageviewport_menuitem)
@@ -307,7 +308,7 @@ class MainApplication(wx.Frame):
             self.windowmenu, 
             wx.ID_ANY, 
             "Show Statusbar",  
-            "Toggle the statusbar", 
+            "Toggle showing the statusbar", 
             wx.ITEM_CHECK
             )
         self.windowmenu.Append(self.togglestatusbar_menuitem)
@@ -375,11 +376,19 @@ class MainApplication(wx.Frame):
 
         # Menubar bindings
         self.Bind(wx.EVT_MENU, 
+            self.OnExportImage, 
+            self.exportimage_menuitem
+            )
+        self.Bind(wx.EVT_MENU, 
             self.OnQuit, 
             self.quit_menuitem
             )
 
 
+        self.Bind(wx.EVT_MENU, 
+            self.OnToggleLiveNodePreviewUpdate, 
+            self.livenodepreviewupdate_menuitem
+            ) 
         self.Bind(wx.EVT_MENU, 
             self.OnToggleNodeGraphGrid, 
             self.togglenodegraphgrid_menuitem
@@ -491,6 +500,64 @@ class MainApplication(wx.Frame):
         if meta.APP_DEBUG != True:
             self.Bind(wx.EVT_CLOSE, self.OnQuit)
 
+    def OnExportImage(self, event):
+        wildcard = "JPG file (*.jpg)|*.jpg|" \
+                   "JPEG file (*.jpeg)|*.jpeg|" \
+                   "PNG file (*.png)|*.png|" \
+                   "BMP file (*.bmp)|*.bmp|" \
+                   "GIF file (*.gif)|*.gif|" \
+                   "EPS file (*.eps)|*.eps|" \
+                   "PCX file (*.pcx)|*.pcx|" \
+                   "XBM file (*.xbm)|*.xbm|" \
+                   "WEBP file (*.webp)|*.webp|" \
+                   "TGA file (*.tga)|*.tga|" \
+                   "TIFF file (*.tiff)|*.tiff|" \
+                   "All files (*.*)|*.*"
+
+        dlg = wx.FileDialog(
+            self, 
+            message="Export rendered image as...", 
+            defaultDir=os.getcwd(),
+            defaultFile="untitled.png", 
+            wildcard=wildcard, 
+            style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
+            )
+
+        # This sets the default filter that the user will initially see. 
+        # Otherwise, the first filter in the list will be used by default.
+        dlg.SetFilterIndex(11)
+
+        if dlg.ShowModal() == wx.ID_OK:
+            path = dlg.GetPath()
+            filetype = os.path.splitext(path)[1]
+
+            if filetype not in SupportFTSave(list_all=True):
+                dlg = wx.MessageDialog(
+                    None, 
+                    "That file type isn't currently supported!", 
+                    "Cannot Save Image!", 
+                    style=wx.ICON_EXCLAMATION
+                    )
+                dlg.ShowModal()    
+
+            else:
+                # Export the image with the export options
+ 
+                notify = wx.adv.NotificationMessage(
+                    title="Image Exported Sucessfully",
+                    message="Your image was exported to \n {}".format(path),
+                    parent=None, flags=wx.ICON_INFORMATION)
+                notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
+            
+        dlg.Destroy()
+
+    def OnToggleLiveNodePreviewUpdate(self, event):
+        if self.livenodepreviewupdate_menuitem.IsChecked() == False:
+            self._nodeGraph.SetLiveNodePreviewUpdate(False)
+        else:
+            self._nodeGraph.SetLiveNodePreviewUpdate(True)
+
+
     def OnToggleFullscreen(self, event):
         if self.togglefullscreen_menuitem.IsChecked() == False:
             self.ShowFullScreen(False)
@@ -529,9 +596,9 @@ class MainApplication(wx.Frame):
 
     def OnToggleAutoRender(self, event):
         if self.toggleautorender_menuitem.IsChecked() == False:
-            print("no auto render")
+            self._nodeGraph.SetAutoRender(False)
         else:
-            print("render")
+            self._nodeGraph.SetAutoRender(True)
         self._nodeGraph.RefreshGraph()
 
     def OnRender(self, event):
@@ -582,6 +649,9 @@ class MainApplication(wx.Frame):
         """ Callable render method. This is intended to be the 'master' render
         method, called when the Node Graph image is to be rendered.
         """
+        #self._imageViewport.UpdateRenderText(True) 
+        self._statusBar.SetStatusText("Rendering image...")
+
         self._abortEvent.clear()
         self._jobID += 1
         delayedresult.startWorker(
@@ -590,44 +660,60 @@ class MainApplication(wx.Frame):
             wargs=(self._jobID, self._abortEvent), 
             jobID=self._jobID
             )
+        print("RENDERED")
         
     def _Render(self, jobID, abort_event): 
         """ Internal rendering method. """
+        print("R start")
+        
         if not abort_event(): 
-            self._PreRenderUISetup()
+            self._imageViewport.UpdateRenderText(True) 
+            
+            #self._PreRenderUISetup()
+            #
             render_image = self._renderer.Render(self._nodeGraph.GetNodes())
             if render_image != None:
-                self._PostRenderUIUpdate(render_image, self._renderer.GetTime())
+                #self._imageViewport.UpdateRenderText(False) 
+
+                #self._PostRenderUIUpdate(render_image, self._renderer.GetTime())
+                print("SET ABORT")
                 self._abortEvent.set()
         else:
+            print("CLEAR")
             self._abortEvent.clear()
-
-        self._imageViewport.UpdateRenderText(False)
+        print("R end \n =======")
+        #self._imageViewport.UpdateRenderText(False) 
         return jobID
 
-    def _PostRender(self, delayedResult):
+    def _PostRender(self, delayed_result):
         """ Internal post-render misc. """
         try:
-            result = delayedResult.get()
+            result = delayed_result.get()
+            self._statusBar.SetStatusText(
+                "Render Finished in {} sec.".format(self._renderer.GetTime())
+            )
+            self._imageViewport.UpdateViewerImage(
+                utils.ConvertImageToWx(self._renderer.GetRender()),
+                self._renderer.GetTime()
+                )
             self._nodeGraph.UpdateAllNodes()
             self._abortEvent.clear()
+            print("RESULT: ", result)
             return result
         except Exception as exc:
             print('ERROR: PLEASE REPORT THE FOLLOWING ERROR TO THE DEVELOPERS: \n', exc)
             return
 
     def _PreRenderUISetup(self):
-        self._statusBar.SetStatusText("Rendering...")
-        self._imageViewport.UpdateRenderText(True)
+        self._statusBar.SetStatusText("Rendering image...")
+        #self._imageViewport.UpdateRenderText(True)
 
     def _PostRenderUIUpdate(self, image, time):
         self._imageViewport.UpdateViewerImage(
             utils.ConvertImageToWx(image),
             time
             )
+        self._imageViewport.UpdateRenderText(False)
         self._statusBar.SetStatusText(
             "Render Finished in {} sec.".format(time)
             )
-
-
-
