@@ -3,6 +3,9 @@ Gimel Studio API
 
 The Gimel Studio API allows you to script your own custom nodes for Gimel Studio in Python.
 
+.. warning::
+    **New API Docs are yet to be written.** Most of the following API docs are depreciated in v0.5.0 and onward. Please see the `example_custom_node.py` file in the customnodes directory for an example of the new API.
+
 
 Overview of the API 
 ###################
