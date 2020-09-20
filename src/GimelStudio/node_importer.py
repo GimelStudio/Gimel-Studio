@@ -54,12 +54,12 @@ from GimelStudio.corenodes.blend import (
 #                                           rotate_node,
 #                                           )
 
-# from GimelStudio.corenodes.filter import (
-#                                         blur_node,
-#                                         opacity_node,
-#                                         sharpness_node,
-#                                         effect_spread_node,
-#                                         )
+from GimelStudio.corenodes.filter import (
+                                         blur_node,
+                                         #opacity_node,
+                                         #sharpness_node,
+                                         #effect_spread_node,
+                                         )
 
 from GimelStudio.corenodes.output import output_node
 

@@ -15,89 +15,54 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import wx
-from PIL import Image, ImageFilter
+from PIL import ImageFilter
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
-                            Parameter, Property, RegisterNode)
+from GimelStudio import api
 
  
-class NodeDefinition(NodeBase):
-    
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_blur"
+class BlurNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
     @property
-    def NodeLabel(self):
-        return "Blur"
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Blur",
+            "author": "Correct Syntax",
+            "version": (2, 2, 0),
+            "supported_app_version": (0, 5, 0),
+            "category": "FILTER",
+            "description": "Blurs the given image using the specified blur radius.",
+        }
+        return meta_info
 
-    @property
-    def NodeCategory(self):
-        return "FILTER"
-
-    @property
-    def NodeDescription(self):
-        return "Blurs the given image using the specified blur radius." 
-
-    @property
-    def NodeVersion(self):
-        return "2.1" 
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeProperties(self):
-        return [
-            Property('Radius',
-                prop_type='INTEGER',
-                value=4
-                ),
-            ]
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
-
-   
-    def NodePropertiesUI(self, node, parent, sizer):
-        current_radius_value = self.NodeGetPropValue('Radius')
-
-        radius_label = wx.StaticText(parent, label="Blur Radius:")
-        sizer.Add(radius_label, border=5)
-
-        self.radius_slider = wx.Slider(
-            parent, 100, 25, 1, 100,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
+    def NodeInitProps(self):
+        p = api.PositiveIntegerProp(
+            idname="Radius", 
+            default=1, 
+            min_val=0, 
+            max_val=25, 
+            widget=api.SLIDER_WIDGET,
+            label="Radius:",
             )
-        self.radius_slider.SetTickFreq(5)
-        self.radius_slider.SetRange(1, 100)
-        self.radius_slider.SetValue(current_radius_value)
-        sizer.Add(self.radius_slider, flag=wx.EXPAND|wx.ALL, border=5)
+        self.NodeAddProp(p)
 
-        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnRadiusChange, self.radius_slider)
+    def NodeInitParams(self):
+        p = api.RenderImageParam('Image')
 
+        self.NodeAddParam(p)
 
-    def OnRadiusChange(self, evt):
-        self.NodePropertiesUpdate('Radius', self.radius_slider.GetValue())
-    
     def NodeEvaluation(self, eval_info):
-        image1  = eval_info.EvaluateParameter('Image')
+        image1 = eval_info.EvaluateParameter('Image')
         radius = eval_info.EvaluateProperty('Radius')
-        
-        image = RenderImage()
+
+        image = api.RenderImage()
         image.SetAsImage(image1.GetImage().filter(
             ImageFilter.GaussianBlur(radius)
             ).convert('RGBA'))
+
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
-RegisterNode(NodeDefinition)
+
+api.RegisterNode(BlurNode, "corenode_blur")
