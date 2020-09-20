@@ -27,6 +27,7 @@ from GimelStudio.registry import CreateNode
 from GimelStudio.node import Wire
 
 
+# Create IDs
 ID_SELECTION_BBOX = wx.NewIdRef()
 
 
@@ -48,15 +49,17 @@ class NodeGraph(wx.ScrolledCanvas):
         self._srcNode = None
         self._srcPlug = None
         self._tmpWire = None
-        #self._bboxRect = None
-        #self._bboxStart = None
+        self._bboxRect = None
+        self._bboxStart = None
         self._middlePnt = None
         self._nodePreviewToggled = False
 
         self._nodeMenuItemIdMapping = {}
 
         self._pdc = wx.adv.PseudoDC()
+
         self._drawGrid = True
+        self._autoRender = True
 
         # Handle scrolling
         self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)
@@ -144,11 +147,9 @@ class NodeGraph(wx.ScrolledCanvas):
         winpnt = self.ConvertCoords(pnt)
         self._srcNode = self.NodeHitTest(winpnt)
 
-
         # The node has been clicked
         if self._srcNode != None:
             self._HandleNodeSelection()
-
 
             # Handle plugs and wires
             self._srcPlug = self._srcNode.HitTest(winpnt.x, winpnt.y)
@@ -226,6 +227,29 @@ class NodeGraph(wx.ScrolledCanvas):
                 winpnt[0] - self._middlePnt[0],
                 winpnt[1] - self._middlePnt[1]
                 )
+
+        # Draw box selection bbox
+        elif event.LeftIsDown() == True \
+            and self._srcNode == None and self._bboxStart != None:
+
+            self._bboxRect = wx.Rect(
+                topLeft=self._bboxStart, 
+                bottomRight=winpnt
+                )
+            self._pdc.RemoveId(ID_SELECTION_BBOX)
+            self._pdc.SetId(ID_SELECTION_BBOX)
+
+            self._pdc.SetPen(
+                wx.Pen(wx.Colour('#C2C2C2'), 2.5, wx.PENSTYLE_SHORT_DASH)
+                )
+            self._pdc.SetBrush(
+                wx.Brush(wx.Colour(100, 100, 100, 56), wx.SOLID)
+                )
+            self._pdc.DrawRectangle(self._bboxRect)
+            
+            # This is needed here because the
+            # box select must update in realtime.
+            self.RefreshGraph()
 
         if not event.LeftIsDown() or self._srcNode == None:
             return
@@ -305,10 +329,20 @@ class NodeGraph(wx.ScrolledCanvas):
             rect = self._pdc.GetIdBounds(self._tmpWire.GetId())
             self._pdc.RemoveId(self._tmpWire.GetId()) 
 
+        # Clear selection bbox and set nodes as selected
+        if self._bboxRect != None:
+            self._pdc.RemoveId(ID_SELECTION_BBOX)
+            self._selectedNodes = self.BoxSelectHitTest(self._bboxRect)
+            for node in self._selectedNodes:
+                if node.IsSelected() != True and node.IsActive() != True:
+                    node.SetSelected(True)
+                    node.Draw(self._pdc)
+
         # Reset all values 
         self._srcNode = None
         self._srcPlug = None
         self._tmpWire = None
+        self._bboxRect = None
 
         # Update the properties panel
         self.NodePropertiesPanel.UpdatePanelContents(self.GetActiveNode())
@@ -395,6 +429,12 @@ class NodeGraph(wx.ScrolledCanvas):
         """ Set whether the Node Graph grid should be drawn. """
         self._drawGrid = draw_grid
 
+    def ShouldAutoRender(self):
+        return self._autoRender
+
+    def SetAutoRender(self, render=True):
+        self._autoRender = render
+
     @staticmethod
     def GetNodePlug(node, plug):
         return node.GetPlug(plug)
@@ -406,6 +446,10 @@ class NodeGraph(wx.ScrolledCanvas):
         if pnt2 != None:
             wire.SetPoint2(pnt2)
         wire.Draw(dc)
+
+    def Render(self):
+        if self.ShouldAutoRender() == True:
+            self.GetParent().Render()
 
     def ScrollNodeGraph(self, pos_x, pos_y):
         """ Scrolls the scrollbars to the specified position. """
@@ -425,6 +469,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
 
     def NodeHitTest(self, pnt):
+        """ Hit-test for nodes. """
         idxs = self._pdc.FindObjects(pnt[0], pnt[1], 5)
         hits = [
             idx 
@@ -434,12 +479,25 @@ class NodeGraph(wx.ScrolledCanvas):
         if hits != []:
             return self._nodes[hits[0]]
         else:
-            self.DeselectNodes()
+            self._DeselectNodes()
             return None
 
-    # FIXME
-    def DeselectNodes(self):
-        # Make sure we deselect everything
+    def BoxSelectHitTest(self, bboxrect):
+        """ Hit-test for box selection. """
+        nodehits = []
+        for node in self._nodes.values():
+            if bboxrect.Intersects(node.GetRect()) == True:
+                nodehits.append(node)
+
+        if nodehits != []:
+            return nodehits
+        else:
+            self._DeselectNodes()
+            return []
+
+
+    def _DeselectNodes(self):
+        """ Deselect everything that is selected or active. """
         for node in self._selectedNodes:
             node.SetSelected(False)
             node.Draw(self._pdc)
