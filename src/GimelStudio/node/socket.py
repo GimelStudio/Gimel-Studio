@@ -95,11 +95,7 @@ class Socket(object):
          
         # Set color
         dc.SetPen(wx.Pen(wx.Colour(55, 55, 55, 255), 2))
-
-        #datatype = self.GetDataType()
-        #if datatype == "RENDERIMAGE":
         dc.SetBrush(wx.Brush(wx.Colour('#C7C729'), wx.SOLID))
-
 
         # Draw the plug
         dc.DrawCircle(final.x, final.y, self.GetRadius())
@@ -140,7 +136,7 @@ class Socket(object):
                     self, 
                     dst_plug, 
                     self.GetType(), 
-                    curvature=8#self.Theme["node_wire_curving"]
+                    curvature=8
                     ) 
         wire.srcNode = self.GetNode()
         wire.dstNode = dst_plug.GetNode()
@@ -152,7 +148,8 @@ class Socket(object):
         dc = ng.GetPDC()
         wire.Draw(dc)
 
-        ng.Render()
+        if render == True:
+            ng.Render()
 
         ng.RefreshGraph()
 
@@ -177,6 +174,7 @@ class Socket(object):
                 connected_node._wires.remove(wire)
                 ng.GetPDC().RemoveId(wire.GetId())
 
-        ng.Render()
+        if render == True:
+            ng.Render()
         
         ng.RefreshGraph()

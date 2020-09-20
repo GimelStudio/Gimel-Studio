@@ -28,13 +28,13 @@ class NodeBase(NodeObject):
 
     Internal methods of this class should not be overridden by the user, with few exceptions.
     """
-    def __init__(self, _id):
+    def __init__(self, _id): 
         NodeObject.__init__(self, _id)
         self._MetaInit()
         self.NodeInitProps()
         self.NodeInitParams()
         self.Model.UpdateSockets()
-        self.NodeSetThumb(self.Model.GetThumbImage())
+        self.Model.UpdateThumbnail(self.Model.GetThumbImage())
 
     def _MetaInit(self):
         """ Internal method to initilize the 
@@ -44,14 +44,15 @@ class NodeBase(NodeObject):
         self.Model.SetCategory(meta['category'])
         self.Model.SetLabel(meta['label'])
 
-    def _WidgetEventHook(self, idname, value):
+    def _WidgetEventHook(self, idname, value, render):
         """ Internal dispatcher method for the Property widget 
         callback event hook method, `WidgetEventHook`. 
         
         Please do not override.
         """
         self.WidgetEventHook(idname, value)
-        self.NodeGraphMethods.Render()
+        if render == True:
+            self.NodeGraphMethods.Render()
 
     def GetType(self):
         """ Node type identifier
@@ -180,14 +181,15 @@ class NodeBase(NodeObject):
         """
         return self.Model.AddParameter(param)
 
-    def NodeEditProp(self, idname, value):
+    def NodeEditProp(self, idname, value, render=True):
         """ Edit a property of this node.
         
         :param name: name of the property
         :param value: new value of the property
+        :param render: if set to ``False``, the node graph will not render after the property is edited as it usually would
         :returns: the current property value
         """
-        return self.Model.EditProperty(idname, value)
+        return self.Model.EditProperty(idname, value, render) 
         
     def NodePanelUI(self, parent, sizer):
         """ Create the Node property widgets for the Node Property Panel. Please do not override unless you know what you're doing.
@@ -237,14 +239,33 @@ class NodeBase(NodeObject):
         """ Node hittest handler. Please do not override. """
         return self.Model.HitTest(x, y)
 
+    def Delete(self):
+        """ Delete this node from the node graph. This is an internal method and should not be overriden by the user.
+        """
+        for socket in self.GetSockets():
+            for wire in socket.GetWires():
+                # Clean up any wires that are
+                # connected to this node.
+                dst = wire.dstPlug
+                src = wire.srcPlug
+                dst.Disconnect(self.NodeGraphMethods, src, render=False)
+                self.NodeGraphMethods.GetPDC().RemoveId(wire.GetId())
+        
+        del self.NodeGraphMethods._nodes[self.GetId()]
+        self.NodeGraphMethods.GetPDC().RemoveId(self.GetId()) 
+
     def NodeSetThumb(self, image, force_refresh=False):
         """ Update the thumbnail for this node.
 
         :param image: ``PIL Image`` to set as the thumbnail
-        :param force_refresh: if True, updates will apply and everything will be refreshed right away.
+        :param force_refresh: if True, updates will apply and everything will be refreshed right away regardless of whether the *Live Node Previews* setting is ticked or not.
         """
-        self.Model.UpdateThumbnail(image)
-        if force_refresh == True:
-            self.Draw(self.NodeGraphMethods.GetPDC())
-            self.RefreshNodeGraph()
+        try:
+            self.Model.UpdateThumbnail(image)
+            live_update = self.NodeGraphMethods.GetLiveNodePreviewUpdate()
 
+            if live_update == True or force_refresh == True:
+                self.Draw(self.NodeGraphMethods.GetPDC())
+                self.RefreshNodeGraph()
+        except Exception as e:
+            print("INIT", e)

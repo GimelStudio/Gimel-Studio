@@ -50,7 +50,7 @@ class Property(object):
     def GetValue(self):
         return self.value
 
-    def SetValue(self, value):
+    def SetValue(self, value, render=True):
         """ Set the value of the node property. 
 
         NOTE: This is only to be used to AFTER the node init.
@@ -58,7 +58,7 @@ class Property(object):
         """
         self.value = value
         self._RunErrorCheck()
-        self.WidgetEventHook(self.idname, self.value)
+        self.WidgetEventHook(self.idname, self.value, render)
 
     def GetLabel(self):
         return self.label
@@ -72,8 +72,8 @@ class Property(object):
     def SetWidgetEventHook(self, event_hook):
         self.widget_eventhook = event_hook
 
-    def WidgetEventHook(self, idname, value):
-        self.widget_eventhook(idname, value)
+    def WidgetEventHook(self, idname, value, render):
+        self.widget_eventhook(idname, value, render)
 
 
 class PositiveIntegerProp(Property):
@@ -346,8 +346,6 @@ class OpenFileChooserProp(Property):
             paths = dlg.GetPaths()  
             self.SetValue(paths[0])
             self.textcontrol.ChangeValue(self.GetValue())
-        else:
-            pass
 
 
 class LabelProp(Property):

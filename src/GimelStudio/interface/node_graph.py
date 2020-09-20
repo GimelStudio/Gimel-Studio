@@ -30,6 +30,15 @@ from GimelStudio.node import Wire
 # Create IDs
 ID_SELECTION_BBOX = wx.NewIdRef()
 
+# Max number of nodes that can be added to the menu is 200, currently
+CONTEXTMENU_ADDNODE_IDS = wx.NewIdRef(200)
+
+ID_CONTEXTMENU_DELETENODE = wx.NewIdRef()
+ID_CONTEXTMENU_DELETENODES = wx.NewIdRef()
+ID_CONTEXTMENU_DUPLICATENODE = wx.NewIdRef()
+ID_CONTEXTMENU_DESELECTALLNODES = wx.NewIdRef()
+ID_CONTEXTMENU_SELECTALLNODES = wx.NewIdRef() 
+
 
 
 class NodeGraph(wx.ScrolledCanvas):
@@ -60,6 +69,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
         self._drawGrid = True
         self._autoRender = True
+        self._liveUpdatePreviews = True
 
         # Handle scrolling
         self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)
@@ -72,8 +82,37 @@ class NodeGraph(wx.ScrolledCanvas):
         self.Bind(wx.EVT_MOTION, self.OnMotion)
         self.Bind(wx.EVT_MIDDLE_DOWN, self.OnMiddleDown)
         self.Bind(wx.EVT_MIDDLE_UP, self.OnMiddleUp)
-
         self.Bind(wx.EVT_SIZE, self.OnSize)
+
+        # Context menu bindings
+        self.Bind(wx.EVT_CONTEXT_MENU, self.OnContextMenu)
+
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnDeleteNode, 
+            id=ID_CONTEXTMENU_DELETENODE
+            )
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnDeleteNodes, 
+            id=ID_CONTEXTMENU_DELETENODES
+            )
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnSelectAllNodes, 
+            id=ID_CONTEXTMENU_SELECTALLNODES
+            )
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnDeselectAllNodes, 
+            id=ID_CONTEXTMENU_DESELECTALLNODES
+            )
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnDuplicateNode, 
+            id=ID_CONTEXTMENU_DUPLICATENODE
+            )
+
 
     def _DrawGridBackground(self, dc, rect):
         dc.SetPen(wx.TRANSPARENT_PEN)
@@ -306,7 +345,7 @@ class NodeGraph(wx.ScrolledCanvas):
                         self._srcPlug.Connect(
                             self,
                             dstplug,
-                            render=False
+                            render=True
                             )
                         
                     # If there is already a connection,
@@ -349,6 +388,88 @@ class NodeGraph(wx.ScrolledCanvas):
 
         # Refresh the nodegraph
         self.RefreshGraph()
+
+
+    def OnContextMenu(self, event):
+        """ Event to create Node Graph context menu on left click. """
+
+        # Context menu
+        contextmenu = wx.Menu()
+
+        # If there is an active node, then we know
+        # that there shouldn't be any other nodes 
+        # selected, thus we handle the active node first.
+        if self._activeNode != None:
+            # Do not allow the output node to be 
+            # deleted or duplicated at all.
+            if self._activeNode.IsOutputNode() != True:
+                contextmenu.Append(
+                    ID_CONTEXTMENU_DUPLICATENODE, "Duplicate\tShift+D"
+                    )
+                contextmenu.Append(
+                    ID_CONTEXTMENU_DELETENODE, "Delete\tShift+X"
+                    )
+                
+        else:
+            if self._selectedNodes != []:
+               contextmenu.Append(
+                   ID_CONTEXTMENU_DELETENODES, "Delete Selected\tShift+X"
+                   ) 
+ 
+        contextmenu.Append(
+            ID_CONTEXTMENU_SELECTALLNODES, 
+            "Select All"
+            ) 
+        contextmenu.Append(
+            ID_CONTEXTMENU_DESELECTALLNODES, 
+            "Deselect All"
+            )
+
+        # Popup the menu.  If an item is selected then its handler
+        # will be called before PopupMenu returns.
+        self.PopupMenu(contextmenu)
+        contextmenu.Destroy()
+
+
+    def OnDeleteNodes(self, event):
+        """ Event that deletes the selected nodes. """
+        self.DeleteNodes()
+
+    def OnDeleteNode(self, event):
+        """ Event that deletes a single selected node. """
+        if self._activeNode != None \
+            and self._activeNode.IsOutputNode() != True:
+            self._activeNode.Delete()
+            self._activeNode = None
+
+        # Update the properties panel so that the deleted 
+        # nodes' properties are not still shown!
+        self.NodePropertiesPanel.UpdatePanelContents(self._activeNode)
+        
+        self.RefreshGraph()
+
+
+    def OnSelectAllNodes(self, event):
+        """ Event that selects all the nodes in the Node Graph. """
+        for node_id in self._nodes:
+            node = self._nodes[node_id]
+            if node.IsActive() == True:
+                node.SetActive(False)
+            node.SetSelected(True)
+            node.Draw(self._pdc)
+            self._selectedNodes.append(node)
+        self.RefreshGraph()
+
+
+    def OnDeselectAllNodes(self, event):
+        """ Event that deselects all the currently selected nodes. """
+        self._DeselectNodes()
+        self.RefreshGraph()
+
+
+    def OnDuplicateNode(self, event): 
+        """ Event that duplicates the currently selected node. """
+        self.DuplicateNode(self._activeNode)
 
  
     def _HandleNodeSelection(self):
@@ -435,6 +556,12 @@ class NodeGraph(wx.ScrolledCanvas):
     def SetAutoRender(self, render=True):
         self._autoRender = render
 
+    def GetLiveNodePreviewUpdate(self):
+        return self._liveUpdatePreviews
+
+    def SetLiveNodePreviewUpdate(self, update=True):
+        self._liveUpdatePreviews = update
+
     @staticmethod
     def GetNodePlug(node, plug):
         return node.GetPlug(plug)
@@ -467,6 +594,56 @@ class NodeGraph(wx.ScrolledCanvas):
             self._nodes[nodeId].Draw(self._pdc)
         self.RefreshGraph()
 
+
+    def DeleteNodes(self):
+        """ Delete the currently selected nodes. This will refuse
+        to delete the Output Composite node though, for obvious reasons.
+        """
+        for node in self._selectedNodes:
+            if node.IsOutputNode() != True:
+                node.Delete()
+            else:
+                # In the case that this is an output node, we 
+                # want to deselect it, not delete it. :)
+                node.SetSelected(False)
+                node.Draw(self._pdc)
+        self._selectedNodes = []
+        
+        if self._activeNode != None \
+            and self._activeNode.IsOutputNode() != True:
+
+            self._activeNode.Delete()
+            self._activeNode = None
+
+        # Update the properties panel so that the deleted 
+        # nodes' properties are not still shown!
+        self.NodePropertiesPanel.UpdatePanelContents(self.GetActiveNode())
+        
+        self.RefreshGraph()
+
+
+    def DuplicateNode(self, node):
+        """ Duplicates the given ``Node`` object with its properties.
+        
+        :param node: the ``Node`` object to duplicate
+        :returns: the duplicate ``Node`` object
+        """
+        duplicate_node = self.AddNode(
+            node.GetType(),  
+            _id=wx.ID_ANY, 
+            where="CURSOR"
+            ) 
+
+        # Assign the same properties to the duplicate node object 
+        for prop in node.Properties:
+            duplicate_node.NodeEditProp(
+                idname=node.Properties[prop].GetIdname(), 
+                value=node.Properties[prop].GetValue(),
+                render=False
+                )
+ 
+        self.RefreshGraph()
+        return duplicate_node
 
     def NodeHitTest(self, pnt):
         """ Hit-test for nodes. """

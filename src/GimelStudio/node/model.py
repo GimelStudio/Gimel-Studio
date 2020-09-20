@@ -86,10 +86,10 @@ class NodeModel(object):
     def AddParameter(self, param):
         self._parameters[param.IdName] = param
         return self._parameters
-
-    def EditProperty(self, idname, value):
+ 
+    def EditProperty(self, idname, value, render=True):
         prop = self._properties[idname]
-        prop.SetValue(value)
+        prop.SetValue(value, render)
         return prop
 
     def SetRect(self, rect):
