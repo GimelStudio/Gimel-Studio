@@ -719,4 +719,3 @@ class NodeGraph(wx.ScrolledCanvas):
         self._nodes[node_id] = node
         self.RefreshGraph()
         return node
-

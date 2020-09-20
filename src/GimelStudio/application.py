@@ -27,7 +27,7 @@ import wx.lib.delayedresult as delayedresult
 
 from GimelStudio.interface import (
     NodeGraph, NodePropertyPanel, 
-    ImageViewport
+    ImageViewport, NodeGraphDropTarget
     )
 from GimelStudio.program import (
     AboutDialog, LicenseDialog
@@ -474,6 +474,9 @@ class MainApplication(wx.Frame):
             self,
             (600, 600)
             )
+        # Drag image from dir or Node Registry into 
+        # node graph to create image node
+        self._nodeGraph.SetDropTarget(NodeGraphDropTarget(self._nodeGraph))
         self._mgr.AddPane(
             self._nodeGraph, 
             aui.AuiPaneInfo()
