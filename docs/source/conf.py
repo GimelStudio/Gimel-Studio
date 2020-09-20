@@ -24,8 +24,8 @@ copyright = '2020, Noah Rahm, Correct Syntax'
 author = 'Noah Rahm'
 
 # The full version, including alpha/beta/rc tags
-release = GimelStudio.__VERSION__
-version = GimelStudio.__VERSION__
+release = GimelStudio.meta.FULL_APP_VERSION_STRING
+version = GimelStudio.meta.FULL_APP_VERSION_STRING
 
 
 # -- General configuration ---------------------------------------------------

@@ -32,7 +32,7 @@ class LicenseDialog(object):
         LICENSE_TEXT = """
 Gimel Studio © 2020 Noah Rahm, Correct Syntax. All rights reserved.
 
-IMPORTANT - PLEASE READ BEFORE COPYING, INSTALLING OR USING GIMEL STUDIO VERSION {0}
+IMPORTANT - PLEASE READ BEFORE COPYING, INSTALLING OR USING GIMEL STUDIO VERSION {0}.{1}.{2} {3}
 
    Apache License
    Version 2.0, January 2004
@@ -236,7 +236,12 @@ IMPORTANT - PLEASE READ BEFORE COPYING, INSTALLING OR USING GIMEL STUDIO VERSION
    See the License for the specific language governing permissions and
    limitations under the License.
 
-        """.format(meta.APP_VERSION)
+        """.format(
+           meta.APP_VERSION[0],
+           meta.APP_VERSION[1],
+           meta.APP_VERSION[2],
+           meta.APP_VERSION_TAG
+           )
 
         dlg = wx.lib.dialogs.ScrolledMessageDialog(
             self._parent, 
