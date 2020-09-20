@@ -23,12 +23,9 @@ from PIL import Image
 
 class RenderImage(object):
     """ Represents an image data type for the renderer. """
-    def __init__(self, size=(256, 256), color=(0, 0, 0, 1), packed_data=None):
+    def __init__(self, size=(100, 100), color=(0, 0, 0, 1), packed_data=None):
         self._img = Image.new("RGBA", (size[0], size[1]), color)
         self._packedData = packed_data
-
-        # TODO: make this so that when it is initilized 
-        # in Eval, it created 1x1 image
 
     def GetPILImage(self):
         """ Returns the image.
