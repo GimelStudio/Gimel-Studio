@@ -27,6 +27,12 @@ APP_AUTHOR = "Noah Rahm, Correct Syntax"
 # Release version: [major].[minor].[build]
 APP_VERSION = (0, 5, 0)
 APP_VERSION_TAG = "beta"
+FULL_APP_VERSION_STRING = "{0}.{1}.{2} {3}".format(
+    APP_VERSION[0],
+    APP_VERSION[1],
+    APP_VERSION[2],
+    APP_VERSION_TAG
+    )
 
 # Whether this program is in development mode
 # USAGE: Switch to False before building as .exe or similar package to
