@@ -306,6 +306,10 @@ class NodeModel(object):
         self._sockets = sockets
 
     @property
+    def NodeGraph(self):
+        return self._parent
+
+    @property
     def ModelViewData(self):
         data =  {
             'id': self.GetId(),
