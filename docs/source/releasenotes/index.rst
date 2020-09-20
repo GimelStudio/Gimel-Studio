@@ -6,6 +6,7 @@ Gimel Studio Release Notes
 .. toctree::
   :maxdepth: 2
 
+  0.5.0
   0.4.2
   0.4.0
   0.3.0

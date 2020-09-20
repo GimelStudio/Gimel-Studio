@@ -1,0 +1,72 @@
+0.5.0
+=====
+
+Gimel Studio v0.5.0 BETA -- "NOT RELEASED YET"
+
+**The v0.5.0 beta release marks close to a year of development on Gimel Studio (already!) and includes a major update to the API, Node Graph and backend.** 
+
+This involved a re-write of much of the codebase and many breaking changes both in the API and interface usage (hopefully, for the better).
+
+.. note::
+  The huge improvements in this release has some tradeoffs, though:
+  The opening/saving as a Project File ability is not available (This is planned to be re-implemented again in a future release). 
+
+
+General
+-------
+
+ * Fixed `make` files for building from source, etc.
+
+
+New API
+-------
+
+ * Major updates and additions to the Gimel Studio API. It can in effect, be called a new API due to the huge differences vs the old API.
+ * API now combines the old Property objects and UI code so that the Properties automatically generate the UI code for the Node Property Panel. **No more need to write wxPython code unless you need a custom widget/a widget that is not provided with the API already.**
+ * Improved support for overrides and more control over the look/functionality of the node itself (with the proper knowledge, of course).
+
+
+UI
+--
+
+ * **The interface was improved in general to be sharper, more customizable and less distracting**
+ * The Light theme was dropped and the Dark theme was improved for better contrast and performance
+ * Buttons toolbar options were moved to appropriate menus
+ * Added toolbar to show help to the user
+ * Added ability to toggle showing Image Viewport
+ * Added various menu options for controlling the application window, reading docs, etc.
+
+
+Node Graph
+----------
+
+ * **Nodes can now have more than one connection from the Output socket.** This makes a lot more sense than the limit of one-per-node before.
+ * Added center node graph feature to center the Node Graph view to the center
+ * Added toggle Node Graph grid background feature
+ * **Node thumbnail previews now update as the renderer is processing each node**
+ * Many optimizations for the Node Graph
+
+
+Renderer
+--------
+
+ * The renderer code was re-factored and improved
+
+
+Nodes
+-----
+
+ * Nodes were updated for the new API with the improvements that come with it. :)
+
+
+Project File
+------------
+
+ * Temporarily removed.
+
+
+Bug Fixes
+---------
+
+  * Fixed some long-standing issues with node connections
+  * Fixed issues on Linux
