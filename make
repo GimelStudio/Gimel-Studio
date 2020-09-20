@@ -1,1 +1,1 @@
-pyinstaller -n "GimelStudio" --hidden-import pkg_resources.py2_warn "src/Gimel Studio.py"
+pyinstaller -n "GimelStudio" --hidden-import pkg_resources.py2_warn "src/main.py"
