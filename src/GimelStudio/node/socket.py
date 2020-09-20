@@ -152,6 +152,8 @@ class Socket(object):
         dc = ng.GetPDC()
         wire.Draw(dc)
 
+        ng.Render()
+
         ng.RefreshGraph()
 
     def Disconnect(self, ng, connected_node, render=True):
@@ -175,4 +177,6 @@ class Socket(object):
                 connected_node._wires.remove(wire)
                 ng.GetPDC().RemoveId(wire.GetId())
 
+        ng.Render()
+        
         ng.RefreshGraph()
