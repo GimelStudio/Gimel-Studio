@@ -7,48 +7,33 @@ Data Types
 
 Data-type classes for handling data in Gimel Studio. 
 
-Use these when creating a custom node with Parameters:
+Use when creating a node, like so:
     
 .. code-block:: python
 
-    from GimelStudio.api import (NodeBase, RegisterNode, 
-                                Parameter, RenderImage)
-    
+    from GimelStudio import api
+
     # Subclass NodeBase
-    class NodeDefinition(NodeBase):
+    class MyNode(api.NodeBase):
+        def __init__(self, _id):
+            api.NodeBase.__init__(self, _id)
+
         ...
 
-        # Define parameters
-        @property
-        def NodeParameters(self):
-            return [
-                Parameter('Image',
-                    param_type='RENDERIMAGE',
-                    default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                    ),
-            ]
+    def NodeEvaluation(self, eval_info):
         ...
+
+        image = api.RenderImage() 
+        # do something to the image and set it with SetAsImage
+        image.SetAsImage(img)
+
+        return image
 
     # Register the node
-    RegisterNode(NodeDefinition)
+    api.RegisterNode(MyNode, "mynode")
 
 
 .. autoclass:: GimelStudio.datatypes.RenderImage
 .. automethod:: GimelStudio.datatypes.RenderImage.GetImage
 .. automethod:: GimelStudio.datatypes.RenderImage.SetAsOpenedImage
 .. automethod:: GimelStudio.datatypes.RenderImage.SetAsImage
-
-.. autoclass:: GimelStudio.datatypes.List
-.. automethod:: GimelStudio.datatypes.List.GetItems
-.. automethod:: GimelStudio.datatypes.List.GetDefault
-.. automethod:: GimelStudio.datatypes.List.SetAsValue
-
-.. autoclass:: GimelStudio.datatypes.Color
-
-.. note::
-
-    ``Color`` is unused and has not been maintained for a while.
-
-.. automethod:: GimelStudio.datatypes.Color.GetColors
-.. automethod:: GimelStudio.datatypes.Color.GetHex
-

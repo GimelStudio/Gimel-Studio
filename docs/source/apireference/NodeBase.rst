@@ -11,43 +11,63 @@ Subclass this to create a custom node:
     
 .. code-block:: python
 
-    from GimelStudio.api import NodeBase, RegisterNode
-    
+    from GimelStudio import api
+
     # Subclass NodeBase
-    class NodeDefinition(NodeBase):
+    class MyNode(api.NodeBase):
+        def __init__(self, _id):
+            api.NodeBase.__init__(self, _id)
+
         ...
-	
-        # Override methods to customize the base node
-        @property
-        def NodeLabel(self):
-            return "Example Node Label"
-        ...
+
+
 
     # Register the node
-    RegisterNode(NodeDefinition)
+    api.RegisterNode(MyNode, "mynode")
 
-
-.. autoclass:: GimelStudio.node.NodeBase
  
-.. autoproperty:: GimelStudio.node.NodeBase.Node
-.. autoproperty:: GimelStudio.node.NodeBase.NodeAuthor
-.. autoproperty:: GimelStudio.node.NodeBase.NodeVersion
-.. autoproperty:: GimelStudio.node.NodeBase.NodeDescription
+.. autoclass:: GimelStudio.node.NodeBase
 
-.. autoproperty:: GimelStudio.node.NodeBase.NodeSupportsImagePacking
-.. versionadded:: 0.4.0
 
-.. autoproperty:: GimelStudio.node.NodeBase.NodeIDName
-.. autoproperty:: GimelStudio.node.NodeBase.NodeLabel
-.. autoproperty:: GimelStudio.node.NodeBase.NodeCategory
-.. autoproperty:: GimelStudio.node.NodeBase.NodeOutputType
-.. autoproperty:: GimelStudio.node.NodeBase.NodeProperties
-.. autoproperty:: GimelStudio.node.NodeBase.NodeParameters
+Utility Methods
+^^^^^^^^^^^^^^^
 
-.. automethod:: GimelStudio.node.NodeBase.NodePropertiesUI
+.. automethod:: GimelStudio.node.NodeBase.GetType
+.. automethod:: GimelStudio.node.NodeBase.GetId
+.. automethod:: GimelStudio.node.NodeBase.IsOutputNode
+.. automethod:: GimelStudio.node.NodeBase.GetRect
+.. automethod:: GimelStudio.node.NodeBase.SetRect
+.. automethod:: GimelStudio.node.NodeBase.IsSelected
+.. automethod:: GimelStudio.node.NodeBase.SetSelected
+.. automethod:: GimelStudio.node.NodeBase.IsActive
+.. automethod:: GimelStudio.node.NodeBase.SetActive
+.. automethod:: GimelStudio.node.NodeBase.IsMuted
+.. automethod:: GimelStudio.node.NodeBase.SetMuted
+.. automethod:: GimelStudio.node.NodeBase.GetPosition
+.. automethod:: GimelStudio.node.NodeBase.SetPosition
+.. automethod:: GimelStudio.node.NodeBase.GetSockets
+.. automethod:: GimelStudio.node.NodeBase.GetLabel
+.. autoproperty:: GimelStudio.node.NodeBase.Parameters
+.. autoproperty:: GimelStudio.node.NodeBase.Properties
+.. autoproperty:: GimelStudio.node.NodeBase.EvaluateNode
+.. autoproperty:: GimelStudio.node.NodeBase.NodeGraphMethods
+
+
+Core Methods
+^^^^^^^^^^^^
+
+.. autoproperty:: GimelStudio.node.NodeBase.NodeMeta
+
+.. automethod:: GimelStudio.node.NodeBase.NodeInitProps
+.. automethod:: GimelStudio.node.NodeBase.NodeInitParams
+.. automethod:: GimelStudio.node.NodeBase.NodeAddProp
+.. automethod:: GimelStudio.node.NodeBase.NodeAddParam
+.. automethod:: GimelStudio.node.NodeBase.NodeEditProp
+.. automethod:: GimelStudio.node.NodeBase.NodePanelUI
 .. automethod:: GimelStudio.node.NodeBase.NodeEvaluation
-
-.. automethod:: GimelStudio.node.NodeBase.NodePropertiesUpdate
-.. automethod:: GimelStudio.node.NodeBase.NodePropertiesUI
+.. automethod:: GimelStudio.node.NodeBase.WidgetEventHook
+.. automethod:: GimelStudio.node.NodeBase.Draw
+.. automethod:: GimelStudio.node.NodeBase.RefreshNodeGraph
+.. automethod:: GimelStudio.node.NodeBase.RefreshPropertyPanel
+.. automethod:: GimelStudio.node.NodeBase.HitTest
 .. automethod:: GimelStudio.node.NodeBase.NodeSetThumb
-.. automethod:: GimelStudio.node.NodeBase.NodeGetPropValue
