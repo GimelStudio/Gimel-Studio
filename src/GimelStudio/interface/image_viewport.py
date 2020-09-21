@@ -246,7 +246,7 @@ class ImageViewport(wx.Panel):
         self.RefreshViewer()
 
     def UpdateRenderText(self, render=True):
-        """ Update the text durring a render. """
+        """ Update the text during a render. """
         if render == True:
             self._pdc.ClearId(ID_INFOTEXT)
             self._pdc.SetId(ID_INFOTEXT)
@@ -285,3 +285,4 @@ class ImageViewport(wx.Panel):
         """
         rect = wx.Rect(0, 0, self.Size[0], self.Size[1])
         self.RefreshRect(rect, False)
+        self.Refresh()
