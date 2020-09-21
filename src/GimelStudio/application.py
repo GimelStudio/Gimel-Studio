@@ -25,6 +25,9 @@ import wx
 import wx.lib.agw.aui as aui
 import wx.lib.delayedresult as delayedresult
 
+from GimelStudio import utils
+from GimelStudio import meta
+from GimelStudio.file_support import SupportFTSave
 from GimelStudio.interface import (
     NodeGraph, NodePropertyPanel, 
     ImageViewport, NodeGraphDropTarget
@@ -32,34 +35,22 @@ from GimelStudio.interface import (
 from GimelStudio.program import (
     AboutDialog, LicenseDialog
     ) 
-from GimelStudio.renderer import Renderer
-from GimelStudio import utils
-from GimelStudio import meta
+from GimelStudio.renderer import (
+    Renderer, RenderThread, EVT_RENDER_RESULT
+    )
 from GimelStudio.datafiles import *
 
-from GimelStudio.file_support import SupportFTSave
-
-
-# Create IDs
-# ID_MENUITEM_OPENPROJECT = wx.NewIdRef()
-# ID_MENUITEM_SAVEPROJECT = wx.NewIdRef()
-# ID_MENUITEM_SAVEPROJECTAS = wx.NewIdRef()
-# ID_MENUITEM_USERPREFERENCES = wx.NewIdRef()
-# ID_MENUITEM_QUIT = wx.NewIdRef()
-# ID_MENUITEM_TOGGLEFULLSCREEN = wx.NewIdRef()
-# ID_MENUITEM_RENDERIMAGE = wx.NewIdRef()
-# ID_MENUITEM_FEEDBACKSURVEY = wx.NewIdRef()
-# ID_MENUITEM_DOCS = wx.NewIdRef()
-# ID_MENUITEM_LICENSE = wx.NewIdRef()
-# ID_MENUITEM_ABOUT = wx.NewIdRef()
 
 
 class MainApplication(wx.Frame):
     def __init__(self, arguments):
         wx.Frame.__init__(self, None, title=meta.APP_TITLE, size=(1000, 800))
 
-        self._jobID = 0
-        self._abortEvent = delayedresult.AbortEvent()
+        # Indicate we don't have a worker thread yet
+        self.worker = None
+
+        # Set up event handler for worker thread results
+        EVT_RENDER_RESULT(self, self.OnRenderResult)
 
         # Set the program icon
         self.SetIcon(ICON_GIMELSTUDIO_ICO.GetIcon())
@@ -384,7 +375,6 @@ class MainApplication(wx.Frame):
             self.quit_menuitem
             )
 
-
         self.Bind(wx.EVT_MENU, 
             self.OnToggleLiveNodePreviewUpdate, 
             self.livenodepreviewupdate_menuitem
@@ -608,6 +598,25 @@ class MainApplication(wx.Frame):
         """ Event handler for rendering the current Node Graph. """
         self.Render()  
 
+    def OnRenderResult(self, event):
+        """ Called after the render is completed and the thread returns the result. """
+
+        #self._PostRenderUIUpdate(s)
+
+        self._imageViewport.UpdateViewerImage(
+            utils.ConvertImageToWx(self._renderer.GetRender()),
+            self._renderer.GetTime()
+            )
+        self._imageViewport.UpdateRenderText(False)
+        self._statusBar.SetStatusText(
+            "Render Finished in {} sec.".format(self._renderer.GetTime())
+            ) 
+
+        self._nodeGraph.UpdateAllNodes()
+
+        # The worker thread is done
+        self.worker = None
+
     def OnQuit(self, event):
         quitdialog = wx.MessageDialog(
             self, 
@@ -650,73 +659,9 @@ class MainApplication(wx.Frame):
 
     def Render(self):
         """ Callable render method. This is intended to be the 'master' render
-        method, called when the Node Graph image is to be rendered.
+        method, called when the Node Graph image is to be rendered. After this is
+        complete, the result event will be called.
         """
-        #self._imageViewport.UpdateRenderText(True) 
         self._statusBar.SetStatusText("Rendering image...")
-
-        self._abortEvent.clear()
-        self._jobID += 1
-        delayedresult.startWorker(
-            self._PostRender, 
-            self._Render,
-            wargs=(self._jobID, self._abortEvent), 
-            jobID=self._jobID
-            )
-        print("RENDERED")
-        
-    def _Render(self, jobID, abort_event): 
-        """ Internal rendering method. """
-        print("R start")
-        
-        if not abort_event(): 
-            self._imageViewport.UpdateRenderText(True) 
-            
-            #self._PreRenderUISetup()
-            #
-            render_image = self._renderer.Render(self._nodeGraph.GetNodes())
-            if render_image != None:
-                #self._imageViewport.UpdateRenderText(False) 
-
-                #self._PostRenderUIUpdate(render_image, self._renderer.GetTime())
-                print("SET ABORT")
-                self._abortEvent.set()
-        else:
-            print("CLEAR")
-            self._abortEvent.clear()
-        print("R end \n =======")
-        #self._imageViewport.UpdateRenderText(False) 
-        return jobID
-
-    def _PostRender(self, delayed_result):
-        """ Internal post-render misc. """
-        try:
-            result = delayed_result.get()
-            self._statusBar.SetStatusText(
-                "Render Finished in {} sec.".format(self._renderer.GetTime())
-            )
-            self._imageViewport.UpdateViewerImage(
-                utils.ConvertImageToWx(self._renderer.GetRender()),
-                self._renderer.GetTime()
-                )
-            self._nodeGraph.UpdateAllNodes()
-            self._abortEvent.clear()
-            print("RESULT: ", result)
-            return result
-        except Exception as exc:
-            print('ERROR: PLEASE REPORT THE FOLLOWING ERROR TO THE DEVELOPERS: \n', exc)
-            return
-
-    def _PreRenderUISetup(self):
-        self._statusBar.SetStatusText("Rendering image...")
-        #self._imageViewport.UpdateRenderText(True)
-
-    def _PostRenderUIUpdate(self, image, time):
-        self._imageViewport.UpdateViewerImage(
-            utils.ConvertImageToWx(image),
-            time
-            )
-        self._imageViewport.UpdateRenderText(False)
-        self._statusBar.SetStatusText(
-            "Render Finished in {} sec.".format(time)
-            )
+        self._imageViewport.UpdateRenderText(True)
+        self.worker = RenderThread(self)
