@@ -15,90 +15,53 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import wx
-import numpy as np
-from PIL import Image, ImageEnhance
+from PIL import ImageEnhance
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
-                            Parameter, Property, RegisterNode)
+from GimelStudio import api
 
   
-class NodeDefinition(NodeBase):
-    
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_contrast"
+class ContrastNode(api.NodeBase): 
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
     @property
-    def NodeLabel(self):
-        return "Contrast"
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Contrast",
+            "author": "Correct Syntax",
+            "version": (1, 2, 0),
+            "supported_app_version": (0, 5, 0),
+            "category": "COLOR",
+            "description": "Adjusts the image contrast.",
+        }
+        return meta_info
 
-    @property
-    def NodeCategory(self):
-        return "COLOR"
-
-    @property
-    def NodeDescription(self):
-        return "Adjusts the image contrast." 
-
-    @property
-    def NodeVersion(self):
-        return "1.1" 
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeProperties(self):
-        return [
-            Property('Amount',
-                prop_type='INTEGER',
-                value=1
-                ),
-            ]
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
-
-   
-    def NodePropertiesUI(self, node, parent, sizer):
-        current_amount_value = self.NodeGetPropValue('Amount')
-
-        contrast_label = wx.StaticText(parent, label="Contrast amount:")
-        sizer.Add(contrast_label, border=5)
-
-        self.contrast_slider = wx.Slider(
-            parent, wx.ID_ANY, 
-            value=current_amount_value,
-            minValue=1, maxValue=10,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
+    def NodeInitProps(self):
+        p = api.PositiveIntegerProp(
+            idname="Amount", 
+            default=1, 
+            min_val=1, 
+            max_val=25, 
+            widget=api.SLIDER_WIDGET,
+            label="Amount:",
             )
-        self.contrast_slider.SetTickFreq(1)
+        self.NodeAddProp(p)
 
-        sizer.Add(self.contrast_slider, flag=wx.EXPAND|wx.ALL, border=5)
+    def NodeInitParams(self):
+        p = api.RenderImageParam('Image')
 
-        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnContrastChange, self.contrast_slider)
+        self.NodeAddParam(p)
 
- 
-    def OnContrastChange(self, event):
-        self.NodePropertiesUpdate('Amount', self.contrast_slider.GetValue())
-    
     def NodeEvaluation(self, eval_info):
-        image1  = eval_info.EvaluateParameter('Image')
-        contrast_amount = eval_info.EvaluateProperty('Amount')
+        image1 = eval_info.EvaluateParameter('Image')
+        amount = eval_info.EvaluateProperty('Amount')
 
-        image = RenderImage()
+        image = api.RenderImage()
         enhancer = ImageEnhance.Contrast(image1.GetImage())
-        image.SetAsImage(enhancer.enhance(contrast_amount).convert('RGBA'))
+        image.SetAsImage(enhancer.enhance(amount).convert('RGBA'))
+
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
-RegisterNode(NodeDefinition)
+
+api.RegisterNode(ContrastNode, "corenode_contrast")
