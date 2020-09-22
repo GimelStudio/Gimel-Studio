@@ -15,62 +15,42 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import wx
 from PIL import Image, ImageOps
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase,
-                            Parameter, Property, RegisterNode)
- 
+from GimelStudio import api
 
-class NodeDefinition(NodeBase):
 
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_composite"
+class CompositeNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
     @property
-    def NodeLabel(self):
-        return "Composite"
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Composite",
+            "author": "Correct Syntax",
+            "version": (1, 1, 0),
+            "supported_app_version": (0, 5, 0),
+            "category": "BLEND",
+            "description": "Creates composite image by blending images using a transparency mask.",
+        }
+        return meta_info
 
-    @property
-    def NodeCategory(self):
-        return "BLEND"
+    def NodeInitParams(self):
+        p1 = api.RenderImageParam('Image 1')
+        p2 = api.RenderImageParam('Image 2')
+        p3 = api.RenderImageParam('Alpha Mask')
 
-    @property
-    def NodeDescription(self):
-        return "Creates composite image by blending images using a transparency mask." 
-
-    @property
-    def NodeVersion(self):
-        return "1.0"  
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image 1',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-            Parameter('Image 2',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-            Parameter('Mask',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
+        self.NodeAddParam(p1)
+        self.NodeAddParam(p2) 
+        self.NodeAddParam(p3) 
 
     def NodeEvaluation(self, eval_info):
         image1 = eval_info.EvaluateParameter('Image 1')
         image2 = eval_info.EvaluateParameter('Image 2')
-        mask = eval_info.EvaluateParameter('Mask')
+        mask = eval_info.EvaluateParameter('Alpha Mask')
 
-        image = RenderImage() 
+        image = api.RenderImage() 
         main_image = image1.GetImage()
         layer_image = ImageOps.fit(image2.GetImage(), main_image.size)
         mask_image = ImageOps.fit(mask.GetImage(), main_image.size).convert('RGBA')
@@ -79,5 +59,5 @@ class NodeDefinition(NodeBase):
         self.NodeSetThumb(image.GetImage())
         return image
 
+api.RegisterNode(CompositeNode, "corenode_composite")
 
-RegisterNode(NodeDefinition)
