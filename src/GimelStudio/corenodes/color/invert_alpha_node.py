@@ -15,55 +15,39 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import wx
-from PIL import Image, ImageChops
+from PIL import ImageChops
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
-                            Parameter, Property, RegisterNode)
+from GimelStudio import api
 
   
-class NodeDefinition(NodeBase):
-    
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_invertalpha"
+class InvertAlphaNode(api.NodeBase): 
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
     @property
-    def NodeLabel(self):
-        return "Invert Alpha"
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Invert Alpha",
+            "author": "Correct Syntax",
+            "version": (1, 2, 0),
+            "supported_app_version": (0, 5, 0),
+            "category": "COLOR",
+            "description": "Inverts the image alpha channel.",
+        }
+        return meta_info
 
-    @property
-    def NodeCategory(self):
-        return "COLOR"
+    def NodeInitParams(self):
+        p = api.RenderImageParam('Image')
 
-    @property
-    def NodeDescription(self):
-        return "Inverts an image alpha channel." 
-
-    @property
-    def NodeVersion(self):
-        return "1.1" 
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
+        self.NodeAddParam(p)
 
     def NodeEvaluation(self, eval_info):
         image1  = eval_info.EvaluateParameter('Image')
 
-        image = RenderImage()
+        image = api.RenderImage()
         image.SetAsImage(ImageChops.invert(image1.GetImage()).convert('RGBA'))
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
-RegisterNode(NodeDefinition)
+
+api.RegisterNode(InvertAlphaNode, "corenode_invertalpha")
