@@ -15,89 +15,52 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import wx
-import numpy as np
-from PIL import Image, ImageEnhance
+from PIL import ImageEnhance 
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
-                            Parameter, Property, RegisterNode)
-
-  
-class NodeDefinition(NodeBase):
-    
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_sharpness"
-
-    @property
-    def NodeLabel(self):
-        return "Sharpness"
-
-    @property
-    def NodeCategory(self):
-        return "FILTER"
-
-    @property
-    def NodeDescription(self):
-        return "Sharpens the image by the given amount." 
-
-    @property
-    def NodeVersion(self):
-        return "1.1" 
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeProperties(self):
-        return [
-            Property('Amount',
-                prop_type='INTEGER',
-                value=4
-                ),
-            ]
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
-
-   
-    def NodePropertiesUI(self, node, parent, sizer):
-        current_amount_value = self.NodeGetPropValue('Amount')
-
-        sharpness_label = wx.StaticText(parent, label="Sharpness amount:")
-        sizer.Add(sharpness_label, border=5)
-
-        self.sharpness_slider = wx.Slider(
-            parent, 100, 25, 1, 100,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
-            )
-        self.sharpness_slider.SetTickFreq(5)
-        self.sharpness_slider.SetRange(1, 100)
-        self.sharpness_slider.SetValue(current_amount_value)
-        sizer.Add(self.sharpness_slider, flag=wx.EXPAND|wx.ALL, border=5)
-
-        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnSharpnessChange, self.sharpness_slider)
+from GimelStudio import api
 
  
-    def OnSharpnessChange(self, event):
-        self.NodePropertiesUpdate('Amount', self.sharpness_slider.GetValue())
-    
+class SharpnessNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
+
+    @property
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Sharpness",
+            "author": "Correct Syntax",
+            "version": (1, 2, 0),
+            "supported_app_version": (0, 5, 0),
+            "category": "FILTER",
+            "description": "Sharpens the image by the given amount.",
+        }
+        return meta_info
+
+    def NodeInitProps(self):
+        p = api.PositiveIntegerProp(
+            idname="Amount", 
+            default=1, 
+            min_val=1, 
+            max_val=25, 
+            widget=api.SLIDER_WIDGET,
+            label="Amount:",
+            )
+        self.NodeAddProp(p)
+
+    def NodeInitParams(self):
+        p = api.RenderImageParam('Image')
+
+        self.NodeAddParam(p)
+
     def NodeEvaluation(self, eval_info):
         image1  = eval_info.EvaluateParameter('Image')
         sharpness_amount = eval_info.EvaluateProperty('Amount')
 
-        image = RenderImage()
+        image = api.RenderImage()
         enhancer = ImageEnhance.Sharpness(image1.GetImage())
         image.SetAsImage(enhancer.enhance(sharpness_amount).convert('RGBA'))
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
-RegisterNode(NodeDefinition)
+
+api.RegisterNode(SharpnessNode, "corenode_sharpness")
