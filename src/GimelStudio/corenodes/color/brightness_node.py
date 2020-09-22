@@ -19,7 +19,7 @@ from PIL import ImageEnhance
 
 from GimelStudio import api
 
- 
+  
 class BrightnessNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
@@ -29,7 +29,7 @@ class BrightnessNode(api.NodeBase):
         meta_info = {
             "label": "Brightness",
             "author": "Correct Syntax",
-            "version": (0, 0, 1),
+            "version": (1, 2, 0),
             "supported_app_version": (0, 5, 0),
             "category": "COLOR",
             "description": "Adjusts the image brightness.",
@@ -40,7 +40,7 @@ class BrightnessNode(api.NodeBase):
         p = api.PositiveIntegerProp(
             idname="Amount", 
             default=1, 
-            min_val=0, 
+            min_val=1, 
             max_val=25, 
             widget=api.SLIDER_WIDGET,
             label="Amount:",
@@ -64,4 +64,4 @@ class BrightnessNode(api.NodeBase):
         return image
 
 
-api.RegisterNode(BrightnessNode, "corenode_brightness")
+api.RegisterNode(BrightnessNode, "corenode_brightness") 
