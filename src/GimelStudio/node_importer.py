@@ -28,25 +28,26 @@ from GimelStudio.corenodes.input import (
 
 #from GimelStudio.corenodes.draw import add_text_node
 
-# from GimelStudio.corenodes.convert import (to_normal_map_node,
-#                                            to_bump_map_node,
-#                                            to_roughness_map_node,
-#                                            to_specular_map_node,
-#                                            to_ao_map_node,
-#                                            )
+from GimelStudio.corenodes.convert import (
+                                           to_normal_map_node,
+                                           #to_bump_map_node,
+                                           #to_roughness_map_node,
+                                           #to_specular_map_node,
+                                           #to_ao_map_node,
+                                           )
 
 from GimelStudio.corenodes.color import (
                                         #invert_node,
-                                        #color_balance_node,
-                                        #contrast_node,
+                                        color_balance_node,
+                                        contrast_node,
                                         brightness_node,
-                                        #invert_alpha_node,
+                                        invert_alpha_node,
                                         )
 
 from GimelStudio.corenodes.blend import (
                                         mix_node,
-                                        #composite_node,
-                                        #alpha_composite_node,
+                                        composite_node,
+                                        alpha_composite_node,
                                         )
 
 # from GimelStudio.corenodes.distort import (
@@ -56,9 +57,9 @@ from GimelStudio.corenodes.blend import (
 
 from GimelStudio.corenodes.filter import (
                                          blur_node,
-                                         #opacity_node,
-                                         #sharpness_node,
-                                         #effect_spread_node,
+                                         opacity_node,
+                                         sharpness_node,
+                                         effect_spread_node,
                                          )
 
 from GimelStudio.corenodes.output import output_node
