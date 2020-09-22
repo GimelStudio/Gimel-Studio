@@ -15,87 +15,51 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import wx
-from PIL import Image
+from PIL import ImageFilter
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
-                            Parameter, Property, RegisterNode)
+from GimelStudio import api
 
  
-class NodeDefinition(NodeBase):
-    
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_effectspread"
+class EffectSpreadNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
     @property
-    def NodeLabel(self):
-        return "Effect Spread"
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Effect Spread",
+            "author": "Correct Syntax",
+            "version": (1, 1, 0),
+            "supported_app_version": (0, 5, 0),
+            "category": "FILTER",
+            "description": "Randomly spreads the pixels in the image.",
+        }
+        return meta_info
 
-    @property
-    def NodeCategory(self):
-        return "FILTER"
-
-    @property
-    def NodeDescription(self):
-        return "Randomly spreads the pixels in the image." 
-
-    @property
-    def NodeVersion(self):
-        return "1.0" 
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeProperties(self):
-        return [
-            Property('Distance',
-                prop_type='INTEGER',
-                value=10
-                ),
-            ]
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
-
-   
-    def NodePropertiesUI(self, node, parent, sizer):
-        current_distance_value = self.NodeGetPropValue('Distance')
-
-        distance_label = wx.StaticText(parent, label="Spread Distance:")
-        sizer.Add(distance_label, border=5)
-
-        self.distance_slider = wx.Slider(
-            parent, wx.ID_ANY,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
+    def NodeInitProps(self):
+        p = api.PositiveIntegerProp(
+            idname="Distance", 
+            default=1, 
+            min_val=0, 
+            max_val=25, 
+            widget=api.SLIDER_WIDGET,
+            label="Distance:",
             )
-        self.distance_slider.SetTickFreq(5)
-        self.distance_slider.SetRange(1, 200)
-        self.distance_slider.SetValue(current_distance_value)
-        sizer.Add(self.distance_slider, flag=wx.EXPAND|wx.ALL, border=5)
+        self.NodeAddProp(p)
 
-        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnDistanceChange, self.distance_slider)
+    def NodeInitParams(self):
+        p = api.RenderImageParam('Image')
 
- 
-    def OnDistanceChange(self, evt):
-        self.NodePropertiesUpdate('Distance', self.distance_slider.GetValue())
-    
+        self.NodeAddParam(p)
+
     def NodeEvaluation(self, eval_info):
         image1  = eval_info.EvaluateParameter('Image')
         distance = eval_info.EvaluateProperty('Distance')
 
-        image = RenderImage()
+        image = api.RenderImage()
         image.SetAsImage(image1.GetImage().effect_spread(distance))
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
-RegisterNode(NodeDefinition)
+
+api.RegisterNode(EffectSpreadNode, "corenode_effectspread")
