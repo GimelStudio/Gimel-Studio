@@ -48,7 +48,10 @@ class NodeModel(object):
     will be THE one that you can know has the latest, updated data.
      """
     def __init__(self, _id):
-        self._id = _id
+        if _id == wx.ID_ANY:
+            self._id = wx.NewIdRef()
+        else:
+            self._id = _id
         self._parent = None
         self._type = "" # idname
         self._backgroundColor = (109, 111, 111, 255)

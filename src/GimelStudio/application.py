@@ -59,29 +59,42 @@ class MainApplication(wx.Frame):
         self._InitApp()
 
         self._nodeGraph.AddNode("corenode_outputcomposite", 
-        wx.NewIdRef(), pos=wx.Point(5010, 5010))
+         pos=wx.Point(5010, 5010))
 
         self._nodeGraph.AddNode("corenode_image", 
-        wx.NewIdRef(), pos=wx.Point(5160, 5160))
+         pos=wx.Point(5160, 5160))
         self._nodeGraph.AddNode("corenode_image", 
-        wx.NewIdRef(), pos=wx.Point(5360, 5160))
-        self._nodeGraph.AddNode("corenode_image", 
-        wx.NewIdRef(), pos=wx.Point(5390, 5190))
+         pos=wx.Point(5360, 5160))
 
         self._nodeGraph.AddNode("corenode_mix", 
-        wx.NewIdRef(), pos=wx.Point(5460, 5460))
+         pos=wx.Point(5460, 5460))
 
         self._nodeGraph.AddNode("corenode_mix", 
-        wx.NewIdRef(), pos=wx.Point(5260, 5260))
+        pos=wx.Point(5260, 5260))
+
+        self._nodeGraph.AddNode("corenode_invertalpha", 
+         pos=wx.Point(5260, 5260))
+
+        self._nodeGraph.AddNode("corenode_contrast", 
+         pos=wx.Point(5260, 5260))
+
+        self._nodeGraph.AddNode("corenode_alphacomposite", 
+         pos=wx.Point(5260, 5260))
+
+        self._nodeGraph.AddNode("corenode_composite", 
+         pos=wx.Point(5260, 5260))
 
         self._nodeGraph.AddNode("corenode_brightness", 
-        wx.NewIdRef(), pos=wx.Point(5660, 5660))
+        pos=wx.Point(5660, 5660))
 
         self._nodeGraph.AddNode("corenode_blur", 
-        wx.NewIdRef(), pos=wx.Point(5680, 5680))
+        pos=wx.Point(5680, 5680))
 
         self._nodeGraph.AddNode("examplecustomnode_brightness", 
-        wx.NewIdRef(), pos=wx.Point(5960, 5660))
+        pos=wx.Point(5960, 5660))
+
+        self._nodeGraph.AddNode("corenode_tonormalmap", 
+        pos=wx.Point(5960, 5660))
 
 
     def _InitApp(self):
@@ -600,8 +613,6 @@ class MainApplication(wx.Frame):
 
     def OnRenderResult(self, event):
         """ Called after the render is completed and the thread returns the result. """
-
-        #self._PostRenderUIUpdate(s)
 
         self._imageViewport.UpdateViewerImage(
             utils.ConvertImageToWx(self._renderer.GetRender()),

@@ -630,7 +630,6 @@ class NodeGraph(wx.ScrolledCanvas):
         """
         duplicate_node = self.AddNode(
             node.GetType(),  
-            _id=wx.ID_ANY, 
             where="CURSOR"
             ) 
 
