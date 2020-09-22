@@ -40,7 +40,7 @@ class BlurNode(api.NodeBase):
         p = api.PositiveIntegerProp(
             idname="Radius", 
             default=1, 
-            min_val=0, 
+            min_val=1, 
             max_val=25, 
             widget=api.SLIDER_WIDGET,
             label="Radius:",
