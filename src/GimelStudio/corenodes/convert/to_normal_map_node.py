@@ -15,109 +15,21 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import wx
-from PIL import Image
 import numpy as np
 import scipy.ndimage
 import scipy.misc
+from PIL import ImageFilter  
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
-                            Parameter, Property, RegisterNode)
+from GimelStudio import api
 
+# FIXME: hack!
 from GimelStudio.utils.image import ArrayFromImage, ArrayToImage
 
  
-class NodeDefinition(NodeBase):
-    
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_tonormalmap"
+class ToNormalMapNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
-    @property
-    def NodeLabel(self):
-        return "To Normal Map"
-
-    @property
-    def NodeCategory(self):
-        return "CONVERT"
-
-    @property
-    def NodeDescription(self):
-        return "Converts the image into a normal map texture for use in 3D." 
-
-    @property
-    def NodeVersion(self):
-        return "2.1" 
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeProperties(self):
-        return [
-            Property('Sigma',
-                prop_type='INTEGER',
-                value=1
-                ),
-            Property('Intensity',
-                prop_type='INTEGER',
-                value=1
-                ),
-            ]
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
-
-   
-    def NodePropertiesUI(self, node, parent, sizer):
-        current_sigma_value = self.NodeGetPropValue('Sigma')
-        current_intensity_value = self.NodeGetPropValue('Intensity')
-
-        # Sigma
-        sigma_label = wx.StaticText(parent, label="Sigma:")
-        sizer.Add(sigma_label, border=5)
-
-        self.sigma_slider = wx.Slider(
-            parent, wx.ID_ANY, 
-            value=current_sigma_value,
-            minValue=1, maxValue=8,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
-            )
-        self.sigma_slider.SetTickFreq(1)
-
-        sizer.Add(self.sigma_slider, flag=wx.EXPAND|wx.ALL, border=5)
-
-        # Intensity
-        intensity_label = wx.StaticText(parent, label="Intensity:")
-        sizer.Add(intensity_label, border=5)
-
-        self.intensity_slider = wx.Slider(
-            parent, wx.ID_ANY, 
-            value=current_intensity_value,
-            minValue=1, maxValue=6,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
-            )
-        self.intensity_slider.SetTickFreq(1)
-
-        sizer.Add(self.intensity_slider, flag=wx.EXPAND|wx.ALL, border=5)
-
-        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnSigmaChange, self.sigma_slider)
-        parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnIntensityChange, self.intensity_slider)
-
-
-    def OnSigmaChange(self, event):
-        self.NodePropertiesUpdate('Sigma', self.sigma_slider.GetValue())
-
-    def OnIntensityChange(self, event):
-        self.NodePropertiesUpdate('Intensity', self.intensity_slider.GetValue())
- 
     def SmoothGaussian(self, im, sigma):
         """ Blurs the normals. """
         if sigma == 0:
@@ -191,6 +103,44 @@ class NodeDefinition(NodeBase):
 
         return normal_map
 
+    @property
+    def NodeMeta(self):
+        meta_info = {
+            "label": "To Normal Map",
+            "author": "Correct Syntax",
+            "version": (2, 2, 0),
+            "supported_app_version": (0, 5, 0),
+            "category": "CONVERT",
+            "description": "Converts the image into a normal map texture for use in 3D.",
+        }
+        return meta_info
+
+    def NodeInitProps(self):
+        p1 = api.PositiveIntegerProp(
+            idname="Sigma", 
+            default=1, 
+            min_val=1, 
+            max_val=25, 
+            widget=api.SLIDER_WIDGET,
+            label="Sigma:",
+            )
+        p2 = api.PositiveIntegerProp(
+            idname="Intensity", 
+            default=1, 
+            min_val=1, 
+            max_val=25, 
+            widget=api.SLIDER_WIDGET,
+            label="Intensity:",
+            )
+
+        self.NodeAddProp(p1)
+        self.NodeAddProp(p2)
+
+    def NodeInitParams(self):
+        p = api.RenderImageParam('Image')
+
+        self.NodeAddParam(p)
+
     def NodeEvaluation(self, eval_info):
         image1  = eval_info.EvaluateParameter('Image')
         sigma_val = eval_info.EvaluateProperty('Sigma')
@@ -215,12 +165,12 @@ class NodeDefinition(NodeBase):
             intensity_val
             )
         
-        image = RenderImage()
+        image = api.RenderImage()
         image.SetAsImage(
             ArrayToImage(generated_normal_map).convert('RGBA')
             )
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
-RegisterNode(NodeDefinition)
+
+api.RegisterNode(ToNormalMapNode, "corenode_tonormalmap")
