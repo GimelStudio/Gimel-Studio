@@ -133,7 +133,11 @@ class PositiveIntegerProp(Property):
                 )
             sizer.Add(self.spinbox, flag=wx.ALL|wx.EXPAND, border=5)
             self.spinbox.Bind(
-                wx.EVT_SCROLL_THUMBRELEASE, 
+                wx.EVT_SPINCTRL, 
+                self.WidgetEvent
+                )
+            self.spinbox.Bind(
+                wx.EVT_TEXT, 
                 self.WidgetEvent
                 )
 
@@ -267,7 +271,7 @@ class ColorProp(Property):
             
     def CalcBtnUpdate(self, color):
         self.button.SetBackgroundColour(wx.Colour(color))
-        self.button.SetLabel(str(color))
+        self.button.SetLabel(str(" {} ".format(color)))
 
         if color.Red() > 128 and color.Green() > 128 and color.Blue() > 128:
             self.button.SetForegroundColour(wx.Colour("#000"))
@@ -361,6 +365,67 @@ class LabelProp(Property):
 
         static_label = wx.StaticText(parent, label=self.GetValue())
         sizer.Add(static_label, flag=wx.LEFT|wx.TOP, border=5)
+
+
+class SizeProp(Property):
+    """ Allows the user to select an X and Y size. """
+    def __init__(self, idname, default=[255, 255], min_val=0, 
+                max_val=6000, label="", visible=True):
+        Property.__init__(self, idname, default, label, visible)
+        self.min_value = min_val
+        self.max_value = max_val
+
+        self._RunErrorCheck()
+
+    def GetMinValue(self):
+        return self.min_value
+
+    def GetMaxValue(self):
+        return self.max_value
+
+    def CreateUI(self, parent, sizer):
+        label = wx.StaticText(parent, label=self.GetLabel())
+        sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
+
+        self.spinbox_x = wx.SpinCtrl(
+            parent, 
+            id=wx.ID_ANY, 
+            min=self.GetMinValue(), 
+            max=self.GetMaxValue(),
+            initial=self.GetValue()[0]
+            )
+        sizer.Add(self.spinbox_x, flag=wx.ALL|wx.EXPAND, border=5)
+        self.spinbox_x.Bind(
+            wx.EVT_SPINCTRL, 
+            self.WidgetEvent
+            )
+        self.spinbox_x.Bind(
+            wx.EVT_TEXT, 
+            self.WidgetEvent
+            )
+
+        self.spinbox_y = wx.SpinCtrl(
+            parent, 
+            id=wx.ID_ANY, 
+            min=self.GetMinValue(), 
+            max=self.GetMaxValue(),
+            initial=self.GetValue()[1]
+            )
+        sizer.Add(self.spinbox_y, flag=wx.ALL|wx.EXPAND, border=5)
+        self.spinbox_y.Bind(
+            wx.EVT_SPINCTRL, 
+            self.WidgetEvent
+            )
+        self.spinbox_y.Bind(
+            wx.EVT_TEXT, 
+            self.WidgetEvent
+            )
+
+    def WidgetEvent(self, event):
+        self.SetValue(
+            [self.spinbox_x.GetValue(), 
+            self.spinbox_y.GetValue()]
+            )
 
 
 

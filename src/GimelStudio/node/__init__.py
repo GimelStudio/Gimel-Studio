@@ -11,6 +11,6 @@ from .property import (
     Property, PositiveIntegerProp,
     ChoiceProp, BooleanProp,
     ColorProp, OpenFileChooserProp,
-    LabelProp,
+    LabelProp, SizeProp,
     SLIDER_WIDGET, SPINBOX_WIDGET,
     )
