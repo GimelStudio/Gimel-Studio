@@ -21,7 +21,7 @@
  
 from GimelStudio.corenodes.input import (
                                         image_node,
-                                        #color_image_node,
+                                        color_image_node,
                                         #noise_image_node,
                                         #gradient_image_node,
                                         )
