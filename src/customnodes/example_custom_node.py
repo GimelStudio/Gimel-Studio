@@ -24,8 +24,7 @@ class ExampleCustomNode(api.NodeBase):
             "version": (0, 0, 1),
             "supported_app_version": (0, 5, 0),
             "category": "COLOR",
-            "description": """Example custom node showing how you can
-                create a custom node with the Gimel Studio API"""
+            "description": "Example custom node showing how you can create a custom node with the Gimel Studio API"
         }
         return meta_info
 
