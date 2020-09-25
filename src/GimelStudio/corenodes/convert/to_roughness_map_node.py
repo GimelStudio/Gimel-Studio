@@ -15,142 +15,18 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import wx
 import cv2
-from PIL import Image
 import numpy as np
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
-                            Parameter, Property, RegisterNode)
+from GimelStudio import api
 
+# FIXME: hack!
 from GimelStudio.utils.image import ArrayFromImage, ArrayToImage
 
-  
-class NodeDefinition(NodeBase):
-    
-    @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_toroughnessmap"
-
-    @property
-    def NodeLabel(self):
-        return "To Roughness Map"
-
-    @property
-    def NodeCategory(self):
-        return "CONVERT"
-
-    @property
-    def NodeDescription(self):
-        return "Converts the image into a roughness map texture for use in 3D." 
-
-    @property
-    def NodeVersion(self):
-        return "1.0" 
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software" 
-
-    @property
-    def NodeProperties(self):
-        return [
-            Property('Saturation',
-                prop_type='INTEGER',
-                value=1
-                ),
-            Property('Brightness',
-                prop_type='INTEGER',
-                value=0
-                ),
-            Property('Gamma',
-                prop_type='INTEGER',
-                value=1
-                ),
-            ]
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
-
-   
-    def NodePropertiesUI(self, node, parent, sizer):
-        current_saturation_value = self.NodeGetPropValue('Saturation')
-        current_brightness_value = self.NodeGetPropValue('Brightness')
-        current_gamma_value = self.NodeGetPropValue('Gamma')
-
-        # Saturation
-        saturation_label = wx.StaticText(parent, label="Saturation:")
-        sizer.Add(saturation_label, border=5)
-
-        self.saturation_slider = wx.Slider(
-            parent, wx.ID_ANY, 
-            value=current_saturation_value,
-            minValue=1, maxValue=50,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
-            )
-        self.saturation_slider.SetTickFreq(2)
-
-        sizer.Add(self.saturation_slider, flag=wx.EXPAND|wx.ALL, border=5)
-
-        # Brightness
-        brightness_label = wx.StaticText(parent, label="Brightness:")
-        sizer.Add(brightness_label, border=5)
-
-        self.brightness_slider = wx.Slider(
-            parent, wx.ID_ANY, 
-            value=current_brightness_value,
-            minValue=0, maxValue=50,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
-            )
-        self.brightness_slider.SetTickFreq(2)
-
-        sizer.Add(self.brightness_slider, flag=wx.EXPAND|wx.ALL, border=5)
-
-        # Gamma
-        gamma_label = wx.StaticText(parent, label="Gamma:")
-        sizer.Add(gamma_label, border=5)
-
-        self.gamma_slider = wx.Slider(
-            parent, wx.ID_ANY, 
-            value=current_gamma_value,
-            minValue=1, maxValue=50,
-            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
-            )
-        self.gamma_slider.SetTickFreq(2)
-
-        sizer.Add(self.gamma_slider, flag=wx.EXPAND|wx.ALL, border=5)
-
-        # Bindings
-        parent.Bind(
-            wx.EVT_SCROLL_THUMBRELEASE, 
-            self.OnSaturationChange, 
-            self.saturation_slider
-            )
-        parent.Bind(
-            wx.EVT_SCROLL_THUMBRELEASE, 
-            self.OnBrightnessChange, 
-            self.brightness_slider
-            )
-        parent.Bind(
-            wx.EVT_SCROLL_THUMBRELEASE, 
-            self.OnGammaChange, 
-            self.gamma_slider
-            )
-
-    def OnSaturationChange(self, event):
-        self.NodePropertiesUpdate('Saturation', self.saturation_slider.GetValue())
-
-    def OnBrightnessChange(self, event):
-        self.NodePropertiesUpdate('Brightness', self.brightness_slider.GetValue())
-
-    def OnGammaChange(self, event):
-        self.NodePropertiesUpdate('Gamma', self.gamma_slider.GetValue())
+ 
+class ToRoughnessMapNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
     def GammaCorrection(self, image, gamma):
         """ Corrects gamma of image. """
@@ -171,6 +47,53 @@ class NodeDefinition(NodeBase):
         gc_roughness_map = self.GammaCorrection(roughness_map, gamma)
         return cv2.bitwise_not(gc_roughness_map)
 
+    @property
+    def NodeMeta(self):
+        meta_info = {
+            "label": "To Roughness Map",
+            "author": "Correct Syntax",
+            "version": (1, 2, 0),
+            "supported_app_version": (0, 5, 0),
+            "category": "CONVERT",
+            "description": "Converts the image into a roughness map texture for use in 3D.",
+        }
+        return meta_info
+
+    def NodeInitProps(self):
+        p1 = api.PositiveIntegerProp(
+            idname="Saturation", 
+            default=1, 
+            min_val=1, 
+            max_val=50, 
+            widget=api.SLIDER_WIDGET,
+            label="Saturation:",
+            )
+        p2 = api.PositiveIntegerProp(
+            idname="Brightness", 
+            default=0, 
+            min_val=0, 
+            max_val=50, 
+            widget=api.SLIDER_WIDGET,
+            label="Brightness:",
+            )
+        p3 = api.PositiveIntegerProp(
+            idname="Gamma", 
+            default=1, 
+            min_val=1, 
+            max_val=50, 
+            widget=api.SLIDER_WIDGET,
+            label="Gamma:",
+            )
+
+        self.NodeAddProp(p1)
+        self.NodeAddProp(p2)
+        self.NodeAddProp(p3)
+
+    def NodeInitParams(self):
+        p = api.RenderImageParam('Image')
+
+        self.NodeAddParam(p)
+
     def NodeEvaluation(self, eval_info):
         image1  = eval_info.EvaluateParameter('Image')
         saturation_val = eval_info.EvaluateProperty('Saturation')
@@ -189,12 +112,12 @@ class NodeDefinition(NodeBase):
             gamma_val
             ) 
         
-        image = RenderImage()
+        image = api.RenderImage()
         image.SetAsImage(
             ArrayToImage(generated_roughness_map).convert('RGBA')
             )
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
-RegisterNode(NodeDefinition)
+
+api.RegisterNode(ToRoughnessMapNode, "corenode_toroughnessmap")
