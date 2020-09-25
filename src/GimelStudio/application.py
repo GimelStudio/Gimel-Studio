@@ -559,6 +559,9 @@ class MainApplication(wx.Frame):
 
             else:
                 # Export the image with the export options
+
+                # FIXME: this is temporary
+                self._renderer.GetRender().save(path)
  
                 notify = wx.adv.NotificationMessage(
                     title="Image Exported Sucessfully",
