@@ -22,7 +22,6 @@ import argparse
 import wx
 
 #from GimelStudio.meta import  __TITLE__, __DEBUG__
-from GimelStudio.node_importer import *
 from GimelStudio.application import MainApplication 
 
 # Fix blurry text on Windows 10
