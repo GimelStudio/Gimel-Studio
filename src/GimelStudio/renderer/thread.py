@@ -43,7 +43,7 @@ class RenderThread(Thread):
     def __init__(self, parent):
         """ Init the worker thread"""
         Thread.__init__(self)
-        self._parent= parent
+        self._parent = parent
         # Starts the thread running
         self.start()
 
