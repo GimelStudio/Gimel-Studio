@@ -30,10 +30,10 @@ from GimelStudio.corenodes.input import (
 
 from GimelStudio.corenodes.convert import (
                                            to_normal_map_node,
-                                           #to_bump_map_node,
-                                           #to_roughness_map_node,
-                                           #to_specular_map_node,
-                                           #to_ao_map_node,
+                                           to_bump_map_node,
+                                           to_roughness_map_node,
+                                           to_specular_map_node,
+                                           to_ao_map_node,
                                            )
 
 from GimelStudio.corenodes.color import (
