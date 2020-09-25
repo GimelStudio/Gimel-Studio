@@ -26,239 +26,104 @@ import wx.adv
 from GimelStudio.datafiles.icons import *
 
 
-class NodeRegistryItem(object):
-    def __init__(
-        self, parent, rect, name, label, version, author,
-        category, desc
-        ):
-        self._parent = parent
-        self._rect = rect
-        self._name = name
-        self._label = label
-        self._version = version
-        self._author = author
-        self._category = category
-        self._desc = desc
-        self._id = wx.NewIdRef().GetValue()
-        self._isCoreNode = False
-        self._isSelected = False
-        self._isHover = False
-        self._dragndropData = wx.TextDataObject(self._name)
-
-    def GetParent(self):
-        return self._parent
-
-    def GetId(self):
-        return self._id
-
-    def GetRect(self):
-        return self._rect
-
-    def SetRect(self, rect):
-        self._rect = rect
-
-    def GetName(self):
-        return self._name
-
-    def GetLabel(self):
-        return self._label
-
-    def GetColor(self):
-        # if self._category in STYLE_NODES_COLOR_DICT.keys():
-        #     return STYLE_NODES_COLOR_DICT[self._category]
-        # else:
-        #     return STYLE_NODES_COLOR_DICT["DEFAULT"]
-        return "#ccc"
-
-    def GetVersion(self):
-        return self._version
-
-    def GetAuthor(self):
-        return self._author
-
-    def GetDescription(self):
-        return self._desc
-
-    def GetIsDepreciated(self):
-        return self._isDepreciated
-
-    def GetIsCoreNode(self):
-        return self._isCoreNode
-
-    def SetIsCoreNode(self, is_corenode):
-        self._isCoreNode = is_corenode
-
-    def IsSelected(self):
-        return self._isSelected
-
-    def SetSelected(self, is_selected):
-        self._isSelected = is_selected
-
-    def SetHover(self, ishover):
-        self._isHover = ishover
-
-    def GetHover(self):
-        return self._isHover
-
-    def GetDragNDropInfo(self):
-        return self._dragndropData
-
-    def Draw(self, dc):
-        dc.ClearId(self.GetId())
-        dc.SetId(self.GetId())
-        x, y, w, h = self.GetRect()
-
-        sys_scrollbar_x = wx.SystemSettings.GetMetric(
-            getattr(wx, 'SYS_VSCROLL_X')
-            )
-
-        if self.IsSelected() == True:
-            dc.SetPen(wx.Pen(wx.Colour('#80b3ffff'), 4))
-
-            # Draw Background
-            dc.SetBrush(wx.Brush(wx.Colour('white'), wx.SOLID))
-            dc.DrawRectangle(x, y, w-sys_scrollbar_x, h)
-
-        elif self.IsSelected() == False:
-            dc.SetPen(wx.Pen('black', 1))
-
-            # Draw Background
-            if self.GetHover() == True:
-                dc.SetBrush(wx.Brush(wx.Colour('white'), wx.SOLID))
-                dc.DrawRectangle(x, y, w-sys_scrollbar_x, h)
-            else:
-                dc.SetBrush(wx.Brush(wx.Colour('#ECECEC'), wx.SOLID))
-                dc.DrawRectangle(x, y, w-sys_scrollbar_x, h)
-
-        # Draw Colored Heading Background
-        dc.SetPen(wx.Pen(wx.Colour(0, 0, 0, 0), 1))
-        dc.SetBrush(wx.Brush(wx.Colour(self.GetColor()), wx.SOLID))
-        dc.DrawRectangle(x, y, w-sys_scrollbar_x, h-56)
-
-        # Draw Node Label Text
-        dc.SetTextForeground(wx.Colour('white'))
-        #dc.SetFont(self.GetParent().GetParent().GetFont().MakeSmaller())
-        dc.DrawText(self.GetLabel(), x+28, y+2)
-
-        # Draw Icon
-        # dc.DrawBitmap(
-        #     self.GetIcon(), x+6, y+2, True)
-
-        # Draw Version and Author Text
-        dc.SetTextForeground(wx.Colour('#ECECEC'))
-
-        # if self.GetIsCoreNode() != True:
-        #     # TODO add icon for custom nodes
-        #     #print("CUSTOM NODE")
-        #     pass
-        # else:
-        #     dc.DrawBitmap(
-        #         ICON_GIMELSTUDIO_LOGO.GetBitmap(),
-        #         x+w-sys_scrollbar_x-24,
-        #         y+2,
-        #         True
-        #         )
-        dc.DrawText('v{}'.format(
-            self.GetVersion()), 
-            x+w-sys_scrollbar_x-70, 
-            y+2
-            )
-
-        # Draw Description Text
-        dc.SetTextForeground(wx.Colour('black'))
-
-        if self.GetIsDepreciated() == True:
-            is_depreciated_msg = "\nTHIS NODE WILL BE REMOVED IN A FUTURE RELEASE."
-            dc.DrawText(self.GetDescription() + is_depreciated_msg, x+6, y+28)
-        else:
-            dc.DrawText(self.GetDescription(), x+6, y+28)
-
-
-
-
-
-
-
-
-
-
-
-
-class MyVListBox(wx.VListBox):
+class NodesVListBox(wx.VListBox):
     def __init__(self, *args, **kw):
-        self.parent = args[0]
+        self._parent = args[0]
         wx.VListBox.__init__(self, *args, **kw)
 
         self.SetBackgroundColour(wx.Colour("#6D6F6E"))
 
+        self.Bind(wx.EVT_MOTION, self.OnStartDrag)
+
+    def _GetItemColor(self, item):
+        return self.GetNodeObject(item).Model.GetNodeHeaderColor()
+
+    def _GetItemText(self, item):
+        return self.GetNodeObject(item).GetLabel()
+
+    def _GetItemVersion(self, item):
+        return self.GetNodeObject(item).GetVersionString()
+
+    def GetNodeObject(self, node_type):
+        return self.NodeRegistry[self.NodeRegistryMap[node_type]]
+
     @property
     def NodeRegistryMap(self):
-        return self.parent.nodeRegistryMapping
+        return self._parent._nodeRegistryMapping
 
     @property
     def NodeRegistry(self):
-        return self.parent.nodeRegistry
+        return self._parent._nodeRegistry
+
+    def OnStartDrag(self, event):
+        """ Start of drag n drop event handler. """
+        if event.Dragging():
+            selection = self.NodeRegistryMap[self.GetSelection()]
+            data = wx.TextDataObject()
+            data.SetText(selection)
+ 
+            dropSource = wx.DropSource(self)
+            dropSource.SetData(data)
+            result = dropSource.DoDragDrop()
 
     # This method must be overridden.  When called it should draw the
     # n'th item on the dc within the rect.  How it is drawn, and what
     # is drawn is entirely up to you.
     def OnDrawItem(self, dc, rect, n):
+        """ Draws the item itself. """
         # Monkey-patch some padding for the left side
         rect[0] += 6
 
+        # Draw item with node label
         if self.GetSelection() == n:
-            c = wx.Colour("#fff")
+            color = wx.Colour("#fff")
             bmp = ICON_GIMELSTUDIO_LOGO.GetBitmap()#.GetImage().AdjustChannels(0, 0, 0, 1).ConvertToBitmap()
         else:
-            c = wx.Colour("#fff")
+            color = wx.Colour("#fff")
             bmp = ICON_GIMELSTUDIO_LOGO.GetBitmap()
         dc.SetFont(self.GetFont())
-        dc.SetTextForeground(c)
-        dc.SetBrush(wx.Brush(c, wx.SOLID))
-        dc.DrawLabel(text=self._getItemText(n), bitmap=bmp, rect=rect,
+        dc.SetTextForeground(color)
+        dc.SetBrush(wx.Brush(color, wx.SOLID))
+        dc.DrawLabel(text=self._GetItemText(n), bitmap=bmp, rect=rect,
                      alignment=wx.ALIGN_LEFT | wx.ALIGN_CENTER_VERTICAL)
 
+        # Monkey-patch some padding for the right side
         rect[2] -= 18
-        dc.DrawLabel(text=self._getItemVersion(n), rect=rect,
+
+        # Draw version label
+        dc.DrawLabel(text=self._GetItemVersion(n), rect=rect,
                      alignment=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL)
 
-    # This method must be overridden.  It should return the height
-    # required to draw the n'th item.
+
     def OnMeasureItem(self, n): 
+        """ Returns the height required to draw the n'th item. """
         height = 0 
-        for line in self._getItemText(n).split('\n'):
+        for line in self._GetItemText(n).split('\n'):
             w, h = self.GetTextExtent(line)
             height += h
         return height + 20
 
 
     def OnDrawBackground(self, dc, rect, n):
-        #   Draw the background and maybe a border if desired.
+        """ Draws the item background. """
         if self.GetSelection() == n:
-            #c = wx.Colour("#fff")
-            c  = wx.Colour(self._getItemColor(n))
+            color  = wx.Colour(self._GetItemColor(n))
         else:
-            
+            # Create striped effect
             if n % 2 == 0:
-                c = wx.Colour("#6D6F6E")
+                color = wx.Colour("#6D6F6E")
             else:
-                c = wx.Colour("#838383")
+                color = wx.Colour("#838383")
                 
         dc.SetPen(wx.TRANSPARENT_PEN)
-        dc.SetBrush(wx.Brush(c, wx.SOLID))
+        dc.SetBrush(wx.Brush(color, wx.SOLID))
         dc.DrawRectangle(rect)
 
 
-    def _getItemColor(self, item):
-        return self.NodeRegistry[self.NodeRegistryMap[item]].Model.GetNodeHeaderColor()
-
-    def _getItemText(self, item):
-        return self.NodeRegistry[self.NodeRegistryMap[item]].GetLabel()
-
-    def _getItemVersion(self, item):
-        return self.NodeRegistry[self.NodeRegistryMap[item]].GetVersionString()
-
     def SearchNodeRegistry(self, node_label, search_string):
+        """ Returns whether or not the search string is in 
+        the label text or not. 
+        """
         label = node_label.lower()
         if search_string in label:
             return True
@@ -266,37 +131,28 @@ class MyVListBox(wx.VListBox):
             return False
 
     def UpdateForSearch(self, search_string):
-        search_string = search_string.lower()
-
-        self.parent.nodeRegistryMapping = {} 
+        """ Updates the listbox based on the search string. """
+        # Reset mapping var
+        self._parent._nodeRegistryMapping = {} 
+        
         i = 0
         for item in self.NodeRegistry:
             if item != "corenode_outputcomposite":
                 lbl = self.NodeRegistry[item].GetLabel()
-                #print(self.NodeRegistry[item].GetLabel(), "<<<<<<<node")
-                if self.SearchNodeRegistry(lbl, search_string):
+                if self.SearchNodeRegistry(lbl, search_string.lower()):
                     self.NodeRegistryMap[i] = item
                     i += 1
 
+        # Deal with selection and update size
         size = len(self.NodeRegistryMap)
-        self.SetItemCount(size)
-
         if size == 1:
             self.SetSelection(0)
         else:
             self.SetSelection(-1)
+        self.SetItemCount(size)
 
-        #print(self.NodeRegistryMap, "map")
-
+        # Refresh the window
         self.Refresh()
-        #self.Update()
-
-
-
-
-
-
-
 
 
 
@@ -304,33 +160,38 @@ class AddNodeMenu(wx.PopupTransientWindow):
     def __init__(self, parent, node_registry, size, style=wx.BORDER_NONE):
         wx.PopupTransientWindow.__init__(self, parent, style)
 
-        self.SetBackgroundColour(wx.Colour("#6D6F6E"))
-        self.nodeRegistry = node_registry
         self._parent = parent
+        self._size = size
+        self._nodeRegistry = node_registry
+        self._nodeRegistryMapping = {}
 
+        self.SetBackgroundColour(wx.Colour("#6D6F6E"))
 
-        self.nodeRegistryMapping = {}
+        self._InitRegistryMapping()
+        self._InitAddNodeMenuUI()
 
+    def _InitRegistryMapping(self):
         i = 0
-        for item in self.nodeRegistry:
+        for item in self._nodeRegistry:
             if item != "corenode_outputcomposite":
-                self.nodeRegistryMapping[i] = item
+                self._nodeRegistryMapping[i] = item
                 i += 1
 
-        #print(self.nodeRegistryMapping)
+    def _InitAddNodeMenuUI(self):
+        # Sizer
+        main_sizer = wx.BoxSizer(wx.VERTICAL)
 
-        vlbSizer = wx.BoxSizer(wx.VERTICAL)
-
-        vlbSizer.AddSpacer(5) 
+        # Label
+        main_sizer.AddSpacer(5) 
         header_lbl = wx.StaticText(self, wx.ID_ANY, "Add Node from Registry")
         header_lbl.SetForegroundColour(wx.Colour("#fff"))
-        header_lbl.SetFont(self.GetFont().MakeBold())
-        vlbSizer.Add(header_lbl,  flag=wx.EXPAND|wx.ALL, border=5) 
-        vlbSizer.AddSpacer(5)
+        #header_lbl.SetFont(self.GetFont().MakeBold())
+        main_sizer.Add(header_lbl,  flag=wx.EXPAND|wx.ALL, border=5) 
+        main_sizer.AddSpacer(5)
 
         # Search bar
         self.search_bar = wx.SearchCtrl(self, style=wx.TE_PROCESS_ENTER)
-
+        self.search_bar.SetFocus()
         # FIXME
         if 'gtk3' in wx.PlatformInfo:
             # Something is wrong with the bestsize of the SearchCtrl, so for now
@@ -339,176 +200,56 @@ class AddNodeMenu(wx.PopupTransientWindow):
             bs = txt.GetBestSize()
             txt.DestroyLater()
             self.search_bar.SetMinSize((200, bs.height+4))
-
-        self.search_bar.SetFocus()
-
-        vlbSizer.Add(self.search_bar, flag=wx.EXPAND|wx.ALL, border=5)
-        vlbSizer.AddSpacer(5)
+        main_sizer.Add(self.search_bar, flag=wx.EXPAND|wx.ALL, border=5)
+        main_sizer.AddSpacer(5)
 
         # Nodes list box
-        self.nodes_listbox = MyVListBox(self, size=size, style=wx.BORDER_SIMPLE)
-        self.nodes_listbox.SetItemCount(len(self.nodeRegistryMapping))
-        #self.nodes_listbox.SetSelection(0)
+        self.nodes_listbox = NodesVListBox(
+            self, 
+            size=self._size, 
+            style=wx.BORDER_SIMPLE
+            )
+        self.nodes_listbox.SetItemCount(
+            len(self._nodeRegistryMapping)
+            )
         #nodes_listbox.SetFocus()
+        main_sizer.Add(self.nodes_listbox, flag=wx.EXPAND|wx.ALL, border=5)
 
-        
+        self.SetSizer(main_sizer)
 
-        vlbSizer.Add(self.nodes_listbox, flag=wx.EXPAND|wx.ALL, border=5)
-
-
-        self.SetSizer(vlbSizer)
-
-
-
-
+        # Bindings
         self.Bind(wx.EVT_SEARCHCTRL_SEARCH_BTN, self.OnDoSearch, self.search_bar)
         self.Bind(wx.EVT_TEXT_ENTER, self.OnDoSearch, self.search_bar)
         self.Bind(wx.EVT_TEXT, self.OnDoSearch, self.search_bar)
+        self.Bind(wx.EVT_LISTBOX_DCLICK, self.OnDClickSelectItem, self.nodes_listbox)
+        self.Bind(wx.EVT_LISTBOX, self.OnClickSelectItem, self.nodes_listbox)
 
-        self.Bind(wx.EVT_LISTBOX_DCLICK, self.OnSelectItem, self.nodes_listbox)
-        
-
-
+    @property
+    def NodeGraph(self):
+        """ Get the Node Graph. """
+        return self._parent
 
     def OnDoSearch(self, event): 
-        print(event.GetString())
+        """ Event handler for when something is typed into the search bar, etc. """
         self.nodes_listbox.UpdateForSearch(event.GetString())
 
-    def OnSelectItem(self, event):
-        sel = self.nodeRegistryMapping[event.GetInt()]
-        print(sel) 
+    def OnDClickSelectItem(self, event):
+        """ Event handler for a double-click listbox selection. 
+        This also Adds the selected node to Node Graph. 
+        """
+        sel = self._nodeRegistryMapping[event.GetInt()]
+        coords = self.NodeGraph.ConvertCoords(
+            wx.Point(self.NodeGraph.Size[0]/2, self.NodeGraph.Size[1]/2)
+            )
 
-        coords = self._parent.ConvertCoords(wx.Point(
-            self._parent.Size[0]/2, 
-            self._parent.Size[1]/2, 
-            ))
+        self.NodeGraph.AddNode(sel, pos=coords)
+        self.NodeGraph.RefreshGraph()
 
-        node = self._parent.AddNode(sel, pos=coords)
-
-        self._parent.RefreshGraph()
-
- 
-
-
-    # def OnLeftDown(self, event):
-    #     pnt = event.GetPosition()
-    #     winpnt = self.ConvertCoords(pnt)
-    #     self._nodeitem = self.HitTest(winpnt)
-
-    #     if self._nodeitem != None:
-    #         # Handle node selection
-    #         if self._selectednodeitem == None:
-    #             self._selectednodeitem = self._nodeitem
-    #             self._selectednodeitem.SetSelected(True)
-    #             self._selectednodeitem.Draw(self._pdc)
-
-    #         else:
-    #             if self._nodeitem.GetId() != self._selectednodeitem.GetId():
-    #                 self._selectednodeitem.SetSelected(False)
-    #                 self._selectednodeitem.Draw(self._pdc)
-    #                 self._selectednodeitem = self._nodeitem
-    #                 self._selectednodeitem.SetSelected(True)
-    #                 self._selectednodeitem.Draw(self._pdc)
-
-    #         # Handle dnd node items to Node Graph
-    #         dragSource = wx.DropSource(self)
-    #         dragSource.SetData(self._selectednodeitem.GetDragNDropInfo())
-    #         result = dragSource.DoDragDrop(True)
-
-    #         self.RefreshPanel()
-
-
-    # def OnMotion(self, event):
-    #     # Hover for items
-    #     pnt = event.GetPosition()
-    #     winpnt = self.ConvertCoords(pnt)
-    #     for i in self._ndregistryitems:
-    #         btn_region = wx.Region(self._ndregistryitems[i].GetRect())
-    #         if btn_region.Contains(winpnt[0], winpnt[1]):
-    #             self._ndregistryitems[i].SetHover(True)
-    #         else:
-    #             self._ndregistryitems[i].SetHover(False)
-    #         self._ndregistryitems[i].Draw(self._pdc)
-    #     self.RefreshPanel()
-
-    # def InitNodeItems(self):
-    #     print(">>>>", self._noderegistry)
-    #     for nodedefId in self._noderegistry:
-    #         nitem = self._noderegistry[nodedefId]("corenode_mix")
-    #         print("NN", nitem)
-    #         print(self._noderegistry[nodedefId])
-    #         # Exclude the ouput composite node
-    #         #if self._noderegistry[nodedefId].IsOutputNode() != True:
-    #         noderegistryitem = NodeRegistryItem(
-    #             self,
-    #             wx.Rect(0, 0, self.Size[0], self.ITEMHEIGHT),
-    #             nitem.GetType(), 
-    #             nitem.GetLabel(),
-    #             "0.5.0",
-    #             "test",
-    #             "INPUT",
-    #             "this is a desc",
-    #             )
-
-    #         # Check to see if this is a core node
-    #         if str(nitem._name).startswith("corenode_"):
-    #             noderegistryitem.SetIsCoreNode(True)
-    #         else:
-    #             noderegistryitem.SetIsCoreNode(False)
-
-    #         self._ndregistryitems[noderegistryitem.GetId()] = noderegistryitem
-
-    # def DrawNodeItems(self):
-    #     y = 0
-    #     for nritem in self._ndregistryitems:
-    #         self._ndregistryitems[nritem].SetRect(
-    #             wx.Rect(0, y, self.Size[0], self.ITEMHEIGHT)
-    #             )
-    #         self._ndregistryitems[nritem].Draw(self._pdc)
-    #         self._pdc.SetIdBounds(
-    #             self._ndregistryitems[nritem].GetId(),
-    #             self._ndregistryitems[nritem].GetRect()
-    #             )
-    #         y += self.ITEMHEIGHT + 8
-
-    # def GetSelectedItem(self):
-    #     if self._selectednodeitem == None:
-    #         return None
-    #     else:
-    #         return self._selectednodeitem.GetName()
-
-
-    # def HitTest(self, pt):
-    #     idxs = self._pdc.FindObjects(pt[0], pt[1], 25)
-    #     hits = [
-    #         idx
-    #         for idx in idxs
-    #         if idx in self._ndregistryitems
-    #     ]
-
-    #     if hits != []:
-    #         return self._ndregistryitems[hits[0]]
-    #     else:
-    #         if self._selectednodeitem != None:
-    #             self._selectednodeitem.SetSelected(False)
-    #             self._selectednodeitem.Draw(self._pdc)
-
-    #             self.RefreshPanel()
-    #             self._selectednodeitem = None
-    #         return None
-
-
-    # def ConvertCoords(self, pnt):
-    #     xView, yView = self.GetViewStart()
-    #     xDelta, yDelta = self.GetScrollPixelsPerUnit()
-    #     return wx.Point(pnt[0] + (xView * xDelta), pnt[1] + (yView * yDelta))
-
-    # def OffsetRect(self, r):
-    #     xView, yView = self.GetViewStart()
-    #     xDelta, yDelta = self.GetScrollPixelsPerUnit()
-
-    # def RefreshPanel(self):
-    #     """ Refreshes the panel so that everything is redrawn. """
-    #     rect = wx.Rect(0, 0, self.Size[0], self.Size[1])
-    #     self.OffsetRect(rect)
-    #     self.RefreshRect(rect, False)
+    def OnClickSelectItem(self, event):
+        """ Event handler for a single click listbox selection. 
+        This merely updates the statusbar text.
+        """
+        sel = self._nodeRegistryMapping[event.GetInt()]
+        desc = self._nodeRegistry[sel].GetDescription()
+        lbl = self._nodeRegistry[sel].GetLabel()
+        self.NodeGraph.GetParent().SetStatusText("{}: {}".format(lbl, desc))

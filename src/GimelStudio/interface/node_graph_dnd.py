@@ -57,13 +57,12 @@ class NodeGraphDropTarget(wx.DropTarget):
             formatId = None
         return formatType, formatId
 
-    # def OnTextDrop(self):
-    #     try:
-    #         #print(self._textDropData.GetText())
-    #         node = self._window.AddNode(self._textDropData.GetText(), where="CURSOR")
-    #     except Exception as error:
-    #         self.ShowError(error)
-    #     return wx.DragCopy
+    def OnTextDrop(self):
+        try:
+            node = self._window.AddNode(self._textDropData.GetText(), where="CURSOR")
+        except Exception as error:
+            self.ShowError(error)
+        return wx.DragCopy
  
     def OnFileDrop(self):
         for filename in self._fileDropData.GetFilenames():
