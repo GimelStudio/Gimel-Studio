@@ -12,38 +12,49 @@ Gimel Studio has a node-based workflow for realtime compositing, manipulating, g
 
 It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
-Gimel Studio aims to be simple enough for non-technical people to use, yet provide a powerful and streamlined experience for professional editing.
-
 *Still in BETA stage, but can be considered stable enough for light production work.*
-
-
-# News
-
-See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases.
 
 
 # Features
 
 **Highlights**
   
-  * Written in pure Python with minimal dependancies
-  * Support for opening and saving your full nodegraph as a GIMEL-STUDIO-PROJECT
-  * Features packing images into the project file (meaning project files can be shared between users on different computers and Operating Systems without hassle)
+  * Thumbnail preview on each node showing the steps of the rendered image, with support for live preview updates
+  * Fast node-based workflow (similar to Blender 3D)
   * 20+ nodes with a wide range of functionality 
   * Node Graph featuring node deletion, duplication, selection, etc. 
-  * Node-based workflow (similar to Blender 3D)
   * JPEG, JPG, PNG, BMP, WEBP (and more...) file type support
   * API for scripting custom nodes in Python
-  * Dark & Light UI themes w/ wire curving
-  * Zoomable Image Viewport for viewing renders in real-time
-
-**Tidbits**
-
-  * Auto-renders as the Node Graph is edited (this is a setting that you can change if you so desire)
-  * Toggle-able thumbnails on nodes showing the steps of the rendered image
+  * Dark theme w/ wire curving
   * Rearrangable and resizable panels for the main UI
+  * Zoomable Image Viewport for viewing renders in real-time
+  * Auto-renders as the Node Graph is edited (this is a setting that you can change if you so desire)
 
 **And More...**
+
+
+# Goals
+
+Here is a little rundown of what the goals of this project are and what they are not at this time. These *may change at any time*, but for now, Gimel Studio will be focused into certian areas and avoid other areas entirely.
+
+**Development of Gimel Studio (currently) aims to...**
+
+* include a range of nodes focused on filters, effects, transformations, color grading, etc.
+* be simple enough for non-technical people to use, yet provide a powerful and streamlined experience for professional editing.
+* provide fully comprehensive graphical indications in each step of the image editing process.
+* give users access to a rich API for scripting custom nodes in Python
+* deliever a non-destructive, fast workflow and great user experience.
+* support both Linux and Windows operating systems seamlessly.
+* listen to your feedback on these goals. :)
+
+**Development of Gimel Studio does not (currently) aim to...**
+
+* provide any drawing and/or painting tools, except "Add text to image", etc. 
+* be a full-blown procedual texture generator, like many node-based programs out there.
+
+# News
+
+See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases.
 
 
 # Releases
@@ -60,7 +71,7 @@ Documentation for past Gimel Studio releases can be found <a href="https://githu
 
 # Development 
 
-**Help develop Gimel Studio**
+**You are Welcome to Help develop Gimel Studio!**
 
 Pull requests and/or feature suggestions are welcome!
 
