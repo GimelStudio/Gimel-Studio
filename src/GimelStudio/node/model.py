@@ -234,6 +234,12 @@ class NodeModel(object):
     def SetVersion(self, version):
         self._version = version
 
+    def GetDescription(self):
+        return self._description
+
+    def SetDescription(self, desc):
+        self._description = desc
+
     def UpdateThumbnail(self, image):
         """ Update the thumbnail. This saves the thumb image and creates
         a thumbnail in the cache.
