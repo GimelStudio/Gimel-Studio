@@ -102,7 +102,6 @@ class NodeView(object):
         dc.ClearId(self.GetId())
         dc.SetId(self.GetId())
 
-
         thumb = self.GetThumbImage()
 
         x, y, w, h = self.GetRect()
@@ -146,12 +145,8 @@ class NodeView(object):
             thumbnail_height,
             )
 
-
         # Sockets
         for socket in self.GetSockets():
             socket.Draw(dc)
 
         dc.SetIdBounds(self.GetId(), self.GetRect())
-
-
- 

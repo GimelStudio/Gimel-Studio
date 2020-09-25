@@ -25,6 +25,7 @@ import wx.adv
 from GimelStudio.utils import DrawGrid
 from GimelStudio.registry import CreateNode
 from GimelStudio.node import Wire
+from GimelStudio.interface.add_node_menu import AddNodeMenu
 
 
 # Create IDs
@@ -39,7 +40,7 @@ ID_CONTEXTMENU_DUPLICATENODE = wx.NewIdRef()
 ID_CONTEXTMENU_DESELECTALLNODES = wx.NewIdRef()
 ID_CONTEXTMENU_SELECTALLNODES = wx.NewIdRef() 
 
-
+ID_CONTEXTMENU = wx.NewIdRef()
 
 class NodeGraph(wx.ScrolledCanvas):
     def __init__(self, parent, size=wx.DefaultSize):
@@ -112,6 +113,27 @@ class NodeGraph(wx.ScrolledCanvas):
             self.OnDuplicateNode, 
             id=ID_CONTEXTMENU_DUPLICATENODE
             )
+
+
+        self._parent.Bind(
+            wx.EVT_MENU, 
+            self.OnAddNodeMenu, 
+            id=ID_CONTEXTMENU
+            )
+
+        # Keyboard shortcut bindings
+        self.accel_tbl = wx.AcceleratorTable([(wx.ACCEL_SHIFT, ord('A'), 
+                                              ID_CONTEXTMENU),
+                                             ])
+        self._parent.SetAcceleratorTable(self.accel_tbl)
+
+    # FIXME: Move below, etc.
+    def OnAddNodeMenu(self, event):
+        win = AddNodeMenu(self, self.GetNodeRegistry(), size=wx.Size(340, self.Size[1]-30))
+        pos = self.GetScreenPosition()
+        win.Position((pos[0], pos[1]), (4, 4))
+        win.SetSize(340, self.Size[1]-30)
+        win.Popup()
 
 
     def _DrawGridBackground(self, dc, rect):
@@ -526,6 +548,13 @@ class NodeGraph(wx.ScrolledCanvas):
         graph. Used by the render engine to access the nodes. 
         """
         return self._nodes
+
+    def GetNodeRegistry(self): 
+        registry = {}
+        for node in self._parent._nodeRegistry:
+            registry[node] = CreateNode(self, node, wx.Point(0, 0), wx.ID_ANY)
+
+        return registry
 
     def GetSelectedNodes(self):
         return self._selectedNodes

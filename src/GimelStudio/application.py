@@ -30,7 +30,7 @@ from GimelStudio import meta
 from GimelStudio.file_support import SupportFTSave
 from GimelStudio.interface import (
     NodeGraph, NodePropertyPanel, 
-    ImageViewport, NodeGraphDropTarget
+    ImageViewport, NodeGraphDropTarget,
     )
 from GimelStudio.program import (
     AboutDialog, LicenseDialog
@@ -39,6 +39,10 @@ from GimelStudio.renderer import (
     Renderer, RenderThread, EVT_RENDER_RESULT
     )
 from GimelStudio.datafiles import *
+from GimelStudio.node_importer import *
+
+from GimelStudio.registry import REGISTERED_NODES
+
 
 
 
@@ -59,42 +63,46 @@ class MainApplication(wx.Frame):
         self._InitApp()
 
         self._nodeGraph.AddNode("corenode_outputcomposite", 
-         pos=wx.Point(5010, 5010))
+         pos=wx.Point(5910, 5510))
+
+        # self._nodeGraph.AddNode("corenode_colorimage", 
+        #  pos=wx.Point(5110, 5010))
 
         self._nodeGraph.AddNode("corenode_image", 
          pos=wx.Point(5160, 5160))
-        self._nodeGraph.AddNode("corenode_image", 
-         pos=wx.Point(5360, 5160))
+        # self._nodeGraph.AddNode("corenode_image", 
+        #  pos=wx.Point(5360, 5160))
 
-        self._nodeGraph.AddNode("corenode_mix", 
-         pos=wx.Point(5460, 5460))
+        # self._nodeGraph.AddNode("corenode_mix", 
+        #  pos=wx.Point(5460, 5460))
 
-        self._nodeGraph.AddNode("corenode_mix", 
-        pos=wx.Point(5260, 5260))
+        # self._nodeGraph.AddNode("corenode_mix", 
+        # pos=wx.Point(5260, 5260))
 
-        self._nodeGraph.AddNode("corenode_invertalpha", 
-         pos=wx.Point(5260, 5260))
+        # self._nodeGraph.AddNode("corenode_invertalpha", 
+        #  pos=wx.Point(5260, 5260))
 
-        self._nodeGraph.AddNode("corenode_contrast", 
-         pos=wx.Point(5260, 5260))
+        # self._nodeGraph.AddNode("corenode_contrast", 
+        #  pos=wx.Point(5260, 5260))
 
-        self._nodeGraph.AddNode("corenode_alphacomposite", 
-         pos=wx.Point(5260, 5260))
+        # self._nodeGraph.AddNode("corenode_alphacomposite", 
+        #  pos=wx.Point(5260, 5260))
 
-        self._nodeGraph.AddNode("corenode_composite", 
-         pos=wx.Point(5260, 5260))
+        # self._nodeGraph.AddNode("corenode_composite", 
+        #  pos=wx.Point(5260, 5260))
 
-        self._nodeGraph.AddNode("corenode_brightness", 
-        pos=wx.Point(5660, 5660))
+        # self._nodeGraph.AddNode("corenode_brightness", 
+        # pos=wx.Point(5660, 5660))
 
-        self._nodeGraph.AddNode("corenode_blur", 
-        pos=wx.Point(5680, 5680))
+        # self._nodeGraph.AddNode("corenode_blur", 
+        # pos=wx.Point(5680, 5680))
 
-        self._nodeGraph.AddNode("examplecustomnode_brightness", 
-        pos=wx.Point(5960, 5660))
+        # self._nodeGraph.AddNode("examplecustomnode_brightness", 
+        # pos=wx.Point(5960, 5660))
 
-        self._nodeGraph.AddNode("corenode_tonormalmap", 
-        pos=wx.Point(5960, 5660))
+        # self._nodeGraph.AddNode("corenode_tonormalmap", 
+        # pos=wx.Point(5960, 5660))
+
 
 
     def _InitApp(self):
@@ -496,6 +504,9 @@ class MainApplication(wx.Frame):
     def _SetupWindowStartup(self):
         # Set statusbar
         self._statusBar = self.CreateStatusBar()
+
+        #FIXME: move
+        self._nodeRegistry = REGISTERED_NODES 
 
         # Maximize the window & tell the AUI window 
         # manager to "commit" all the changes just made.
