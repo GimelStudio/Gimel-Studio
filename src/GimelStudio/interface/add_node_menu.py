@@ -66,6 +66,12 @@ class NodesVListBox(wx.VListBox):
             dropSource.SetData(data)
             result = dropSource.DoDragDrop()
 
+            # Reset the focus back to the search input so that
+            # after a user dnd a node, they can search again straight-away.
+            if result:
+                self._parent.search_bar.SetFocus()
+                self.SetSelection(-1)
+
     # This method must be overridden.  When called it should draw the
     # n'th item on the dc within the rect.  How it is drawn, and what
     # is drawn is entirely up to you.

@@ -127,14 +127,6 @@ class NodeGraph(wx.ScrolledCanvas):
                                              ])
         self._parent.SetAcceleratorTable(self.accel_tbl)
 
-    # FIXME: Move below, etc.
-    def OnAddNodeMenu(self, event):
-        win = AddNodeMenu(self, self.GetNodeRegistry(), size=wx.Size(340, self.Size[1]-30))
-        pos = self.GetScreenPosition()
-        win.Position((pos[0], pos[1]), (4, 4))
-        win.SetSize(340, self.Size[1]-30)
-        win.Popup()
-
 
     def _DrawGridBackground(self, dc, rect):
         dc.SetPen(wx.TRANSPARENT_PEN)
@@ -452,7 +444,18 @@ class NodeGraph(wx.ScrolledCanvas):
         self.PopupMenu(contextmenu)
         contextmenu.Destroy()
 
-
+    def OnAddNodeMenu(self, event):
+        """ Event handler to bring up the Add Node menu. """
+        win = AddNodeMenu(
+            self, 
+            self.GetNodeRegistry(), 
+            size=wx.Size(340, self.Size[1]-30)
+            )
+        pos = self.GetScreenPosition()
+        win.Position((pos[0], pos[1]), (4, 4))
+        win.SetSize(340, self.Size[1]-30)
+        win.Popup()
+        
     def OnDeleteNodes(self, event):
         """ Event that deletes the selected nodes. """
         self.DeleteNodes()
