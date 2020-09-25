@@ -43,6 +43,7 @@ class NodeBase(NodeObject):
         meta = self.NodeMeta
         self.Model.SetCategory(meta['category'])
         self.Model.SetLabel(meta['label'])
+        self.Model.SetVersion(meta['version'])
 
     def _WidgetEventHook(self, idname, value, render):
         """ Internal dispatcher method for the Property widget 
@@ -107,6 +108,9 @@ class NodeBase(NodeObject):
 
     def GetLabel(self):
         return self.Model.GetLabel()
+
+    def GetVersionString(self):
+        return self.Model.FormatVersionStr(self.Model.GetVersion())
 
     @property
     def Parameters(self):

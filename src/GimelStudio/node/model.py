@@ -228,6 +228,12 @@ class NodeModel(object):
     def SetThumbCache(self, thumb):
         self._thumbCache = thumb
 
+    def GetVersion(self):
+        return self._version
+
+    def SetVersion(self, version):
+        self._version = version
+
     def UpdateThumbnail(self, image):
         """ Update the thumbnail. This saves the thumb image and creates
         a thumbnail in the cache.
@@ -265,6 +271,9 @@ class NodeModel(object):
         if set_size == True:
             self.SetSize(size)
         return size
+ 
+    def FormatVersionStr(self, string):
+        return "v{}.{}.{}".format(string[0], string[1], string[2])
 
     def HitTest(self, x, y):
         """ Handles node socket hit-tests.
