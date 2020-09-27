@@ -387,7 +387,7 @@ class NodeGraph(wx.ScrolledCanvas):
  
         # We can erase the temp wire.
         if self._tmpWire != None:
-            rect = self._pdc.GetIdBounds(self._tmpWire.GetId())
+            #rect = self._pdc.GetIdBounds(self._tmpWire.GetId())
             self._pdc.RemoveId(self._tmpWire.GetId()) 
 
         # Clear selection bbox and set nodes as selected
@@ -737,7 +737,7 @@ class NodeGraph(wx.ScrolledCanvas):
         DEFAULT (default): position the node based on the ``pos`` param
         CURSOR: position the node based on the current cursor position
         """
-
+        # Placement
         if where == "CURSOR":
             pos = self.ConvertCoords(
                 self.ScreenToClient(wx.GetMousePosition())
@@ -745,13 +745,9 @@ class NodeGraph(wx.ScrolledCanvas):
 
         # If the name param is an empty string, default to
         # the core Input Image node. 
-        # if name == "":
-        #     name = "gimelstudiocorenode_image" # Yes, this is hard-coded...
+        if name == "":
+            name = "corenode_image" # Yes, this is hard-coded...
 
-        #node = self.GetNodeRegistry().CreateNode(self, name, pos, _id)
-         
-        #print(pos, "pos")
-            
         node = CreateNode(self, name, pos, _id)
         node_id = node.GetId()
         node.Draw(self._pdc)
