@@ -26,9 +26,6 @@ import math
 import wx
 
 from .wire import Wire
-#from GimelStudio.stylesheet import *
-
-from .wire import Wire
 
  
 class Socket(object):
@@ -120,7 +117,7 @@ class Socket(object):
             return True
 
 
-    def Connect(self, ng, dst_plug, render=True):
+    def Connect(self, ng, dst_plug, render=True, refresh=True):
         #print ('Connecting:', self.GetLabel(), '->', dst_plug.GetLabel())
          
         # Make the connection
@@ -151,9 +148,10 @@ class Socket(object):
         if render == True:
             ng.Render()
 
-        ng.RefreshGraph()
+        if refresh == True:
+            ng.RefreshGraph()
 
-    def Disconnect(self, ng, connected_node, render=True):
+    def Disconnect(self, ng, connected_node, render=True, refresh=True):
 
         #print(self.GetWires(), connected_node.GetNode().GetType())
         for wire in self.GetWires():
@@ -176,5 +174,6 @@ class Socket(object):
 
         if render == True:
             ng.Render()
-        
-        ng.RefreshGraph()
+
+        if refresh == True:
+            ng.RefreshGraph()
