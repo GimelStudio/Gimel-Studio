@@ -18,7 +18,7 @@ CONVERT #564B7C (Purple)
 [x]- To Bump Map
 [x]- To Roughness Map
 
-FILTERS #558333 (Green)
+FILTER #558333 (Green)
 [x]- Blur
 [x]- Sharpness
 [] - Denoise
@@ -45,5 +45,4 @@ DISTORT: #6B8B8B (Blue-Grey)
 
 OUTPUT: #B33641 (Red)
 [x] - Output Composite
-- OpenGL Viewer (only with OpenGL) ?
 
