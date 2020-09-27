@@ -262,13 +262,14 @@ class NodeBase(NodeObject):
         del self.NodeGraphMethods._nodes[self.GetId()]
         self.NodeGraphMethods.GetPDC().RemoveId(self.GetId()) 
 
+    # FIXME
     def NodeSetThumb(self, image, force_refresh=False):
         """ Update the thumbnail for this node.
 
         :param image: ``PIL Image`` to set as the thumbnail
         :param force_refresh: if True, updates will apply and everything will be refreshed right away regardless of whether the *Live Node Previews* setting is ticked or not.
         """
-        print("SET THUMB")
+        #print("SET THUMB")
         try:
             self.Model.UpdateThumbnail(image)
             live_update = self.NodeGraphMethods.GetLiveNodePreviewUpdate()
