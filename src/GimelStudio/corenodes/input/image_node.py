@@ -19,11 +19,14 @@ import os
 from PIL import Image
 
 from GimelStudio import api
+from GimelStudio.renderer import EvalInfo
 
 
 class ImageNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
+
+        self._cachedPath = ""
 
     @property
     def NodeMeta(self):
@@ -55,7 +58,6 @@ class ImageNode(api.NodeBase):
             btn_lbl="Choose...", 
             label="Image path:"
             )
-
         self.lbl_prop = api.LabelProp(
             idname="Meta Info",
             default="", 
@@ -66,8 +68,12 @@ class ImageNode(api.NodeBase):
         self.NodeAddProp(self.lbl_prop)
 
     def WidgetEventHook(self, idname, value):
+    #     pass
+        # import time 
+        # t = time.time()
         if idname == 'File Path':
-            img = Image.open(value) 
+            img = self.NodeEvaluation(EvalInfo(self)).GetImage() #Image.open(value) #
+
             info_string = "{}x{}px | {} | {}kB".format(
                 img.size[0], 
                 img.size[1],
@@ -79,16 +85,32 @@ class ImageNode(api.NodeBase):
 
             self.NodeSetThumb(img, force_refresh=True)
 
+        # print(">>>", time.time() - t)
+    
     def NodeEvaluation(self, eval_info):
         path = eval_info.EvaluateProperty('File Path')
         image = api.RenderImage()
 
-        if path != '':
-            try:
-                image.SetAsOpenedImage(path)
-                image.SetAsImage(image.GetImage().convert('RGBA'))
-            except FileNotFoundError:
-                pass
+        if path != "":
+            if self._cachedPath != path:
+                try:
+                    image.SetAsOpenedImage(path)
+                    img = image.GetImage().convert('RGBA')
+                    self._cachedPath = path
+                    self._cachedImage = img
+                    image.SetAsImage(img)
+                except FileNotFoundError:
+                    print("FILE NOT FOUND")
+            else:
+                image.SetAsImage(self._cachedImage)
+
+        # if path != '':
+        #     try:
+        #         image.SetAsOpenedImage(path)
+        #         image.SetAsImage(image.GetImage().convert('RGBA'))
+        #     except FileNotFoundError:
+        #         pass
+
         self.NodeSetThumb(image.GetImage())
         return image
 
