@@ -18,7 +18,9 @@
 ## PURPOSE: Main application class which ties all the elements into one window
 ## ----------------------------------------------------------------------------
 
-import os 
+import os
+import platform
+import subprocess
 import webbrowser
 
 import wx
@@ -562,6 +564,8 @@ class MainApplication(wx.Frame):
 
                 # FIXME: this is temporary
                 self._renderer.GetRender().save(path)
+
+                self.PopOpenExplorer(path)
  
                 notify = wx.adv.NotificationMessage(
                     title="Image Exported Sucessfully",
@@ -570,6 +574,19 @@ class MainApplication(wx.Frame):
                 notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
             
         dlg.Destroy()
+
+    def PopOpenExplorer(self, path):
+        """ Method for opening the path in the system's File Explorer or Image viewer. 
+        
+        Copied directly from:
+        https://stackoverflow.com/questions/6631299/python-opening-a-folder-in-explorer-nautilus-finder
+        """
+        if platform.system() == "Windows":
+            os.startfile(path)
+        elif platform.system() == "Darwin":
+            subprocess.Popen(["open", path])
+        else:
+            subprocess.Popen(["xdg-open", path])
 
     def OnToggleLiveNodePreviewUpdate(self, event):
         if self.livenodepreviewupdate_menuitem.IsChecked() == False:
