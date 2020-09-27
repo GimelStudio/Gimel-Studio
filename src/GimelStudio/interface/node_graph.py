@@ -237,7 +237,8 @@ class NodeGraph(wx.ScrolledCanvas):
                     dst.Disconnect(
                         self,
                         self._srcPlug,
-                        render=True
+                        render=True,
+                        refresh=False
                         )
 
                     # Create the temp wire again
@@ -343,7 +344,7 @@ class NodeGraph(wx.ScrolledCanvas):
             dstnode = self.NodeHitTest(winpnt)
 
             if dstnode != None:
-                rect = self._pdc.GetIdBounds(self._srcNode.GetId())
+                #rect = self._pdc.GetIdBounds(self._srcNode.GetId())
                 dstplug = dstnode.HitTest(winpnt.x, winpnt.y)
                 
                 # Make sure not to allow the same datatype or 
@@ -359,22 +360,29 @@ class NodeGraph(wx.ScrolledCanvas):
                         self._srcPlug.Connect(
                             self,
                             dstplug,
-                            render=True
+                            render=True,
+                            refresh=False
                             )
                         
                     # If there is already a connection,
-                    # but a wire is "dropped" into the plug
+                    # but a wire is "dropped" into the socket
                     # disconnect the last connection and
                     # connect the current wire.
                     else:
                         wires = dstplug.GetWires()
                         dst = wires[0].dstPlug
                         src = wires[0].srcPlug
-                        dst.Disconnect(self, src, render=False)
+                        dst.Disconnect(
+                            self, 
+                            src, 
+                            render=False, 
+                            refresh=False
+                            )
                         self._srcPlug.Connect(
                             self,
                             dstplug, 
-                            render=True
+                            render=True,
+                            refresh=False
                             )
  
         # We can erase the temp wire.
