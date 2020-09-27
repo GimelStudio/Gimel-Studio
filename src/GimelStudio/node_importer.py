@@ -22,19 +22,11 @@
 from GimelStudio.corenodes.input import (
                                         image_node,
                                         color_image_node,
-                                        #noise_image_node,
-                                        #gradient_image_node,
+                                        noise_image_node,
+                                        gradient_image_node,
                                         )
 
 #from GimelStudio.corenodes.draw import add_text_node
-
-from GimelStudio.corenodes.convert import (
-                                           to_normal_map_node,
-                                           to_bump_map_node,
-                                           to_roughness_map_node,
-                                           to_specular_map_node,
-                                           to_ao_map_node,
-                                           )
 
 from GimelStudio.corenodes.color import (
                                         #invert_node,
@@ -61,6 +53,14 @@ from GimelStudio.corenodes.filter import (
                                          sharpness_node,
                                          effect_spread_node,
                                          )
+
+from GimelStudio.corenodes.convert import (
+                                           to_normal_map_node,
+                                           to_bump_map_node,
+                                           to_roughness_map_node,
+                                           to_specular_map_node,
+                                           to_ao_map_node,
+                                           )
 
 from GimelStudio.corenodes.output import output_node
 
