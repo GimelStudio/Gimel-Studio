@@ -11,6 +11,8 @@ PLANNED FEATURES/FIXES, beta versions
 
 * INCLUDE ATTRIBUTION/LICENSES OF MODULES IN THE RELEASES (about dialog) [Medium priority]
 
+* Output node to have Export option in Property Panel
+
 * Print image (export to PDF, etc.) [Low priority]
 * Project templates (ready-made node setups for cropping an image, converting an image to PBR maps, etc) [Medium priority]
 
