@@ -261,6 +261,7 @@ class NodeBase(NodeObject):
         
         del self.NodeGraphMethods._nodes[self.GetId()]
         self.NodeGraphMethods.GetPDC().RemoveId(self.GetId()) 
+        self.NodeGraphMethods.RefreshGraph()
 
     # FIXME
     def NodeSetThumb(self, image, force_refresh=False):
