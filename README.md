@@ -56,6 +56,10 @@ Here is a little rundown of what the goals of this project are and what they are
 
 See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases.
 
+**A new v0.5.0 beta-tester, non-official build (for Windows 64-bit) is available <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases/tag/v0.5.0-pre-beta">here</a>**
+
+See below for getting a stable release build:
+
 
 # Releases
 
