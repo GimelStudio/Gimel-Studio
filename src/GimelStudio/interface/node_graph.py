@@ -25,11 +25,13 @@ import wx.adv
 from GimelStudio.utils import DrawGrid
 from GimelStudio.registry import CreateNode
 from GimelStudio.node import Wire
-from GimelStudio.interface.add_node_menu import AddNodeMenu
-
+from .add_node_menu import AddNodeMenu
+from .menu_button import MenuButton
+from GimelStudio.datafiles import *
 
 # Create IDs
 ID_SELECTION_BBOX = wx.NewIdRef()
+ID_MENU_BUTTON = wx.NewIdRef()
 
 # Max number of nodes that can be added to the menu is 200, currently
 CONTEXTMENU_ADDNODE_IDS = wx.NewIdRef(200)
@@ -41,6 +43,7 @@ ID_CONTEXTMENU_DESELECTALLNODES = wx.NewIdRef()
 ID_CONTEXTMENU_SELECTALLNODES = wx.NewIdRef() 
 
 ID_CONTEXTMENU = wx.NewIdRef()
+
 
 class NodeGraph(wx.ScrolledCanvas):
     def __init__(self, parent, size=wx.DefaultSize):
@@ -332,17 +335,23 @@ class NodeGraph(wx.ScrolledCanvas):
                 self._tmpWire.SetActive(True)
                 self.DrawNodeWire(self._pdc, self._tmpWire, pnt2=winpnt)
 
+
         # Refresh the nodegraph
         self.RefreshGraph()
 
 
     def OnLeftUp(self, event):
+        pnt = event.GetPosition()
+        winpnt = self.ConvertCoords(pnt)
+        
+        # Handle menu button
+        btn_region = wx.Region(self._menuButton.GetRect())
+        if btn_region.Contains(winpnt[0], winpnt[1]):
+            self.OnAddNodeMenu(event)
+
         # Attempt to make a connection
         if self._srcNode != None:
-            pnt = event.GetPosition()
-            winpnt = self.ConvertCoords(pnt)
             dstnode = self.NodeHitTest(winpnt)
-
             if dstnode != None:
                 #rect = self._pdc.GetIdBounds(self._srcNode.GetId())
                 dstplug = dstnode.HitTest(winpnt.x, winpnt.y)
@@ -539,9 +548,17 @@ class NodeGraph(wx.ScrolledCanvas):
 
         self.SetCursor(wx.Cursor(wx.CURSOR_SIZING))
 
+        # Hide the menubutton
+        self._menuButton.Draw(self._pdc, hide=True) 
+        self.RefreshGraph()
+
     def OnMiddleUp(self, event):
         """ Event that resets the mouse cursor. """
         self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
+
+        # Re-show the menubutton
+        self._menuButton.Draw(self._pdc) 
+        self.RefreshGraph()
 
     @property
     def NodePropertiesPanel(self):
@@ -754,3 +771,27 @@ class NodeGraph(wx.ScrolledCanvas):
         self._nodes[node_id] = node
         self.RefreshGraph()
         return node
+
+
+    def GetMenuButtonWidgetPos(self):
+        return self.ConvertCoords(wx.Point(0, 0)) 
+
+    def GetGraphDataTextPos(self):
+        return self.ConvertCoords(wx.Point(80, 8)) 
+
+    def InitMenuButton(self): 
+        
+        self._menuButton = MenuButton(
+            self, 
+            image=ICON_MENU_BUTTON.GetBitmap(), 
+            _id=ID_MENU_BUTTON
+            )
+        self._menuButton.Draw(self._pdc) 
+
+        # self._pdc.SetTextForeground(wx.Colour("#ccc"))
+        # self._pdc.DrawText(
+        #     "Node: Image", 
+        #     self.GetGraphDataTextPos()
+        #     )
+
+        self.RefreshGraph()

@@ -64,6 +64,8 @@ class MainApplication(wx.Frame):
         # Init everything
         self._InitApp()
 
+        self._nodeGraph.InitMenuButton()
+
         self._nodeGraph.AddNode("corenode_outputcomposite", 
          pos=wx.Point(5910, 5510))
 
@@ -510,6 +512,10 @@ class MainApplication(wx.Frame):
         #FIXME: move
         self._nodeRegistry = REGISTERED_NODES 
 
+        self.SetStatusText(
+            "Shift+A to add a node | Left click and drag on node to move node or on empty area to box select | Middle mouse button to pan graph"
+            )
+
         # Maximize the window & tell the AUI window 
         # manager to "commit" all the changes just made.
         self.Maximize()
@@ -657,7 +663,7 @@ class MainApplication(wx.Frame):
         self._nodeGraph.UpdateAllNodes()
 
         # The worker thread is done
-        self.worker = None
+        #self.worker = None
 
     def OnQuit(self, event):
         quitdialog = wx.MessageDialog(
