@@ -17,9 +17,9 @@
 ## AUTHOR(S): Noah Rahm
 ## PURPOSE: Defines the output node in an abstract way
 ##
-## This file includes code that was modified from imagegen 
-## (https://github.com/nfactorial/imagegen) which is licensed 
-## under the Apache License Version 2.0 
+## This file includes code that was modified from imagegen
+## (https://github.com/nfactorial/imagegen) which is licensed
+## under the Apache License Version 2.0
 ## Copyright 2016 nfactorial
 ## ----------------------------------------------------------------------------
 
@@ -32,12 +32,12 @@ class OutputNode(object):
         self.node = None
 
     def SetNode(self, node):
-        """ Set the node object connected to the output node 
+        """ Set the node object connected to the output node
         this class represents.
 
         :param node: output node object
         """
-        self.node = node.Parameters["Image"].binding 
+        self.node = node.Parameters["Image"].binding
 
     def RenderImage(self):
         """ Render the image for this output node. If the output

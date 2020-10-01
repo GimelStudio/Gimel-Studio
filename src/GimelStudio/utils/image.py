@@ -27,15 +27,15 @@ from numpy import (amin, amax, ravel, asarray, cast, arange, ones, newaxis,
 
 
 def ConvertImageToWx(image):
-    """ Converts the given ``PIL Image`` object into a 
-    ``wx.Bitmap`` with RGBA. 
+    """ Converts the given ``PIL Image`` object into a
+    ``wx.Bitmap`` with RGBA.
 
     :param image: ``PIL Image`` to convert
     :returns: ``wx.Bitmap``
     """
     bitmap = wx.Bitmap.FromBufferRGBA(
         image.size[0],
-        image.size[1], 
+        image.size[1],
         image.convert('RGBA').tobytes()
         )
     return bitmap
@@ -45,18 +45,18 @@ def IsFPExt(path, extentions):
     """ Returns whether the file in the filepath is in the extension/type list given.
     :param path str: file path
     :param extentions list: extension/type list
-    :returns boolean: 
+    :returns boolean:
     """
     is_ext = False
     for ext in extentions:
         if path.endswith(ext):
             is_ext = True
     return is_ext
- 
+
 
 def GetFileExt(path, add_dot=False):
     """ Returns the filetype extension from the given file path.
-    
+
     :param str path: file path
     :param boolean add_dot: whether to append a period/dot to the returned extension
     :returns str: filetype extension (e.g: png)
@@ -68,8 +68,8 @@ def GetFileExt(path, add_dot=False):
     else:
         return ext[0]
 
- 
-def ExportRenderedImageToFile(rendered_image, export_path, 
+
+def ExportRenderedImageToFile(rendered_image, export_path,
                             quality=75, optimize=False, export_for_web=False):
     """ Smooths out the various export options for exporting images and
     exports the image to the given file path.
@@ -77,15 +77,15 @@ def ExportRenderedImageToFile(rendered_image, export_path,
     from the Pillow docs:
 
         quality
-        The image quality, on a scale from 0 (worst) to 95 (best). The default is 75. 
-        Values above 95 should be avoided; 100 disables portions of the JPEG 
-        compression algorithm, and results in large files with hardly any gain 
-        in image quality. 
-        
+        The image quality, on a scale from 0 (worst) to 95 (best). The default is 75.
+        Values above 95 should be avoided; 100 disables portions of the JPEG
+        compression algorithm, and results in large files with hardly any gain
+        in image quality.
+
         ^NOTE: For this reason, the "quality" slider value only has a range 0-95
 
         optimize
-        If present and true, indicates that the encoder should make an extra pass 
+        If present and true, indicates that the encoder should make an extra pass
         over the image in order to select optimal encoder settings.
 
     :param rendered_image: ``PIL Image`` object to be exported
@@ -105,9 +105,9 @@ def ExportRenderedImageToFile(rendered_image, export_path,
         # PNG specific
         if IsFPExt(export_path, [".png"]):
             bits = 6 # How much should this be lowered??
-            compress_level = 7 
+            compress_level = 7
 
-    # Make sure JPG, JPEG, PCX, EPS files get saved as RGB mode  
+    # Make sure JPG, JPEG, PCX, EPS files get saved as RGB mode
     if IsFPExt(export_path, [".jpg", ".jpeg", ".pcx", ".eps"]):
         rendered_image = rendered_image.convert("RGB")
 
@@ -117,22 +117,22 @@ def ExportRenderedImageToFile(rendered_image, export_path,
 
     # TIFF doesn't have a quality param
     if IsFPExt(export_path, [".tiff"]):
-        rendered_image.save(fp=export_path, optimize=optimize, bits=bits, 
+        rendered_image.save(fp=export_path, optimize=optimize, bits=bits,
                             compress_level=compress_level)
     else:
-        rendered_image.save(fp=export_path, quality=quality, optimize=optimize, 
+        rendered_image.save(fp=export_path, quality=quality, optimize=optimize,
                             bits=bits, compress_level=compress_level)
 
 
 
 
 # -------------------------------------------------------------
-# Below functions are from taken from scipy 0.15.0 
+# Below functions are from taken from scipy 0.15.0
 # (scipy.misc.pilutil.py) to support converting from
 # np arrays to PIL image and vice-versa.
 # -------------------------------------------------------------
 # TODO: These don't need to be here. Should be using PIL as these
-# are depreciated! 
+# are depreciated!
 
 # Returns a byte-scaled image
 def bytescale(data, cmin=None, cmax=None, high=255, low=0):

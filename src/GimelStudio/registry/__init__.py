@@ -1,5 +1,5 @@
 from .node_registry import (
-    RegisterNode, 
-    CreateNode, 
+    RegisterNode,
+    CreateNode,
     REGISTERED_NODES,
 )

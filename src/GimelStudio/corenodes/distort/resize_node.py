@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,12 +20,12 @@ import os
 import wx
 from PIL import Image
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
+from GimelStudio.api import (Color, RenderImage, List, NodeBase,
                             Parameter, Property, RegisterNode)
 
-  
+
 class NodeDefinition(NodeBase):
-    
+
     @property
     def NodeIDName(self):
         return "gimelstudiocorenode_resize"
@@ -40,15 +40,15 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeDescription(self):
-        return "Resizes the image dimensions." 
+        return "Resizes the image dimensions."
 
     @property
     def NodeVersion(self):
-        return "1.2" 
+        return "1.2"
 
     @property
     def NodeAuthor(self):
-        return "Correct Syntax Software" 
+        return "Correct Syntax Software"
 
     @property
     def NodeProperties(self):
@@ -65,7 +65,7 @@ class NodeDefinition(NodeBase):
                     'LANCZOS'
                     ], 'NEAREST')
                 ),
-                
+
             Property('Size',
                 prop_type='REGLIST',
                 value=[256, 256]
@@ -90,8 +90,8 @@ class NodeDefinition(NodeBase):
         sizer.Add(resample_label, border=5)
 
         self.resample_combobox = wx.ComboBox(
-            parent, wx.ID_ANY, 
-            value=current_resample_value, 
+            parent, wx.ID_ANY,
+            value=current_resample_value,
             choices=[
                     'NEAREST',
                     'ANTIALIAS',
@@ -100,9 +100,9 @@ class NodeDefinition(NodeBase):
                     'HAMMING',
                     'BICUBIC',
                     'LANCZOS'
-                    ], 
+                    ],
             style=wx.CB_READONLY
-            ) 
+            )
         sizer.Add(self.resample_combobox, flag=wx.EXPAND|wx.ALL, border=5)
 
         # X Size
@@ -112,7 +112,7 @@ class NodeDefinition(NodeBase):
         sizer.Add(xsize_label, flag=wx.TOP, border=5)
 
         self.xsize_spinctrl = wx.SpinCtrl(
-            parent, id=wx.ID_ANY, 
+            parent, id=wx.ID_ANY,
             min=1, max=8000,
             initial=int(current_x_value)
             )
@@ -127,7 +127,7 @@ class NodeDefinition(NodeBase):
         sizer.Add(ysize_label, flag=wx.TOP, border=5)
 
         self.ysize_spinctrl = wx.SpinCtrl(
-            parent, id=wx.ID_ANY, 
+            parent, id=wx.ID_ANY,
             min=1, max=8000,
             initial=int(current_y_value)
             )
@@ -159,7 +159,7 @@ class NodeDefinition(NodeBase):
         if not value:
             return
         self.NodePropertiesUpdate('Resample', value)
-    
+
 
     def NodeEvaluation(self, eval_info):
         image1 = eval_info.EvaluateParameter('Image')
@@ -185,8 +185,8 @@ class NodeDefinition(NodeBase):
         elif resample == 'LANCZOS':
             RESIZE_RESAMPLE = Image.LANCZOS
 
-        else: 
-            RESIZE_RESAMPLE = Image.NEAREST 
+        else:
+            RESIZE_RESAMPLE = Image.NEAREST
 
         image = RenderImage()
         image.SetAsImage(
@@ -196,5 +196,5 @@ class NodeDefinition(NodeBase):
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
+
 RegisterNode(NodeDefinition)

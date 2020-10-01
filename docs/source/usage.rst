@@ -19,7 +19,7 @@ This panel is where the final result, the rendered "composite" image, will be sh
 Node Graph
 ^^^^^^^^^^
 
-The Node Graph panel is where you add and connect nodes, etc. to create a node tree. Nodes are connected in the desired order to produce a rendered "composite" image with the effects and manipulations applied when connected to the final node in the node tree, the Output Node. 
+The Node Graph panel is where you add and connect nodes, etc. to create a node tree. Nodes are connected in the desired order to produce a rendered "composite" image with the effects and manipulations applied when connected to the final node in the node tree, the Output Node.
 
 
 Node Properties

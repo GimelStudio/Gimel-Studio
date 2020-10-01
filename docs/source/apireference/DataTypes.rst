@@ -5,10 +5,10 @@
 Data Types
 ==========
 
-Data-type classes for handling data in Gimel Studio. 
+Data-type classes for handling data in Gimel Studio.
 
 Use when creating a node, like so:
-    
+
 .. code-block:: python
 
     from GimelStudio import api
@@ -23,7 +23,7 @@ Use when creating a node, like so:
     def NodeEvaluation(self, eval_info):
         ...
 
-        image = api.RenderImage() 
+        image = api.RenderImage()
         # do something to the image and set it with SetAsImage
         image.SetAsImage(img)
 

@@ -26,7 +26,7 @@ PLANNED FEATURES/FIXES, beta versions
   * "to normal map" node - resize auto if image is bigger than req size (otherwise there is a memory issue)
 
 * File opening and saving (including error handling)
-  * Error handing for node versions, support, etc. 
+  * Error handing for node versions, support, etc.
   * Support opening old/new files with new/old software versions?
 
 * Renderer and Nodes

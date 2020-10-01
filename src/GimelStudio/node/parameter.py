@@ -51,4 +51,3 @@ class RenderImageParam(Parameter):
 
     def SetValue(self, value):
         self.value = value
- 

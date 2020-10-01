@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,21 +40,21 @@ class GradientImageNode(api.NodeBase):
 
     def NodeInitProps(self):
         self.color1_prop = api.ColorProp(
-            idname="Color 1", 
-            default=(0, 0, 0, 255), 
+            idname="Color 1",
+            default=(0, 0, 0, 255),
             label="Gradient Color 1:"
-            ) 
+            )
         self.color2_prop = api.ColorProp(
-            idname="Color 2", 
-            default=(255, 255, 255, 255), 
+            idname="Color 2",
+            default=(255, 255, 255, 255),
             label="Gradient Color 2:"
-            ) 
+            )
         self.size_prop = api.SizeProp(
             idname="Size",
-            default=[255, 255], 
+            default=[255, 255],
             label="Image Size:"
             )
- 
+
         self.NodeAddProp(self.color1_prop)
         self.NodeAddProp(self.color2_prop)
         self.NodeAddProp(self.size_prop)
@@ -86,5 +86,5 @@ class GradientImageNode(api.NodeBase):
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
+
 api.RegisterNode(GradientImageNode, "corenode_gradientimage")

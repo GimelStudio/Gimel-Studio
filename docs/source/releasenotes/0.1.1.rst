@@ -7,12 +7,12 @@ General
 -------
 
  * Moved public releases to https://correctsyntax.com/projects/gimel-studio/
- 
+
 
 Performance optimizations
 -------------------------
 
- * Huge improvements to the Node Registry & Image Viewport 
+ * Huge improvements to the Node Registry & Image Viewport
  * Node Registry is now custom-drawn
  * Image Viewport auto-resizes and has "modes"
 

@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,8 +38,8 @@ class MixNode(api.NodeBase):
 
     def NodeInitProps(self):
         p = api.ChoiceProp(
-            idname="Blend Mode", 
-            default="MULTIPLY", 
+            idname="Blend Mode",
+            default="MULTIPLY",
             label="Blend Mode:",
             choices=[
                     'ADD',
@@ -71,7 +71,7 @@ class MixNode(api.NodeBase):
         image2 = eval_info.EvaluateParameter('Overlay')
         blendmode = eval_info.EvaluateProperty('Blend Mode')
 
-        image = api.RenderImage() 
+        image = api.RenderImage()
         main_image = image1.GetImage()
         layer_image = ImageOps.fit(image2.GetImage(), main_image.size)
 
@@ -95,7 +95,7 @@ class MixNode(api.NodeBase):
 
         elif blendmode == 'DIFFERENCE':
             img = ImageChops.difference(main_image, layer_image)
-            
+
         elif blendmode == 'DARKER':
             img = ImageChops.darker(main_image, layer_image)
 

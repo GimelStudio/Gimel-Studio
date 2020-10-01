@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,14 +19,14 @@ import cv2
 import wx
 from PIL import Image
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
+from GimelStudio.api import (Color, RenderImage, List, NodeBase,
                             Parameter, Property, RegisterNode)
 
 from GimelStudio.utils.image import ArrayFromImage, ArrayToImage
 
-  
+
 class NodeDefinition(NodeBase):
-    
+
     @property
     def NodeIDName(self):
         return "gimelstudiocorenode_invert"
@@ -41,15 +41,15 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeDescription(self):
-        return "Inverts the channels of an image." 
+        return "Inverts the channels of an image."
 
     @property
     def NodeVersion(self):
-        return "1.0" 
+        return "1.0"
 
     @property
     def NodeAuthor(self):
-        return "Correct Syntax Software" 
+        return "Correct Syntax Software"
 
     @property
     def NodeParameters(self):
@@ -68,5 +68,5 @@ class NodeDefinition(NodeBase):
         self.NodeSetThumb(image.GetImage())
         return image
 
-  
+
 RegisterNode(NodeDefinition)

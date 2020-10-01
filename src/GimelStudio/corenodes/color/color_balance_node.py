@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ from PIL import ImageEnhance
 
 from GimelStudio import api
 
-  
+
 class ColorBalanceNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
@@ -38,10 +38,10 @@ class ColorBalanceNode(api.NodeBase):
 
     def NodeInitProps(self):
         p = api.PositiveIntegerProp(
-            idname="Amount", 
-            default=1, 
-            min_val=1, 
-            max_val=25, 
+            idname="Amount",
+            default=1,
+            min_val=1,
+            max_val=25,
             widget=api.SLIDER_WIDGET,
             label="Amount:",
             )

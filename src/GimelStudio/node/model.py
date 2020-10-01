@@ -18,7 +18,7 @@
 ## PURPOSE: Define the model for the node
 ## ----------------------------------------------------------------------------
 
-import math 
+import math
 
 import wx
 from wx.lib.embeddedimage import PyEmbeddedImage
@@ -42,7 +42,7 @@ STYLE_NODES_COLOR_DICT = {
     "DEFAULT": "#975B5B" # Burgendy
 }
 
- 
+
 class NodeModel(object):
     """ Holds the data for the node. The intention is that this class
     will be THE one that you can know has the latest, updated data.
@@ -71,9 +71,9 @@ class NodeModel(object):
         self._lastCoords = 0
 
         # Default thumbnail is a transparent 256x256 image
-        self._thumbImage = Image.new('RGBA', (256, 256), (0, 0, 0, 1))  
+        self._thumbImage = Image.new('RGBA', (256, 256), (0, 0, 0, 1))
         self._thumbCache = None
-        
+
         self._properties = {}
         self._parameters = {}
 
@@ -89,7 +89,7 @@ class NodeModel(object):
     def AddParameter(self, param):
         self._parameters[param.IdName] = param
         return self._parameters
- 
+
     def EditProperty(self, idname, value, render=True):
         prop = self._properties[idname]
         prop.SetValue(value, render)
@@ -136,7 +136,7 @@ class NodeModel(object):
 
     def SetCategory(self, category):
         self._category = category
- 
+
     def GetNodeHeaderColor(self):
         if self._category in STYLE_NODES_COLOR_DICT.keys():
             return STYLE_NODES_COLOR_DICT[self._category]
@@ -194,7 +194,7 @@ class NodeModel(object):
 
     def SetSize(self, size):
         self._size = size
- 
+
     def GetPosition(self):
         return self._position
 
@@ -243,7 +243,7 @@ class NodeModel(object):
     def UpdateThumbnail(self, image):
         """ Update the thumbnail. This saves the thumb image and creates
         a thumbnail in the cache.
-        
+
         :param image: PIL Image
         """
         self.SetThumbImage(image)
@@ -254,7 +254,7 @@ class NodeModel(object):
     def CreateThumbnail(self, image):
         """ Create a thumbnail sized to the correct dimensions for display
         as the node thumbnail.
-        
+
         :param image: PIL Image
         :returns: PIL Image sized to the correct dimensions
         """
@@ -263,9 +263,9 @@ class NodeModel(object):
         return thumb
 
     def CalcNewSize(self, thumb_height, set_size=True, border=20):
-        """ Calculate the new size of the node based on the current 
+        """ Calculate the new size of the node based on the current
         thumbnail and border, then sets it if `set_size` param is true.
-        
+
         :param thumb_height: height of the current thumb image
         :param set_size: whether to set the node to the calculated dimensions
         :param border: border (in pixels) to be placed above and below thumb image
@@ -277,7 +277,7 @@ class NodeModel(object):
         if set_size == True:
             self.SetSize(size)
         return size
- 
+
     def FormatVersionStr(self, string):
         return "v{}.{}.{}".format(string[0], string[1], string[2])
 
@@ -287,7 +287,7 @@ class NodeModel(object):
         :param x: x coord
         :param y: y coord
         """
- 
+
         # Handle socket hittest
         for socket in self.GetSockets():
             if socket.HitTest(wx.Point(x, y) - self.GetPosition()):
@@ -297,12 +297,12 @@ class NodeModel(object):
         """ Sets the correct sockets based on the node. """
 
         sockets = []
-         
+
         ins = []
         for param in self.GetParameters():
             ins.append((param, "RENDERIMAGE"))
 
-        outs = [] 
+        outs = []
         if self.IsOutputNode() != True:
             outs = [('Output', "RENDERIMAGE")]
 

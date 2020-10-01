@@ -23,7 +23,7 @@ from GimelStudio.utils import exceptions
 
 REGISTERED_NODES = {}
 
- 
+
 def RegisterNode(node, idname=""):
     """ Attempts to register a new node with the Node Registry.
 
@@ -40,7 +40,7 @@ def RegisterNode(node, idname=""):
 
 
 def CreateNode(parent, node_type, position, wx_id):
-    """ Create an instance of a node associated with the specified name. 
+    """ Create an instance of a node associated with the specified name.
 
     :param parent: parent of the node object (usually a wx.Window)
     :param node_type: type of node from registry - the IDName
@@ -51,7 +51,7 @@ def CreateNode(parent, node_type, position, wx_id):
     :raises: NodeNotFoundError if the node is not registered in the Node Registry
     """
     if node_type in REGISTERED_NODES:
-        # Initialize the base class here so that a new instance 
+        # Initialize the base class here so that a new instance
         # is created for each node. We also set some important
         # values for the position and type of the node.
         node = REGISTERED_NODES[node_type]

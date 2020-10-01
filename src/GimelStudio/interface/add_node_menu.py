@@ -61,7 +61,7 @@ class NodesVListBox(wx.VListBox):
             selection = self.NodeRegistryMap[self.GetSelection()]
             data = wx.TextDataObject()
             data.SetText(selection)
- 
+
             dropSource = wx.DropSource(self)
             dropSource.SetData(data)
             result = dropSource.DoDragDrop()
@@ -101,9 +101,9 @@ class NodesVListBox(wx.VListBox):
                      alignment=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL)
 
 
-    def OnMeasureItem(self, n): 
+    def OnMeasureItem(self, n):
         """ Returns the height required to draw the n'th item. """
-        height = 0 
+        height = 0
         for line in self._GetItemText(n).split('\n'):
             w, h = self.GetTextExtent(line)
             height += h
@@ -120,15 +120,15 @@ class NodesVListBox(wx.VListBox):
                 color = wx.Colour("#6D6F6E")
             else:
                 color = wx.Colour("#838383")
-                
+
         dc.SetPen(wx.TRANSPARENT_PEN)
         dc.SetBrush(wx.Brush(color, wx.SOLID))
         dc.DrawRectangle(rect)
 
 
     def SearchNodeRegistry(self, node_label, search_string):
-        """ Returns whether or not the search string is in 
-        the label text or not. 
+        """ Returns whether or not the search string is in
+        the label text or not.
         """
         label = node_label.lower()
         if search_string in label:
@@ -139,8 +139,8 @@ class NodesVListBox(wx.VListBox):
     def UpdateForSearch(self, search_string):
         """ Updates the listbox based on the search string. """
         # Reset mapping var
-        self._parent._nodeRegistryMapping = {} 
-        
+        self._parent._nodeRegistryMapping = {}
+
         i = 0
         for item in self.NodeRegistry:
             if item != "corenode_outputcomposite":
@@ -162,7 +162,7 @@ class NodesVListBox(wx.VListBox):
 
 
 
-class AddNodeMenu(wx.PopupTransientWindow): 
+class AddNodeMenu(wx.PopupTransientWindow):
     def __init__(self, parent, node_registry, size, style=wx.BORDER_NONE):
         wx.PopupTransientWindow.__init__(self, parent, style)
 
@@ -188,11 +188,11 @@ class AddNodeMenu(wx.PopupTransientWindow):
         main_sizer = wx.BoxSizer(wx.VERTICAL)
 
         # Label
-        main_sizer.AddSpacer(5) 
+        main_sizer.AddSpacer(5)
         header_lbl = wx.StaticText(self, wx.ID_ANY, "Add Node from Registry")
         header_lbl.SetForegroundColour(wx.Colour("#fff"))
         #header_lbl.SetFont(self.GetFont().MakeBold())
-        main_sizer.Add(header_lbl,  flag=wx.EXPAND|wx.ALL, border=5) 
+        main_sizer.Add(header_lbl,  flag=wx.EXPAND|wx.ALL, border=5)
         main_sizer.AddSpacer(5)
 
         # Search bar
@@ -211,8 +211,8 @@ class AddNodeMenu(wx.PopupTransientWindow):
 
         # Nodes list box
         self.nodes_listbox = NodesVListBox(
-            self, 
-            size=self._size, 
+            self,
+            size=self._size,
             style=wx.BORDER_SIMPLE
             )
         self.nodes_listbox.SetItemCount(
@@ -235,13 +235,13 @@ class AddNodeMenu(wx.PopupTransientWindow):
         """ Get the Node Graph. """
         return self._parent
 
-    def OnDoSearch(self, event): 
+    def OnDoSearch(self, event):
         """ Event handler for when something is typed into the search bar, etc. """
         self.nodes_listbox.UpdateForSearch(event.GetString())
 
     def OnDClickSelectItem(self, event):
-        """ Event handler for a double-click listbox selection. 
-        This also Adds the selected node to Node Graph. 
+        """ Event handler for a double-click listbox selection.
+        This also Adds the selected node to Node Graph.
         """
         sel = self._nodeRegistryMapping[event.GetInt()]
         coords = self.NodeGraph.ConvertCoords(
@@ -252,7 +252,7 @@ class AddNodeMenu(wx.PopupTransientWindow):
         self.NodeGraph.RefreshGraph()
 
     def OnClickSelectItem(self, event):
-        """ Event handler for a single click listbox selection. 
+        """ Event handler for a single click listbox selection.
         This merely updates the statusbar text.
         """
         sel = self._nodeRegistryMapping[event.GetInt()]

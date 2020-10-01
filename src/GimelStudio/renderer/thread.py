@@ -49,7 +49,7 @@ class RenderThread(Thread):
 
     def run(self):
         """ Run the worker thread """
-        # Code executing in the new thread. 
+        # Code executing in the new thread.
         render_image = self._parent._renderer.Render(self._parent._nodeGraph.GetNodes())
 
         # The result returned

@@ -44,15 +44,15 @@ class NodePropertyPanel(wx.Panel):
 
     def UpdatePanelContents(self, selected_node):
         self._mainSizer.Clear(delete_windows=True)
- 
+
         if selected_node != None:
 
             self.panel_staticbox = wx.StaticBox(
-                self, id=wx.ID_ANY, 
-                label=selected_node.GetLabel(), 
+                self, id=wx.ID_ANY,
+                label=selected_node.GetLabel(),
                 size=wx.Size(self.Size[0], self.Size[1])
                 )
-  
+
             # This gets the recommended amount of border space to use for items
             # within in the static box for the current platform.
             top_bd, other_bd = self.panel_staticbox.GetBordersForSizer()
@@ -61,7 +61,7 @@ class NodePropertyPanel(wx.Panel):
             staticbox_sizer.AddSpacer(top_bd)
 
             inner_sizer = wx.BoxSizer(wx.VERTICAL)
- 
+
             flagsExpand = wx.SizerFlags(1)
             flagsExpand.Expand().Border(wx.ALL, 18)
             staticbox_sizer.Add(inner_sizer, flagsExpand)

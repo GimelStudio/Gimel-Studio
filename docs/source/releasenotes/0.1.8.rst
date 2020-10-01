@@ -11,7 +11,7 @@ General
 
 Nodes
 -----
-   
+
  * Combined 3 old nodes into the new Mix node
  * Added 5 new nodes
  * Node thumbnail images are now cached for better nodegraph performance

@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,12 +21,12 @@ import wx
 import wx.lib.agw.cubecolourdialog as CCD
 from PIL import Image
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase, 
+from GimelStudio.api import (Color, RenderImage, List, NodeBase,
                             Parameter, Property, RegisterNode)
 
-  
+
 class NodeDefinition(NodeBase):
-    
+
     @property
     def NodeIDName(self):
         return "gimelstudiocorenode_rotate"
@@ -41,15 +41,15 @@ class NodeDefinition(NodeBase):
 
     @property
     def NodeDescription(self):
-        return "Rotates the image." 
+        return "Rotates the image."
 
     @property
     def NodeVersion(self):
-        return "1.1" 
+        return "1.1"
 
     @property
     def NodeAuthor(self):
-        return "Correct Syntax Software" 
+        return "Correct Syntax Software"
 
     @property
     def NodeProperties(self):
@@ -97,12 +97,12 @@ class NodeDefinition(NodeBase):
 
         # Angle
         current_angle_value = self.NodeGetPropValue('Angle')
- 
+
         angle_label = wx.StaticText(parent, label="Angle:")
         sizer.Add(angle_label, flag=wx.TOP, border=5)
 
         self.angle_slider = wx.Slider(
-            parent, wx.ID_ANY, 
+            parent, wx.ID_ANY,
             value=current_angle_value,
             minValue=1, maxValue=360,
             style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
@@ -119,15 +119,15 @@ class NodeDefinition(NodeBase):
         sizer.Add(resample_label, flag=wx.TOP, border=5)
 
         self.resample_combobox = wx.ComboBox(
-            parent, wx.ID_ANY, 
-            value=current_resample_value, 
+            parent, wx.ID_ANY,
+            value=current_resample_value,
             choices=[
                     'NEAREST',
                     'BILINEAR',
                     'BICUBIC',
-                    ], 
+                    ],
             style=wx.CB_READONLY
-            ) 
+            )
         sizer.Add(self.resample_combobox, flag=wx.EXPAND|wx.ALL, border=5)
 
 
@@ -182,7 +182,7 @@ class NodeDefinition(NodeBase):
 
     def OnExpandChange(self, event):
         self.NodePropertiesUpdate('Expand', event.IsChecked())
-    
+
     def OnFillColorChange(self, event):
         self.colordialog = CCD.CubeColourDialog(self.parent, self.fillcolordata)
         if self.colordialog.ShowModal() == wx.ID_OK:
@@ -201,7 +201,7 @@ class NodeDefinition(NodeBase):
                                                 colordata.Blue(),
                                                 colordata.Alpha()
                                                 )))
-    
+
     def NodeEvaluation(self, eval_info):
         image1 = eval_info.EvaluateParameter('Image')
         resample = eval_info.EvaluateProperty('Resample')
@@ -218,8 +218,8 @@ class NodeDefinition(NodeBase):
         elif resample == 'LANCZOS':
             RESAMPLE_VALUE = Image.LANCZOS
 
-        else: 
-            RESAMPLE_VALUE = Image.NEAREST 
+        else:
+            RESAMPLE_VALUE = Image.NEAREST
 
         image = RenderImage()
         rotated_img = image1.GetImage().rotate(
@@ -232,5 +232,5 @@ class NodeDefinition(NodeBase):
         self.NodeSetThumb(image.GetImage())
         return image
 
- 
+
 RegisterNode(NodeDefinition)

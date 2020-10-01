@@ -41,9 +41,9 @@ class ViewerImage(object):
         self._id = _id
 
         self._rect = wx.Rect(
-            self._pos.x, 
-            self._pos.y, 
-            self._image.Width, 
+            self._pos.x,
+            self._pos.y,
+            self._image.Width,
             self._image.Height
             )
 
@@ -102,7 +102,7 @@ class ImageViewport(wx.Panel):
         self._renderTime = 0.00
 
         default_img = utils.ConvertImageToWx(Image.new('RGBA', (256, 256)))
-        self._viewportImage = ViewerImage(self, image=default_img,  _id=ID_IMAGE) 
+        self._viewportImage = ViewerImage(self, image=default_img,  _id=ID_IMAGE)
         self._imageCopy = self._viewportImage.GetImage()
 
         self.Bind(wx.EVT_PAINT, self.OnPaint)
@@ -160,15 +160,15 @@ class ImageViewport(wx.Panel):
         code = event.GetKeyCode()
 
         # plus (+)
-        if code == wx.WXK_NUMPAD_ADD: 
+        if code == wx.WXK_NUMPAD_ADD:
             if self.zoomValue < 2.5:
                 self.zoomValue += 0.05
-            
+
         # minus (-)
-        elif code == wx.WXK_NUMPAD_SUBTRACT: 
+        elif code == wx.WXK_NUMPAD_SUBTRACT:
             if self.zoomValue > 0.05:
                 self.zoomValue -= 0.05
-                
+
         self.ZoomImage()
 
 
@@ -215,14 +215,14 @@ class ImageViewport(wx.Panel):
             image.Height*self.zoomValue,
             wx.IMAGE_QUALITY_NEAREST
             )
-            
+
         img = wx.Bitmap(image)
         self._viewportImage.SetImage(img)
 
         self._viewportImage.SetPosition(
             (self.Size[0] - image.Width)/2.0,
             (self.Size[1] - image.Height)/2.0
-            ) 
+            )
 
         self._viewportImage.Draw(self._pdc)
         self.RefreshViewer()
@@ -236,9 +236,9 @@ class ImageViewport(wx.Panel):
         self._pdc.SetId(ID_INFOTEXT)
         self._pdc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 120)))
         self._pdc.DrawRectangle(0, 0, self.Size[0], 26)
-        
+
         text = 'Render Finished in {0} sec. | Zoom: {1}%'.format(
-            self._renderTime, 
+            self._renderTime,
             round(self.zoomValue*100)
             )
         self._pdc.SetTextForeground(wx.Colour('white'))
@@ -252,7 +252,7 @@ class ImageViewport(wx.Panel):
             self._pdc.SetId(ID_INFOTEXT)
             self._pdc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 120)))
             self._pdc.DrawRectangle(0, 0, self.Size[0], 26)
-        
+
             self._pdc.SetTextForeground(wx.Colour('white'))
             self._pdc.DrawText('Rendering Image...', 22, 2)
             self.RefreshViewer()
@@ -280,8 +280,8 @@ class ImageViewport(wx.Panel):
 
 
     def RefreshViewer(self):
-        """ Refresh the Image Viewport. Call to update 
-        everything after DC drawing. 
+        """ Refresh the Image Viewport. Call to update
+        everything after DC drawing.
         """
         rect = wx.Rect(0, 0, self.Size[0], self.Size[1])
         self.RefreshRect(rect, False)

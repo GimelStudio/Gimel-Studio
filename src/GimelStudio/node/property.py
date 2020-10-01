@@ -18,7 +18,7 @@
 ## PURPOSE: Define the base node property class and specific property types
 ## ----------------------------------------------------------------------------
 
-import os 
+import os
 
 import wx
 from wx.lib import buttons
@@ -43,7 +43,7 @@ class Property(object):
     @property
     def IdName(self): #name
         return self.idname
- 
+
     def GetIdname(self):
         return self.idname
 
@@ -51,7 +51,7 @@ class Property(object):
         return self.value
 
     def SetValue(self, value, render=True):
-        """ Set the value of the node property. 
+        """ Set the value of the node property.
 
         NOTE: This is only to be used to AFTER the node init.
         Use ``self.EditProperty`` for other cases, instead.
@@ -78,7 +78,7 @@ class Property(object):
 
 class PositiveIntegerProp(Property):
     """ Allows the user to select a positive integer. """
-    def __init__(self, idname, default=0, min_val=0, 
+    def __init__(self, idname, default=0, min_val=0,
                 max_val=10, widget="slider", label="", visible=True):
         Property.__init__(self, idname, default, label, visible)
         self.min_value = min_val
@@ -109,35 +109,35 @@ class PositiveIntegerProp(Property):
 
         if self.widget == "slider":
             self.slider = wx.Slider(
-                parent, 
-                id=wx.ID_ANY, 
+                parent,
+                id=wx.ID_ANY,
                 value=self.GetValue(),
-                minValue=self.GetMinValue(), 
+                minValue=self.GetMinValue(),
                 maxValue=self.GetMaxValue(),
                 style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
                 )
             self.slider.SetTickFreq(10)
             sizer.Add(self.slider, flag=wx.EXPAND|wx.ALL, border=5)
             self.slider.Bind(
-                wx.EVT_SCROLL_THUMBRELEASE, 
+                wx.EVT_SCROLL_THUMBRELEASE,
                 self.WidgetEvent
                 )
 
         elif self.widget == "spinbox":
             self.spinbox = wx.SpinCtrl(
-                parent, 
-                id=wx.ID_ANY, 
-                min=self.GetMinValue(), 
+                parent,
+                id=wx.ID_ANY,
+                min=self.GetMinValue(),
                 max=self.GetMaxValue(),
                 initial=self.GetValue()
                 )
             sizer.Add(self.spinbox, flag=wx.ALL|wx.EXPAND, border=5)
             self.spinbox.Bind(
-                wx.EVT_SPINCTRL, 
+                wx.EVT_SPINCTRL,
                 self.WidgetEvent
                 )
             self.spinbox.Bind(
-                wx.EVT_TEXT, 
+                wx.EVT_TEXT,
                 self.WidgetEvent
                 )
 
@@ -170,14 +170,14 @@ class ChoiceProp(Property):
 
         self.combobox = wx.ComboBox(
             parent,
-            id=wx.ID_ANY, 
-            value=self.GetValue(), 
-            choices=self.GetChoices(), 
+            id=wx.ID_ANY,
+            value=self.GetValue(),
+            choices=self.GetChoices(),
             style=wx.CB_READONLY
-            ) 
+            )
         sizer.Add(self.combobox, flag=wx.EXPAND|wx.ALL, border=5)
         self.combobox.Bind(
-            wx.EVT_COMBOBOX, 
+            wx.EVT_COMBOBOX,
             self.WidgetEvent
             )
 
@@ -190,7 +190,7 @@ class ChoiceProp(Property):
 
 class BooleanProp(Property):
     """ Allows the user to select a True or False value. """
-    def __init__(self, idname, default=False, cb_label="Boolean", 
+    def __init__(self, idname, default=False, cb_label="Boolean",
                 label="", visible=True):
         Property.__init__(self, idname, default, label, visible)
         self.cb_label = cb_label
@@ -205,20 +205,20 @@ class BooleanProp(Property):
         sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
 
         self.checkbox = wx.CheckBox(
-            parent, 
-            id=wx.ID_ANY, 
+            parent,
+            id=wx.ID_ANY,
             label=self.GetCBLabel()
             )
         self.checkbox.SetValue(self.GetValue())
         sizer.Add(self.checkbox, flag=wx.EXPAND|wx.ALL, border=5)
         self.checkbox.Bind(
-            wx.EVT_CHECKBOX, 
+            wx.EVT_CHECKBOX,
             self.WidgetEvent
             )
 
     def WidgetEvent(self, event):
         self.SetValue(event.IsChecked())
- 
+
 
 class ColorProp(Property):
     """ Allows the user to select an RGBA color. """
@@ -230,7 +230,7 @@ class ColorProp(Property):
     def _RunErrorCheck(self):
         if len(self.value) < 4 or type(self.value) != tuple:
             raise TypeError("ColorField value must be an RGBA tuple!")
- 
+
     def CreateUI(self, parent, sizer):
         self.colordata = wx.ColourData()
         self.colordata.SetColour(self.GetValue())
@@ -240,16 +240,16 @@ class ColorProp(Property):
 
         color_vbox = wx.BoxSizer(wx.VERTICAL)
         color_hbox = wx.BoxSizer(wx.HORIZONTAL)
-  
+
         self.button = buttons.GenButton(
-            parent, 
+            parent,
             wx.ID_ANY
             )
         self.button.SetBezelWidth(0)
         self.CalcBtnUpdate(self.colordata.GetColour())
         color_hbox.Add(self.button, flag=wx.LEFT, border=5)
         self.button.Bind(
-            wx.EVT_BUTTON, 
+            wx.EVT_BUTTON,
             self.WidgetEvent
             )
 
@@ -268,7 +268,7 @@ class ColorProp(Property):
                 colordata.Alpha()
                 ))
             self.CalcBtnUpdate(colordata)
-            
+
     def CalcBtnUpdate(self, color):
         self.button.SetBackgroundColour(wx.Colour(color))
         self.button.SetLabel(str(" {} ".format(color)))
@@ -280,12 +280,12 @@ class ColorProp(Property):
 
 
 class OpenFileChooserProp(Property):
-    """ Allows the user to select a file to open. 
-    
-    (e.g: use this to open an .PNG, .JPG, .JPEG image, etc.) 
+    """ Allows the user to select a file to open.
+
+    (e.g: use this to open an .PNG, .JPG, .JPEG image, etc.)
     """
-    def __init__(self, idname, default="", dlg_msg="Choose file...", 
-                wildcard="All files (*.*)|*.*", btn_lbl="Choose...", 
+    def __init__(self, idname, default="", dlg_msg="Choose file...",
+                wildcard="All files (*.*)|*.*", btn_lbl="Choose...",
                 label="", visible=True):
         Property.__init__(self, idname, default, label, visible)
         self.dlg_msg = dlg_msg
@@ -323,13 +323,13 @@ class OpenFileChooserProp(Property):
         hbox.Add(self.textcontrol, proportion=1)
 
         self.button = wx.Button(
-            parent, 
+            parent,
             id=wx.ID_ANY,
             label=self.GetBtnLabel()
             )
         hbox.Add(self.button, flag=wx.LEFT, border=5)
         self.button.Bind(
-            wx.EVT_BUTTON, 
+            wx.EVT_BUTTON,
             self.WidgetEvent
             )
 
@@ -338,7 +338,7 @@ class OpenFileChooserProp(Property):
 
     def WidgetEvent(self, event):
         dlg = wx.FileDialog(
-            None, 
+            None,
             message=self.GetDlgMessage(),
             defaultDir=os.getcwd(),
             defaultFile="",
@@ -347,7 +347,7 @@ class OpenFileChooserProp(Property):
             )
 
         if dlg.ShowModal() == wx.ID_OK:
-            paths = dlg.GetPaths()  
+            paths = dlg.GetPaths()
             self.SetValue(paths[0])
             self.textcontrol.ChangeValue(self.GetValue())
 
@@ -369,7 +369,7 @@ class LabelProp(Property):
 
 class SizeProp(Property):
     """ Allows the user to select an X and Y size. """
-    def __init__(self, idname, default=[255, 255], min_val=0, 
+    def __init__(self, idname, default=[255, 255], min_val=0,
                 max_val=6000, label="", visible=True):
         Property.__init__(self, idname, default, label, visible)
         self.min_value = min_val
@@ -388,42 +388,42 @@ class SizeProp(Property):
         sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
 
         self.spinbox_x = wx.SpinCtrl(
-            parent, 
-            id=wx.ID_ANY, 
-            min=self.GetMinValue(), 
+            parent,
+            id=wx.ID_ANY,
+            min=self.GetMinValue(),
             max=self.GetMaxValue(),
             initial=self.GetValue()[0]
             )
         sizer.Add(self.spinbox_x, flag=wx.ALL|wx.EXPAND, border=5)
         self.spinbox_x.Bind(
-            wx.EVT_SPINCTRL, 
+            wx.EVT_SPINCTRL,
             self.WidgetEvent
             )
         self.spinbox_x.Bind(
-            wx.EVT_TEXT, 
+            wx.EVT_TEXT,
             self.WidgetEvent
             )
 
         self.spinbox_y = wx.SpinCtrl(
-            parent, 
-            id=wx.ID_ANY, 
-            min=self.GetMinValue(), 
+            parent,
+            id=wx.ID_ANY,
+            min=self.GetMinValue(),
             max=self.GetMaxValue(),
             initial=self.GetValue()[1]
             )
         sizer.Add(self.spinbox_y, flag=wx.ALL|wx.EXPAND, border=5)
         self.spinbox_y.Bind(
-            wx.EVT_SPINCTRL, 
+            wx.EVT_SPINCTRL,
             self.WidgetEvent
             )
         self.spinbox_y.Bind(
-            wx.EVT_TEXT, 
+            wx.EVT_TEXT,
             self.WidgetEvent
             )
 
     def WidgetEvent(self, event):
         self.SetValue(
-            [self.spinbox_x.GetValue(), 
+            [self.spinbox_x.GetValue(),
             self.spinbox_y.GetValue()]
             )
 
@@ -432,8 +432,8 @@ class SizeProp(Property):
 
 
 if __name__ == '__main__':
-    """ 
-    Test demo app 
+    """
+    Test demo app
     """
     class TestApp(wx.Frame):
         def __init__(self):
@@ -441,10 +441,10 @@ if __name__ == '__main__':
             sz = wx.BoxSizer(wx.VERTICAL)
 
             f1 = PositiveIntegerProp(
-                "Size y", 
-                default=3, 
-                min_val=0, 
-                max_val=10, 
+                "Size y",
+                default=3,
+                min_val=0,
+                max_val=10,
                 widget=SPINBOX_WIDGET,
                 label="Int:",
                 )
@@ -452,10 +452,10 @@ if __name__ == '__main__':
             f1.CreateUI(self, sz)
 
             f2 = PositiveIntegerProp(
-                "Size x", 
-                default=3, 
-                min_val=0, 
-                max_val=10, 
+                "Size x",
+                default=3,
+                min_val=0,
+                max_val=10,
                 widget=SLIDER_WIDGET,
                 label="Int:",
                 )
@@ -463,18 +463,18 @@ if __name__ == '__main__':
             f2.CreateUI(self, sz)
 
             f3 = ChoiceProp(
-                "Choice", 
-                default="RED", 
+                "Choice",
+                default="RED",
                 label="Choice:",
                 choices=["RED", "BLUE", "GREEN"])
             f3.SetValue("BLUE")
             f3.CreateUI(self, sz)
 
             f4 = ColorProp(
-                "Color", 
+                "Color",
                 label="Color:",
                 default=(255, 255, 255, 255),
-                visible=False 
+                visible=False
                 )
             if f4.GetIsVisible() == True:
                 f4.CreateUI(self, sz)
@@ -491,11 +491,11 @@ if __name__ == '__main__':
                     "TIFF file (*.tiff)|*.tiff"
 
             f5 = OpenFileChooserProp(
-                "File", 
-                default="", 
-                dlg_msg="Choose file...", 
-                wildcard=wildcard, 
-                btn_lbl="Choose...", 
+                "File",
+                default="",
+                dlg_msg="Choose file...",
+                wildcard=wildcard,
+                btn_lbl="Choose...",
                 label="Open file chooser:"
                 )
             f5.CreateUI(self, sz)

@@ -3,13 +3,13 @@
 
 Gimel Studio v0.5.0 BETA -- "NOT RELEASED YET"
 
-**The v0.5.0 beta release marks close to a year of development on Gimel Studio (already!) and includes a major update to the API, Node Graph and backend.** 
+**The v0.5.0 beta release marks close to a year of development on Gimel Studio (already!) and includes a major update to the API, Node Graph and backend.**
 
 This involved a re-write of much of the codebase and many breaking changes both in the API and interface usage (hopefully, for the better).
 
 .. note::
   The huge improvements in this release has some tradeoffs, though:
-  The opening/saving as a Project File ability is not available (This is planned to be re-implemented again in a future release). 
+  The opening/saving as a Project File ability is not available (This is planned to be re-implemented again in a future release).
 
 
 General

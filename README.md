@@ -1,8 +1,8 @@
 Gimel Studio
 ============
 
-Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux. 
- 
+Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
+
 !["Gimel Studio"](/screenshots/gimel-studio-v0.5.0-pre-release-ui.JPG?raw=true "Gimel Studio")
 
 
@@ -18,11 +18,11 @@ It provides basic image editing features such as rotate, resize and blur effects
 # Features
 
 **Highlights**
-  
+
   * Thumbnail preview on each node showing the steps of the rendered image, with support for live preview updates
   * Fast node-based workflow (similar to Blender 3D)
-  * 20+ nodes with a wide range of functionality 
-  * Node Graph featuring node deletion, duplication, selection, etc. 
+  * 20+ nodes with a wide range of functionality
+  * Node Graph featuring node deletion, duplication, selection, etc.
   * JPEG, JPG, PNG, BMP, WEBP (and more...) file type support
   * API for scripting custom nodes in Python
   * Dark theme w/ wire curving
@@ -49,7 +49,7 @@ Here is a little rundown of what the goals of this project are and what they are
 
 **Development of Gimel Studio does not (currently) aim to...**
 
-* provide any drawing and/or painting tools, except "Add text to image", etc. 
+* provide any drawing and/or painting tools, except "Add text to image", etc.
 * be a full-blown procedual texture generator, like many node-based programs out there.
 
 # News
@@ -73,7 +73,7 @@ You can find the latest documentation on <a href="https://gimel-studio.readthedo
 Documentation for past Gimel Studio releases can be found <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">here</a>.
 
 
-# Development 
+# Development
 
 **You are Welcome to Help develop Gimel Studio!**
 
@@ -102,7 +102,7 @@ The development version of Gimel Studio may be unstable and/or have new dependen
 # Building the documentation from source
 
 The Gimel Studio docs use the Sphinx package.
-  
+
   * Get <a href="https://pipenv.pypa.io/en/latest/">pipenv</a>
   * Install development dependancies with ``pipenv install --dev``
   * ``pipenv shell``

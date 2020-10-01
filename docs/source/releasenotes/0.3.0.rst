@@ -14,7 +14,7 @@ General
 UI
 --
 
- * New, faster Image Viewport with View Image and Export Image tabs 
+ * New, faster Image Viewport with View Image and Export Image tabs
    - Export Image tab added which includes (advanced) options for export and an image preview
  * UI re-design
  * Many Node Graph fixes and improvements

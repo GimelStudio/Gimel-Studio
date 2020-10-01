@@ -22,7 +22,7 @@ import argparse
 import wx
 
 from GimelStudio.meta import  APP_TITLE, APP_DEBUG
-from GimelStudio.application import MainApplication 
+from GimelStudio.application import MainApplication
 
 # Fix blurry text on Windows 10
 # from https://stackoverflow.com/questions/50884283/how-to-fix-blurry-text-in-wxpython-controls-on-windows

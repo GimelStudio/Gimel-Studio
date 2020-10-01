@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,31 +51,31 @@ class ImageNode(api.NodeBase):
                 "TIFF file (*.tiff)|*.tiff"
 
         self.fp_prop = api.OpenFileChooserProp(
-            idname="File Path", 
-            default="", 
-            dlg_msg="Choose image...", 
-            wildcard=wildcard, 
-            btn_lbl="Choose...", 
+            idname="File Path",
+            default="",
+            dlg_msg="Choose image...",
+            wildcard=wildcard,
+            btn_lbl="Choose...",
             label="Image path:"
             )
         self.lbl_prop = api.LabelProp(
             idname="Meta Info",
-            default="", 
+            default="",
             label="Meta info:"
             )
- 
+
         self.NodeAddProp(self.fp_prop)
         self.NodeAddProp(self.lbl_prop)
 
     def WidgetEventHook(self, idname, value):
     #     pass
-        # import time 
+        # import time
         # t = time.time()
         if idname == 'File Path':
             img = self.NodeEvaluation(EvalInfo(self)).GetImage() #Image.open(value) #
 
             info_string = "{}x{}px | {} | {}kB".format(
-                img.size[0], 
+                img.size[0],
                 img.size[1],
                 img.mode,
                 str(os.path.getsize(value)/1000)
@@ -86,7 +86,7 @@ class ImageNode(api.NodeBase):
             self.NodeSetThumb(img, force_refresh=True)
 
         # print(">>>", time.time() - t)
-    
+
     def NodeEvaluation(self, eval_info):
         path = eval_info.EvaluateProperty('File Path')
         image = api.RenderImage()

@@ -3,16 +3,16 @@
 # Redistribution and use in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
 #
-#     1. Redistributions of source code must retain the above copyright notice, 
+#     1. Redistributions of source code must retain the above copyright notice,
 #        this list of conditions and the following disclaimer.
-#   
-#     2. Redistributions in binary form must reproduce the above copyright 
+#
+#     2. Redistributions in binary form must reproduce the above copyright
 #        notice, this list of conditions and the following disclaimer in the
 #        documentation and/or other materials provided with the distribution.
 #
-#     3. The names of Correct Syntax, Noah Rahm and any contributers may not be 
-#        used to endorse or promote products derived from this software without 
-#        specific prior written permission.  
+#     3. The names of Correct Syntax, Noah Rahm and any contributers may not be
+#        used to endorse or promote products derived from this software without
+#        specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -56,7 +56,7 @@ class WordEngine(object):
             'Titus', 'Philemon', 'Hebrews', 'James', 'I Peter', 'II Peter',
             'I John', 'II John', 'III John', 'Jude', 'Revelation'
             ]
-        
+
         return books
 
 
@@ -65,7 +65,7 @@ class WordEngine(object):
         Returns a string of the text.
         ====================================
         text: The text which is to be cleaned
-        spaces: Whether or not to keep the spaces. 
+        spaces: Whether or not to keep the spaces.
         """
         ## Append the letters in the text to a list
         text_list = []
@@ -107,10 +107,10 @@ class WordEngine(object):
             for letter in text:
                 text = (text_string + letter)
                 text_string = text
-                
+
             return text_string
-        
-    
+
+
     def check_text(self, input_text, correct_text):
         """ Checks the input text against the correct text to see if they match
         and returns either True or False.
@@ -128,7 +128,7 @@ class WordEngine(object):
 
         #print(i_text)
         #print(c_text)
-        
+
         ## If both texts are the same
         if i_text  == c_text:
             return True
@@ -217,7 +217,7 @@ class WordEngine(object):
 
 
 class Memorize(WordEngine):
-    
+
     def compare(self, filename, input_text, chapter, fromverse, toverse):
         """ This is the main Memorization function. It compares the input text to the
         correct bible text from the module's library. It returns True if the text matches

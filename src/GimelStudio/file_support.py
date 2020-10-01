@@ -15,30 +15,30 @@
 ##
 ## FILE: file_support.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the supported filetypes 
+## PURPOSE: Define the supported filetypes
 ## ----------------------------------------------------------------------------
 
 # File import/open support
 SUPPORTED_FILETYPES_OPEN = [
-    ".jpeg", 
-    ".jpg", 
-    ".png", 
+    ".jpeg",
+    ".jpg",
+    ".png",
     ".bmp",
-    ".webp", 
+    ".webp",
     ".tga",
     ".tiff"
     ]
 
 # File export/save support
 SUPPORTED_FILETYPES_SAVE = [
-    ".jpeg", 
-    ".jpg", 
-    ".png", 
+    ".jpeg",
+    ".jpg",
+    ".png",
     ".bmp",
     ".gif",
     ".webp",
     ".xbm",
-    ".pcx", 
+    ".pcx",
     ".eps",
     ".tiff",
     ".tga"
@@ -46,8 +46,8 @@ SUPPORTED_FILETYPES_SAVE = [
 
 
 def SupportFTOpen(file_ext="", list_all=False):
-    """ Returns whether the given file extension is supported for import/open in Gimel Studio. 
-    
+    """ Returns whether the given file extension is supported for import/open in Gimel Studio.
+
     :param str file_ext: the file extension in question
     :param boolean list_all: if is `True`, returns a list of all the supported filetypes instead.
     """
@@ -59,10 +59,10 @@ def SupportFTOpen(file_ext="", list_all=False):
         else:
             return False
 
-  
+
 def SupportFTSave(file_ext="", list_all=False):
-    """ Returns whether the given file extension is supported for export/save in Gimel Studio. 
-    
+    """ Returns whether the given file extension is supported for export/save in Gimel Studio.
+
     :param str file_ext: the file extension in question
     :param boolean list_all: if is `True`, returns a list of all the supported filetypes instead.
     """
