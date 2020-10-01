@@ -17,6 +17,10 @@
 ## AUTHOR(S): Noah Rahm
 ## PURPOSE: Define the base node property class and specific property types
 ## ----------------------------------------------------------------------------
+import sys
+
+if sys.version_info[0] == 3:  # Python 3
+    unicode = str
 
 import os 
 
@@ -295,7 +299,7 @@ class OpenFileChooserProp(Property):
         self._RunErrorCheck()
 
     def _RunErrorCheck(self):
-        if type(self.value) != str:
+        if not type(self.value) in (str, unicode):
             raise TypeError("OpenFileChooserField value must be a string!")
 
     def GetDlgMessage(self):

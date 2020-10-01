@@ -15,8 +15,50 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import cv2
-import numpy as np
+"""
+TOWRITE
+"""
+
+# Imports.---------------------------------------------------------------------
+# OpenCV Imports.
+try:
+    import cv2
+except ImportError:
+    importErrorHelp = '\n'.join((
+        "ImportErrorHelp: OpenCV is not available!",
+        "  try:",
+        "    pip:",
+        "      Python2:",
+        "      $ pip install opencv-python==3.4.9.31",
+        "      Python3:",
+        "      $ pip3 install opencv-python",
+        "    Manual Install/Docs WebLinks:",
+        "      https://pypi.org/project/opencv-python",
+        "      https://github.com/skvark/opencv-python",
+        ))
+    import traceback
+    excMessage = (traceback.format_exc() +
+                  '\n' + '~' * 42 + '\n' + importErrorHelp)
+    print(excMessage)
+# NumPy Imports.
+try:
+    import numpy as np
+except ImportError:
+    importErrorHelp = '\n'.join((
+        "ImportErrorHelp: NumPy is not available!",
+        "  try:",
+        "    pip:",
+        "      $ pip install numpy",
+        "      $ conda install numpy",
+        "    Manual Install/Docs WebLinks:",
+        "      https://pypi.org/project/numpy/",
+        "      https://github.com/numpy/numpy",
+        "      https://numpy.org/",
+        ))
+    import traceback
+    excMessage = (traceback.format_exc() +
+                  '\n' + '~' * 42 + '\n' + importErrorHelp)
+    print(excMessage)
 
 from GimelStudio import api
 
