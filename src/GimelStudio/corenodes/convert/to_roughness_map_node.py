@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ from GimelStudio import api
 # FIXME: hack!
 from GimelStudio.utils.image import ArrayFromImage, ArrayToImage
 
- 
+
 class ToRoughnessMapNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
@@ -34,14 +34,14 @@ class ToRoughnessMapNode(api.NodeBase):
         table = np.array(
             [((i / 255) ** inv_gamma) * 255 for i in range(0, 256)]
             ).astype("uint8")
-        return cv2.LUT(image, table)   
+        return cv2.LUT(image, table)
 
     def ComputeRoughnessMap(self, image, saturation, brightness, gamma):
         """ Calculates and returns a roughness map. """
         gray_scale_img = cv2.bitwise_not(image)
         roughness_map = cv2.convertScaleAbs(
-            gray_scale_img, 
-            alpha=saturation, 
+            gray_scale_img,
+            alpha=saturation,
             beta=brightness
             )
         gc_roughness_map = self.GammaCorrection(roughness_map, gamma)
@@ -61,26 +61,26 @@ class ToRoughnessMapNode(api.NodeBase):
 
     def NodeInitProps(self):
         p1 = api.PositiveIntegerProp(
-            idname="Saturation", 
-            default=1, 
-            min_val=1, 
-            max_val=50, 
+            idname="Saturation",
+            default=1,
+            min_val=1,
+            max_val=50,
             widget=api.SLIDER_WIDGET,
             label="Saturation:",
             )
         p2 = api.PositiveIntegerProp(
-            idname="Brightness", 
-            default=0, 
-            min_val=0, 
-            max_val=50, 
+            idname="Brightness",
+            default=0,
+            min_val=0,
+            max_val=50,
             widget=api.SLIDER_WIDGET,
             label="Brightness:",
             )
         p3 = api.PositiveIntegerProp(
-            idname="Gamma", 
-            default=1, 
-            min_val=1, 
-            max_val=50, 
+            idname="Gamma",
+            default=1,
+            min_val=1,
+            max_val=50,
             widget=api.SLIDER_WIDGET,
             label="Gamma:",
             )
@@ -100,18 +100,18 @@ class ToRoughnessMapNode(api.NodeBase):
         brightness_val = eval_info.EvaluateProperty('Brightness')
         gamma_val = eval_info.EvaluateProperty('Gamma')
 
-        # Convert the current image data to an array 
+        # Convert the current image data to an array
         # that we can use and greyscale it.
         im = ArrayFromImage(image1.GetImage())
         gray_scale_img = cv2.equalizeHist(cv2.cvtColor(im, cv2.COLOR_BGR2GRAY))
 
         generated_roughness_map = self.ComputeRoughnessMap(
-            gray_scale_img, 
-            saturation_val, 
-            brightness_val, 
+            gray_scale_img,
+            saturation_val,
+            brightness_val,
             gamma_val
-            ) 
-        
+            )
+
         image = api.RenderImage()
         image.SetAsImage(
             ArrayToImage(generated_roughness_map).convert('RGBA')

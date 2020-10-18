@@ -24,11 +24,11 @@ from .object import NodeObject
 
 
 class NodeBase(NodeObject):
-    """ Subclass this to create a node. 
+    """ Subclass this to create a node.
 
     Internal methods of this class should not be overridden by the user, with few exceptions.
     """
-    def __init__(self, _id): 
+    def __init__(self, _id):
         NodeObject.__init__(self, _id)
         self._MetaInit()
         self.NodeInitProps()
@@ -37,8 +37,8 @@ class NodeBase(NodeObject):
         self.Model.UpdateThumbnail(self.Model.GetThumbImage())
 
     def _MetaInit(self):
-        """ Internal method to initilize the 
-        node data from the given node meta. 
+        """ Internal method to initilize the
+        node data from the given node meta.
         """
         meta = self.NodeMeta
         self.Model.SetCategory(meta['category'])
@@ -47,9 +47,9 @@ class NodeBase(NodeObject):
         self.Model.SetDescription(meta['description'])
 
     def _WidgetEventHook(self, idname, value, render):
-        """ Internal dispatcher method for the Property widget 
-        callback event hook method, `WidgetEventHook`. 
-        
+        """ Internal dispatcher method for the Property widget
+        callback event hook method, `WidgetEventHook`.
+
         Please do not override.
         """
         self.WidgetEventHook(idname, value)
@@ -140,7 +140,7 @@ class NodeBase(NodeObject):
         `category` as a string,
         `description` as a string
 
-        :returns dict: a dictionary 
+        :returns dict: a dictionary
         """
         meta_info = {
             "label": "...",
@@ -153,7 +153,7 @@ class NodeBase(NodeObject):
         return meta_info
 
     def NodeInitProps(self):
-        """ Define node properties for the node. These will translate into widgets for editing the property in the Node Properties Panel if the Property is not hidden with ``visible=False``. 
+        """ Define node properties for the node. These will translate into widgets for editing the property in the Node Properties Panel if the Property is not hidden with ``visible=False``.
 
         Subclasses of the ``Property`` object such as ``LabelProp``, etc. are to be added with the ``NodeAddProp`` method.
 
@@ -171,10 +171,10 @@ class NodeBase(NodeObject):
         >>> self.NodeAddParam(p)
         """
         pass
-        
+
     def NodeAddProp(self, prop):
         """ Add a property to this node.
-        
+
         :param prop: instance of `PropertyField` property class
         :returns: dictionary of the current properties
         """
@@ -183,7 +183,7 @@ class NodeBase(NodeObject):
 
     def NodeAddParam(self, param):
         """ Add a parameter to this node.
-        
+
         :param prop: instance of ``Parameter`` parameter class
         :returns: dictionary of the current parameter
         """
@@ -191,14 +191,14 @@ class NodeBase(NodeObject):
 
     def NodeEditProp(self, idname, value, render=True):
         """ Edit a property of this node.
-        
+
         :param name: name of the property
         :param value: new value of the property
         :param render: if set to ``False``, the node graph will not render after the property is edited as it usually would
         :returns: the current property value
         """
-        return self.Model.EditProperty(idname, value, render) 
-        
+        return self.Model.EditProperty(idname, value, render)
+
     def NodePanelUI(self, parent, sizer):
         """ Create the Node property widgets for the Node Property Panel. Please do not override unless you know what you're doing.
         """
@@ -233,7 +233,7 @@ class NodeBase(NodeObject):
         """ Force a refresh of the Node Graph panel. """
         self.NodeGraphMethods.RefreshGraph()
 
-    def RefreshPropertyPanel(self): 
+    def RefreshPropertyPanel(self):
         """ Force a refresh of the Node Properties panel. """
         self.NodeGraphMethods.NodePropertiesPanel.UpdatePanelContents(self)
 
@@ -258,9 +258,9 @@ class NodeBase(NodeObject):
                 src = wire.srcPlug
                 dst.Disconnect(self.NodeGraphMethods, src, render=False)
                 self.NodeGraphMethods.GetPDC().RemoveId(wire.GetId())
-        
+
         del self.NodeGraphMethods._nodes[self.GetId()]
-        self.NodeGraphMethods.GetPDC().RemoveId(self.GetId()) 
+        self.NodeGraphMethods.GetPDC().RemoveId(self.GetId())
         self.NodeGraphMethods.RefreshGraph()
 
     # FIXME

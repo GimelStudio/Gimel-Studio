@@ -244,8 +244,8 @@ IMPORTANT - PLEASE READ BEFORE COPYING, INSTALLING OR USING GIMEL STUDIO VERSION
            )
 
         dlg = wx.lib.dialogs.ScrolledMessageDialog(
-            self._parent, 
-            LICENSE_TEXT, 
+            self._parent,
+            LICENSE_TEXT,
             "Gimel Studio License",
             size=(600, 750)
             )

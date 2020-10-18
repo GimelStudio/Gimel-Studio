@@ -15,7 +15,7 @@
 ##
 ## FILE: radio_buttons.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: Defines custom-drawn radio buttons 
+## PURPOSE: Defines custom-drawn radio buttons
 ## ----------------------------------------------------------------------------
 
 import wx
@@ -30,7 +30,7 @@ class MenuButton(object):
         self._parent = parent
         self._image = image
         self._rect = rect
-        
+
         if _id == wx.ID_ANY:
             self._id = wx.NewIdRef()
         else:
@@ -61,10 +61,10 @@ class MenuButton(object):
         dc.ClearId(self.GetId())
         dc.SetId(self.GetId())
 
-        if hide == False: 
+        if hide == False:
             pos = self._parent.GetMenuButtonWidgetPos()
-            self.SetRect(wx.Rect(pos[0]+4, pos[1]+4, 56, 56)) 
-            
+            self.SetRect(wx.Rect(pos[0]+4, pos[1]+4, 56, 56))
+
             dc.SetPen(wx.Pen(wx.Colour((55, 55, 55, 255)), 2))
             dc.SetBrush(wx.Brush(wx.Colour("#6D6F6E")))
             dc.DrawCircle(self.GetRect()[0]+32, self.GetRect()[1]+32, 30)

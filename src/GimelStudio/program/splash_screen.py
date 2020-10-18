@@ -40,7 +40,7 @@ class StartupSplashScreen(wx.adv.SplashScreen):
                                      5000, None, -1)
 
         self.Bind(wx.EVT_CLOSE, self.OnClose)
-        
+
 
     def OnClose(self, event):
         # Make sure the default handler runs too

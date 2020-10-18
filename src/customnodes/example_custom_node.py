@@ -11,7 +11,7 @@ from PIL import ImageEnhance
 
 from GimelStudio import api
 
- 
+
 class ExampleCustomNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
@@ -30,10 +30,10 @@ class ExampleCustomNode(api.NodeBase):
 
     def NodeInitProps(self):
         p = api.PositiveIntegerProp(
-            idname="Amount", 
-            default=1, 
-            min_val=0, 
-            max_val=25, 
+            idname="Amount",
+            default=1,
+            min_val=0,
+            max_val=25,
             widget=api.SLIDER_WIDGET,
             label="Amount:",
             )

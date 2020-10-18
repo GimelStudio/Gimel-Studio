@@ -17,9 +17,9 @@
 ## AUTHOR(S): Noah Rahm
 ## PURPOSE: Supply an evaluation function for computing a node's value
 ##
-## This file includes code that was modified from imagegen 
-## (https://github.com/nfactorial/imagegen) which is licensed 
-## under the Apache License Version 2.0 
+## This file includes code that was modified from imagegen
+## (https://github.com/nfactorial/imagegen) which is licensed
+## under the Apache License Version 2.0
 ## Copyright 2016 nfactorial
 ## ----------------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ class EvalInfo(object):
                 return p.binding.EvaluateNode(info)
         return p.value
 
- 
+
     def EvaluateProperty(self, name):
         """
         Evaluates the value of a property.

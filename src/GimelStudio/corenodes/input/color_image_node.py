@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,16 +40,16 @@ class ColorImageNode(api.NodeBase):
 
     def NodeInitProps(self):
         self.color_prop = api.ColorProp(
-            idname="Color", 
-            default=(0, 0, 0, 255), 
+            idname="Color",
+            default=(0, 0, 0, 255),
             label="Image Color:"
-            ) 
+            )
         self.size_prop = api.SizeProp(
             idname="Size",
-            default=[255, 255], 
+            default=[255, 255],
             label="Image Size:"
             )
- 
+
         self.NodeAddProp(self.color_prop)
         self.NodeAddProp(self.size_prop)
 
@@ -58,10 +58,10 @@ class ColorImageNode(api.NodeBase):
             img = self.NodeEvaluation(EvalInfo(self)).GetImage()
             self.NodeSetThumb(img, force_refresh=True)
             self.RefreshPropertyPanel()
-    
+
     def NodeEvaluation(self, eval_info):
         color = eval_info.EvaluateProperty('Color')
-        imgsize = eval_info.EvaluateProperty('Size') 
+        imgsize = eval_info.EvaluateProperty('Size')
 
         image = api.RenderImage()
         image.SetAsImage(Image.new("RGBA", (imgsize[0], imgsize[1]), color))

@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,13 +41,13 @@ class AlphaCompositeNode(api.NodeBase):
         p2 = api.RenderImageParam('Image 2')
 
         self.NodeAddParam(p1)
-        self.NodeAddParam(p2) 
+        self.NodeAddParam(p2)
 
     def NodeEvaluation(self, eval_info):
         image1 = eval_info.EvaluateParameter('Image 1')
         image2 = eval_info.EvaluateParameter('Image 2')
 
-        image = api.RenderImage() 
+        image = api.RenderImage()
         main_image = image1.GetImage()
         layer_image = ImageOps.fit(image2.GetImage(), main_image.size)
         image.SetAsImage(Image.alpha_composite(main_image, layer_image))

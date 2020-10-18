@@ -6,20 +6,20 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
-## 
+##
 ## FILE: renderer.py
 ## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the core renderer 
+## PURPOSE: Define the core renderer
 ##
-## This file includes code that was modified from imagegen 
-## (https://github.com/nfactorial/imagegen) which is licensed 
-## under the Apache License Version 2.0 
+## This file includes code that was modified from imagegen
+## (https://github.com/nfactorial/imagegen) which is licensed
+## under the Apache License Version 2.0
 ## Copyright 2016 nfactorial
 ## ----------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ from .output_node import OutputNode
 
 
 class Renderer(object):
-    """ The core renderer which evaluates the data of the node tree and 
+    """ The core renderer which evaluates the data of the node tree and
     outputs the final render image and render time.
     """
     def __init__(self, parent):
@@ -42,10 +42,10 @@ class Renderer(object):
 
     def GetRender(self):
         return self._render
-    
+
     def SetRender(self, render):
         self._render = render
-        
+
     def GetTime(self, exact=False):
         if exact == True:
             return self._time
@@ -56,7 +56,7 @@ class Renderer(object):
         self._time = time
 
     def Render(self, nodes):
-        """ Render method for evaluating the Node Graph 
+        """ Render method for evaluating the Node Graph
         to render an image.
 
         :param nodes: dictionary of nodes of the Node Graph
@@ -69,9 +69,9 @@ class Renderer(object):
         output_node = self.GetOutputNode(nodes)
         rendered_image = self.RenderNodeGraph(output_node, nodes)
 
-        # Get rendered image, otherwise use 
+        # Get rendered image, otherwise use
         # the default transparent image.
-        if rendered_image != None: 
+        if rendered_image != None:
             image = rendered_image.GetImage()
         else:
             image = output_node.Parameters["Image"].value.GetImage()
@@ -97,7 +97,7 @@ class Renderer(object):
 
     def GetOutputNode(self, nodes):
         """ Get the output composite node.
-        
+
         :param nodes: dictionary of nodes of the Node Graph
         :returns: node object of output node
         """

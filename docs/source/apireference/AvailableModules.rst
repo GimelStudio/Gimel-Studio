@@ -28,7 +28,7 @@ Other API modules that are guaranteed to be available for use from the API:
 * ``Scipy`` Full module
 * ``Numpy`` Full module
 * ``OpenCV`` Partial module (FFmpeg support may not exist, etc.)
-    
+
 
 Example
 -------
@@ -37,11 +37,11 @@ Example
 
     import os
 
-    import cv2 
+    import cv2
     import wx # wx.adv...
     from PIL import Image # ImageOps, ImageDraw...
 
     from GimelStudio import api
-    
+
     ...
 

@@ -26,7 +26,7 @@ from wx.lib.wordwrap import wordwrap
 
 from GimelStudio import meta
 
- 
+
 # class AboutDialog(wx.Dialog):
 #     def __init__(self, size=wx.Size(700, 1000), *args, **kwds):
 #         wx.Dialog.__init__(self, size, *args, **kwds)
@@ -84,7 +84,7 @@ from GimelStudio import meta
 #         sizer_100.Add(self.notebook, 1, wx.EXPAND, 0)
 #         sizer_100.Add(self.close, 0, wx.ALL|wx.ALIGN_RIGHT, 4)
 #         self.SetSizer(sizer_100)
-  
+
 
 #     def OnClose(self,event):
 #         self.Destroy()
@@ -103,7 +103,7 @@ class AboutDialog(object):
         self._pillowVersion = PIL.__version__
         self._wxPythonVersion = wx.VERSION_STRING
         self._pythonVersion = sys.version.split()[0]
-    
+
     def ShowDialog(self):
         info = wx.adv.AboutDialogInfo()
         info.SetName(self._name)
@@ -120,11 +120,11 @@ This version of Gimel Studio is made possible thanks to the following open-sourc
 - Python {0}
 - Pillow {1}
 - wxPython {2}
-- Numpy 
+- Numpy
 - Scipy
 - OpenCV
 
-Praise to our Heavenly Father, YAHWEH for allowing the time and resources to make this software program a reality. 
+Praise to our Heavenly Father, YAHWEH for allowing the time and resources to make this software program a reality.
 
 Please consider giving your feedback through the program menu (Help > Feedback Survey) so that I can work to improve Gimel Studio. :)
                 """.format(
@@ -132,10 +132,10 @@ Please consider giving your feedback through the program menu (Help > Feedback S
                     self._pillowVersion,
                     self._wxPythonVersion
                 ),
-                width=550, 
+                width=550,
                 dc=wx.ClientDC(self._parent)
                 ))
         info.SetWebSite("https://correctsyntax.com/projects/gimel-studio/", "Visit the Gimel Studio Homepage")
 
         wx.adv.AboutBox(info)
-        
+

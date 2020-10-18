@@ -18,7 +18,7 @@
 ## PURPOSE: Define the view, which handles the drawing of the node, etc.
 ## ----------------------------------------------------------------------------
 
-import wx   
+import wx
 
 from GimelStudio import utils
 
@@ -26,7 +26,7 @@ from GimelStudio import utils
 class NodeView(object):
     """ Handles the graphical side of the node. """
     def __init__(self, _id):
-        # _viewData is purposely set to None here to avoid confusion of 
+        # _viewData is purposely set to None here to avoid confusion of
         # whether these are the startup default values -these are
         # actually updated from the node model on app init so it doesn't
         # make sense to put any default values here!
@@ -94,7 +94,7 @@ class NodeView(object):
 
     def GetRect(self):
         return wx.Rect(
-            self.GetPosition()[0], self.GetPosition()[1], 
+            self.GetPosition()[0], self.GetPosition()[1],
             self.GetSize()[0],self.GetSize()[1]
             )
 

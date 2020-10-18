@@ -18,7 +18,7 @@
 ## PURPOSE: Imports the core and custom nodes so that they are registered
 ## ----------------------------------------------------------------------------
 
- 
+
 from GimelStudio.corenodes.input import (
                                         image_node,
                                         color_image_node,

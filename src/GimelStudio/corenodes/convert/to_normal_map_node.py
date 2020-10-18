@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,14 +18,14 @@
 import numpy as np
 import scipy.ndimage
 import scipy.misc
-from PIL import ImageFilter  
+from PIL import ImageFilter
 
 from GimelStudio import api
 
 # FIXME: hack!
 from GimelStudio.utils.image import ArrayFromImage, ArrayToImage
 
- 
+
 class ToNormalMapNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
@@ -117,18 +117,18 @@ class ToNormalMapNode(api.NodeBase):
 
     def NodeInitProps(self):
         p1 = api.PositiveIntegerProp(
-            idname="Sigma", 
-            default=1, 
-            min_val=1, 
-            max_val=25, 
+            idname="Sigma",
+            default=1,
+            min_val=1,
+            max_val=25,
             widget=api.SLIDER_WIDGET,
             label="Sigma:",
             )
         p2 = api.PositiveIntegerProp(
-            idname="Intensity", 
-            default=1, 
-            min_val=1, 
-            max_val=25, 
+            idname="Intensity",
+            default=1,
+            min_val=1,
+            max_val=25,
             widget=api.SLIDER_WIDGET,
             label="Intensity:",
             )
@@ -154,17 +154,17 @@ class ToNormalMapNode(api.NodeBase):
             im_grey = np.zeros((im.shape[0],im.shape[1])).astype(float)
             im_grey = (im[...,0] * 0.3 + im[...,1] * 0.6 + im[...,2] * 0.1)
             im = im_grey
-        
+
         im_smooth = self.SmoothGaussian(im, sigma_val)
         sobel_x, sobel_y = self.Sobel(im_smooth)
 
         # Calculate the normal map
         generated_normal_map = self.ComputeNormalMap(
-            sobel_x, 
-            sobel_y, 
+            sobel_x,
+            sobel_y,
             intensity_val
             )
-        
+
         image = api.RenderImage()
         image.SetAsImage(
             ArrayToImage(generated_normal_map).convert('RGBA')

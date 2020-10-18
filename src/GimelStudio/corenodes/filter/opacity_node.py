@@ -7,7 +7,7 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,11 +15,11 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-from PIL import ImageEnhance 
+from PIL import ImageEnhance
 
 from GimelStudio import api
 
- 
+
 class OpacityNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
@@ -38,10 +38,10 @@ class OpacityNode(api.NodeBase):
 
     def NodeInitProps(self):
         p = api.PositiveIntegerProp(
-            idname="Opacity", 
-            default=50, 
-            min_val=0, 
-            max_val=100, 
+            idname="Opacity",
+            default=50,
+            min_val=0,
+            max_val=100,
             widget=api.SLIDER_WIDGET,
             label="Opacity:",
             )
@@ -57,7 +57,7 @@ class OpacityNode(api.NodeBase):
         opacity = eval_info.EvaluateProperty('Opacity')
 
         img = image1.GetImage().convert("RGBA")
- 
+
         # Make correction for slider range of 1-100
         image_opacity = (opacity*0.01)
 
@@ -65,7 +65,7 @@ class OpacityNode(api.NodeBase):
         if not image_opacity < 0 or not image_opacity > 1:
             alpha = ImageEnhance.Brightness(img.split()[-1]).enhance(image_opacity)
             img.putalpha(alpha)
-        
+
         image = api.RenderImage()
         image.SetAsImage(img)
         self.NodeSetThumb(image.GetImage())

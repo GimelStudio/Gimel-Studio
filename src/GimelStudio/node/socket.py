@@ -6,19 +6,19 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
-## 
+##
 ## FILE: socket.py
 ## AUTHOR(S): Noah Rahm
 ## PURPOSE: Define the node socket class
 ##
-## This file includes code that was modified from wxnodegraph 
-## (https://github.com/Derfies/wxnodegraph) which is licensed under the MIT 
+## This file includes code that was modified from wxnodegraph
+## (https://github.com/Derfies/wxnodegraph) which is licensed under the MIT
 ## License, Copyright 2016
 ## ----------------------------------------------------------------------------
 
@@ -27,11 +27,11 @@ import wx
 
 from .wire import Wire
 
- 
+
 class Socket(object):
     def __init__(self, label, datatype, pos, radius, type_, node):
         self._id = wx.NewIdRef()
-        self._label = label 
+        self._label = label
         self._node = node
         self._pos = wx.Point(pos[0], pos[1])  # In node space
         self._radius = radius
@@ -89,7 +89,7 @@ class Socket(object):
         #print(self.GetNode().GetName(), self.GetLabel(), self.GetWires())
 
         final = self.GetPosition() + self.GetNode().GetRect().GetPosition()
-         
+
         # Set color
         dc.SetPen(wx.Pen(wx.Colour(55, 55, 55, 255), 2))
         dc.SetBrush(wx.Brush(wx.Colour('#C7C729'), wx.SOLID))
@@ -99,10 +99,10 @@ class Socket(object):
 
         tdc = wx.WindowDC(wx.GetApp().GetTopWindow())
         w, h = tdc.GetTextExtent(self.GetLabel())
- 
+
         # Plug label margin
         if self._type == 0:
-            x = final.x + 12 
+            x = final.x + 12
         else:
             x = final.x - w - 18
 
@@ -111,7 +111,7 @@ class Socket(object):
     def HitTest(self, pos):
         pnt = pos - self.GetPosition()
         dist = math.sqrt(math.pow(pnt.x, 2) + math.pow(pnt.y, 2))
-        
+
         # Plug hit radius
         if math.fabs(dist) < 10:
             return True
@@ -119,7 +119,7 @@ class Socket(object):
 
     def Connect(self, ng, dst_plug, render=True, refresh=True):
         #print ('Connecting:', self.GetLabel(), '->', dst_plug.GetLabel())
-         
+
         # Make the connection
         #dst_plug.GetNode().MakeConnection(self, dst_plug, render)
 
@@ -127,14 +127,14 @@ class Socket(object):
 
         pt1 = self.GetNode().GetPosition() + self.GetPosition()
         pt2 = dst_plug.GetNode().GetPosition() + dst_plug.GetPosition()
-        wire = Wire(self, 
-                    pt1, 
-                    pt2, 
-                    self, 
-                    dst_plug, 
-                    self.GetType(), 
+        wire = Wire(self,
+                    pt1,
+                    pt2,
+                    self,
+                    dst_plug,
+                    self.GetType(),
                     curvature=8
-                    ) 
+                    )
         wire.srcNode = self.GetNode()
         wire.dstNode = dst_plug.GetNode()
         wire.srcPlug = self

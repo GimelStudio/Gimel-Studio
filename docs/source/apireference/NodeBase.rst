@@ -5,10 +5,10 @@
 NodeBase
 ========
 
-Base class for all nodes which defines a node's core attributes. 
+Base class for all nodes which defines a node's core attributes.
 
 Subclass this to create a custom node:
-    
+
 .. code-block:: python
 
     from GimelStudio import api
@@ -25,7 +25,7 @@ Subclass this to create a custom node:
     # Register the node
     api.RegisterNode(MyNode, "mynode")
 
- 
+
 .. autoclass:: GimelStudio.node.NodeBase
 
 

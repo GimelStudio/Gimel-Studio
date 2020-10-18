@@ -6,19 +6,19 @@
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
-## 
+##
 ## Unless required by applicable law or agreed to in writing, software
 ## distributed under the License is distributed on an "AS IS" BASIS,
 ## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
-## 
+##
 ## FILE: wire.py
 ## AUTHOR(S): Noah Rahm
 ## PURPOSE: Define the node wire
 ##
-## This file includes code that was modified from wxnodegraph 
-## (https://github.com/Derfies/wxnodegraph) which is licensed under the MIT 
+## This file includes code that was modified from wxnodegraph
+## (https://github.com/Derfies/wxnodegraph) which is licensed under the MIT
 ## License, Copyright 2016
 ## ----------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ import wx
 
 class Wire(object):
     """ Wire for connecting nodes. """
-    def __init__(self, parent, pnt1, pnt2, srcplug, dstplug, dir_, 
+    def __init__(self, parent, pnt1, pnt2, srcplug, dstplug, dir_,
         isactive=False, curvature=0, drawshadow=False):
         self._parent = parent
         self._pnt1 = pnt1
@@ -95,9 +95,9 @@ class Wire(object):
         rect = wx.Rect(minX - 10, minY, abs(size[0]) + 20, abs(size[1]))
         return rect.Inflate(2, 2)
 
-    def Draw(self, dc): 
-        """ Draw the wire. 
-        
+    def Draw(self, dc):
+        """ Draw the wire.
+
         :param dc: the wx DC to draw on
         """
         dc.ClearId(self.GetId())
