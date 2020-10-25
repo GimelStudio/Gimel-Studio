@@ -41,7 +41,7 @@ DISTORT: #6B8B8B (Blue-Grey)
 [x]- Rotate
 - Transform
 - Translate
-- Flip
+[x] - Flip
 
 OUTPUT: #B33641 (Red)
 [x] - Output Composite
