@@ -42,10 +42,11 @@ from GimelStudio.corenodes.blend import (
                                         alpha_composite_node,
                                         )
 
-# from GimelStudio.corenodes.distort import (
+from GimelStudio.corenodes.distort import (
 #                                           resize_node,
 #                                           rotate_node,
-#                                           )
+                                          flip_node
+                                          )
 
 from GimelStudio.corenodes.filter import (
                                          blur_node,
