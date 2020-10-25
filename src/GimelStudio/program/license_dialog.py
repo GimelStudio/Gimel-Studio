@@ -30,7 +30,7 @@ class LicenseDialog(object):
 
     def ShowDialog(self):
         LICENSE_TEXT = """
-Gimel Studio © 2020 Noah Rahm, Correct Syntax. All rights reserved.
+Gimel Studio (c) 2020 Noah Rahm, Correct Syntax. All rights reserved.
 
 IMPORTANT - PLEASE READ BEFORE COPYING, INSTALLING OR USING GIMEL STUDIO VERSION {0}.{1}.{2} {3}
 

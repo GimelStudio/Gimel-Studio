@@ -108,7 +108,7 @@ class AboutDialog(object):
         info = wx.adv.AboutDialogInfo()
         info.SetName(self._name)
         info.SetVersion("v{0}.{1}.{2} {3}".format(self._version[0], self._version[1], self._version[2], self._versionTag))
-        info.SetCopyright("© 2020 {}. All rights reserved.".format(self._author))
+        info.SetCopyright("(c) 2020 {}. All rights reserved.".format(self._author))
         info.SetDescription(
             wordwrap(
                 margin=10,
