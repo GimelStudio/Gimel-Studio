@@ -1,5 +1,5 @@
 ## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
+## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 APP_NAME = "Gimel Studio"
 
 # Program author
-APP_AUTHOR = "Noah Rahm, Correct Syntax"
+APP_AUTHOR = "Noah Rahm and contributors"
 
 # Release version: [major].[minor].[build]
 APP_VERSION = (0, 5, 0)

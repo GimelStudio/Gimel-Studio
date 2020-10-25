@@ -1,5 +1,5 @@
 ## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
+## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -108,7 +108,7 @@ class AboutDialog(object):
         info = wx.adv.AboutDialogInfo()
         info.SetName(self._name)
         info.SetVersion("v{0}.{1}.{2} {3}".format(self._version[0], self._version[1], self._version[2], self._versionTag))
-        info.SetCopyright("(c) 2020 {}. All rights reserved.".format(self._author))
+        info.SetCopyright("(c) 2019-2020 {}. All rights reserved.".format(self._author))
         info.SetDescription(
             wordwrap(
                 margin=10,

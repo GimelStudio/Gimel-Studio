@@ -1,6 +1,6 @@
 ## THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
 ## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
+## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
