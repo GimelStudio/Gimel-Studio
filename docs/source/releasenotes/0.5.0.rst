@@ -16,6 +16,7 @@ General
 -------
 
  * Fixed `make` files for building from source, etc.
+ * Code fixes, compatibility with Python 2 (thanks to Metallicow)
 
 
 New API
@@ -57,6 +58,9 @@ Nodes
 -----
 
  * Nodes were updated for the new API with the improvements that come with it. :)
+
+ * Added new core nodes:
+  - Flip (thanks to iwoithe)
 
 
 Project File
