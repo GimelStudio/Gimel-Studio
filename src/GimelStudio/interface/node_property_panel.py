@@ -19,13 +19,14 @@
 ## ----------------------------------------------------------------------------
 
 import wx
+import wx.lib.scrolledpanel
 
 from GimelStudio.datafiles.icons import *
 
 
-class NodePropertyPanel(wx.Panel):
+class NodePropertyPanel(wx.lib.scrolledpanel.ScrolledPanel):
     def __init__(self, parent, size=wx.DefaultSize):
-        wx.Panel.__init__(self, parent, wx.ID_ANY, size=size)
+        wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent, wx.ID_ANY, size=size)
         self._parent = parent
         self._selectedNode = None
 
@@ -33,6 +34,8 @@ class NodePropertyPanel(wx.Panel):
 
         self.SetSizer(self._mainSizer)
         self._mainSizer.Fit(self)
+
+        self.SetupScrolling(scroll_x=False)
 
     @property
     def Parent(self):
@@ -47,10 +50,12 @@ class NodePropertyPanel(wx.Panel):
 
         if selected_node != None:
 
+            scrollbar_size = wx.SystemSettings.GetMetric(wx.SYS_VSCROLL_X)
+
             self.panel_staticbox = wx.StaticBox(
                 self, id=wx.ID_ANY,
                 label=selected_node.GetLabel(),
-                size=wx.Size(self.Size[0], self.Size[1])
+                size=wx.Size(self.Size[0]-scrollbar_size-10, self.Size[1])
                 )
 
             # This gets the recommended amount of border space to use for items
@@ -69,7 +74,7 @@ class NodePropertyPanel(wx.Panel):
             self.panel_staticbox.SetSizer(staticbox_sizer)
 
             panel_sizer = wx.BoxSizer(wx.VERTICAL)
-            panel_sizer.Add(self.panel_staticbox, 1, wx.EXPAND|wx.ALL, other_bd+10)
+            panel_sizer.Add(self.panel_staticbox, 1, wx.EXPAND|wx.ALL, other_bd)
 
             # Node Properties UI
             selected_node.NodePanelUI(self.panel_staticbox, inner_sizer)
