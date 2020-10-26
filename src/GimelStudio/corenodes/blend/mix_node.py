@@ -39,21 +39,21 @@ class MixNode(api.NodeBase):
     def NodeInitProps(self):
         p = api.ChoiceProp(
             idname="Blend Mode",
-            default="MULTIPLY",
+            default="Multiply",
             label="Blend Mode:",
             choices=[
-                    'ADD',
-                    'ADD MODULO',
-                    'SUBTRACT',
-                    'SUBTRACT MODULO',
-                    'MULTIPLY',
-                    'SCREEN',
-                    'DIFFERENCE',
-                    'DARKER',
-                    'LIGHTER',
-                    'SOFT LIGHT',
-                    'HARD LIGHT',
-                    'OVERLAY'
+                    'Add',
+                    'Add Modulo',
+                    'Subtract',
+                    'Subtract Modulo',
+                    'Multiply',
+                    'Screen',
+                    'Difference',
+                    'Darker',
+                    'Lighter',
+                    'Soft Light',
+                    'Hard Light',
+                    'Overlay'
                 ]
             )
 
@@ -75,40 +75,40 @@ class MixNode(api.NodeBase):
         main_image = image1.GetImage()
         layer_image = ImageOps.fit(image2.GetImage(), main_image.size)
 
-        if blendmode == 'ADD':
+        if blendmode == 'Add':
             img = ImageChops.add(main_image, layer_image)
 
-        elif blendmode == 'ADD MODULO':
+        elif blendmode == 'Add Modulo':
             img = ImageChops.add_modulo(main_image, layer_image)
 
-        elif blendmode == 'SUBTRACT':
+        elif blendmode == 'Subtract':
             img = ImageChops.subtract(main_image, layer_image)
 
-        elif blendmode == 'SUBTRACT MODULO':
+        elif blendmode == 'Subtract Modulo':
             img = ImageChops.subtract_modulo(main_image, layer_image)
 
-        elif blendmode == 'MULTIPLY':
+        elif blendmode == 'Multiply':
             img = ImageChops.multiply(main_image, layer_image)
 
-        elif blendmode == 'SCREEN':
+        elif blendmode == 'Screen':
             img = ImageChops.screen(main_image, layer_image)
 
-        elif blendmode == 'DIFFERENCE':
+        elif blendmode == 'Difference':
             img = ImageChops.difference(main_image, layer_image)
 
-        elif blendmode == 'DARKER':
+        elif blendmode == 'Darker':
             img = ImageChops.darker(main_image, layer_image)
 
-        elif blendmode == 'LIGHTER':
+        elif blendmode == 'Lighter':
             img = ImageChops.lighter(main_image, layer_image)
 
-        elif blendmode == 'SOFT LIGHT':
+        elif blendmode == 'Soft Light':
             img = ImageChops.soft_light(main_image, layer_image)
 
-        elif blendmode == 'HARD LIGHT':
+        elif blendmode == 'Hard Light':
             img = ImageChops.hard_light(main_image, layer_image)
 
-        elif blendmode == 'OVERLAY':
+        elif blendmode == 'Overlay':
             img = ImageChops.overlay(main_image, layer_image)
 
         image.SetAsImage(img)

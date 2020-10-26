@@ -56,14 +56,14 @@ class NodeDefinition(NodeBase):
             Property('Resample',
                 prop_type='LIST',
                 value=List([
-                    'NEAREST',
-                    'ANTIALIAS',
-                    'BOX',
-                    'BILINEAR',
-                    'HAMMING',
-                    'BICUBIC',
-                    'LANCZOS'
-                    ], 'NEAREST')
+                    'Nearest',
+                    'Antialias',
+                    'Box',
+                    'Bilinear',
+                    'Hamming',
+                    'Bicubic',
+                    'Lanczos'
+                    ], 'Nearest')
                 ),
 
             Property('Size',
@@ -93,13 +93,13 @@ class NodeDefinition(NodeBase):
             parent, wx.ID_ANY,
             value=current_resample_value,
             choices=[
-                    'NEAREST',
-                    'ANTIALIAS',
-                    'BOX',
-                    'BILINEAR',
-                    'HAMMING',
-                    'BICUBIC',
-                    'LANCZOS'
+                    'Nearest',
+                    'Antialias',
+                    'Box',
+                    'Bilinear',
+                    'Hamming',
+                    'Bicubic',
+                    'Lanczos'
                     ],
             style=wx.CB_READONLY
             )
@@ -167,22 +167,22 @@ class NodeDefinition(NodeBase):
         resample = eval_info.EvaluateProperty('Resample')
         size = eval_info.EvaluateProperty('Size')
 
-        if resample == 'ANTIALIAS':
+        if resample == 'Antialias':
             RESIZE_RESAMPLE = Image.ANTIALIAS
 
-        elif resample == 'BOX':
+        elif resample == 'Box':
             RESIZE_RESAMPLE = Image.BOX
 
-        elif resample == 'BILINEAR':
+        elif resample == 'Bilinear':
             RESIZE_RESAMPLE = Image.BILINEAR
 
-        elif resample == 'HAMMING':
+        elif resample == 'Hamming':
             RESIZE_RESAMPLE = Image.HAMMING
 
-        elif resample == 'BICUBIC':
+        elif resample == 'Bicubic':
             RESIZE_RESAMPLE = Image.BICUBIC
 
-        elif resample == 'LANCZOS':
+        elif resample == 'Lanczos':
             RESIZE_RESAMPLE = Image.LANCZOS
 
         else:

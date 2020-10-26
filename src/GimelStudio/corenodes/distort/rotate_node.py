@@ -57,10 +57,10 @@ class NodeDefinition(NodeBase):
             Property('Resample',
                 prop_type='LIST',
                 value=List([
-                    'NEAREST',
-                    'BILINEAR',
-                    'BICUBIC',
-                    ], 'NEAREST')
+                    'Nearest',
+                    'Bilinear',
+                    'Bicubic',
+                    ], 'Nearest')
                 ),
 
             Property('Size',
@@ -122,9 +122,10 @@ class NodeDefinition(NodeBase):
             parent, wx.ID_ANY,
             value=current_resample_value,
             choices=[
-                    'NEAREST',
-                    'BILINEAR',
-                    'BICUBIC',
+                    'Nearest',
+                    'Bilinear',
+                    'Bicubic',
+                    'Lanczos'
                     ],
             style=wx.CB_READONLY
             )
@@ -209,13 +210,13 @@ class NodeDefinition(NodeBase):
         expand = eval_info.EvaluateProperty('Expand')
         fill_color = eval_info.EvaluateProperty('Fill Color')
 
-        if resample == 'BILINEAR':
+        if resample == 'Bilinear':
             RESAMPLE_VALUE = Image.BILINEAR
 
-        elif resample == 'BICUBIC':
+        elif resample == 'Bicubic':
             RESAMPLE_VALUE = Image.BICUBIC
 
-        elif resample == 'LANCZOS':
+        elif resample == 'Lanczos':
             RESAMPLE_VALUE = Image.LANCZOS
 
         else:
