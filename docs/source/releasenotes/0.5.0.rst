@@ -19,6 +19,13 @@ General
  * Code fixes, compatibility with Python 2 (thanks to Metallicow)
 
 
+Updated Logo
+------------
+
+ * The Gimel Studio logo was updated to look more professional.
+ * Application icon size bug was fixed (Windows)
+
+ 
 New API
 -------
 
