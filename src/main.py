@@ -23,6 +23,7 @@ import wx
 
 from GimelStudio.meta import  APP_TITLE, APP_DEBUG
 from GimelStudio.application import MainApplication
+from GimelStudio.program import StartupSplashScreen
 
 # Fix blurry text on Windows 10
 # from https://stackoverflow.com/questions/50884283/how-to-fix-blurry-text-in-wxpython-controls-on-windows
@@ -43,7 +44,9 @@ if __name__ == '__main__':
     frame = MainApplication(
         arguments=args
         )
-
+    if APP_DEBUG != True:
+        splash = StartupSplashScreen()
+        splash.Show()
     frame.Show()
     app.SetTopWindow(frame)
     app.MainLoop()
