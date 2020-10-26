@@ -4,6 +4,9 @@ Thank you for wanting to contribute to this open-source project! All contributio
 
 If you have any questions about contributing, feel free to ask.
 
+Make sure to take a look at the [ROADMAP.txt](ROADMAP.txt) too. :)
+
+
 ## Tips
 
 A few tips when developing Gimel Studio:
@@ -27,6 +30,4 @@ A few tips when developing Gimel Studio:
 
 ## Ideas, New Features, Feature Changes (*You intend to add a new feature or change an existing one*)
 
-Please contact me at <correctsyntax@yahoo.com> for feature suggestions, ideas, or if you want to make a change to something. I welcome feedback.
-
-Take a look at the [ROADMAP.txt](ROADMAP.txt) too. :)
+Please contact me at <correctsyntax@yahoo.com> or open a Github issue for feature suggestions, ideas, or if you want to make a change to something. This ensures that you don't end up re-working on the same thing as me (Correct-Syntax)! I always welcome constructive feedback from others.
