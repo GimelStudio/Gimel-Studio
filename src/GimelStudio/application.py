@@ -66,55 +66,13 @@ class MainApplication(wx.Frame):
 
         self._nodeGraph.InitMenuButton()
 
-        self._nodeGraph.AddNode("corenode_outputcomposite",
-         pos=wx.Point(5910, 5510))
-
-        # self._nodeGraph.AddNode("corenode_colorimage",
-        #  pos=wx.Point(5110, 5010))
-
-        self._nodeGraph.AddNode("corenode_image",
-         pos=wx.Point(5160, 5160))
-        # self._nodeGraph.AddNode("corenode_image",
-        #  pos=wx.Point(5360, 5160))
-
-        # self._nodeGraph.AddNode("corenode_mix",
-        #  pos=wx.Point(5460, 5460))
-
-        # self._nodeGraph.AddNode("corenode_mix",
-        # pos=wx.Point(5260, 5260))
-
-        # self._nodeGraph.AddNode("corenode_invertalpha",
-        #  pos=wx.Point(5260, 5260))
-
-        # self._nodeGraph.AddNode("corenode_contrast",
-        #  pos=wx.Point(5260, 5260))
-
-        # self._nodeGraph.AddNode("corenode_alphacomposite",
-        #  pos=wx.Point(5260, 5260))
-
-        # self._nodeGraph.AddNode("corenode_composite",
-        #  pos=wx.Point(5260, 5260))
-
-        # self._nodeGraph.AddNode("corenode_brightness",
-        # pos=wx.Point(5660, 5660))
-
-        # self._nodeGraph.AddNode("corenode_blur",
-        # pos=wx.Point(5680, 5680))
-
-        # self._nodeGraph.AddNode("examplecustomnode_brightness",
-        # pos=wx.Point(5960, 5660))
-
-        # self._nodeGraph.AddNode("corenode_tonormalmap",
-        # pos=wx.Point(5960, 5660))
-
-
-
     def _InitApp(self):
         self._InitProgramBackend()
         self._InitAUIManagerStyles()
         self._InitMenuBar()
         self._InitUIPanels()
         self._SetupWindowStartup()
+        self._SetupDefaultNodes()
 
     def _InitProgramBackend(self):
         # Init project, renderer and user preferences manager
@@ -132,46 +90,19 @@ class MainApplication(wx.Frame):
         # that we get the style that we want instead
         # of the yucky default colors. :)
         self._mgr = aui.AuiManager()
+        art = self._mgr.GetArtProvider()
         self._mgr.SetManagedWindow(self)
-        self._mgr.SetAGWFlags(
-            self._mgr.GetAGWFlags() ^ aui.AUI_MGR_LIVE_RESIZE
-            )
-        self._mgr.GetArtProvider().SetMetric(
-            aui.AUI_DOCKART_SASH_SIZE,
-            2
-            )
-        self._mgr.GetArtProvider().SetMetric(
-            aui.AUI_DOCKART_PANE_BORDER_SIZE,
-            3
-            )
-        self._mgr.GetArtProvider().SetMetric(
-            aui.AUI_DOCKART_GRADIENT_TYPE,
-            aui.AUI_GRADIENT_NONE
-            )
-        self._mgr.GetArtProvider().SetColour(
-            aui.AUI_DOCKART_BACKGROUND_COLOUR,
-            wx.Colour("#fff")
-            )
-        self._mgr.GetArtProvider().SetColour(
-            aui.AUI_DOCKART_INACTIVE_CAPTION_COLOUR,
-            wx.Colour("#fff")
-            )
-        self._mgr.GetArtProvider().SetColour(
-            aui.AUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR,
-            wx.Colour("#000")
-            )
-        self._mgr.GetArtProvider().SetColour(
-            aui.AUI_DOCKART_BORDER_COLOUR,
-            wx.Colour("#fff")
-            )
-        self._mgr.GetArtProvider().SetColour(
-            aui.AUI_DOCKART_SASH_COLOUR,
-            wx.Colour("#fff")
-            )
-        self._mgr.GetArtProvider().SetColour(
-            aui.AUI_DOCKART_GRIPPER_COLOUR,
-            wx.Colour("#fff")
-            )
+        self._mgr.SetAGWFlags(self._mgr.GetAGWFlags() ^ aui.AUI_MGR_LIVE_RESIZE)
+
+        art.SetMetric(aui.AUI_DOCKART_SASH_SIZE, 2)
+        art.SetMetric(aui.AUI_DOCKART_PANE_BORDER_SIZE, 3)
+        art.SetMetric(aui.AUI_DOCKART_GRADIENT_TYPE, aui.AUI_GRADIENT_NONE)
+        art.SetColour(aui.AUI_DOCKART_BACKGROUND_COLOUR, wx.Colour("#fff"))
+        art.SetColour(aui.AUI_DOCKART_INACTIVE_CAPTION_COLOUR, wx.Colour("#fff"))
+        art.SetColour(aui.AUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR, wx.Colour("#000"))
+        art.SetColour(aui.AUI_DOCKART_BORDER_COLOUR, wx.Colour("#fff"))
+        art.SetColour(aui.AUI_DOCKART_SASH_COLOUR, wx.Colour("#fff"))
+        art.SetColour(aui.AUI_DOCKART_GRIPPER_COLOUR, wx.Colour("#fff"))
 
     def _InitMenuBar(self):
         # Menubar
@@ -454,9 +385,7 @@ class MainApplication(wx.Frame):
 
     def _InitUIPanels(self):
         # Image Viewport Panel
-        self._imageViewport = ImageViewport(
-            self,
-            )
+        self._imageViewport = ImageViewport(self)
         self._mgr.AddPane(
             self._imageViewport,
             aui.AuiPaneInfo()
@@ -469,10 +398,7 @@ class MainApplication(wx.Frame):
             )
 
         # Node Properties Panel
-        self._nodePropertyPanel = NodePropertyPanel(
-            self,
-            (500, 800)
-            )
+        self._nodePropertyPanel = NodePropertyPanel(self, (500, 800))
         self._mgr.AddPane(
             self._nodePropertyPanel,
             aui.AuiPaneInfo()
@@ -485,10 +411,7 @@ class MainApplication(wx.Frame):
             )
 
         # Node Graph Panel
-        self._nodeGraph = NodeGraph(
-            self,
-            (600, 600)
-            )
+        self._nodeGraph = NodeGraph(self, (600, 600))
         # Drag image from dir or Node Registry into
         # node graph to create image node
         self._nodeGraph.SetDropTarget(NodeGraphDropTarget(self._nodeGraph))
@@ -524,6 +447,39 @@ class MainApplication(wx.Frame):
         # Quit prompt dialog
         if meta.APP_DEBUG != True:
             self.Bind(wx.EVT_CLOSE, self.OnQuit)
+
+    def _SetupDefaultNodes(self):
+        # Calculate center of Node Graph view
+        rect = self._nodeGraph.GetSize()
+
+        # 5000px is 1/2 the size of the Node Graph
+        x, y = (rect[0]/2)+5000, (rect[1]/2)+5000
+
+        # Add default nodes
+        img_node = self._nodeGraph.AddNode(
+            'corenode_image', 
+            pos=wx.Point(x-340, y)
+            )
+        
+        comp_node = self._nodeGraph.AddNode(
+            'corenode_outputcomposite', 
+            pos=wx.Point(x+150, y)
+            )
+
+        # This node is here just for 
+        # testing during development.
+        if meta.APP_DEBUG == True:
+            self._nodeGraph.AddNode(
+                'corenode_toaomap', # Put the node id you are testing here
+                pos=wx.Point(x-100, y)
+                )
+
+        # Connect the default nodes 
+        img_node.FindSocket('Output').Connect(
+            self._nodeGraph,
+            comp_node.FindSocket('Image')
+            )
+
 
     def OnExportImage(self, event):
         wildcard = "JPG file (*.jpg)|*.jpg|" \
@@ -649,7 +605,9 @@ class MainApplication(wx.Frame):
         self.Render()
 
     def OnRenderResult(self, event):
-        """ Called after the render is completed and the thread returns the result. """
+        """ Called after the render is completed and the thread 
+        returns the result. 
+        """
 
         self._imageViewport.UpdateViewerImage(
             utils.ConvertImageToWx(self._renderer.GetRender()),

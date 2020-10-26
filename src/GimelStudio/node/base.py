@@ -107,6 +107,17 @@ class NodeBase(NodeObject):
     def GetSockets(self):
         return self.Model.GetSockets()
 
+    def FindSocket(self, socket_name):
+        """ Return the node socket with the given name.
+
+        :param socket_name: the socket name as a string
+        :returns: Socket object
+        """
+        for socket in self.GetSockets():
+            #print(socket.GetLabel(), '\n')
+            if socket.GetLabel() == socket_name:
+                return socket
+
     def GetLabel(self):
         return self.Model.GetLabel()
 
