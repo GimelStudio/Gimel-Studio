@@ -1,6 +1,15 @@
 # How to contribute to Gimel Studio
 
-Thanks for wanting to contribute! All contributions will be given due credit. :)
+Thank you for wanting to contribute to this open-source project! All contributions will be given due credit. :)
+
+If you have any questions about contributing, feel free to ask.
+
+## Tips
+
+A few tips when developing Gimel Studio:
+
+- Make sure the ```APP_DEBUG``` setting in *src>GimelStudio>meta.py* is set to ```True```. This disables features such as the splashscreen, etc. which would otherwise hinder development and enables features like being able to show the node you are developing by default.
+- If you're looking to develop new nodes, have a look at the *src>corenodes* directory where all the core nodes in Gimel Studio live. Much of the time, you can copy-and-paste the same properties and/or find a solution to a problem you've come across.
 
 
 ## Bugs (*You found a bug*)
