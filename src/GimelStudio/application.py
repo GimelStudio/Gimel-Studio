@@ -474,12 +474,6 @@ class MainApplication(wx.Frame):
                 pos=wx.Point(x-100, y)
                 )
 
-        # Connect the default nodes 
-        img_node.FindSocket('Output').Connect(
-            self._nodeGraph,
-            comp_node.FindSocket('Image')
-            )
-
 
     def OnExportImage(self, event):
         wildcard = "JPG file (*.jpg)|*.jpg|" \
