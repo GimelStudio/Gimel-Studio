@@ -6,7 +6,8 @@ from GimelStudio.node import (
     Property, PositiveIntegerProp,
     ChoiceProp, BooleanProp,
     ColorProp, OpenFileChooserProp,
-    LabelProp, SizeProp,
+    LabelProp, SizeProp, StringProp,
+    FontProp,
     SLIDER_WIDGET, SPINBOX_WIDGET,
     )
 from GimelStudio.registry import RegisterNode
