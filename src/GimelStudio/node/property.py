@@ -1,5 +1,5 @@
 ## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -17,12 +17,10 @@
 ## AUTHOR(S): Noah Rahm
 ## PURPOSE: Define the base node property class and specific property types
 ## ----------------------------------------------------------------------------
-import sys
-
-if sys.version_info[0] == 3:  # Python 3
-    unicode = str
 
 import os
+import sys
+import glob
 
 import wx
 from wx.lib import buttons
@@ -299,7 +297,7 @@ class OpenFileChooserProp(Property):
         self._RunErrorCheck()
 
     def _RunErrorCheck(self):
-        if not type(self.value) in (str, unicode):
+        if type(self.value) != str:
             raise TypeError("OpenFileChooserField value must be a string!")
 
     def GetDlgMessage(self):
@@ -432,7 +430,85 @@ class SizeProp(Property):
             )
 
 
+class StringProp(Property):
+    def __init__(self, idname, default="String", label="", visible=True):
+        Property.__init__(self, idname, default, label, visible)
 
+        self._RunErrorCheck()
+
+    def CreateUI(self, parent, sizer):
+        label = wx.StaticText(parent, label=self.GetLabel())
+        sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
+
+        self.entry = wx.TextCtrl(
+            parent,
+            id=wx.ID_ANY,
+            value=self.GetValue(),
+        )
+
+        self.entry.Bind(
+            wx.EVT_TEXT,
+            self.WidgetEvent
+        )
+
+        sizer.Add(self.entry, flag=wx.EXPAND | wx.ALL, border=5)
+
+    def WidgetEvent(self, event):
+        value = event.GetString()
+        if not value:
+            return
+        self.SetValue(value)
+
+
+class FontProp(Property):
+    def __init__(self, idname, default="", label="", visible=True):
+        Property.__init__(self, idname, default, label, visible)
+        self.fonts = []
+
+        self._RunErrorCheck()
+
+    def LoadAvailableFonts(self):
+        fonts = []
+
+        if sys.platform == "win32":
+            font_path_prefix = "C:/Windows/Fonts/"
+        elif sys.platform == "linux":
+            font_path_prefix = "/usr/share/fonts/TTF/"
+        else:
+            print("WARNING: The text node does not currently support your operating system")
+            return fonts
+
+        # TODO: Add support for custom fonts (e.g. font paths in settings)
+        for font_path in glob.glob("{}*.ttf".format(font_path_prefix)):
+            font_name = os.path.splitext(os.path.split(font_path)[1])[0]
+            fonts.append(font_name)
+
+        return fonts
+
+    def CreateUI(self, parent, sizer):
+        label = wx.StaticText(parent, label=self.GetLabel())
+        sizer.Add(label, flag=wx.LEFT | wx.TOP, border=5)
+
+        self.font_combo = wx.ComboBox(
+            parent,
+            id=wx.ID_ANY,
+            value=self.GetValue(),
+            choices=self.LoadAvailableFonts(),
+            style=wx.CB_READONLY
+        )
+
+        self.font_combo.Bind(
+            wx.EVT_COMBOBOX,
+            self.WidgetEvent
+        )
+
+        sizer.Add(self.font_combo, flag=wx.EXPAND | wx.ALL, border=5)
+
+    def WidgetEvent(self, event):
+        value = event.GetString()
+        if not value:
+            return
+        self.SetValue(value)
 
 
 if __name__ == '__main__':

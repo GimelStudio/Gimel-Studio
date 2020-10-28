@@ -8,7 +8,7 @@ INPUT #975B5B (Burgendy)
 [x]- Texture/noise
 
 DRAW #AF4467 (Pink)
-- Add Text?
+[x] - Add Text
 - Add Shape?
 
 CONVERT #564B7C (Purple)
