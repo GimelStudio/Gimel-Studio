@@ -29,7 +29,7 @@ from GimelStudio.corenodes.input import (
 #from GimelStudio.corenodes.draw import add_text_node
 
 from GimelStudio.corenodes.color import (
-                                        #invert_node,
+                                        invert_node,
                                         color_balance_node,
                                         contrast_node,
                                         brightness_node,
