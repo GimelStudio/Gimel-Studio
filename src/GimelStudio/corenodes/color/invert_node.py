@@ -1,6 +1,6 @@
 ## THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
 ## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+## Gimel Studio Copyright 2020 Noah Rahm, Correct Syntax. All rights reserved.
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -15,58 +15,41 @@
 ## limitations under the License.
 ## ----------------------------------------------------------------------------
 
-import cv2
-import wx
-from PIL import Image
 
-from GimelStudio.api import (Color, RenderImage, List, NodeBase,
-                            Parameter, Property, RegisterNode)
+from PIL import ImageOps
 
-from GimelStudio.utils.image import ArrayFromImage, ArrayToImage
+from GimelStudio import api
 
 
-class NodeDefinition(NodeBase):
+class InvertNode(api.NodeBase):
+    def __init__(self, _id):
+        api.NodeBase.__init__(self, _id)
 
     @property
-    def NodeIDName(self):
-        return "gimelstudiocorenode_invert"
+    def NodeMeta(self):
+        meta_info = {
+            "label": "Invert",
+            "author": "iwoithe",
+            "version": (0, 0, 1),
+            "supported_app_version": (0, 5, 0),
+            "category": "FILTER",
+            "description": "Inverts the image.",
+        }
+        return meta_info
 
-    @property
-    def NodeLabel(self):
-        return "Invert"
-
-    @property
-    def NodeCategory(self):
-        return "COLOR"
-
-    @property
-    def NodeDescription(self):
-        return "Inverts the channels of an image."
-
-    @property
-    def NodeVersion(self):
-        return "1.0"
-
-    @property
-    def NodeAuthor(self):
-        return "Correct Syntax Software"
-
-    @property
-    def NodeParameters(self):
-        return [
-            Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))
-                ),
-        ]
+    def NodeInitParams(self):
+        image = api.RenderImageParam("Image")
+        self.NodeAddParam(image)
 
     def NodeEvaluation(self, eval_info):
-        image1  = eval_info.EvaluateParameter('Image')
+        image1 = eval_info.EvaluateParameter('Image')
 
-        image = RenderImage()
-        image.SetAsImage(ArrayToImage(cv2.bitwise_not(ArrayFromImage(image1.GetImage()))).convert('RGBA'))
+        image = api.RenderImage()
+
+        image.SetAsImage(ImageOps.invert(image1.GetImage().convert("RGB")))
+
         self.NodeSetThumb(image.GetImage())
         return image
 
 
-RegisterNode(NodeDefinition)
+api.RegisterNode(InvertNode, "corenode_invert")

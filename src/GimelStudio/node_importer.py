@@ -31,7 +31,7 @@ from GimelStudio.corenodes.draw import (
 )
 
 from GimelStudio.corenodes.color import (
-                                        #invert_node,
+                                        invert_node,
                                         color_balance_node,
                                         contrast_node,
                                         brightness_node,
