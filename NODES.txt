@@ -22,7 +22,7 @@ FILTER #558333 (Green)
 [x]- Blur
 [x]- Sharpness
 [] - Denoise
-[] - Invert
+[x] - Invert
 
 BLEND #498DB8 (Light Blue)
 [x] - Alpha Composite
