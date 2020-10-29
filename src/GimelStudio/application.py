@@ -636,7 +636,7 @@ class MainApplication(wx.Frame):
     def OnFeedbackSurvey(self, event):
         """ Go to the feedback survey webpage. """
         # Will be removed after BETA stage
-        url = ("https://www.surveymonkey.com/r/RSRD556")
+        url = ("https://www.surveymonkey.com/r/V23MV7Q")
         webbrowser.open(url)
 
     def OnReadOnlineDocs(self, event):
