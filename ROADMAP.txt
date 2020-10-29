@@ -61,4 +61,6 @@ POSSIBLE FUTURE FEATURES/FIXES, version 1.x.x stable
 
 * Support for other languages (will need help from others) [Low priority]
 
+* Popup image preview window when node is double-clicked, with "before and after" feature [Medium priority]
+
 ...
