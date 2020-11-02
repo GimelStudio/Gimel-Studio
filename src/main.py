@@ -35,9 +35,23 @@ except:
 
 
 if __name__ == '__main__':
-
-    args = None
-
+    # Parse the arguments to see if a file is given, otherwise
+    # fallback on the default Gimel Studio project file.
+    parser = argparse.ArgumentParser(
+        description=APP_TITLE
+        )
+    parser.add_argument(
+        'file',
+        nargs='?',
+        default='DEFAULT_FILE',
+        help='open a GIMEL-STUDIO-PROJECT file or a supported image file in Gimel Studio (Not yet implemented)'
+        )
+    parser.add_argument(
+        '--blender',
+        default='',
+        help='file path for communicating internally to integrate with the Blender Gimel Studio Addon'
+        )
+    args = parser.parse_args()
 
     # Create the app and startup
     app = wx.App(redirect=False)

@@ -52,6 +52,8 @@ class MainApplication(wx.Frame):
     def __init__(self, arguments):
         wx.Frame.__init__(self, None, title=meta.APP_TITLE, size=(1000, 800))
 
+        self._arguments = arguments
+
         # Indicate we don't have a worker thread yet
         self.worker = None
 
@@ -473,6 +475,13 @@ class MainApplication(wx.Frame):
                 'corenode_toaomap', # Put the node id you are testing here
                 pos=wx.Point(x-100, y)
                 )
+
+        if self._arguments.blender != "":
+            img_node.NodeEditProp(
+                idname="File Path",
+                value=self._arguments.blender,
+                render=False
+            )
 
 
     def OnExportImage(self, event):
