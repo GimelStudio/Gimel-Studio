@@ -25,6 +25,7 @@ It provides basic image editing features such as rotate, resize and blur effects
   * Node Graph featuring node deletion, duplication, selection, etc.
   * JPEG, JPG, PNG, BMP, WEBP (and more...) file type support
   * API for scripting custom nodes in Python
+  * Compatibility with [Blender](https://blender.org) via the [Blender Gimel Studio addon](https://github.com/Correct-Syntax/Blender-Gimel-Studio-Addon)
   * Dark theme w/ wire curving
   * Rearrangable and resizable panels for the main UI
   * Zoomable Image Viewport for viewing renders in real-time
