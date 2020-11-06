@@ -82,10 +82,10 @@ class MenuButton(object):
 
             info_text = "Node Graph ({} nodes)".format(node_count)
             dc.SetTextForeground(wx.Colour("#ccc"))
-            dc.DrawText(info_text, rect[0]+85, rect[1]+20)
+            dc.DrawText(info_text, rect[0]+78, rect[1]+20)
 
             help_text = "Shift+A to add node | LMB to move node or box select | MMB to pan graph"
             dc.SetTextForeground(wx.Colour("#ccc"))
-            dc.DrawText(help_text, rect[0]+85, rect[1]+40)
+            dc.DrawText(help_text, rect[0]+78, rect[1]+40)
 
         dc.SetIdBounds(self.GetId(), self.GetRect())
