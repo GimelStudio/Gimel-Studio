@@ -61,19 +61,31 @@ class MenuButton(object):
         dc.ClearId(self.GetId())
         dc.SetId(self.GetId())
 
+        node_count = len(self._parent._nodes)
+
         if hide == False:
             pos = self._parent.GetMenuButtonWidgetPos()
-            self.SetRect(wx.Rect(pos[0]+4, pos[1]+4, 56, 56))
+            self.SetRect(wx.Rect(pos[0]+15, pos[1]-20, 56, 56))
+
+            rect = self.GetRect()
 
             dc.SetPen(wx.Pen(wx.Colour((55, 55, 55, 255)), 2))
             dc.SetBrush(wx.Brush(wx.Colour("#6D6F6E")))
-            dc.DrawCircle(self.GetRect()[0]+32, self.GetRect()[1]+32, 30)
+            dc.DrawCircle(rect[0]+32, rect[1]+32, 30)
 
             dc.DrawBitmap(
                 self.GetImage(),
-                self.GetRect()[0]+5,
-                self.GetRect()[1]+5,
+                rect[0]+5,
+                rect[1]+5,
                 True # Use alpha mask
                 )
+
+            info_text = "Node Graph ({} nodes)".format(node_count)
+            dc.SetTextForeground(wx.Colour("#ccc"))
+            dc.DrawText(info_text, rect[0]+85, rect[1]+20)
+
+            help_text = "Shift+A to add node | LMB to move node or box select | MMB to pan graph"
+            dc.SetTextForeground(wx.Colour("#ccc"))
+            dc.DrawText(help_text, rect[0]+85, rect[1]+40)
 
         dc.SetIdBounds(self.GetId(), self.GetRect())

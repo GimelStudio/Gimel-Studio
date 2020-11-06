@@ -192,10 +192,12 @@ class NodeGraph(wx.ScrolledCanvas):
     def CenterNodeGraph(self):
         """ Set the view to be the center of the Node Graph panel. """
         self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)
+        self._menuButton.Draw(self._pdc)
         self.RefreshGraph()
 
     def OnSize(self, event):
         """ Panel resize event handler. """
+        self._menuButton.Draw(self._pdc)
         self.RefreshGraph()
 
     def OnLeftDown(self, event):
@@ -774,10 +776,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
 
     def GetMenuButtonWidgetPos(self):
-        return self.ConvertCoords(wx.Point(0, 0))
-
-    def GetGraphDataTextPos(self):
-        return self.ConvertCoords(wx.Point(80, 8))
+        return self.ConvertCoords(wx.Point(0, self.Size[1]-80))
 
     def InitMenuButton(self):
 
@@ -787,11 +786,5 @@ class NodeGraph(wx.ScrolledCanvas):
             _id=ID_MENU_BUTTON
             )
         self._menuButton.Draw(self._pdc)
-
-        # self._pdc.SetTextForeground(wx.Colour("#ccc"))
-        # self._pdc.DrawText(
-        #     "Node: Image",
-        #     self.GetGraphDataTextPos()
-        #     )
 
         self.RefreshGraph()
