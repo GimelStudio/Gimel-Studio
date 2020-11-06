@@ -54,19 +54,15 @@ class MainApplication(wx.Frame):
 
         self._arguments = arguments
 
-        # Indicate we don't have a worker thread yet
-        self.worker = None
-
-        # Set up event handler for worker thread results
-        EVT_RENDER_RESULT(self, self.OnRenderResult)
+        # Threading
+        self._jobID = 0
+        self._abortEvent = delayedresult.AbortEvent()
 
         # Set the program icon
         self.SetIcon(ICON_GIMELSTUDIO_ICO.GetIcon())
 
         # Init everything
         self._InitApp()
-
-        self._nodeGraph.InitMenuButton()
 
     def _InitApp(self):
         self._InitProgramBackend()
@@ -429,6 +425,7 @@ class MainApplication(wx.Frame):
                 .Floatable(False)
                 .Movable(False)
             )
+        self._nodeGraph.InitMenuButton()
 
     def _SetupWindowStartup(self):
         # Set statusbar
@@ -436,10 +433,6 @@ class MainApplication(wx.Frame):
 
         #FIXME: move
         self._nodeRegistry = REGISTERED_NODES
-
-        self.SetStatusText(
-            "Shift+A to add a node | Left click and drag on node to move node or on empty area to box select | Middle mouse button to pan graph"
-            )
 
         # Maximize the window & tell the AUI window
         # manager to "commit" all the changes just made.
@@ -476,6 +469,8 @@ class MainApplication(wx.Frame):
                 pos=wx.Point(x-100, y)
                 )
 
+        # If a path is passed into the "--blender" arg
+        # set the Image node file path to that path.
         if self._arguments.blender != "":
             img_node.NodeEditProp(
                 idname="File Path",
@@ -607,25 +602,6 @@ class MainApplication(wx.Frame):
         """ Event handler for rendering the current Node Graph. """
         self.Render()
 
-    def OnRenderResult(self, event):
-        """ Called after the render is completed and the thread 
-        returns the result. 
-        """
-
-        self._imageViewport.UpdateViewerImage(
-            utils.ConvertImageToWx(self._renderer.GetRender()),
-            self._renderer.GetTime()
-            )
-        self._imageViewport.UpdateRenderText(False)
-        self._statusBar.SetStatusText(
-            "Render Finished in {} sec.".format(self._renderer.GetTime())
-            )
-
-        self._nodeGraph.UpdateAllNodes()
-
-        # The worker thread is done
-        #self.worker = None
-
     def OnQuit(self, event):
         quitdialog = wx.MessageDialog(
             self,
@@ -671,6 +647,52 @@ class MainApplication(wx.Frame):
         method, called when the Node Graph image is to be rendered. After this is
         complete, the result event will be called.
         """
-        self._statusBar.SetStatusText("Rendering image...")
-        self._imageViewport.UpdateRenderText(True)
-        self.worker = RenderThread(self)
+        self._abortEvent.clear()
+        self._jobID += 1
+        delayedresult.startWorker(
+            self._PostRender, 
+            self._Render,
+            wargs=(self._jobID, self._abortEvent), 
+            jobID=self._jobID
+        )
+
+    def _Render(self, jobID, abort_event):
+        """ Internal rendering method. """
+        if not abort_event():
+            self._imageViewport.UpdateRenderText(True)
+            self._renderer.Render(self._nodeGraph.GetNodes())
+            render_time = self._renderer.GetTime()
+            render_image = self._renderer.GetRender()
+            if render_image != None:
+                self._imageViewport.UpdateViewerImage(
+                    utils.ConvertImageToWx(render_image),
+                    render_time
+                    )
+                self._abortEvent.set()
+        else:
+            self._abortEvent.clear()
+
+        self._imageViewport.UpdateRenderText(False)
+        return jobID
+
+    def _PostRender(self, delayed_result):
+        """ Internal post-render misc. """
+        try:
+            result = delayed_result.get()
+
+            self._imageViewport.UpdateViewerImage(
+                utils.ConvertImageToWx(self._renderer.GetRender()),
+                self._renderer.GetTime()
+                )
+            self._imageViewport.UpdateRenderText(False)
+            self._statusBar.SetStatusText(
+                "Render Finished in {} sec.".format(self._renderer.GetTime())
+                )
+
+            self._nodeGraph.UpdateAllNodes()
+
+            self._abortEvent.clear()
+            return result
+        except Exception as exc:
+            print('ERROR: PLEASE REPORT THE FOLLOWING ERROR TO THE DEVELOPERS: \n', exc)
+            return
