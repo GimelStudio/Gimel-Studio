@@ -31,7 +31,7 @@ Minimum to release v1.0.0 stable
 [Low priority]
 [] - Output node to have Export option in Property Panel
 [] - Project templates (ready-made node setups for cropping an image, converting an image to PBR maps, etc)
-
+[] - Keyboard shortcut + menu item for toggling Property Panel
 
 [RANDOM STUFF TO WORK ON]:
 * References to "plug" need to be changed to "socket" [Low priority]
@@ -61,6 +61,6 @@ POSSIBLE FUTURE FEATURES/FIXES, version 1.x.x stable
 
 * Support for other languages (will need help from others) [Low priority]
 
-* Popup image preview window when node is double-clicked, with "before and after" feature [Medium priority]
+* Popup image preview window dialog when node is double-clicked, with "before and after" feature [Medium priority]
 
 ...
