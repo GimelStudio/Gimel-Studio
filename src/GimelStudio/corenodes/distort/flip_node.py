@@ -61,7 +61,7 @@ class FlipNode(api.NodeBase):
         else:
             image.SetAsImage(ImageOps.flip(image1.GetImage()))
 
-        self.NodeSetThumb(image.GetImage())
+        self.NodeSetThumb(image.GetImage().convert("RGBA"))
         return image
 
 api.RegisterNode(FlipNode, "corenode_flip")
