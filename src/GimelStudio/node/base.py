@@ -214,7 +214,9 @@ class NodeBase(NodeObject):
         """ Create the Node property widgets for the Node Property Panel. Please do not override unless you know what you're doing.
         """
         for prop in self.Model._properties:
-            self.Model._properties[prop].CreateUI(parent, sizer)
+            prop_obj = self.Model._properties[prop]
+            if prop_obj.GetIsVisible() == True:
+                prop_obj.CreateUI(parent, sizer)
 
     def NodeEvaluation(self, eval_info):
         """ This is the method that is called during rendering of the image. This should contain the actual code which does something to the image (e.g: blurs the image, etc.) and should return it as a ``RenderImage`` object.
