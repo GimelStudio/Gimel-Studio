@@ -22,8 +22,8 @@ General
 Updated Logo
 ------------
 
- * The Gimel Studio logo was updated to look more professional.
- * Application icon size bug was fixed (Windows)
+ * The Gimel Studio logo was updated to look more professional
+ * Application icon size bug was fixed
 
  
 New API
@@ -42,7 +42,14 @@ UI
  * Buttons toolbar options were moved to appropriate menus
  * Added toolbar to show help to the user
  * Added ability to toggle showing Image Viewport
+ * Added scrollbar to Properties Panel
  * Added various menu options for controlling the application window, reading docs, etc.
+
+
+Node Registry
+-------------
+
+ * The Node Registry is now in it's own popup menu (searchable list), with drag n' drop functionality
 
 
 Node Graph
@@ -51,7 +58,8 @@ Node Graph
  * **Nodes can now have more than one connection from the Output socket.** This makes a lot more sense than the limit of one-per-node before.
  * Added center node graph feature to center the Node Graph view to the center
  * Added toggle Node Graph grid background feature
- * **Node thumbnail previews now update as the renderer is processing each node**
+ * **Node thumbnail previews now update as the renderer is processing each node** - STILL WIP
+ * Added button for Node Registry menu and info text in the bottom-left corner
  * Many optimizations for the Node Graph
 
 
@@ -68,6 +76,7 @@ Nodes
 
  * Added new core nodes:
   - Flip (thanks to iwoithe)
+  - Invert (thanks to iwoithe)
 
 
 Project File
