@@ -7,8 +7,6 @@ API Reference
 .. toctree::
    :maxdepth: 2
 
-
-   AvailableModules
    NodeBase
    DataTypes
-
+   AvailableModules

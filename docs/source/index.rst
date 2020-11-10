@@ -3,28 +3,27 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Gimel Studio's documentation!
-========================================
+Gimel Studio Reference Manual
+=============================
 
-Gimel Studio is a Non-Destructive, Node-Based Graphics Editing Software with realtime composite rendering and an API to script your own custom nodes in Python.
-
-Edit graphics in a non-destructive workflow using different nodes and view the rendered image in realtime. you can also edit image textures and convert them to PBR maps for use in 3D using special nodes from the node registry.
+Welcome to the manual for Gimel Studio, the free & open-source, **node-based, non-destructive image editor** for Windows and Linux.
 
 .. note::
 
-    GIMEL STUDIO IS CURRENTLY IN BETA AND IS NOT FULLY STABLE. NOT ALL FEATURES ARE IMPLEMENTED SO THE API AND/OR USAGE MAY CHANGE.
+    GIMEL STUDIO IS CURRENTLY IN *BETA AND IS NOT FULLY STABLE*. NOT ALL FEATURES ARE IMPLEMENTED SO THE API AND/OR USAGE MAY CHANGE.
 
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   install
+   getting_started/index.rst
    usage
    api
-   apireference/index.rst
+   api_reference/index.rst
    faq
-   releasenotes/index.rst
+   development
+   release_notes/index.rst
 
 
 

@@ -20,8 +20,8 @@ import GimelStudio
 # -- Project information -----------------------------------------------------
 
 project = 'Gimel Studio'
-copyright = '2020, Noah Rahm, Correct Syntax'
-author = 'Noah Rahm'
+copyright = '2020, Noah Rahm & contributors. Based on the format of the Blender manual.'
+author = 'Noah Rahm & contributors'
 
 # The full version, including alpha/beta/rc tags
 release = GimelStudio.meta.FULL_APP_VERSION_STRING
