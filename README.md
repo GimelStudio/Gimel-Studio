@@ -20,7 +20,7 @@ It provides basic image editing features such as rotate, resize and blur effects
 **Highlights**
 
   * Thumbnail preview on each node showing the steps of the rendered image, with support for live preview updates
-  * Fast node-based, non-desctructive workflow (similar to Blender 3D)
+  * Fast node-based, non-destructive workflow (similar to Blender 3D)
   * 20+ nodes with a wide range of functionality
   * Node Graph featuring node deletion, duplication, selection, etc.
   * JPEG, JPG, PNG, BMP, WEBP (and more...) file type support
@@ -53,13 +53,14 @@ Here is a little rundown of what the goals of this project are and what they are
 * provide any drawing and/or painting tools, except "Add text to image", etc.
 * be a full-blown procedual texture generator, like many node-based programs out there.
 
+
 # News
 
+**v0.5.0 is expected to release soon. It will include support for the Blender Gimel Studio Addon and other new features** 
+
+v0.5.1 is planned to be released not long afterwards as a bug-fix release for increased stability after feedback from v0.5.0 is recieved.
+
 See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases.
-
-**A new v0.5.0 beta-tester, non-official build (for Windows 64-bit) is available <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases/tag/v0.5.0-pre-beta">here</a>**
-
-See below for getting a stable release build:
 
 
 # Releases
