@@ -104,7 +104,7 @@ def ExportRenderedImageToFile(rendered_image, export_path,
 
         # PNG specific
         if IsFPExt(export_path, [".png"]):
-            bits = 6 # How much should this be lowered??
+            bits = 8 # How much should this be lowered??
             compress_level = 7
 
     # Make sure JPG, JPEG, PCX, EPS files get saved as RGB mode
