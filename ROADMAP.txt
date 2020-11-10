@@ -36,10 +36,7 @@ Minimum to release v1.0.0 stable
 [RANDOM STUFF TO WORK ON]:
 * References to "plug" need to be changed to "socket" [Low priority]
 
-* Nodes
-  * Add Text node - adds text to a given image
-
-* File opening and saving (including error handling)
+* Re-implement file opening and saving with error handling
   * Error handing for node versions, support, etc.
   * Support opening old/new files with new/old software versions?
 
