@@ -73,7 +73,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
         self._drawGrid = True
         self._autoRender = True
-        self._liveUpdatePreviews = True
+        self._liveUpdatePreviews = False #True
 
         # Handle scrolling
         self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)

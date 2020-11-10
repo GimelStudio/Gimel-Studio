@@ -168,7 +168,7 @@ class MainApplication(wx.Frame):
             wx.ITEM_CHECK
             )
         self.viewmenu.Append(self.livenodepreviewupdate_menuitem)
-        self.viewmenu.Check(self.livenodepreviewupdate_menuitem.GetId(), True)
+        #self.viewmenu.Check(self.livenodepreviewupdate_menuitem.GetId(), True)
 
         self.togglenodegraphgrid_menuitem = wx.MenuItem(
             self.viewmenu,
@@ -501,6 +501,7 @@ class MainApplication(wx.Frame):
             wildcard=wildcard,
             style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
             )
+        dlg.Center()
 
         # This sets the default filter that the user will initially see.
         # Otherwise, the first filter in the list will be used by default.
@@ -520,10 +521,12 @@ class MainApplication(wx.Frame):
                 dlg.ShowModal()
 
             else:
-                # Export the image with the export options
 
-                # FIXME: this is temporary
-                self._renderer.GetRender().save(path)
+                # Export the image with the export options
+                utils.ExportRenderedImageToFile(
+                    self._renderer.GetRender(),
+                    path
+                    )
 
                 self.PopOpenExplorer(path)
 
