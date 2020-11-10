@@ -1,7 +1,7 @@
 Gimel Studio
 ============
 
-Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
+Gimel Studio is a **node-based, non-destructive image editor** for Windows and Linux.
 
 !["Gimel Studio"](/screenshots/gimel-studio-ui-01.jpg?raw=true "Gimel Studio")
 
@@ -19,7 +19,7 @@ It provides basic image editing features such as rotate, resize and blur effects
 
 **Highlights**
 
-  * Thumbnail preview on each node showing the steps of the rendered image, with support for live preview updates
+  * Thumbnail preview on each node showing the steps of the rendered image
   * Fast node-based, non-destructive workflow (similar to Blender 3D)
   * 20+ nodes with a wide range of functionality
   * Node Graph featuring node deletion, duplication, selection, etc.
@@ -56,7 +56,7 @@ Here is a little rundown of what the goals of this project are and what they are
 
 # News
 
-**v0.5.0 is expected to release soon. It will include support for the Blender Gimel Studio Addon and other new features** 
+**v0.5.0 is expected to release soon.**
 
 v0.5.1 is planned to be released not long afterwards as a bug-fix release for increased stability after feedback from v0.5.0 is recieved.
 
