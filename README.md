@@ -3,7 +3,7 @@ Gimel Studio
 
 Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
 
-!["Gimel Studio"](/screenshots/gimel-studio-v0.5.0-pre-release-ui.JPG?raw=true "Gimel Studio")
+!["Gimel Studio"](/screenshots/gimel-studio-ui-01.JPG?raw=true "Gimel Studio")
 
 
 # Introduction
