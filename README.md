@@ -3,12 +3,12 @@ Gimel Studio
 
 Gimel Studio is a **non-destructive, realtime image graphics editing software program** for Windows and Linux.
 
-!["Gimel Studio"](/screenshots/gimel-studio-ui-01.JPG?raw=true "Gimel Studio")
+!["Gimel Studio"](/screenshots/gimel-studio-ui-01.jpg?raw=true "Gimel Studio")
 
 
 # Introduction
 
-Gimel Studio has a node-based workflow for realtime compositing, manipulating, generating and adding effects to images -complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
+Gimel Studio has a node-based workflow for compositing, masking, manipulating, generating and adding effects to images -complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
 
 It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
@@ -20,12 +20,12 @@ It provides basic image editing features such as rotate, resize and blur effects
 **Highlights**
 
   * Thumbnail preview on each node showing the steps of the rendered image, with support for live preview updates
-  * Fast node-based workflow (similar to Blender 3D)
+  * Fast node-based, non-desctructive workflow (similar to Blender 3D)
   * 20+ nodes with a wide range of functionality
   * Node Graph featuring node deletion, duplication, selection, etc.
   * JPEG, JPG, PNG, BMP, WEBP (and more...) file type support
   * API for scripting custom nodes in Python
-  * Compatibility with [Blender](https://blender.org) via the [Blender Gimel Studio addon](https://github.com/Correct-Syntax/Blender-Gimel-Studio-Addon)
+  * Integration with [Blender](https://blender.org) via the [Blender Gimel Studio addon](https://github.com/Correct-Syntax/Blender-Gimel-Studio-Addon)
   * Dark theme w/ wire curving
   * Rearrangable and resizable panels for the main UI
   * Zoomable Image Viewport for viewing renders in real-time
@@ -80,7 +80,7 @@ Documentation for past Gimel Studio releases can be found <a href="https://githu
 
 Pull requests and/or feature suggestions are welcome!
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROADMAP.txt) for a general idea of the possible future goals of the development of Gimel Studio.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROADMAP.txt) for a general idea of the future goals of the development of Gimel Studio.
 
 
 # Installing from source
