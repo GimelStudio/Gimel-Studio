@@ -32,6 +32,7 @@ from .socket import Socket
 STYLE_NODES_COLOR_DICT = {
     "INPUT": "#975B5B", # Burgendy
     "DRAW": "#AF4467", # Pink
+    "MASK": "#084D4D", # Blue-green
     "CONVERT": "#564B7C", # Purple
     "VALUE": "#CC783D", # Orange
     "FILTER": "#558333", # Green
