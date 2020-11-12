@@ -41,7 +41,7 @@ class BlurNode(api.NodeBase):
             idname="Radius",
             default=1,
             min_val=1,
-            max_val=25,
+            max_val=50,
             widget=api.SLIDER_WIDGET,
             label="Radius:",
             )

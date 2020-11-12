@@ -29,7 +29,7 @@ class BrightnessNode(api.NodeBase):
         meta_info = {
             "label": "Brightness",
             "author": "Correct Syntax",
-            "version": (1, 2, 0),
+            "version": (1, 3, 0),
             "supported_app_version": (0, 5, 0),
             "category": "COLOR",
             "description": "Adjusts the image brightness.",
@@ -41,7 +41,7 @@ class BrightnessNode(api.NodeBase):
             idname="Amount",
             default=1,
             min_val=1,
-            max_val=25,
+            max_val=50,
             widget=api.SLIDER_WIDGET,
             label="Amount:",
             )

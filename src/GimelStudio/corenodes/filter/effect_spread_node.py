@@ -41,7 +41,7 @@ class EffectSpreadNode(api.NodeBase):
             idname="Distance",
             default=1,
             min_val=0,
-            max_val=25,
+            max_val=50,
             widget=api.SLIDER_WIDGET,
             label="Distance:",
             )
