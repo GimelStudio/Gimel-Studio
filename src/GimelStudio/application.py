@@ -46,7 +46,7 @@ from GimelStudio.node_importer import *
 from GimelStudio.registry import REGISTERED_NODES
 
 
-
+ENABLE_THREADING = False
 
 class MainApplication(wx.Frame):
     def __init__(self, arguments):
@@ -452,16 +452,16 @@ class MainApplication(wx.Frame):
 
         # Add default nodes
         img_node = self._nodeGraph.AddNode(
-            'corenode_image', 
+            'corenode_image',
             pos=wx.Point(x-340, y)
             )
-        
+
         comp_node = self._nodeGraph.AddNode(
-            'corenode_outputcomposite', 
+            'corenode_outputcomposite',
             pos=wx.Point(x+150, y)
             )
 
-        # This node is here just for 
+        # This node is here just for
         # testing during development.
         if meta.APP_DEBUG == True:
             self._nodeGraph.AddNode(
@@ -585,6 +585,9 @@ class MainApplication(wx.Frame):
             self._mgr.GetPane("ImageViewport").Hide()
         else:
             self._mgr.GetPane("ImageViewport").Show()
+
+        #self._mgr.MaximizePane(self._mgr.GetPane("NodeGraph"))
+        #RestoreMaximizedPane()
         self._mgr.Update()
 
     def OnToggleNodeGraphGrid(self, event):
@@ -650,14 +653,26 @@ class MainApplication(wx.Frame):
         method, called when the Node Graph image is to be rendered. After this is
         complete, the result event will be called.
         """
-        self._abortEvent.clear()
-        self._jobID += 1
-        delayedresult.startWorker(
-            self._PostRender, 
-            self._Render,
-            wargs=(self._jobID, self._abortEvent), 
-            jobID=self._jobID
-        )
+        # FIXME: Temp. here for testing
+        if ENABLE_THREADING == True:
+            self._abortEvent.clear()
+            self._jobID += 1
+            delayedresult.startWorker(
+                self._PostRender,
+                self._Render,
+                wargs=(self._jobID, self._abortEvent),
+                jobID=self._jobID
+            )
+        else:
+            self._renderer.Render(self._nodeGraph.GetNodes())
+            render_time = self._renderer.GetTime()
+            render_image = self._renderer.GetRender()
+            if render_image != None:
+                self._imageViewport.UpdateViewerImage(
+                    utils.ConvertImageToWx(render_image),
+                    render_time
+                    )
+            self._nodeGraph.UpdateAllNodes()
 
     def _Render(self, jobID, abort_event):
         """ Internal rendering method. """
