@@ -22,7 +22,7 @@
 from GimelStudio.corenodes.input import (image_node, color_image_node,
                                         noise_image_node, gradient_image_node)
 #from GimelStudio.corenodes.mask import  # add nodes here
-from GimelStudio.corenodes.draw import text_node
+#from GimelStudio.corenodes.draw import text_node
 from GimelStudio.corenodes.color import (color_balance_node, contrast_node,
                                         brightness_node, invert_alpha_node,
                                         get_channel_node)
