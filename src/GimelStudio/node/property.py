@@ -431,33 +431,57 @@ class SizeProp(Property):
 
 
 class StringProp(Property):
-    def __init__(self, idname, default="String", label="", visible=True):
+    def __init__(self, idname, default="Text", dlg_msg="Edit text:",
+                dlg_title="Edit Text", label="", visible=True):
         Property.__init__(self, idname, default, label, visible)
+        self.dlg_msg = dlg_msg
+        self.dlg_title = dlg_title
 
         self._RunErrorCheck()
+
+    def GetDlgMessage(self):
+        return self.dlg_msg
+
+    def GetDlgTitle(self):
+        return self.dlg_title
 
     def CreateUI(self, parent, sizer):
         label = wx.StaticText(parent, label=self.GetLabel())
         sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
 
-        self.entry = wx.TextCtrl(
+        vbox = wx.BoxSizer(wx.VERTICAL)
+        hbox = wx.BoxSizer(wx.HORIZONTAL)
+
+        self.textcontrol = wx.TextCtrl(
             parent,
             id=wx.ID_ANY,
             value=self.GetValue(),
-        )
+            style=wx.TE_READONLY
+            )
+        hbox.Add(self.textcontrol, proportion=1)
 
-        self.entry.Bind(
-            wx.EVT_TEXT,
+        self.button = wx.Button(
+            parent,
+            id=wx.ID_ANY,
+            label="Edit"
+            )
+        hbox.Add(self.button, flag=wx.LEFT, border=5)
+        self.button.Bind(
+            wx.EVT_BUTTON,
             self.WidgetEvent
-        )
+            )
 
-        sizer.Add(self.entry, flag=wx.EXPAND | wx.ALL, border=5)
+        vbox.Add(hbox, flag=wx.EXPAND)
+        sizer.Add(vbox, flag=wx.ALL|wx.EXPAND, border=5)
 
     def WidgetEvent(self, event):
-        value = event.GetString()
-        if not value:
-            return
-        self.SetValue(value)
+        dlg = wx.TextEntryDialog(None, self.GetDlgMessage(),
+                                self.GetDlgTitle(), self.GetValue())
+
+        if dlg.ShowModal() == wx.ID_OK:
+            value = dlg.GetValue()
+            self.SetValue(value)
+            self.textcontrol.ChangeValue(self.GetValue())
 
 
 class FontProp(Property):
