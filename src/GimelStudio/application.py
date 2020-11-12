@@ -167,7 +167,7 @@ class MainApplication(wx.Frame):
             "Toggle showing live node previews as the renderer is processing each node, at the cost of a slightly longer render",
             wx.ITEM_CHECK
             )
-        self.viewmenu.Append(self.livenodepreviewupdate_menuitem)
+        #self.viewmenu.Append(self.livenodepreviewupdate_menuitem)
         #self.viewmenu.Check(self.livenodepreviewupdate_menuitem.GetId(), True)
 
         self.togglenodegraphgrid_menuitem = wx.MenuItem(
