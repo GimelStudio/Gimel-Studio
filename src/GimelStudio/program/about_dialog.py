@@ -18,10 +18,15 @@
 ## PURPOSE: Defines the Gimel Studio about dialog
 ## ----------------------------------------------------------------------------
 
+# TODO: Create better about dialog!
+
 import sys
 
-import PIL
 import wx
+import PIL
+import scipy
+import cv2
+import numpy as np
 from wx.lib.wordwrap import wordwrap
 
 from GimelStudio import meta
@@ -103,6 +108,9 @@ class AboutDialog(object):
         self._pillowVersion = PIL.__version__
         self._wxPythonVersion = wx.VERSION_STRING
         self._pythonVersion = sys.version.split()[0]
+        self._opencvVersion = cv2.__version__
+        self._numpyVersion = np.__version__
+        self._scipyVersion = scipy.__version__
 
     def ShowDialog(self):
         info = wx.adv.AboutDialogInfo()
@@ -120,9 +128,9 @@ This version of Gimel Studio is made possible thanks to the following open-sourc
 - Python {0}
 - Pillow {1}
 - wxPython {2}
-- Numpy
-- Scipy
-- OpenCV
+- Numpy {3}
+- Scipy {4}
+- OpenCV {5}
 
 Praise to our Heavenly Father, YAHWEH for allowing the time and resources to make this software program a reality.
 
@@ -130,7 +138,10 @@ Please consider giving your feedback through the program menu (Help > Feedback S
                 """.format(
                     self._pythonVersion,
                     self._pillowVersion,
-                    self._wxPythonVersion
+                    self._wxPythonVersion,
+                    self._numpyVersion,
+                    self._scipyVersion,
+                    self._opencvVersion
                 ),
                 width=550,
                 dc=wx.ClientDC(self._parent)
@@ -138,4 +149,3 @@ Please consider giving your feedback through the program menu (Help > Feedback S
         info.SetWebSite("https://correctsyntax.com/projects/gimel-studio/", "Visit the Gimel Studio Homepage")
 
         wx.adv.AboutBox(info)
-
