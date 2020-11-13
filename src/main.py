@@ -58,9 +58,12 @@ if __name__ == '__main__':
     frame = MainApplication(
         arguments=args
         )
+    # Only show the splash-screen if APP_DEBUG is False
+    # and Gimel Studio is not launched via the Blender addon.
     if APP_DEBUG != True:
-        splash = StartupSplashScreen()
-        splash.Show()
+        if args.blender == "":
+            splash = StartupSplashScreen()
+            splash.Show()
     frame.Show()
     app.SetTopWindow(frame)
     app.MainLoop()
