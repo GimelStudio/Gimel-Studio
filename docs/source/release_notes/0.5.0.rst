@@ -1,7 +1,7 @@
 0.5.0
 =====
 
-Gimel Studio v0.5.0 BETA -- "NOT RELEASED YET"
+Gimel Studio v0.5.0 BETA -- "Nov. 2020"
 
 **The v0.5.0 beta release marks close to a year of development on Gimel Studio (already!) and includes a major update to the API, Node Graph and backend.**
 
