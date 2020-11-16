@@ -26,246 +26,56 @@ from PIL import Image
 from GimelStudio import utils
 from GimelStudio.datafiles.icons import *
 
-
-ID_IMAGE = wx.NewIdRef()
-ID_INFOTEXT = wx.NewIdRef()
-ID_RENDERTEXT = wx.NewIdRef()
+from .utils import ZoomPanel
 
 
-class ViewerImage(object):
-    """ Represents the Image Viewport image that is displayed. """
-    def __init__(self, parent, image, pos=wx.Point(0, 0), _id=wx.ID_ANY):
-        self._parent = parent
-        self._image = image
-        self._pos = pos
-        self._id = _id
-
-        self._rect = wx.Rect(
-            self._pos.x,
-            self._pos.y,
-            self._image.Width,
-            self._image.Height
-            )
-
-    def GetParent(self):
-        return self._parent
-
-    def GetId(self):
-        return self._id
-
-    def SetId(self, id_):
-        self._id = id_
-
-    def GetRect(self):
-        return self._rect
-
-    def SetRect(self, rect):
-        self._rect = rect
-
-    def SetPosition(self, x, y):
-        self._pos = wx.Point(x, y)
-
-    def GetPosition(self):
-        return self._pos
-
-    def SetImage(self, image):
-        self._image = image
-
-    def GetImage(self):
-        return self._image
-
-    def Draw(self, dc):
-        dc.ClearId(self.GetId())
-        dc.SetId(self.GetId())
-
-        dc.SetIdBounds(self.GetId(), self.GetRect())
-
-        dc.DrawBitmap(
-            self.GetImage(),
-            self.GetPosition()[0],
-            self.GetPosition()[1],
-            True # Use alpha mask
-            )
-
-
-class ImageViewport(wx.Panel):
-    def __init__(self, parent, size=wx.DefaultSize):
-        wx.Panel.__init__(self, parent, size=size)
+class ImageViewport(ZoomPanel):
+    def __init__(self, parent):
+        ZoomPanel.__init__(self, parent)
 
         self._parent = parent
-        self._maxWidth  = size[0]
-        self._maxHeight = size[1]
-
-        self._pdc = wx.adv.PseudoDC()
-
-        self.zoomValue = 0.05
+        self._zoom = 100
         self._renderTime = 0.00
+        self._viewportImage = utils.ConvertImageToWx(Image.new('RGBA', (256, 256)))
 
-        default_img = utils.ConvertImageToWx(Image.new('RGBA', (256, 256)))
-        self._viewportImage = ViewerImage(self, image=default_img,  _id=ID_IMAGE)
-        self._imageCopy = self._viewportImage.GetImage()
-
-        self.Bind(wx.EVT_PAINT, self.OnPaint)
-        self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
-        self.Bind(wx.EVT_MOTION, self.OnMotion)
-        self.Bind(wx.EVT_MOUSEWHEEL, self.OnMouseWheel)
-        self.Bind(wx.EVT_LEFT_DOWN, self.OnMiddleDown)
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyEvent)
-        self.Bind(wx.EVT_LEFT_UP, self.OnMiddleUp)
-        self.Bind(wx.EVT_SIZE, self.OnSize)
 
-
-    def OnPaint(self, event):
-        dc = wx.BufferedPaintDC(self)
-        dc = wx.GCDC(dc)
-
+    def OnDrawBackground(self, dc):
         dc.SetBackground(wx.Brush('grey'))
         dc.Clear()
+        utils.DrawCheckerBoard(dc, self.GetClientRect(), wx.Colour("#424242"), box=8)
 
-        rect = wx.Rect(0, 0, self.Size[0], self.Size[1])
+    def OnDrawScene(self, dc):
+        image = self._viewportImage
+        x = (self.Size[0] - image.Width)/2.0
+        y = (self.Size[1] - image.Height)/2.0
+        dc.DrawBitmap(image, x, y, useMask=False)
 
-        # Draw the checkered alpha background
-        utils.DrawCheckerBoard(dc, rect, wx.Colour(0, 0, 0, 98), box=8)
+    def OnDrawInterface(self, dc):
+        gc = wx.GraphicsContext.Create(dc)
+        gc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 110)))
+        gc.DrawRectangle(0, 0, self.Size[0], 26)
 
-        self._pdc.DrawToDC(dc)
-
-    def OnSize(self, event):
-        if self._imageCopy != None:
-            self._UpdateImage(self._imageCopy)
-            self._UpdateInfoText()
-
-    def OnMiddleDown(self, event):
-        self._lastPnt = event.GetPosition()
-
-    def OnMiddleUp(self,event):
-        self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
-        self.RefreshViewer()
-
-    def OnMotion(self, event):
-        if event.LeftIsDown():
-            self.OnMoveImage(event)
-            self.RefreshViewer()
-
-    def OnMoveImage(self, event):
-        self.SetCursor(wx.Cursor(wx.CURSOR_SIZING))
-        pnt = event.GetPosition()
-        dpnt = pnt - self._lastPnt
-        self._pdc.TranslateId(self._viewportImage.GetId(), dpnt[0], dpnt[1])
-        self._viewportImage.SetPosition(dpnt[0], dpnt[1])
-        self._lastPnt = pnt
-
+        self._zoom = round(self.GetScaleX()*100)
+        fnt = self._parent.GetFont()
+        gc.SetFont(fnt, wx.Colour('white'))
+        gc.DrawText(self.CreateInfoText(self._renderTime, self._zoom), 22, 2)
 
     def OnKeyEvent(self, event):
-        """ Event when a key is pushed on the keyboard. """
         code = event.GetKeyCode()
+        mouse = wx.Point(self.Size[0]/2, self.Size[1]/2)
 
         # plus (+)
         if code == wx.WXK_NUMPAD_ADD:
-            if self.zoomValue < 2.5:
-                self.zoomValue += 0.05
-
+            self.ScenePostScale(1.1, 1.1, mouse[0], mouse[1])
         # minus (-)
         elif code == wx.WXK_NUMPAD_SUBTRACT:
-            if self.zoomValue > 0.05:
-                self.zoomValue -= 0.05
+            self.ScenePostScale(0.9, 0.9, mouse[0], mouse[1])
+        self.UpdateDrawing()
 
-        self.ZoomImage()
-
-
-    def OnMouseWheel(self, event):
-        """ Event when the mouse wheel is scrolled. """
-        # Zoom in
-        if event.GetWheelRotation() > 0:
-            if self.zoomValue < 2.5:
-                self.zoomValue += 0.05
-
-        # Zoom out
-        else:
-            if self.zoomValue > 0.05:
-                self.zoomValue -= 0.05
-
-        self.ZoomImage()
-
-
-    def _UpdateImage(self, image):
-        """ Update the viewport image. This is intended to be
-        an internal method.
-
-        :param image: wx.Bitmap
-        """
-        # Keep a reference to the original image
-        self._imageCopy = image
-
-        image = image.ConvertToImage()
-
-        #img_width = image.Width
-        #img_height = image.Height
-        #print(img_width, img_height, "|", self._imageCopy.Width, self._imageCopy.Height)
-
-        #win_width = self.Size[0]
-        #win_height = self.Size[1]
-
-        # Check to make sure the zoomValue has a valid value, as wxPython's
-        # wx.Image.Rescale method needs the width & height > 0
-        if 1 > image.Width*self.zoomValue and 1 > image.Height*self.zoomValue:
-            self.zoomValue = 0.05
-
-        image.Rescale(
-            image.Width*self.zoomValue,
-            image.Height*self.zoomValue,
-            wx.IMAGE_QUALITY_NEAREST
-            )
-
-        img = wx.Bitmap(image)
-        self._viewportImage.SetImage(img)
-
-        self._viewportImage.SetPosition(
-            (self.Size[0] - image.Width)/2.0,
-            (self.Size[1] - image.Height)/2.0
-            )
-
-        self._viewportImage.Draw(self._pdc)
-        self.RefreshViewer()
-
-
-    def _UpdateInfoText(self):
-        """ Update the top info text. This is intended to be
-        an internal method.
-        """
-        self._pdc.ClearId(ID_INFOTEXT)
-        self._pdc.SetId(ID_INFOTEXT)
-        self._pdc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 120)))
-        self._pdc.DrawRectangle(0, 0, self.Size[0], 26)
-
-        text = 'Render Finished in {0} sec. | Zoom: {1}%'.format(
-            self._renderTime,
-            round(self.zoomValue*100)
-            )
-        self._pdc.SetTextForeground(wx.Colour('white'))
-        self._pdc.DrawText(text, 22, 2)
-        self.RefreshViewer()
-
-    def UpdateRenderText(self, render=True):
-        """ Update the text during a render. """
-        if render == True:
-            self._pdc.ClearId(ID_INFOTEXT)
-            self._pdc.SetId(ID_INFOTEXT)
-            self._pdc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 120)))
-            self._pdc.DrawRectangle(0, 0, self.Size[0], 26)
-
-            self._pdc.SetTextForeground(wx.Colour('white'))
-            self._pdc.DrawText('Rendering Image...', 22, 2)
-            self.RefreshViewer()
-
-    def SetRenderTime(self, render_time):
-        self._renderTime = render_time
-
-    def GetRenderTime(self):
-        return self._renderTime
-
-    def ZoomImage(self):
-        self._UpdateImage(self._imageCopy)
-        self._UpdateInfoText()
+    def CreateInfoText(self, render_time, zoom):
+        info = "Render Finished in {0} sec. | Zoom {1}%".format(render_time, zoom)
+        return info
 
     def UpdateViewerImage(self, image, render_time):
         """ Update the Image Viewport. This refreshes everything
@@ -274,15 +84,6 @@ class ImageViewport(wx.Panel):
         :param image: wx.Bitmap
         :param float render_time: float value of the image's render time
         """
-        self._UpdateImage(image)
-        self.SetRenderTime(render_time)
-        self._UpdateInfoText()
-
-
-    def RefreshViewer(self):
-        """ Refresh the Image Viewport. Call to update
-        everything after DC drawing.
-        """
-        rect = wx.Rect(0, 0, self.Size[0], self.Size[1])
-        self.RefreshRect(rect, False)
-        self.Refresh()
+        self._renderTime = render_time
+        self._viewportImage = image
+        self.UpdateDrawing()
