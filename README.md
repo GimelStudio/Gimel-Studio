@@ -56,9 +56,7 @@ Here is a little rundown of what the goals of this project are and what they are
 
 # News
 
-**v0.5.0 is expected to release soon.**
-
-v0.5.1 is planned to be released not long afterwards as a bug-fix release for increased stability after feedback from v0.5.0 is recieved.
+v0.5.1 is planned to be released as a bug-fix release for increased stability after feedback from v0.5.0 is recieved.
 
 See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases.
 
