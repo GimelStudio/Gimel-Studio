@@ -1,0 +1,20 @@
+0.5.1
+=====
+
+Gimel Studio v0.5.0 BETA -- "NOT YET RELEASED"
+
+**The v0.5.1 beta release is a bug-fix release and is focused on improved stability**
+
+
+General
+-------
+
+
+Improved Image Viewport
+-----------------------
+
+ * The Image Viewport was improved with better zoom, etc.
+
+
+Bug Fixes
+---------
