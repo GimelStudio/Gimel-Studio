@@ -10,7 +10,7 @@ Gimel Studio is a **node-based, non-destructive image editor** for Windows and L
 
 Gimel Studio has a node-based workflow for compositing, masking, manipulating, generating and adding effects to images -complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
 
-It provides basic image editing features such as rotate, resize and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
+It provides basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
 *Still in BETA stage, but can be considered stable enough for light production work.*
 
