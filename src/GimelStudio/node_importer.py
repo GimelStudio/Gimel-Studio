@@ -21,7 +21,7 @@
 
 from GimelStudio.corenodes.input import (image_node, color_image_node,
                                         noise_image_node, gradient_image_node)
-#from GimelStudio.corenodes.mask import  # add nodes here
+#from GimelStudio.corenodes.mask import edge_detect_node
 #from GimelStudio.corenodes.draw import text_node
 from GimelStudio.corenodes.color import (color_balance_node, contrast_node,
                                         brightness_node, invert_alpha_node,
@@ -31,7 +31,7 @@ from GimelStudio.corenodes.blend import (mix_node, composite_node,
 from GimelStudio.corenodes.distort import flip_node #resize_node, rotate_node
 from GimelStudio.corenodes.filter import (blur_node, opacity_node,
                                          sharpness_node, effect_spread_node,
-                                         invert_node)
+                                         invert_node, dilate_erode_node)
 from GimelStudio.corenodes.convert import (to_normal_map_node, to_bump_map_node,
                                            to_roughness_map_node,
                                            to_specular_map_node, to_ao_map_node)
