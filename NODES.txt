@@ -12,7 +12,8 @@ DRAW #AF4467 (Pink)
 [] - Shape
 
 MASK "#084D4D" (Blue-green)
-?
+[x] - Dilate/Erode
+[] - Edge Detect (WIP)
 
 CONVERT #564B7C (Purple)
 [x]- To Normal Map
