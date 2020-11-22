@@ -1,4 +1,3 @@
-
 from GimelStudio.datatypes import RenderImage
 from GimelStudio.node import (
     NodeBase,
@@ -11,3 +10,4 @@ from GimelStudio.node import (
     SLIDER_WIDGET, SPINBOX_WIDGET,
     )
 from GimelStudio.registry import RegisterNode
+from GimelStudio.vendor import bibleengine

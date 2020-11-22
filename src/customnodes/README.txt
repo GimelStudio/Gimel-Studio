@@ -1,1 +1,1 @@
-Place custom node scripts you want Gimel Studio to find, register and load in this directory.
+Place custom node Python (.py) scripts you want Gimel Studio to register and load in this directory.
