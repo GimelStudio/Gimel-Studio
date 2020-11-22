@@ -3,7 +3,7 @@ Gimel Studio
 
 Gimel Studio is a **node-based, non-destructive image editor** for Windows and Linux.
 
-!["Gimel Studio"](/screenshots/gimel-studio-ui-01.jpg?raw=true "Gimel Studio")
+!["Gimel Studio"](/screenshots/gimel-studio-ui-03.jpg?raw=true "Gimel Studio")
 
 
 # Introduction
