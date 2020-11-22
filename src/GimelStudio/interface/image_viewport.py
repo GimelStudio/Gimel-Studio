@@ -36,6 +36,7 @@ class ImageViewport(ZoomPanel):
         self._parent = parent
         self._zoom = 100
         self._renderTime = 0.00
+        self._rendering = False
         self._viewportImage = utils.ConvertImageToWx(Image.new('RGBA', (256, 256)))
 
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyEvent)
@@ -57,9 +58,10 @@ class ImageViewport(ZoomPanel):
         gc.DrawRectangle(0, 0, self.Size[0], 26)
 
         self._zoom = round(self.GetScaleX()*100)
+        text = self.CreateInfoText(self._renderTime, self._zoom, self._rendering)
         fnt = self._parent.GetFont()
         gc.SetFont(fnt, wx.Colour('white'))
-        gc.DrawText(self.CreateInfoText(self._renderTime, self._zoom), 22, 2)
+        gc.DrawText(text, 22, 2)
 
     def OnKeyEvent(self, event):
         code = event.GetKeyCode()
@@ -73,9 +75,16 @@ class ImageViewport(ZoomPanel):
             self.ScenePostScale(0.9, 0.9, mouse[0], mouse[1])
         self.UpdateDrawing()
 
-    def CreateInfoText(self, render_time, zoom):
-        info = "Render Finished in {0} sec. | Zoom {1}%".format(render_time, zoom)
+    def CreateInfoText(self, render_time, zoom, rendering=False):
+        if rendering == False:
+            info = "Render Finished in {0} sec. | Zoom {1}%".format(render_time, zoom)
+        else:
+            info = "Rendering image..."
         return info
+
+    def UpdateInfoText(self, rendering=False):
+        self._rendering = rendering
+        self.UpdateDrawing()
 
     def UpdateViewerImage(self, image, render_time):
         """ Update the Image Viewport. This refreshes everything

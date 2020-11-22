@@ -465,7 +465,7 @@ class MainApplication(wx.Frame):
         # testing during development.
         if meta.APP_DEBUG == True:
             self._nodeGraph.AddNode(
-                'corenode_toaomap', # Put the node id you are testing here
+                'corenode_alphacomposite', # Put the node id you are testing here
                 pos=wx.Point(x-100, y)
                 )
 
@@ -664,14 +664,15 @@ class MainApplication(wx.Frame):
                 jobID=self._jobID
             )
         else:
+            self._imageViewport.UpdateInfoText(True)
             self._renderer.Render(self._nodeGraph.GetNodes())
-            render_time = self._renderer.GetTime()
             render_image = self._renderer.GetRender()
             if render_image != None:
                 self._imageViewport.UpdateViewerImage(
                     utils.ConvertImageToWx(render_image),
-                    render_time
+                    self._renderer.GetTime()
                     )
+            self._imageViewport.UpdateInfoText(False)
             self._nodeGraph.UpdateAllNodes()
 
     def _Render(self, jobID, abort_event):
