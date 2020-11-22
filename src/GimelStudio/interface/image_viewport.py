@@ -57,8 +57,9 @@ class ImageViewport(ZoomPanel):
         gc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 110)))
         gc.DrawRectangle(0, 0, self.Size[0], 26)
 
-        self._zoom = round(self.GetScaleX()*100)
+        self.UpdateZoomValue()
         text = self.CreateInfoText(self._renderTime, self._zoom, self._rendering)
+
         fnt = self._parent.GetFont()
         gc.SetFont(fnt, wx.Colour('white'))
         gc.DrawText(text, 22, 2)
@@ -85,6 +86,9 @@ class ImageViewport(ZoomPanel):
     def UpdateInfoText(self, rendering=False):
         self._rendering = rendering
         self.UpdateDrawing()
+
+    def UpdateZoomValue(self):
+        self._zoom = round(self.GetScaleX()*100)
 
     def UpdateViewerImage(self, image, render_time):
         """ Update the Image Viewport. This refreshes everything

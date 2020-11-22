@@ -72,11 +72,8 @@ class NodeGraphDropTarget(wx.DropTarget):
                     if os.path.exists(filename) == True:
                         # Create Image node with path
                         node = self._window.AddNode("corenode_image", where="CURSOR")
-                        node.NodeEditProp(
-                            idname="File Path",
-                            value=filename,
-                            render=False
-                        )
+                        node.NodeEditProp(idname="File Path",
+                                          value=filename, render=False)
 
                         # Set initial thumb for Image node
                         img = Image.open(filename)

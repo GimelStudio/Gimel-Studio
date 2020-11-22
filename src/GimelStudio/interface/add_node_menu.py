@@ -198,7 +198,6 @@ class AddNodeMenu(wx.PopupTransientWindow):
         # Search bar
         self.search_bar = wx.SearchCtrl(self, style=wx.TE_PROCESS_ENTER)
         self.search_bar.SetFocus()
-        # FIXME
         if 'gtk3' in wx.PlatformInfo:
             # Something is wrong with the bestsize of the SearchCtrl, so for now
             # let's set it based on the size of a TextCtrl.
@@ -210,15 +209,9 @@ class AddNodeMenu(wx.PopupTransientWindow):
         main_sizer.AddSpacer(5)
 
         # Nodes list box
-        self.nodes_listbox = NodesVListBox(
-            self,
-            size=self._size,
-            style=wx.BORDER_SIMPLE
-            )
-        self.nodes_listbox.SetItemCount(
-            len(self._nodeRegistryMapping)
-            )
-        #nodes_listbox.SetFocus()
+        self.nodes_listbox = NodesVListBox(self, size=self._size,
+                                           style=wx.BORDER_SIMPLE)
+        self.nodes_listbox.SetItemCount(len(self._nodeRegistryMapping))
         main_sizer.Add(self.nodes_listbox, flag=wx.EXPAND|wx.ALL, border=5)
 
         self.SetSizer(main_sizer)
@@ -244,9 +237,8 @@ class AddNodeMenu(wx.PopupTransientWindow):
         This also Adds the selected node to Node Graph.
         """
         sel = self._nodeRegistryMapping[event.GetInt()]
-        coords = self.NodeGraph.ConvertCoords(
-            wx.Point(self.NodeGraph.Size[0]/2, self.NodeGraph.Size[1]/2)
-            )
+        pnt = wx.Point(self.NodeGraph.Size[0]/2, self.NodeGraph.Size[1]/2)
+        coords = self.NodeGraph.ConvertCoords(pnt)
 
         self.NodeGraph.AddNode(sel, pos=coords)
         self.NodeGraph.RefreshGraph()
