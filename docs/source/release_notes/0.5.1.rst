@@ -1,19 +1,37 @@
 0.5.1
 =====
 
-Gimel Studio v0.5.0 BETA -- "NOT YET RELEASED"
+Gimel Studio v0.5.1 BETA -- "NOT YET RELEASED"
 
-**The v0.5.1 beta release is a bug-fix release and is focused on improved stability**
+**The v0.5.1 beta release was a bug-fix release focused on improving stability and usability**
 
 
 General
 -------
 
+ * Refactoring of code
+
 
 Improved Image Viewport
 -----------------------
 
- * The Image Viewport was improved with better zoom, etc.
+ * The Image Viewport was improved with better zoom, performace optimizations, etc.
+ * Info text now updates during a render to show that image is rendering.
+
+
+Python API
+----------
+
+ * Fixes & improvements for Python API. Prior to these fixes, the custom node Python API did not always load new scripts.
+
+
+Nodes
+-----
+
+ * Some core nodes were improved/fixed to support a wider range of values.
+
+ * Added new core nodes:
+  - Dilate/Erode
 
 
 Bug Fixes
