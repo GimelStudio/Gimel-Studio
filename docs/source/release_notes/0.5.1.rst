@@ -12,6 +12,12 @@ General
  * Refactoring of code
 
 
+New Homepage
+------------
+
+ * The Gimel Studio Homepage was updated at https://correctsyntax.com/projects/gimel-studio/
+
+
 Improved Image Viewport
 -----------------------
 
