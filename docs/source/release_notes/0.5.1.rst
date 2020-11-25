@@ -25,6 +25,12 @@ Improved Image Viewport
  * Info text now updates during a render to show that image is rendering.
 
 
+Added Developer Log
+-------------------
+
+ * Added new Developer Log panel and menu item to toggle showing/hiding it. The developer log is useful for those scripting custom nodes with the Python API as it shows errors (for debugging the node).
+
+
 Python API
 ----------
 
