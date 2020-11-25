@@ -5,6 +5,8 @@ Gimel Studio is a **node-based, non-destructive image editor** for Windows and L
 
 !["Gimel Studio"](/screenshots/gimel-studio-ui-03.jpg?raw=true "Gimel Studio")
 
+[![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
+
 
 # Introduction
 
@@ -12,7 +14,7 @@ Gimel Studio has a node-based workflow for compositing, masking, manipulating, g
 
 It provides basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
-*Still in BETA stage, but can be considered stable enough for light production work.*
+**Still in BETA stage and WIP, but can be considered stable enough for light production work.**
 
 
 # Features
@@ -28,7 +30,7 @@ It provides basic image editing features such as flip, color balance, brightness
   * Integration with [Blender](https://blender.org) via the [Blender Gimel Studio addon](https://github.com/Correct-Syntax/Blender-Gimel-Studio-Addon)
   * Dark theme w/ wire curving
   * Rearrangable and resizable panels for the main UI
-  * Zoomable Image Viewport for viewing renders in real-time
+  * Zoomable Image Viewport for viewing rendered image result
   * Auto-renders as the Node Graph is edited (this is a setting that you can change if you so desire)
 
 **And More...**
