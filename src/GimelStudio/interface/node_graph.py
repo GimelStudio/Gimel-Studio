@@ -117,7 +117,6 @@ class NodeGraph(wx.ScrolledCanvas):
             id=ID_CONTEXTMENU_DUPLICATENODE
             )
 
-
         self._parent.Bind(
             wx.EVT_MENU,
             self.OnAddNodeMenu,

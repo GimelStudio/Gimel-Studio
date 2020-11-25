@@ -33,6 +33,7 @@ from GimelStudio.file_support import SupportFTSave
 from GimelStudio.interface import (
     NodeGraph, NodePropertyPanel,
     ImageViewport, NodeGraphDropTarget,
+    DeveloperLog
     )
 from GimelStudio.program import (
     AboutDialog, LicenseDialog
@@ -41,12 +42,12 @@ from GimelStudio.renderer import (
     Renderer, RenderThread, EVT_RENDER_RESULT
     )
 from GimelStudio.datafiles import *
-from GimelStudio.node_importer import *
 
 from GimelStudio.registry import REGISTERED_NODES
 
 
 ENABLE_THREADING = False
+
 
 class MainApplication(wx.Frame):
     def __init__(self, arguments):
@@ -259,6 +260,18 @@ class MainApplication(wx.Frame):
         self.windowmenu.Append(self.togglestatusbar_menuitem)
         self.windowmenu.Check(self.togglestatusbar_menuitem.GetId(), True)
 
+        self.windowmenu.AppendSeparator()
+
+        self.toggledevlog_menuitem = wx.MenuItem(
+            self.windowmenu,
+            wx.ID_ANY,
+            "Show Developer Log",
+            "Toggle showing the Developer Log panel (this is useful if you are developing custom nodes with the Python API)",
+            wx.ITEM_CHECK
+            )
+        self.windowmenu.Append(self.toggledevlog_menuitem)
+        self.windowmenu.Check(self.toggledevlog_menuitem.GetId(), False)
+
         self.mainmenubar.Append(self.windowmenu, "Window")
 
 
@@ -354,6 +367,13 @@ class MainApplication(wx.Frame):
             self.toggleimageviewport_menuitem
             )
         self.Bind(wx.EVT_MENU,
+            self.OnToggleDeveloperLog,
+            self.toggledevlog_menuitem
+            )
+
+
+
+        self.Bind(wx.EVT_MENU,
             self.OnMaximizeWindow,
             self.maximizewindow_menuitem
             )
@@ -395,6 +415,19 @@ class MainApplication(wx.Frame):
             .BestSize(750, 500)
             )
 
+        self._developerLog = DeveloperLog(self)
+        self._mgr.AddPane(
+            self._developerLog,
+            aui.AuiPaneInfo()
+            .Left()
+            .Name("DeveloperLog")
+            .Caption("Developer Log")
+            .Icon(ICON_PANEL_DEV_LOG_DARK.GetBitmap())
+            .CloseButton(visible=False)
+            .BestSize(750, 500)
+            .Hide()
+            )
+
         # Node Properties Panel
         self._nodePropertyPanel = NodePropertyPanel(self, (500, 800))
         self._mgr.AddPane(
@@ -428,6 +461,9 @@ class MainApplication(wx.Frame):
         self._nodeGraph.InitMenuButton()
 
     def _SetupWindowStartup(self):
+        # Import and register the nodes
+        import GimelStudio.node_importer
+
         # Set statusbar
         self._statusBar = self.CreateStatusBar()
 
@@ -588,6 +624,14 @@ class MainApplication(wx.Frame):
 
         #self._mgr.MaximizePane(self._mgr.GetPane("NodeGraph"))
         #RestoreMaximizedPane()
+        self._mgr.Update()
+
+    def OnToggleDeveloperLog(self, event):
+        if self.toggledevlog_menuitem.IsChecked() == False:
+            self._mgr.GetPane("DeveloperLog").Hide()
+        else:
+            self._mgr.GetPane("DeveloperLog").Show()
+
         self._mgr.Update()
 
     def OnToggleNodeGraphGrid(self, event):
