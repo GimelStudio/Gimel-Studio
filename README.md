@@ -5,7 +5,7 @@ Gimel Studio is a **node-based, non-destructive image editor** for Windows and L
 
 !["Gimel Studio"](/screenshots/gimel-studio-ui-03.jpg?raw=true "Gimel Studio")
 
-[![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
+[![Documentation Status](https://img.shields.io/readthedocs/gimel-studio/latest)] [![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
 
 
 # Introduction
