@@ -71,6 +71,9 @@ class Property(object):
     def GetIsVisible(self):
         return self.visible
 
+    def SetIsVisible(self, is_visible):
+        self.visible = is_visible
+
     def SetWidgetEventHook(self, event_hook):
         self.widget_eventhook = event_hook
 
@@ -186,7 +189,7 @@ class ChoiceProp(Property):
     def WidgetEvent(self, event):
         value = event.GetString()
         if not value:
-            return
+            print("Value is null!")
         self.SetValue(value)
 
 
