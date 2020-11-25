@@ -46,9 +46,6 @@ from GimelStudio.datafiles import *
 from GimelStudio.registry import REGISTERED_NODES
 
 
-ENABLE_THREADING = False
-
-
 class MainApplication(wx.Frame):
     def __init__(self, arguments):
         wx.Frame.__init__(self, None, title=meta.APP_TITLE, size=(1000, 800))
@@ -697,8 +694,7 @@ class MainApplication(wx.Frame):
         method, called when the Node Graph image is to be rendered. After this is
         complete, the result event will be called.
         """
-        # FIXME: Temp. here for testing
-        if ENABLE_THREADING == True:
+        if meta.ENABLE_THREADING == True:
             self._abortEvent.clear()
             self._jobID += 1
             delayedresult.startWorker(

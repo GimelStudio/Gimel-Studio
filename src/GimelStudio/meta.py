@@ -18,6 +18,10 @@
 ## PURPOSE: Define program meta info
 ## ----------------------------------------------------------------------------
 
+#===================#
+# GENERAL CONSTANTS #
+#===================#
+
 # Program name
 APP_NAME = "Gimel Studio"
 
@@ -34,12 +38,6 @@ FULL_APP_VERSION_STRING = "{0}.{1}.{2} {3}".format(
     APP_VERSION_TAG
     )
 
-# Whether this program is in development mode
-# USAGE: Switch to False before building as .exe or similar package to
-# enable/disable some end-user features that would otherwise hinder
-# development and/or testing of the program.
-APP_DEBUG = True
-
 # Title string
 APP_TITLE = "{0} v{1}.{2}.{3} {4}".format(
     APP_NAME,
@@ -48,3 +46,17 @@ APP_TITLE = "{0} v{1}.{2}.{3} {4}".format(
     APP_VERSION[2],
     APP_VERSION_TAG
     )
+
+
+#===================#
+# DEVELOPER OPTIONS #
+#===================#
+
+# Whether this program is in development mode
+# USAGE: Switch to False before building as .exe or similar package to
+# enable/disable some end-user features that would otherwise hinder
+# development and/or testing of the program.
+APP_DEBUG = True
+
+# Whether to enable the experimental renderer threading
+ENABLE_THREADING = False
