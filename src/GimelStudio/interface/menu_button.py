@@ -20,8 +20,6 @@
 
 import wx
 
-from GimelStudio.utils import ConvertImageToWx
-
 
 class MenuButton(object):
     def __init__(
@@ -69,17 +67,23 @@ class MenuButton(object):
 
             rect = self.GetRect()
 
-            dc.SetPen(wx.Pen(wx.Colour((55, 55, 55, 255)), 2))
-            dc.SetBrush(wx.Brush(wx.Colour("#6D6F6E")))
+            # Button
+            dc.SetPen(wx.Pen(wx.Colour("#2B2B2B"), 2))
+            dc.SetBrush(wx.Brush(wx.Colour((86, 86, 86, 255))))
             dc.DrawCircle(rect[0]+32, rect[1]+32, 30)
 
-            dc.DrawBitmap(
-                self.GetImage(),
-                rect[0]+5,
-                rect[1]+5,
-                True # Use alpha mask
-                )
+            # Drawing of nodes
+            dc.SetPen(wx.Pen(wx.Colour("#fff"), 1))
+            dc.SetBrush(wx.Brush(wx.Colour("#fff")))
+            dc.DrawRectangle(rect[0]+16, rect[1]+23, 14, 9)
 
+            dc.SetPen(wx.Pen(wx.Colour("#fff"), 2))
+            dc.DrawLine(rect[0]+28, rect[1]+26, rect[0]+34, rect[1]+38)
+
+            dc.SetPen(wx.Pen(wx.Colour("#fff"), 1))
+            dc.DrawRectangle(rect[0]+34, rect[1]+35, 14, 9)
+
+            # Info text
             info_text = "Node Graph ({} nodes)".format(node_count)
             dc.SetTextForeground(wx.Colour("#ccc"))
             dc.DrawText(info_text, rect[0]+78, rect[1]+20)
