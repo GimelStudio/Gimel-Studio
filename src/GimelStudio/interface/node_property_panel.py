@@ -37,6 +37,8 @@ class NodePropertyPanel(wx.lib.scrolledpanel.ScrolledPanel):
 
         self.SetupScrolling(scroll_x=False)
 
+        self.SetBackgroundColour(wx.Colour("#404040"))
+
     @property
     def Parent(self):
         return self._parent
@@ -53,16 +55,18 @@ class NodePropertyPanel(wx.lib.scrolledpanel.ScrolledPanel):
             scrollbar_size = wx.SystemSettings.GetMetric(wx.SYS_VSCROLL_X)
             calc_size = wx.Size(self.Size[0]-scrollbar_size-10, self.Size[1])
 
-            self.panel_staticbox = wx.StaticBox(self, id=wx.ID_ANY,
-                                                label=selected_node.GetLabel(),
+            self.panel_staticbox = wx.Panel(self, id=wx.ID_ANY,
+                                                #label=selected_node.GetLabel(),
                                                 size=calc_size)
 
             # This gets the recommended amount of border space to use for items
             # within in the static box for the current platform.
-            top_bd, other_bd = self.panel_staticbox.GetBordersForSizer()
+            #top_bd, other_bd = self.panel_staticbox.GetBordersForSizer()
+
+            self.panel_staticbox.SetForegroundColour("#fff")
 
             staticbox_sizer = wx.BoxSizer(wx.VERTICAL)
-            staticbox_sizer.AddSpacer(top_bd)
+            staticbox_sizer.AddSpacer(8)
 
             inner_sizer = wx.BoxSizer(wx.VERTICAL)
 
@@ -73,7 +77,7 @@ class NodePropertyPanel(wx.lib.scrolledpanel.ScrolledPanel):
             self.panel_staticbox.SetSizer(staticbox_sizer)
 
             panel_sizer = wx.BoxSizer(wx.VERTICAL)
-            panel_sizer.Add(self.panel_staticbox, 1, wx.EXPAND|wx.ALL, other_bd)
+            panel_sizer.Add(self.panel_staticbox, 1, wx.EXPAND|wx.ALL, 8)
 
             # Node Properties UI
             selected_node.NodePanelUI(self.panel_staticbox, inner_sizer)

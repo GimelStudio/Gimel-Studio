@@ -55,10 +55,10 @@ class NodeModel(object):
             self._id = _id
         self._parent = None
         self._type = "" # idname
-        self._backgroundColor = (109, 111, 111, 255)
-        self._borderColor = (55, 55, 55, 255)
+        self._backgroundColor = (86, 86, 86, 188)
+        self._borderColor = "#333"
         self._headerColor = (0, 0, 0, 255)
-        self._socketColor = (0, 0, 0, 255)
+        self._socketColor = "#333"
         self._textColor = (255, 255, 255, 255)
         self._isOutput = False
         self._label = ""
@@ -158,9 +158,9 @@ class NodeModel(object):
 
     def GetBorderColor(self):
         if self.IsSelected() is True or self.IsActive() is True:
-            self.SetBorderColor((255, 255, 255, 255))
+            self.SetBorderColor("#fff")
         else:
-            self.SetBorderColor((55, 55, 55, 255))
+            self.SetBorderColor("#2B2B2B")
         return self._borderColor
 
     def SetBorderColor(self, color):
@@ -317,9 +317,9 @@ class NodeModel(object):
 
             # We keep track of where the last socket is placed so that
             # we can place the thumbnail far enough below the sockets.
-            self._lastCoords = 40 + 20 * i
+            self._lastCoords = 40 + 19 * i
 
-            socket = Socket(p[0], p[1], (x, 40 + 19 * i), 6.5, socket_type, self)
+            socket = Socket(p[0], p[1], (x, 40 + (19 * i)), 6.5, socket_type, self)
             sockets.append(socket)
 
         self._sockets = sockets

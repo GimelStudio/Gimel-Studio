@@ -26,24 +26,18 @@ import webbrowser
 import wx
 import wx.lib.agw.aui as aui
 import wx.lib.delayedresult as delayedresult
+import wx.lib.agw.flatmenu as flatmenu
 
 from GimelStudio import utils
 from GimelStudio import meta
-from GimelStudio.file_support import SupportFTSave
-from GimelStudio.interface import (
-    NodeGraph, NodePropertyPanel,
-    ImageViewport, NodeGraphDropTarget,
-    DeveloperLog
-    )
-from GimelStudio.program import (
-    AboutDialog, LicenseDialog
-    )
-from GimelStudio.renderer import (
-    Renderer, RenderThread, EVT_RENDER_RESULT
-    )
+from GimelStudio.interface import (NodeGraph, NodePropertyPanel,
+                                   ImageViewport, NodeGraphDropTarget,
+                                   DeveloperLog, DarkMenuRenderer, ExportImageAs)
+from GimelStudio.program import (AboutDialog, LicenseDialog)
+from GimelStudio.renderer import Renderer, RenderThread, EVT_RENDER_RESULT
+from GimelStudio.registry import REGISTERED_NODES
 from GimelStudio.datafiles import *
 
-from GimelStudio.registry import REGISTERED_NODES
 
 
 class MainApplication(wx.Frame):
@@ -90,313 +84,296 @@ class MainApplication(wx.Frame):
         self._mgr.SetManagedWindow(self)
         self._mgr.SetAGWFlags(self._mgr.GetAGWFlags() ^ aui.AUI_MGR_LIVE_RESIZE)
 
-        art.SetMetric(aui.AUI_DOCKART_SASH_SIZE, 2)
-        art.SetMetric(aui.AUI_DOCKART_PANE_BORDER_SIZE, 3)
+        art.SetMetric(aui.AUI_DOCKART_SASH_SIZE, 5)
+        art.SetMetric(aui.AUI_DOCKART_PANE_BORDER_SIZE, 5)
         art.SetMetric(aui.AUI_DOCKART_GRADIENT_TYPE, aui.AUI_GRADIENT_NONE)
-        art.SetColour(aui.AUI_DOCKART_BACKGROUND_COLOUR, wx.Colour("#fff"))
-        art.SetColour(aui.AUI_DOCKART_INACTIVE_CAPTION_COLOUR, wx.Colour("#fff"))
-        art.SetColour(aui.AUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR, wx.Colour("#000"))
-        art.SetColour(aui.AUI_DOCKART_BORDER_COLOUR, wx.Colour("#fff"))
-        art.SetColour(aui.AUI_DOCKART_SASH_COLOUR, wx.Colour("#fff"))
-        art.SetColour(aui.AUI_DOCKART_GRIPPER_COLOUR, wx.Colour("#fff"))
+        art.SetColour(aui.AUI_DOCKART_BACKGROUND_COLOUR, wx.Colour("#404040"))
+        art.SetColour(aui.AUI_DOCKART_INACTIVE_CAPTION_COLOUR, wx.Colour("#404040"))
+        art.SetColour(aui.AUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR, wx.Colour("#fff"))
+        art.SetColour(aui.AUI_DOCKART_BORDER_COLOUR, wx.Colour("#404040"))
+        art.SetColour(aui.AUI_DOCKART_SASH_COLOUR, wx.Colour("#404040"))
+        art.SetColour(aui.AUI_DOCKART_GRIPPER_COLOUR, wx.Colour("#404040"))
 
     def _InitMenuBar(self):
-        # Menubar
-        self.mainmenubar = wx.MenuBar()
+        # Create main sizer
+        self.mainSizer = wx.BoxSizer(wx.VERTICAL)
 
-        # File menu
-        self.filemenu = wx.Menu()
+        # Create the menubar
+        self._menubar = flatmenu.FlatMenuBar(self, wx.ID_ANY, 40, 8)
 
-        # self.openproject_menuitem = wx.MenuItem(
-        #     self.filemenu,
-        #     wx.ID_ANY,
-        #     "Open Project... \tCtrl+O",
-        #     "Open and load a Gimel Studio project file"
-        #     )
-        # self.filemenu.Append(self.openproject_menuitem)
+        # Set the dark theme
+        rm = self._menubar.GetRendererManager()
+        theme = rm.AddRenderer(DarkMenuRenderer())
+        rm.SetTheme(theme)
 
-        # self.saveproject_menuitem = wx.MenuItem(
-        #     self.filemenu,
-        #     wx.ID_ANY,
-        #     "Save Project... \tCtrl+S",
-        #     "Save the current Gimel Studio project file"
-        #     )
-        # self.filemenu.Append(self.saveproject_menuitem)
-        # #if self.GetActiveProjectFile() == None:
-        # #    self.saveproject_menuitem.Enable(False)
+        self._menubar.Refresh()
+        self.Update()
 
-        # self.saveprojectas_menuitem = wx.MenuItem(
-        #     self.filemenu,
-        #     wx.ID_ANY,
-        #     "Save Project As... \tCtrl+Shift+S",
-        #     "Save the current project as a Gimel Studio project file"
-        #     )
-        # self.filemenu.Append(self.saveprojectas_menuitem)
+        # Init menus
+        file_menu = flatmenu.FlatMenu()
+        view_menu = flatmenu.FlatMenu()
+        render_menu = flatmenu.FlatMenu()
+        window_menu = flatmenu.FlatMenu()
+        help_menu = flatmenu.FlatMenu()
 
-        # self.filemenu.AppendSeparator()
-
-        self.exportimage_menuitem = wx.MenuItem(
-            self.filemenu,
-            wx.ID_ANY,
-            "Export Image As... \tCtrl+E",
-            "Export rendered composite image to a file"
-            )
-        self.filemenu.Append(self.exportimage_menuitem)
-
-        self.filemenu.AppendSeparator()
-
-        self.quit_menuitem = wx.MenuItem(
-            self.filemenu,
-            wx.ID_ANY,
-            "Quit \tCtrl+Q",
-            "Quit Gimel Studio"
-            )
-        self.filemenu.Append(self.quit_menuitem)
-
-        self.mainmenubar.Append(self.filemenu, "File")
-
-        # View menu
-        self.viewmenu = wx.Menu()
-
-        self.livenodepreviewupdate_menuitem = wx.MenuItem(
-            self.viewmenu,
-            wx.ID_ANY,
-            "Live Node Previews",
-            "Toggle showing live node previews as the renderer is processing each node, at the cost of a slightly longer render",
-            wx.ITEM_CHECK
-            )
-        #self.viewmenu.Append(self.livenodepreviewupdate_menuitem)
-        #self.viewmenu.Check(self.livenodepreviewupdate_menuitem.GetId(), True)
-
-        self.togglenodegraphgrid_menuitem = wx.MenuItem(
-            self.viewmenu,
-            wx.ID_ANY,
-            "Node Graph Grid",
-            "Toggle the Node Graph grid background",
-            wx.ITEM_CHECK
-            )
-        self.viewmenu.Append(self.togglenodegraphgrid_menuitem)
-        self.viewmenu.Check(self.togglenodegraphgrid_menuitem.GetId(), True)
-
-        self.viewmenu.AppendSeparator()
-
-        self.centernodegraph_menuitem = wx.MenuItem(
-            self.viewmenu,
-            wx.ID_ANY,
-            "Center Node Graph",
-            "Move the view to the center of the Node Graph"
-            )
-        self.viewmenu.Append(self.centernodegraph_menuitem)
-
-        self.mainmenubar.Append(self.viewmenu, "View")
-
-
-        # Render menu
-        self.rendermenu = wx.Menu()
-
-        self.toggleautorender_menuitem = wx.MenuItem(
-            self.rendermenu,
-            wx.ID_ANY,
-            "Auto Render",
-            "Toggle auto rendering after editing node properties, connections, etc",
-            wx.ITEM_CHECK
-            )
-        self.rendermenu.Append(self.toggleautorender_menuitem)
-        self.rendermenu.Check(self.toggleautorender_menuitem.GetId(), True)
-
-        self.renderimage_menuitem = wx.MenuItem(
-            self.rendermenu,
-            wx.ID_ANY,
-            "Render Image \tF12",
-            "Force an immediate, updated render of the current node graph image"
-            )
-        self.rendermenu.Append(self.renderimage_menuitem)
-
-        self.mainmenubar.Append(self.rendermenu, "Render")
-
-
-        # Window menu
-        self.windowmenu = wx.Menu()
-
-        self.togglefullscreen_menuitem = wx.MenuItem(
-            self.windowmenu,
-            wx.ID_ANY,
-            "Toggle Window Fullscreen",
-            "Toggle the window fullscreen",
-            wx.ITEM_CHECK
-            )
-        self.windowmenu.Append(self.togglefullscreen_menuitem)
-
-        self.maximizewindow_menuitem = wx.MenuItem(
-            self.windowmenu,
-            wx.ID_ANY,
-            "Maximize Window",
-            "Maximize the window size"
-            )
-        self.windowmenu.Append(self.maximizewindow_menuitem)
-
-        self.windowmenu.AppendSeparator()
-
-        self.toggleimageviewport_menuitem = wx.MenuItem(
-            self.windowmenu,
-            wx.ID_ANY,
-            "Show Image Viewport",
-            "Toggle showing the Image Viewport panel",
-            wx.ITEM_CHECK
-            )
-        self.windowmenu.Append(self.toggleimageviewport_menuitem)
-        self.windowmenu.Check(self.toggleimageviewport_menuitem.GetId(), True)
-
-        self.togglestatusbar_menuitem = wx.MenuItem(
-            self.windowmenu,
-            wx.ID_ANY,
-            "Show Statusbar",
-            "Toggle showing the statusbar",
-            wx.ITEM_CHECK
-            )
-        self.windowmenu.Append(self.togglestatusbar_menuitem)
-        self.windowmenu.Check(self.togglestatusbar_menuitem.GetId(), True)
-
-        self.windowmenu.AppendSeparator()
-
-        self.toggledevlog_menuitem = wx.MenuItem(
-            self.windowmenu,
-            wx.ID_ANY,
-            "Show Developer Log",
-            "Toggle showing the Developer Log panel (this is useful if you are developing custom nodes with the Python API)",
-            wx.ITEM_CHECK
-            )
-        self.windowmenu.Append(self.toggledevlog_menuitem)
-        self.windowmenu.Check(self.toggledevlog_menuitem.GetId(), False)
-
-        self.mainmenubar.Append(self.windowmenu, "Window")
-
-
-        # Help menu
-        self.helpmenu = wx.Menu()
-
-        self.onlinedocs_menuitem = wx.MenuItem(
-            self.helpmenu,
-            wx.ID_ANY,
-            "Online Documentation",
-            "Open the Gimel Studio documentation in browser"
-            )
-        self.helpmenu.Append(self.onlinedocs_menuitem)
-
-        self.helpmenu.AppendSeparator()
-
-        self.visithomepage_menuitem = wx.MenuItem(
-            self.helpmenu,
-            wx.ID_ANY,
-            "Visit Website",
-            "Visit the Gimel Studio home page"
-            )
-        self.helpmenu.Append(self.visithomepage_menuitem)
-
-        self.feedbacksurvey_menuitem = wx.MenuItem(
-            self.helpmenu,
-            wx.ID_ANY,
-            "Feedback Survey",
-            "Take a short survey online about Gimel Studio v0.5.x beta"
-            )
-        #self.feedbacksurvey_menuitem.SetBitmap(
-        # ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
-        self.helpmenu.Append(self.feedbacksurvey_menuitem)
-
-        self.license_menuitem = wx.MenuItem(
-            self.helpmenu,
-            wx.ID_ANY,
-            "License",
-            "Show Gimel Studio license"
-            )
-        #self.about_menuitem.SetBitmap(ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
-        self.helpmenu.Append(self.license_menuitem)
-
-        self.helpmenu.AppendSeparator()
-
-        self.about_menuitem = wx.MenuItem(
-            self.helpmenu,
-            wx.ID_ANY,
-            "About",
-            "Show information about GimelStudio"
-            )
-        #self.about_menuitem.SetBitmap(ICON_MENU_ABOUTGIMELSTUDIO.GetBitmap())
-        self.helpmenu.Append(self.about_menuitem)
-
-        self.mainmenubar.Append(self.helpmenu, "Help")
-
-
-        self.SetMenuBar(self.mainmenubar)
-
-
-        # Menubar bindings
-        self.Bind(wx.EVT_MENU,
-            self.OnExportImage,
-            self.exportimage_menuitem
-            )
-        self.Bind(wx.EVT_MENU,
-            self.OnQuit,
-            self.quit_menuitem
+        # File
+        self.openprojectfile_menuitem = flatmenu.FlatMenuItem(
+            file_menu,
+            id=wx.ID_ANY,
+            label="Open Project \tCtrl+O",
+            helpString="Open and load a Gimel Studio project file",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
             )
 
-        self.Bind(wx.EVT_MENU,
-            self.OnToggleLiveNodePreviewUpdate,
-            self.livenodepreviewupdate_menuitem
-            )
-        self.Bind(wx.EVT_MENU,
-            self.OnToggleNodeGraphGrid,
-            self.togglenodegraphgrid_menuitem
-            )
-        self.Bind(wx.EVT_MENU,
-            self.OnCenterNodeGraph,
-            self.centernodegraph_menuitem
+        self.saveprojectfile_menuitem = flatmenu.FlatMenuItem(
+            file_menu,
+            id=wx.ID_ANY,
+            label="Save Project... \tCtrl+S",
+            helpString="Save the current project file",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
             )
 
-        self.Bind(wx.EVT_MENU, self.OnToggleFullscreen,
-            self.togglefullscreen_menuitem
+        self.saveprojectfileas_menuitem = flatmenu.FlatMenuItem(
+            file_menu,
+            id=wx.ID_ANY,
+            label="Save Project As... \tCtrl+Shift+S",
+            helpString="Save the current project as a Gimel Studio project file",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
             )
-        self.Bind(wx.EVT_MENU,
-            self.OnToggleStatusbar,
-            self.togglestatusbar_menuitem
+
+        self._menubar.AddSeparator()
+
+        self.exportasimage_menuitem = flatmenu.FlatMenuItem(
+            file_menu,
+            id=wx.ID_ANY,
+            label="Export Image As... \tShift+E",
+            helpString="Export rendered composite image to a file",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
             )
-        self.Bind(wx.EVT_MENU,
-            self.OnToggleShowImageViewport,
-            self.toggleimageviewport_menuitem
+
+        self._menubar.AddSeparator()
+
+        self.quit_menuitem = flatmenu.FlatMenuItem(
+            file_menu,
+            id=wx.ID_ANY,
+            label="Quit \tShift+Q",
+            helpString="Quit Gimel Studio",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
             )
-        self.Bind(wx.EVT_MENU,
-            self.OnToggleDeveloperLog,
-            self.toggledevlog_menuitem
+
+        # View
+        self.togglenodegraphgrid_menuitem = flatmenu.FlatMenuItem(
+            view_menu,
+            id=wx.ID_ANY,
+            label="Toggle Node Graph",
+            helpString="Toggle the Node Graph grid background",
+            kind=wx.ITEM_CHECK,
+            subMenu=None
+            )
+
+        self._menubar.AddSeparator()
+
+        self.centernodegraph_menuitem = flatmenu.FlatMenuItem(
+            view_menu,
+            id=wx.ID_ANY,
+            label="Center Node Graph",
+            helpString="Move the view to the center of the Node Graph",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
+            )
+
+        # Render
+        self.toggleautorender_menuitem = flatmenu.FlatMenuItem(
+            render_menu,
+            id=wx.ID_ANY,
+            label="Auto Render",
+            helpString="Toggle auto rendering after editing node properties, connections, etc",
+            kind=wx.ITEM_CHECK,
+            subMenu=None
+            )
+
+        self.renderimage_menuitem = flatmenu.FlatMenuItem(
+            render_menu,
+            id=wx.ID_ANY,
+            label="Render Image \tF12",
+            helpString="Force an immediate, updated render of the current node graph image",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
+            )
+
+        # Window
+        self.togglefullscreen_menuitem = flatmenu.FlatMenuItem(
+            window_menu,
+            id=wx.ID_ANY,
+            label="Toggle Window Fullscreen",
+            helpString="Toggle the window fullscreen",
+            kind=wx.ITEM_CHECK,
+            subMenu=None
+            )
+
+        self.maximizewindow_menuitem = flatmenu.FlatMenuItem(
+            window_menu,
+            id=wx.ID_ANY,
+            label="Maximize Window",
+            helpString="Maximize the window size",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
+            )
+
+        self._menubar.AddSeparator()
+
+        self.toggleimageviewport_menuitem = flatmenu.FlatMenuItem(
+            window_menu,
+            id=wx.ID_ANY,
+            label="Show Image Viewport",
+            helpString="Toggle showing the Image Viewport panel",
+            kind=wx.ITEM_CHECK,
+            subMenu=None
+            )
+
+        self.toggledevlog_menuitem = flatmenu.FlatMenuItem(
+            window_menu,
+            id=wx.ID_ANY,
+            label="Show Developer Log",
+            helpString="Toggle showing the Developer Log panel (this is useful if you are developing custom nodes with the Python API)",
+            kind=wx.ITEM_CHECK,
+            subMenu=None
+            )
+
+        # Help
+        self.onlinedocs_menuitem = flatmenu.FlatMenuItem(
+            help_menu,
+            id=wx.ID_ANY,
+            label="Online Manual",
+            helpString="Open the Gimel Studio manual online in a browser",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
+            )
+
+        self._menubar.AddSeparator()
+
+        self.visithomepage_menuitem = flatmenu.FlatMenuItem(
+            help_menu,
+            id=wx.ID_ANY,
+            label="Visit Homepage",
+            helpString="Visit the Gimel Studio homepage online",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
+            )
+
+        self.feedbacksurvey_menuitem = flatmenu.FlatMenuItem(
+            help_menu,
+            id=wx.ID_ANY,
+            label="Feedback Survey",
+            helpString="Take a short survey online about Gimel Studio v0.5.x beta",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
+            )
+
+        self.license_menuitem = flatmenu.FlatMenuItem(
+            help_menu,
+            id=wx.ID_ANY,
+            label="License",
+            helpString="Show Gimel Studio license",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
+            )
+
+        self._menubar.AddSeparator()
+
+        self.about_menuitem = flatmenu.FlatMenuItem(
+            help_menu,
+            id=wx.ID_ANY,
+            label="About",
+            helpString="Show information about GimelStudio",
+            kind=wx.ITEM_NORMAL,
+            subMenu=None
             )
 
 
+        # Append menu items to menus
+        # file_menu.AppendItem(self.openprojectfile_menuitem)
+        # file_menu.AppendItem(self.saveprojectfile_menuitem)
+        # file_menu.AppendItem(self.saveprojectfileas_menuitem)
+        file_menu.AppendItem(self.exportasimage_menuitem)
+        file_menu.AppendItem(self.quit_menuitem)
 
-        self.Bind(wx.EVT_MENU,
-            self.OnMaximizeWindow,
-            self.maximizewindow_menuitem
-            )
+        view_menu.AppendItem(self.togglenodegraphgrid_menuitem)
+        view_menu.AppendItem(self.centernodegraph_menuitem)
 
-        self.Bind(wx.EVT_MENU, self.OnToggleAutoRender,
-            self.toggleautorender_menuitem
-            )
-        self.Bind(wx.EVT_MENU, self.OnRender,
-            self.renderimage_menuitem
-            )
+        render_menu.AppendItem(self.toggleautorender_menuitem)
+        render_menu.AppendItem(self.renderimage_menuitem)
 
-        self.Bind(wx.EVT_MENU, self.OnReadOnlineDocs,
-            self.onlinedocs_menuitem
-            )
-        self.Bind(wx.EVT_MENU, self.OnVisitWebsite,
-            self.visithomepage_menuitem
-            )
-        self.Bind(wx.EVT_MENU, self.OnFeedbackSurvey,
-            self.feedbacksurvey_menuitem
-            )
-        self.Bind(wx.EVT_MENU, self.OnLicenseDialog,
-            self.license_menuitem
-            )
-        self.Bind(wx.EVT_MENU, self.OnAboutDialog,
-            self.about_menuitem
-            )
+        window_menu.AppendItem(self.togglefullscreen_menuitem)
+        window_menu.AppendItem(self.maximizewindow_menuitem)
+        window_menu.AppendItem(self.toggleimageviewport_menuitem)
+        window_menu.AppendItem(self.toggledevlog_menuitem)
+
+        help_menu.AppendItem(self.onlinedocs_menuitem)
+        help_menu.AppendItem(self.visithomepage_menuitem)
+        help_menu.AppendItem(self.feedbacksurvey_menuitem)
+        help_menu.AppendItem(self.license_menuitem)
+        help_menu.AppendItem(self.about_menuitem)
+
+        # Append menus to the menubar
+        self._menubar.Append(file_menu, "File")
+        self._menubar.Append(view_menu, "View")
+        self._menubar.Append(render_menu, "Render")
+        self._menubar.Append(window_menu, "Window")
+        self._menubar.Append(help_menu, "Help")
+
+        # Set defaults
+        self.togglenodegraphgrid_menuitem.Check(True)
+        self.toggleautorender_menuitem.Check(True)
+        self.toggleimageviewport_menuitem.Check(True)
+
+        # Add menubar to main sizer
+        self.mainSizer.Add(self._menubar, 0, wx.EXPAND)
+        self.SetSizer(self.mainSizer)
+        self.mainSizer.Layout()
+
+
+        # Bind events
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnExportImage, self.exportasimage_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnQuit, self.quit_menuitem)
+
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnToggleNodeGraphGrid, self.togglenodegraphgrid_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnCenterNodeGraph, self.centernodegraph_menuitem)
+
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnToggleAutoRender, self.toggleautorender_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnRender, self.renderimage_menuitem)
+
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnToggleFullscreen, self.togglefullscreen_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnMaximizeWindow, self.maximizewindow_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnToggleShowImageViewport, self.toggleimageviewport_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnToggleDeveloperLog, self.toggledevlog_menuitem)
+
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnReadOnlineDocs, self.onlinedocs_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnVisitWebsite, self.visithomepage_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnFeedbackSurvey, self.feedbacksurvey_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnLicenseDialog, self.license_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+            self.OnAboutDialog, self.about_menuitem)
+
 
     def _InitUIPanels(self):
         # Image Viewport Panel
@@ -407,11 +384,12 @@ class MainApplication(wx.Frame):
             .Right()
             .Name("ImageViewport")
             .Caption("Image Viewport")
-            .Icon(ICON_PANEL_IMAGE_VIEWPORT_DARK.GetBitmap())
+            .Icon(ICON_PANEL_IMAGE_VIEWPORT_LIGHT.GetBitmap())
             .CloseButton(visible=False)
             .BestSize(750, 500)
             )
 
+        # Developer Log Panel
         self._developerLog = DeveloperLog(self)
         self._mgr.AddPane(
             self._developerLog,
@@ -433,7 +411,7 @@ class MainApplication(wx.Frame):
             .Right()
             .Name("NodeProperties")
             .Caption("Node Properties")
-            .Icon(ICON_PANEL_NODE_PROPERTY_PANEL_DARK.GetBitmap())
+            .Icon(ICON_PANEL_NODE_PROPERTY_PANEL_LIGHT.GetBitmap())
             .CloseButton(visible=False)
             .BestSize(750, 400)
             )
@@ -449,7 +427,7 @@ class MainApplication(wx.Frame):
                 .Center()
                 .Name("NodeGraph")
                 .Caption("Node Graph")
-                .Icon(ICON_PANEL_NODE_GRAPH_DARK.GetBitmap())
+                .Icon(ICON_PANEL_NODE_GRAPH_LIGHT.GetBitmap())
                 .CloseButton(visible=False)
                 .BestSize(750, 400)
                 .Floatable(False)
@@ -457,20 +435,22 @@ class MainApplication(wx.Frame):
             )
         self._nodeGraph.InitMenuButton()
 
+
     def _SetupWindowStartup(self):
         # Import and register the nodes
         import GimelStudio.node_importer
+        self._nodeRegistry = REGISTERED_NODES
 
         # Set statusbar
         self._statusBar = self.CreateStatusBar()
-
-        #FIXME: move
-        self._nodeRegistry = REGISTERED_NODES
+        self._statusBar.Hide()
 
         # Maximize the window & tell the AUI window
-        # manager to "commit" all the changes just made.
+        # manager to "commit" all the changes just made, etc
         self.Maximize()
+        self._menubar.PositionAUI(self._mgr)
         self._mgr.Update()
+        self._menubar.Refresh()
 
         # Quit prompt dialog
         if meta.APP_DEBUG != True:
@@ -511,78 +491,8 @@ class MainApplication(wx.Frame):
                 render=False
             )
 
-
     def OnExportImage(self, event):
-        wildcard = "JPG file (*.jpg)|*.jpg|" \
-                   "JPEG file (*.jpeg)|*.jpeg|" \
-                   "PNG file (*.png)|*.png|" \
-                   "BMP file (*.bmp)|*.bmp|" \
-                   "GIF file (*.gif)|*.gif|" \
-                   "EPS file (*.eps)|*.eps|" \
-                   "PCX file (*.pcx)|*.pcx|" \
-                   "XBM file (*.xbm)|*.xbm|" \
-                   "WEBP file (*.webp)|*.webp|" \
-                   "TGA file (*.tga)|*.tga|" \
-                   "TIFF file (*.tiff)|*.tiff|" \
-                   "All files (*.*)|*.*"
-
-        dlg = wx.FileDialog(
-            self,
-            message="Export rendered image as...",
-            defaultDir=os.getcwd(),
-            defaultFile="untitled.png",
-            wildcard=wildcard,
-            style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
-            )
-        dlg.Center()
-
-        # This sets the default filter that the user will initially see.
-        # Otherwise, the first filter in the list will be used by default.
-        dlg.SetFilterIndex(11)
-
-        if dlg.ShowModal() == wx.ID_OK:
-            path = dlg.GetPath()
-            filetype = os.path.splitext(path)[1]
-
-            if filetype not in SupportFTSave(list_all=True):
-                dlg = wx.MessageDialog(
-                    None,
-                    "That file type isn't currently supported!",
-                    "Cannot Save Image!",
-                    style=wx.ICON_EXCLAMATION
-                    )
-                dlg.ShowModal()
-
-            else:
-
-                # Export the image with the export options
-                utils.ExportRenderedImageToFile(
-                    self._renderer.GetRender(),
-                    path
-                    )
-
-                self.PopOpenExplorer(path)
-
-                notify = wx.adv.NotificationMessage(
-                    title="Image Exported Sucessfully",
-                    message="Your image was exported to \n {}".format(path),
-                    parent=None, flags=wx.ICON_INFORMATION)
-                notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
-
-        dlg.Destroy()
-
-    def PopOpenExplorer(self, path):
-        """ Method for opening the path in the system's File Explorer or Image viewer.
-
-        Copied directly from:
-        https://stackoverflow.com/questions/6631299/python-opening-a-folder-in-explorer-nautilus-finder
-        """
-        if platform.system() == "Windows":
-            os.startfile(path)
-        elif platform.system() == "Darwin":
-            subprocess.Popen(["open", path])
-        else:
-            subprocess.Popen(["xdg-open", path])
+        ExportImageAs(self, self._renderer.GetRender())
 
     def OnToggleLiveNodePreviewUpdate(self, event):
         if self.livenodepreviewupdate_menuitem.IsChecked() == False:

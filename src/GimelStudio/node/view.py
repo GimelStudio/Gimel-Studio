@@ -136,7 +136,7 @@ class NodeView(object):
             )
 
         # Draw thumbnail border
-        dc.SetPen(wx.Pen(wx.Colour("#373737"), 1))
+        dc.SetPen(wx.Pen(wx.Colour("#2B2B2B"), 1))
         dc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 0), wx.TRANSPARENT))
         dc.DrawRectangle(
             x+((w-thumbnail_width)/2),

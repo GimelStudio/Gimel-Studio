@@ -42,7 +42,7 @@ class ImageViewport(ZoomPanel):
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyEvent)
 
     def OnDrawBackground(self, dc):
-        dc.SetBackground(wx.Brush('grey'))
+        dc.SetBackground(wx.Brush('#666666'))
         dc.Clear()
         utils.DrawCheckerBoard(dc, self.GetClientRect(), wx.Colour("#424242"), box=8)
 
@@ -54,7 +54,7 @@ class ImageViewport(ZoomPanel):
 
     def OnDrawInterface(self, dc):
         gc = wx.GraphicsContext.Create(dc)
-        gc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 110)))
+        gc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 120)))
         gc.DrawRectangle(0, 0, self.Size[0], 26)
 
         self.UpdateZoomValue()

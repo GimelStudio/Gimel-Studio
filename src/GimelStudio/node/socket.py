@@ -91,7 +91,7 @@ class Socket(object):
         final = self.GetPosition() + self.GetNode().GetRect().GetPosition()
 
         # Set color
-        dc.SetPen(wx.Pen(wx.Colour(55, 55, 55, 255), 2))
+        dc.SetPen(wx.Pen(wx.Colour("#2B2B2B"), 2))
         dc.SetBrush(wx.Brush(wx.Colour('#C7C729'), wx.SOLID))
 
         # Draw the plug

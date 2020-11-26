@@ -117,9 +117,9 @@ class NodesVListBox(wx.VListBox):
         else:
             # Create striped effect
             if n % 2 == 0:
-                color = wx.Colour("#6D6F6E")
+                color = wx.Colour("#333")
             else:
-                color = wx.Colour("#838383")
+                color = wx.Colour("#404040")
 
         dc.SetPen(wx.TRANSPARENT_PEN)
         dc.SetBrush(wx.Brush(color, wx.SOLID))
@@ -171,7 +171,7 @@ class AddNodeMenu(wx.PopupTransientWindow):
         self._nodeRegistry = node_registry
         self._nodeRegistryMapping = {}
 
-        self.SetBackgroundColour(wx.Colour("#6D6F6E"))
+        self.SetBackgroundColour(wx.Colour("#333"))
 
         self._InitRegistryMapping()
         self._InitAddNodeMenuUI()

@@ -132,7 +132,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
     def _DrawGridBackground(self, dc, rect):
         dc.SetPen(wx.TRANSPARENT_PEN)
-        dc.SetBrush(wx.Brush(wx.Colour('#525960'), wx.CROSS_HATCH))
+        dc.SetBrush(wx.Brush(wx.Colour('#282828'), wx.CROSS_HATCH))
         dc.DrawRectangle(rect)
 
     def OnPaint(self, event):
@@ -140,7 +140,7 @@ class NodeGraph(wx.ScrolledCanvas):
         dc = wx.BufferedPaintDC(self)
         dc = wx.GCDC(dc)
 
-        dc.SetBackground(wx.Brush(wx.Colour("#505050")))
+        dc.SetBackground(wx.Brush(wx.Colour("#2E2E2E")))
         dc.Clear()
 
         rect = self.GetViewableWindowRegion()
