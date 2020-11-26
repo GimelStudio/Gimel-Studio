@@ -23,10 +23,9 @@ import wx
 
 class MenuButton(object):
     def __init__(
-        self, parent, image, rect=wx.Rect(0, 0, 56, 56), _id=wx.ID_ANY
+        self, parent, rect=wx.Rect(0, 0, 56, 56), _id=wx.ID_ANY
         ):
         self._parent = parent
-        self._image = image
         self._rect = rect
 
         if _id == wx.ID_ANY:
@@ -48,12 +47,6 @@ class MenuButton(object):
 
     def SetRect(self, rect):
         self._rect = rect
-
-    def SetImage(self, image):
-        self._image = image
-
-    def GetImage(self):
-        return self._image
 
     def Draw(self, dc, hide=False):
         dc.ClearId(self.GetId())

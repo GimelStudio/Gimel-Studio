@@ -778,10 +778,8 @@ class NodeGraph(wx.ScrolledCanvas):
         return self.ConvertCoords(wx.Point(0, self.Size[1]-80))
 
     def InitMenuButton(self):
-
         self._menuButton = MenuButton(
             self,
-            image=ICON_MENU_BUTTON.GetBitmap(),
             _id=ID_MENU_BUTTON
             )
         self._menuButton.Draw(self._pdc)

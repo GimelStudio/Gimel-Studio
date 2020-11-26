@@ -397,7 +397,7 @@ class MainApplication(wx.Frame):
             .Left()
             .Name("DeveloperLog")
             .Caption("Developer Log")
-            .Icon(ICON_PANEL_DEV_LOG_DARK.GetBitmap())
+            .Icon(ICON_PANEL_DEV_LOG_LIGHT.GetBitmap())
             .CloseButton(visible=False)
             .BestSize(750, 500)
             .Hide()

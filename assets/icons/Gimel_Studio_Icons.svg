@@ -16,7 +16,7 @@
    id="svg8"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
    sodipodi:docname="Gimel_Studio_Icons.svg"
-   inkscape:export-filename="C:\Users\doall\GimelStudio\assets\icons\icons_source\PANEL_DEV_LOG_DARK.png"
+   inkscape:export-filename="C:\Users\doall\GimelStudio\assets\icons\icons_source\PANEL_DEV_LOG_LIGHT.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs
@@ -364,11 +364,11 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.23137255"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="-1.5524779"
-     inkscape:cy="5.5836742"
+     inkscape:zoom="3.959798"
+     inkscape:cx="73.485221"
+     inkscape:cy="27.996116"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -378,7 +378,7 @@
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
      units="px"
-     inkscape:pagecheckerboard="false"
+     inkscape:pagecheckerboard="true"
      showguides="false"
      inkscape:document-rotation="0" />
   <metadata
@@ -4958,7 +4958,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-291.70829)"
-     style="opacity:0.996">
+     style="opacity:1">
     <path
        style="opacity:1;fill:#fdfdfd;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.7802248;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
        d="m -10.656186,292.48594 -0.700539,0.58672 v 3.43039 h 4.4910582 v -4.01711 z"
@@ -5704,20 +5704,6 @@
          style="opacity:1;fill:#fefcfb;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.81455779;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
          inkscape:connector-curvature="0" />
     </g>
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot949"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:39.9998px;line-height:1.25;font-family:'DejaVu Serif';-inkscape-font-specification:'DejaVu Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
-       transform="matrix(0.32951521,0,0,0.32951521,27.062762,208.22161)"><flowRegion
-         id="flowRegion951"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:39.9998px;font-family:'DejaVu Serif';-inkscape-font-specification:'DejaVu Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff"><rect
-           id="rect953"
-           width="220"
-           height="164.28572"
-           x="387.85715"
-           y="283.94824"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:39.99979401px;font-family:'DejaVu Serif';-inkscape-font-specification:'DejaVu Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff" /></flowRegion><flowPara
-         id="flowPara955">T</flowPara></flowRoot>
     <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.50876653;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
        d="m 137.76249,304.15046 a 4.7627448,4.7616411 0 0 0 -4.7625,4.76189 4.7627448,4.7616411 0 0 0 4.7625,4.76189 4.7627448,4.7616411 0 0 0 4.7625,-4.76189 4.7627448,4.7616411 0 0 0 -4.7625,-4.76189 z m 0.22983,0.95165 c 0.21021,0 0.38198,0.0606 0.51575,0.18167 0.13378,0.11784 0.20058,0.28684 0.20058,0.50661 0,0.21977 -0.0719,0.39831 -0.21521,0.53526 -0.14014,0.13696 -0.32484,0.20545 -0.55416,0.20545 -0.21021,0 -0.38367,-0.064 -0.52063,-0.19143 -0.13377,-0.13058 -0.20057,-0.29958 -0.20057,-0.50661 0,-0.22613 0.0719,-0.40406 0.2152,-0.53465 0.14333,-0.13059 0.32972,-0.1963 0.55904,-0.1963 z m 0.67792,2.26968 0.053,0.0384 c -0.0191,0.43953 -0.0286,0.90713 -0.0286,1.404 v 1.80148 c 0,0.37902 0.003,0.64345 0.009,0.79314 0.006,0.086 0.0462,0.13987 0.11949,0.16217 l 0.59744,0.16765 0.014,0.22922 c -0.47138,-0.01 -0.93959,-0.0146 -1.4046,-0.0146 -0.47457,0 -0.94278,0.005 -1.40461,0.0146 l -0.0238,-0.22922 0.60659,-0.16765 c 0.0733,-0.0191 0.11312,-0.0668 0.11949,-0.14327 0.006,-0.12422 0.01,-0.33247 0.01,-0.62549 v -1.53873 c 0,-0.41724 -0.006,-0.80064 -0.0189,-1.151 l -0.6834,-0.17679 -0.0287,-0.19631 c 0.78352,-0.11784 1.47122,-0.24021 2.06363,-0.36761 z"
@@ -5947,61 +5933,6 @@
          style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.213;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       id="g5967"
-       transform="matrix(2.8512019,0,0,2.8512019,186.24274,-530.86283)">
-      <g
-         style="fill:#ffffff;fill-opacity:1;stroke:none"
-         transform="matrix(0.19730745,0,0,0.2041618,6.5250896,290.36563)"
-         id="g9272-8">
-        <path
-           style="fill:#ffffff;fill-opacity:1;stroke:none"
-           sodipodi:nodetypes="cssac"
-           id="path9274-8"
-           d="m -28.5,27.5711 c 3.111145,0.0011 2.79359,-3.323359 4.304166,-4.248979 1.750479,-1.072622 3.284496,0.256475 3.590759,1.350292 0.386445,1.380184 -0.337829,2.508685 -1.300323,3.118949 -1.846361,1.170674 -6.300039,0.898712 -6.594602,-0.220262 z"
-           inkscape:connector-curvature="0" />
-      </g>
-      <path
-         inkscape:connector-curvature="0"
-         id="path9264-8"
-         d="m 4.037938,292.98687 c 0.066952,-0.14655 0.047135,-0.3327 -0.076342,-0.20843 -0.8682085,0.87366 -1.0996535,0.99077 -1.9116686,2.12435 0.2178914,0.008 0.4051456,0.15267 0.502294,0.35878 0.9612853,-1.05054 1.0694288,-1.59617 1.4857162,-2.27469 z"
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.21861789"
-         sodipodi:nodetypes="cscccc" />
-    </g>
-    <g
-       id="g5994"
-       transform="translate(169.47101,2.9159654)">
-      <path
-         sodipodi:nodetypes="ccccc"
-         inkscape:connector-curvature="0"
-         id="path69005-8"
-         d="m 4.8282879,301.1082 -1.2364148,1.23641 c 0.4873434,0.43371 0.9639802,0.81823 1.6486041,1.44248 l 1.2364149,-1.23641 C 5.7076519,301.86867 5.2906365,301.44425 4.8282879,301.1082 Z"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.61820734" />
-      <path
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="cccccc"
-         id="path2273-6-2-70"
-         d="m -1.2925858,307.62451 4.533521,-4.94471 c 0.4957547,0.51994 1.0296782,0.85974 1.6485518,1.44153 l -4.53351974,4.73959 -2.88496786,1.23642 z"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.61820734" />
-    </g>
-    <g
-       id="g6002"
-       transform="matrix(1.199663,0,0,1.199663,176.71846,-40.987907)">
-      <ellipse
-         ry="2.3386083"
-         rx="2.3720171"
-         cy="289.78366"
-         cx="3.107008"
-         id="path5996"
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.20716326;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         y="290.71915"
-         x="3.1070085"
-         height="4.911078"
-         width="5.278573"
-         id="rect5998"
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.20355654;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    </g>
-    <g
        id="layer12-5"
        transform="matrix(0,0.28282277,0.2863795,0,-108.18831,297.43108)"
        style="fill:#ffffff">
@@ -6159,90 +6090,43 @@
        inkscape:export-filename="C:\Users\doall\GimelStudio\assets\icons\icons_source\MENU_LIGHT.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
-    <g
-       id="g2005"
-       transform="matrix(0.91666667,0,0,0.91666667,-14.044386,37.880185)"
-       inkscape:export-filename="C:\Users\doall\GimelStudio\assets\icons\icons_source\MENU_BUTTON.png"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96">
-      <circle
-         style="opacity:0.97;fill:#6d6f6e;fill-opacity:1;stroke:none;stroke-width:1.1935;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="path1991"
-         cx="126.11064"
-         cy="280.52197"
-         r="7.9375"
-         inkscape:export-filename="C:\Users\doall\GimelStudio\assets\icons\icons_source\MENU_BUTTON.png"
-         inkscape:export-xdpi="96"
-         inkscape:export-ydpi="96" />
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.855354"
-         id="rect1974"
-         width="4.3094072"
-         height="2.716414"
-         x="121.25069"
-         y="277.19205"
-         inkscape:export-filename="C:\Users\doall\GimelStudio\assets\icons\icons_source\MENU_BUTTON.png"
-         inkscape:export-xdpi="96"
-         inkscape:export-ydpi="96" />
-      <rect
-         transform="matrix(0.62361435,0.78173214,-0.79174037,0.61085775,0,0)"
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.486105"
-         id="rect1976"
-         width="4.9193454"
-         height="0.76854897"
-         x="296.81076"
-         y="75.522438"
-         inkscape:export-filename="C:\Users\doall\GimelStudio\assets\icons\icons_source\MENU_BUTTON.png"
-         inkscape:export-xdpi="96"
-         inkscape:export-ydpi="96" />
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.855354"
-         id="rect1982"
-         width="4.3094072"
-         height="2.716414"
-         x="126.73541"
-         y="280.86038"
-         inkscape:export-filename="C:\Users\doall\GimelStudio\assets\icons\icons_source\MENU_BUTTON.png"
-         inkscape:export-xdpi="96"
-         inkscape:export-ydpi="96" />
-    </g>
     <path
        sodipodi:nodetypes="cccccccccc"
        inkscape:connector-curvature="0"
        id="path1967"
        d="m 116.15208,324.61695 v -4.0358 h 4.23333 v 4.0358 z m 0.38485,-0.36688 h 3.46364 v -3.30203 h -3.46364 z"
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.590485" />
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.590485;opacity:1" />
     <path
        inkscape:connector-curvature="0"
        id="path1973"
        d="m 116.15208,320.58115 v 1.02508 h 4.23333 v -1.02508 z m 0.21331,0.2381 h 3.83237 v 0.54523 h -3.83237 z"
-       style="opacity:0.96;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.995033;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke" />
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.995033;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke" />
     <text
        xml:space="preserve"
        id="text1977"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:Amble;-inkscape-font-specification:'Amble, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1979);fill:#000000;fill-opacity:1;stroke:none;"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:Amble;-inkscape-font-specification:'Amble, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1979);fill:#ffffff;fill-opacity:1;stroke:none;opacity:1;"
        transform="matrix(0.27094845,0,0,0.27094845,111.09128,236.51032)"><tspan
          x="20.958984"
          y="320.74427"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:Amble;-inkscape-font-specification:'Amble, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1">&gt;_</tspan></tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:Amble;-inkscape-font-specification:'Amble, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1">&gt;_</tspan></tspan></text>
     <path
        sodipodi:nodetypes="cccccccccc"
        inkscape:connector-curvature="0"
        id="path1983"
        d="m 0.491189,296.42001 v -4.0358 h 4.233333 v 4.0358 z m 0.384856,-0.36688 h 3.46364 v -3.30203 h -3.46364 z"
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.590485" />
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.590485;opacity:1" />
     <path
        inkscape:connector-curvature="0"
        id="path1985"
        d="m 0.491189,292.38421 v 1.02508 h 4.233333 v -1.02508 z m 0.213314,0.2381 h 3.832373 v 0.54523 H 0.704503 Z"
-       style="opacity:0.96;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.995033;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke" />
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.995033;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke" />
     <text
        xml:space="preserve"
        id="text1989"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:Amble;-inkscape-font-specification:'Amble, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1991);fill:#000000;fill-opacity:1;stroke:none;"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:Amble;-inkscape-font-specification:'Amble, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1991);fill:#ffffff;fill-opacity:1;stroke:none;opacity:1;"
        transform="matrix(0.27094845,0,0,0.27094845,-4.569606,208.31338)"><tspan
          x="20.958984"
          y="320.74427"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:Amble;-inkscape-font-specification:'Amble, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1">&gt;_</tspan></tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:Amble;-inkscape-font-specification:'Amble, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1">&gt;_</tspan></tspan></text>
   </g>
 </svg>
