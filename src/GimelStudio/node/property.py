@@ -110,6 +110,7 @@ class PositiveIntegerProp(Property):
 
     def CreateUI(self, parent, sizer):
         label = wx.StaticText(parent, label=self.GetLabel())
+        label.SetForegroundColour("#fff")
         sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
 
         if self.widget == "slider":
@@ -121,6 +122,7 @@ class PositiveIntegerProp(Property):
                 maxValue=self.GetMaxValue(),
                 style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
                 )
+            self.slider.SetForegroundColour("#fff")
             self.slider.SetTickFreq(10)
             sizer.Add(self.slider, flag=wx.EXPAND|wx.ALL, border=5)
             self.slider.Bind(
@@ -131,7 +133,7 @@ class PositiveIntegerProp(Property):
         elif self.widget == "spinbox":
             self.spinbox = wx.SpinCtrl(
                 parent,
-                id=wx.ID_ANY,
+                id=wx.NewIdRef(),
                 min=self.GetMinValue(),
                 max=self.GetMaxValue(),
                 initial=self.GetValue()
@@ -171,6 +173,7 @@ class ChoiceProp(Property):
 
     def CreateUI(self, parent, sizer):
         label = wx.StaticText(parent, label=self.GetLabel())
+        label.SetForegroundColour("#fff")
         sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
 
         self.combobox = wx.ComboBox(
@@ -207,6 +210,7 @@ class BooleanProp(Property):
 
     def CreateUI(self, parent, sizer):
         label = wx.StaticText(parent, label=self.GetLabel())
+        label.SetForegroundColour("#fff")
         sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
 
         self.checkbox = wx.CheckBox(
@@ -214,6 +218,7 @@ class BooleanProp(Property):
             id=wx.ID_ANY,
             label=self.GetCBLabel()
             )
+        self.checkbox.SetForegroundColour("#fff")
         self.checkbox.SetValue(self.GetValue())
         sizer.Add(self.checkbox, flag=wx.EXPAND|wx.ALL, border=5)
         self.checkbox.Bind(
@@ -241,6 +246,7 @@ class ColorProp(Property):
         self.colordata.SetColour(self.GetValue())
 
         label = wx.StaticText(parent, label=self.GetLabel())
+        label.SetForegroundColour("#fff")
         sizer.Add(label, flag=wx.TOP, border=5)
 
         color_vbox = wx.BoxSizer(wx.VERTICAL)
@@ -314,6 +320,7 @@ class OpenFileChooserProp(Property):
 
     def CreateUI(self, parent, sizer):
         label = wx.StaticText(parent, label=self.GetLabel())
+        label.SetForegroundColour("#fff")
         sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
 
         vbox = wx.BoxSizer(wx.VERTICAL)
@@ -366,9 +373,11 @@ class LabelProp(Property):
 
     def CreateUI(self, parent, sizer):
         label = wx.StaticText(parent, label=self.GetLabel())
+        label.SetForegroundColour("#fff")
         sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
 
         static_label = wx.StaticText(parent, label=self.GetValue())
+        static_label.SetForegroundColour("#fff")
         sizer.Add(static_label, flag=wx.LEFT|wx.TOP, border=5)
 
 
@@ -390,6 +399,7 @@ class SizeProp(Property):
 
     def CreateUI(self, parent, sizer):
         label = wx.StaticText(parent, label=self.GetLabel())
+        label.SetForegroundColour("#fff")
         sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
 
         self.spinbox_x = wx.SpinCtrl(
@@ -450,6 +460,7 @@ class StringProp(Property):
 
     def CreateUI(self, parent, sizer):
         label = wx.StaticText(parent, label=self.GetLabel())
+        label.SetForegroundColour("#fff")
         sizer.Add(label, flag=wx.LEFT|wx.TOP, border=5)
 
         vbox = wx.BoxSizer(wx.VERTICAL)
@@ -514,6 +525,7 @@ class FontProp(Property):
 
     def CreateUI(self, parent, sizer):
         label = wx.StaticText(parent, label=self.GetLabel())
+        label.SetForegroundColour("#fff")
         sizer.Add(label, flag=wx.LEFT | wx.TOP, border=5)
 
         self.font_combo = wx.ComboBox(

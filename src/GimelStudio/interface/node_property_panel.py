@@ -63,8 +63,6 @@ class NodePropertyPanel(wx.lib.scrolledpanel.ScrolledPanel):
             # within in the static box for the current platform.
             #top_bd, other_bd = self.panel_staticbox.GetBordersForSizer()
 
-            self.panel_staticbox.SetForegroundColour("#fff")
-
             staticbox_sizer = wx.BoxSizer(wx.VERTICAL)
             staticbox_sizer.AddSpacer(8)
 
