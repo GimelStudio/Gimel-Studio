@@ -23,7 +23,12 @@ A clear and concise description of what you expected/wanted to happen.
 
 **System (please complete the following information):**
  - OS: [e.g. Windows, Linux Mint]
- - Version [e.g. 10]
+ - Version: [e.g. 10]
+
+**If building from source:**
+ - Python Version: [e.g. 2.7.18, 3.8.6]
+ - wxPython Version: [e.g. 4.1.0 phoenix]
+ - Other packages' versions: [e.g. Pillow, OpenCV, etc]
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
