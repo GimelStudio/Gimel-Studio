@@ -18,6 +18,12 @@ New Homepage
  * The Gimel Studio Homepage was updated at https://correctsyntax.com/projects/gimel-studio/
 
 
+Dark Theme
+----------
+
+ * Dark theme was implemented for the menu bar, context menu, panels, node graph, etc
+
+
 Improved Image Viewport
 -----------------------
 
@@ -48,3 +54,5 @@ Nodes
 
 Bug Fixes
 ---------
+
+ * Various small fixes
