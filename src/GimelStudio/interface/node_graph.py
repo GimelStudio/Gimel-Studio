@@ -21,6 +21,7 @@
 import math
 import wx
 import wx.adv
+import wx.lib.agw.flatmenu as flatmenu
 
 from GimelStudio.utils import DrawGrid
 from GimelStudio.registry import CreateNode
@@ -425,42 +426,50 @@ class NodeGraph(wx.ScrolledCanvas):
     def OnContextMenu(self, event):
         """ Event to create Node Graph context menu on left click. """
 
-        # Context menu
-        contextmenu = wx.Menu()
+        # Create the popup menu
+        self.CreateContextMenu()
+
+        # Position it at the mouse cursor
+        pnt = event.GetPosition()
+        self._contextMenu.Popup(wx.Point(pnt.x, pnt.y), self)
+
+    def CreateContextMenu(self):
+        """ Creates the context menu. """
+        self._contextMenu = flatmenu.FlatMenu()
 
         # If there is an active node, then we know
         # that there shouldn't be any other nodes
         # selected, thus we handle the active node first.
         if self._activeNode != None:
+
             # Do not allow the output node to be
             # deleted or duplicated at all.
             if self._activeNode.IsOutputNode() != True:
-                contextmenu.Append(
-                    ID_CONTEXTMENU_DUPLICATENODE, "Duplicate\tShift+D"
-                    )
-                contextmenu.Append(
-                    ID_CONTEXTMENU_DELETENODE, "Delete\tShift+X"
-                    )
+                duplicate_menuitem = flatmenu.FlatMenuItem(self._contextMenu,
+                    ID_CONTEXTMENU_DUPLICATENODE,
+                    "Duplicate\tShift+D", "", wx.ITEM_NORMAL)
+                self._contextMenu.AppendItem(duplicate_menuitem)
+                delete_menuitem = flatmenu.FlatMenuItem(self._contextMenu,
+                    ID_CONTEXTMENU_DELETENODE,
+                    "Delete\tShift+X", "", wx.ITEM_NORMAL)
+                self._contextMenu.AppendItem(delete_menuitem)
 
         else:
             if self._selectedNodes != []:
-               contextmenu.Append(
-                   ID_CONTEXTMENU_DELETENODES, "Delete Selected\tShift+X"
-                   )
+                deletenodes_menuitem = flatmenu.FlatMenuItem(self._contextMenu,
+                    ID_CONTEXTMENU_DELETENODES,
+                    "Delete Selected\tShift+X", "", wx.ITEM_NORMAL)
+                self._contextMenu.AppendItem(deletenodes_menuitem)
 
-        contextmenu.Append(
+        selectallnodes_menuitem = flatmenu.FlatMenuItem(self._contextMenu,
             ID_CONTEXTMENU_SELECTALLNODES,
-            "Select All"
-            )
-        contextmenu.Append(
-            ID_CONTEXTMENU_DESELECTALLNODES,
-            "Deselect All"
-            )
+            "Select All", "", wx.ITEM_NORMAL)
+        self._contextMenu.AppendItem(selectallnodes_menuitem)
 
-        # Popup the menu.  If an item is selected then its handler
-        # will be called before PopupMenu returns.
-        self.PopupMenu(contextmenu)
-        contextmenu.Destroy()
+        deselectallnodes_menuitem = flatmenu.FlatMenuItem(self._contextMenu,
+            ID_CONTEXTMENU_DESELECTALLNODES,
+            "Deselect All", "", wx.ITEM_NORMAL)
+        self._contextMenu.AppendItem(deselectallnodes_menuitem)
 
     def OnAddNodeMenu(self, event):
         """ Event handler to bring up the Add Node menu. """
