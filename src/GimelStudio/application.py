@@ -99,7 +99,7 @@ class MainApplication(wx.Frame):
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
 
         # Create the menubar
-        self._menubar = flatmenu.FlatMenuBar(self, wx.ID_ANY, 40, 8)
+        self._menubar = flatmenu.FlatMenuBar(self, wx.ID_ANY, 40, 8, options=0)
 
         # Set the dark theme
         rm = self._menubar.GetRendererManager()
