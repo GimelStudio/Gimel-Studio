@@ -25,8 +25,8 @@ import os
 from GimelStudio.corenodes.output import output_node
 from GimelStudio.corenodes.input import (image_node, color_image_node,
                                         noise_image_node, gradient_image_node)
-#from GimelStudio.corenodes.mask import edge_detect_node
-#from GimelStudio.corenodes.draw import text_node
+from GimelStudio.corenodes.mask import edge_detect_node
+from GimelStudio.corenodes.draw import text_node
 from GimelStudio.corenodes.color import (color_balance_node, contrast_node,
                                         brightness_node, invert_alpha_node,
                                         get_channel_node)
@@ -39,6 +39,8 @@ from GimelStudio.corenodes.filter import (blur_node, opacity_node,
 from GimelStudio.corenodes.convert import (to_normal_map_node, to_bump_map_node,
                                            to_roughness_map_node,
                                            to_specular_map_node, to_ao_map_node)
+
+from GimelStudio.corenodes import glsl
 
 print("[INFO] Registered core nodes")
 
@@ -54,6 +56,6 @@ try:
 
     print("[INFO] Registered custom node scripts")
 except Exception as error:
-    print("[WARNING] Error registering custom nodes (", error, ")")
+    print("[WARNING] Error registering custom nodes: \n", error)
 finally:
     pass
