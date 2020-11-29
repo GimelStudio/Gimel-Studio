@@ -21,6 +21,7 @@
 import wx
 
 from GimelStudio import utils
+from GimelStudio.datafiles.icons import *
 
 
 class NodeView(object):
@@ -127,22 +128,22 @@ class NodeView(object):
         _x = thumbnail_width/2.0-thumb.size[0]/2.0
         _y = thumbnail_height/2.0-thumb.size[1]/2.0
 
+        thumb_rect = wx.Rect(x+((w-thumbnail_width)/2),
+                       y+_y+20+self.GetLastSocketCoords(),
+                       thumbnail_width,
+                       thumbnail_height)
+
+        # Draw thumbnail border and background
+        dc.SetPen(wx.Pen(wx.Colour("#2B2B2B"), 1))
+        dc.SetBrush(wx.Brush(ICON_BRUSH_CHECKERBOARD.GetBitmap()))
+        dc.DrawRectangle(thumb_rect)
+
         # Draw thumbnail image
         dc.DrawBitmap(
             wx.Bitmap(utils.ConvertImageToWx(thumb)),
             x+_x+((w-thumbnail_width)/2),
             y+_y+20+self.GetLastSocketCoords(),
             True
-            )
-
-        # Draw thumbnail border
-        dc.SetPen(wx.Pen(wx.Colour("#2B2B2B"), 1))
-        dc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 0), wx.TRANSPARENT))
-        dc.DrawRectangle(
-            x+((w-thumbnail_width)/2),
-            y+_y+20+self.GetLastSocketCoords(),
-            thumbnail_width,
-            thumbnail_height,
             )
 
         # Sockets

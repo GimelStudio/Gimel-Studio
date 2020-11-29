@@ -37,14 +37,16 @@ class ImageViewport(ZoomPanel):
         self._zoom = 100
         self._renderTime = 0.00
         self._rendering = False
-        self._viewportImage = utils.ConvertImageToWx(Image.new('RGBA', (256, 256)))
+        self._viewportImage = utils.ConvertImageToWx(
+                                    Image.new('RGBA', (256, 256)))
 
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyEvent)
 
     def OnDrawBackground(self, dc):
         dc.SetBackground(wx.Brush('#666666'))
         dc.Clear()
-        utils.DrawCheckerBoard(dc, self.GetClientRect(), wx.Colour("#424242"), box=8)
+        utils.DrawCheckerBoard(dc, self.GetClientRect(),
+                               wx.Colour("#424242"), box=10)
 
     def OnDrawScene(self, dc):
         image = self._viewportImage
@@ -58,7 +60,8 @@ class ImageViewport(ZoomPanel):
         gc.DrawRectangle(0, 0, self.Size[0], 26)
 
         self.UpdateZoomValue()
-        text = self.CreateInfoText(self._renderTime, self._zoom, self._rendering)
+        text = self.CreateInfoText(self._renderTime,
+                                   self._zoom, self._rendering)
 
         fnt = self._parent.GetFont()
         gc.SetFont(fnt, wx.Colour('white'))
@@ -78,7 +81,9 @@ class ImageViewport(ZoomPanel):
 
     def CreateInfoText(self, render_time, zoom, rendering=False):
         if rendering == False:
-            info = "Render Finished in {0} sec. | Zoom {1}%".format(render_time, zoom)
+            info = "Render Finished in {0} sec. | Zoom {1}%".format(
+                render_time, zoom
+                )
         else:
             info = "Rendering image..."
         return info
