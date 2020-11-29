@@ -213,6 +213,11 @@ class NodeGraph(wx.ScrolledCanvas):
         if self._srcNode != None:
             self._HandleNodeSelection()
 
+            # If the user CTRL+Clicks a node, connect
+            # it to the output node inplace of any other connections.
+            if wx.GetKeyState(wx.WXK_CONTROL) == True:
+                self.SetNodeAsPreview(self._srcNode)
+
             # Handle plugs and wires
             self._srcPlug = self._srcNode.HitTest(winpnt.x, winpnt.y)
 
@@ -528,6 +533,34 @@ class NodeGraph(wx.ScrolledCanvas):
         self.DuplicateNode(self._activeNode)
 
 
+    def SetNodeAsPreview(self, current_node):
+        """ Connect the given node to the the output node inplace
+        of any other connections.
+
+        :param current_node: NodeBase subclass object
+        """
+        output_node = self.GetNodeByTypeId("corenode_outputcomposite")
+        output_node_socket = output_node.FindSocket('Image')
+
+        # We only need to disconnect if the output
+        # node already has a connection.
+        wires = output_node_socket.GetWires()
+        if wires != []:
+            output_node_socket.Disconnect(
+                self,
+                wires[0].GetSrcPlug(),
+                render=False,
+                refresh=True
+                )
+
+        current_node_socket = current_node.FindSocket('Output')
+        current_node_socket.Connect(
+            self,
+            output_node_socket,
+            render=self.ShouldAutoRender(),
+            refresh=True
+            )
+
     def _HandleNodeSelection(self):
         # Set the active node
         if self._activeNode == None:
@@ -786,6 +819,16 @@ class NodeGraph(wx.ScrolledCanvas):
         self._nodes[node_id] = node
         self.RefreshGraph()
         return node
+
+    def GetNodeByTypeId(self, type_id):
+        """ Return a node object based on the node type identifier.
+
+        :param type_id: node type identifier
+        :returns: NodeBase subclass object
+        """
+        for node_id in self.GetNodes():
+            if self._nodes[node_id].GetType() == type_id:
+                return self._nodes[node_id]
 
 
     def GetMenuButtonWidgetPos(self):
