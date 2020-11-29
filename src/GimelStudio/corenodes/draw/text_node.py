@@ -55,7 +55,7 @@ class TextNode(api.NodeBase):
 
         text_prop = api.StringProp(
             idname="Text",
-            default="String",
+            default="Text",
             label="Text:"
         )
 
@@ -67,7 +67,7 @@ class TextNode(api.NodeBase):
 
         font_size_prop = api.PositiveIntegerProp(
             idname="Font Size",
-            default=40,
+            default=10,
             min_val=0,
             max_val=10000,
             widget=api.SPINBOX_WIDGET,
@@ -99,30 +99,48 @@ class TextNode(api.NodeBase):
 
         # Create separate image so it doesn't draw on the original image
         text_image = Image.new("RGBA", size=main_image.GetImage().size, color=(0, 0, 0, 1))
-        draw = ImageDraw.Draw(text_image)
+        #draw = ImageDraw.Draw(text_image)
+        print("before font")
+        # # Load the font
+        # if sys.platform == "win32":
+        #     font_path_prefix = "C:/Windows/Fonts/"
+        # elif sys.platform == "linux":
+        #     font_path_prefix = "/usr/share/fonts/TTF/"
+        # else:
+        #     print("WARNING: The text node does not currently support your operating system")
+        #     return
 
-        # Load the font
-        if sys.platform == "win32":
-            font_path_prefix = "C:/Windows/Fonts/"
-        elif sys.platform == "linux":
-            font_path_prefix = "/usr/share/fonts/TTF/"
-        else:
-            print("WARNING: The text node does not currently support your operating system")
-            return
-
-        font_path = font_path_prefix + font + ".ttf"
-        fnt = ImageFont.truetype(font_path, font_size)
-
+        # font_path = font_path_prefix + font + ".ttf"
+        #fnt = ImageFont.truetype("arial", font_size)
+        #print("after")
         # TODO: Add support for all parameters from ImageDraw.Draw.text
         # Todo: Add support for multiline text
-        draw.text(text_pos, text, font=fnt, fill=font_color)
+        #draw.multiline_text(text_pos, text, font=fnt, fill=font_color)
+
+        print(font_size, "size")
+
+        draw_text = ImageDraw.Draw(text_image)
+        text_font = ImageFont.truetype(font="C:/Windows/Fonts/arial.ttf", size=30)
+
+        # Draw the text
+        draw_text.text(
+            xy=(0, 0),
+            text="text",
+            font=text_font,
+            fill="black",
+            spacing=6,
+            align='left',
+            stroke_width=1,
+            stroke_fill="blue"
+            )
 
         # Composite the two images together
         composited_image = Image.alpha_composite(main_image.GetImage(), text_image)
 
+
         image.SetAsImage(composited_image)
         self.NodeSetThumb(image.GetImage())
-
+        print("yes-past")
         return image
 
 # Register the node

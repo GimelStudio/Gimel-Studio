@@ -286,11 +286,11 @@ class NodeBase(NodeObject):
         #print("SET THUMB")
         try:
             self.Model.UpdateThumbnail(image)
-            live_update = self.NodeGraphMethods.GetLiveNodePreviewUpdate()
+            # live_update = self.NodeGraphMethods.GetLiveNodePreviewUpdate()
 
-            if live_update == True or force_refresh == True:
-                self.Draw(self.NodeGraphMethods.GetPDC())
-                self.RefreshNodeGraph()
+            # if live_update == True or force_refresh == True:
+            #     self.Draw(self.NodeGraphMethods.GetPDC())
+            #     self.RefreshNodeGraph()
         except Exception as e:
             pass
             #print("INIT", e)
