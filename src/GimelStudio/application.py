@@ -120,7 +120,7 @@ class MainApplication(wx.Frame):
         self.openprojectfile_menuitem = flatmenu.FlatMenuItem(
             file_menu,
             id=wx.ID_ANY,
-            label="Open Project \tCtrl+O",
+            label="Open Project\tCtrl+O",
             helpString="Open and load a Gimel Studio project file",
             kind=wx.ITEM_NORMAL,
             subMenu=None
@@ -129,7 +129,7 @@ class MainApplication(wx.Frame):
         self.saveprojectfile_menuitem = flatmenu.FlatMenuItem(
             file_menu,
             id=wx.ID_ANY,
-            label="Save Project... \tCtrl+S",
+            label="Save Project...\tCtrl+S",
             helpString="Save the current project file",
             kind=wx.ITEM_NORMAL,
             subMenu=None
@@ -138,7 +138,7 @@ class MainApplication(wx.Frame):
         self.saveprojectfileas_menuitem = flatmenu.FlatMenuItem(
             file_menu,
             id=wx.ID_ANY,
-            label="Save Project As... \tCtrl+Shift+S",
+            label="Save Project As...\tCtrl+Shift+S",
             helpString="Save the current project as a Gimel Studio project file",
             kind=wx.ITEM_NORMAL,
             subMenu=None
@@ -149,7 +149,7 @@ class MainApplication(wx.Frame):
         self.exportasimage_menuitem = flatmenu.FlatMenuItem(
             file_menu,
             id=wx.ID_ANY,
-            label="Export Image As... \tShift+E",
+            label="Export Image As...\tShift+E",
             helpString="Export rendered composite image to a file",
             kind=wx.ITEM_NORMAL,
             subMenu=None
@@ -160,7 +160,7 @@ class MainApplication(wx.Frame):
         self.quit_menuitem = flatmenu.FlatMenuItem(
             file_menu,
             id=wx.ID_ANY,
-            label="Quit \tShift+Q",
+            label="Quit\tShift+Q",
             helpString="Quit Gimel Studio",
             kind=wx.ITEM_NORMAL,
             subMenu=None
@@ -170,7 +170,7 @@ class MainApplication(wx.Frame):
         self.togglenodegraphgrid_menuitem = flatmenu.FlatMenuItem(
             view_menu,
             id=wx.ID_ANY,
-            label="Toggle Node Graph",
+            label="Toggle Graph Grid",
             helpString="Toggle the Node Graph grid background",
             kind=wx.ITEM_CHECK,
             subMenu=None

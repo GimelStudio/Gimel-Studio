@@ -43,7 +43,7 @@ ID_CONTEXTMENU_DUPLICATENODE = wx.NewIdRef()
 ID_CONTEXTMENU_DESELECTALLNODES = wx.NewIdRef()
 ID_CONTEXTMENU_SELECTALLNODES = wx.NewIdRef()
 
-ID_CONTEXTMENU = wx.NewIdRef()
+ID_ADDNODEMENU = wx.NewIdRef()
 
 
 class NodeGraph(wx.ScrolledCanvas):
@@ -121,12 +121,16 @@ class NodeGraph(wx.ScrolledCanvas):
         self._parent.Bind(
             wx.EVT_MENU,
             self.OnAddNodeMenu,
-            id=ID_CONTEXTMENU
+            id=ID_ADDNODEMENU
             )
 
         # Keyboard shortcut bindings
         self.accel_tbl = wx.AcceleratorTable([(wx.ACCEL_SHIFT, ord('A'),
-                                              ID_CONTEXTMENU),
+                                              ID_ADDNODEMENU),
+                                              (wx.ACCEL_SHIFT, ord('D'),
+                                               ID_CONTEXTMENU_DUPLICATENODE),
+                                              (wx.ACCEL_SHIFT, ord('X'),
+                                               ID_CONTEXTMENU_DELETENODES),
                                              ])
         self._parent.SetAcceleratorTable(self.accel_tbl)
 
@@ -695,21 +699,22 @@ class NodeGraph(wx.ScrolledCanvas):
         :param node: the ``Node`` object to duplicate
         :returns: the duplicate ``Node`` object
         """
-        duplicate_node = self.AddNode(
-            node.GetType(),
-            where="CURSOR"
-            )
-
-        # Assign the same properties to the duplicate node object
-        for prop in node.Properties:
-            duplicate_node.NodeEditProp(
-                idname=node.Properties[prop].GetIdname(),
-                value=node.Properties[prop].GetValue(),
-                render=False
+        if node.GetType() != "corenode_outputcomposite":
+            duplicate_node = self.AddNode(
+                node.GetType(),
+                where="CURSOR"
                 )
 
-        self.RefreshGraph()
-        return duplicate_node
+            # Assign the same properties to the duplicate node object
+            for prop in node.Properties:
+                duplicate_node.NodeEditProp(
+                    idname=node.Properties[prop].GetIdname(),
+                    value=node.Properties[prop].GetValue(),
+                    render=False
+                    )
+
+            self.RefreshGraph()
+            return duplicate_node
 
     def NodeHitTest(self, pnt):
         """ Hit-test for nodes. """

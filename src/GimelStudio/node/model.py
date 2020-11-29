@@ -55,7 +55,7 @@ class NodeModel(object):
             self._id = _id
         self._parent = None
         self._type = "" # idname
-        self._backgroundColor = (86, 86, 86, 188)
+        self._backgroundColor = (86, 86, 86, 200)
         self._borderColor = "#333"
         self._headerColor = (0, 0, 0, 255)
         self._socketColor = "#333"

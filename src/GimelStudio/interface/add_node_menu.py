@@ -31,7 +31,7 @@ class NodesVListBox(wx.VListBox):
         self._parent = args[0]
         wx.VListBox.__init__(self, *args, **kw)
 
-        self.SetBackgroundColour(wx.Colour("#6D6F6E"))
+        self.SetBackgroundColour(wx.Colour("#333"))
 
         self.Bind(wx.EVT_MOTION, self.OnStartDrag)
 
