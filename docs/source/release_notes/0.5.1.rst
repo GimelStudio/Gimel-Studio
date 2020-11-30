@@ -3,13 +3,14 @@
 
 Gimel Studio v0.5.1 BETA -- "NOT YET RELEASED"
 
-**The v0.5.1 beta release was a bug-fix release focused on improving stability and usability**
+**The v0.5.1 beta release was mainly a bug-fix release focused on improving stability, visuals and usability**
 
 
 General
 -------
 
  * Refactoring of code
+ * Icon assets were cleaned-up a bit
 
 
 New Homepage
@@ -18,10 +19,17 @@ New Homepage
  * The Gimel Studio Homepage was updated at https://correctsyntax.com/projects/gimel-studio/
 
 
-Dark Theme
-----------
+Dark Theme & UI
+---------------
 
  * Dark theme was implemented for the menu bar, context menu, panels, node graph, etc
+ * Various tweaks to the UI visuals including tweaks to icons, etc.
+
+
+Node graph
+----------
+
+ * Added ability to change the connection to the output node via Ctrl+Left-clicking a node.
 
 
 Improved Image Viewport
@@ -47,12 +55,13 @@ Nodes
 -----
 
  * Some core nodes were improved/fixed to support a wider range of values.
-
+ * Nodes now have a checkerboard background (for showing alpha-channel) and larger space between sockets and thumb preview.
  * Added new core nodes:
   - Dilate/Erode
+  - Edge Detect (thanks to iwoithe)
 
 
 Bug Fixes
 ---------
 
- * Various small fixes
+ * Various small fixes here and there. :)
