@@ -317,7 +317,7 @@ class NodeModel(object):
 
             # We keep track of where the last socket is placed so that
             # we can place the thumbnail far enough below the sockets.
-            self._lastCoords = 40 + 19 * i
+            self._lastCoords = 60 + 19 * i
 
             socket = Socket(p[0], p[1], (x, 40 + (19 * i)), 6.5, socket_type, self)
             sockets.append(socket)
