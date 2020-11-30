@@ -34,6 +34,7 @@ from GimelStudio.interface import (NodeGraph, NodePropertyPanel,
                                    ImageViewport, NodeGraphDropTarget,
                                    DeveloperLog, DarkMenuRenderer, ExportImageAs)
 from GimelStudio.program import (AboutDialog, LicenseDialog)
+from GimelStudio.project import GimelStudioProject
 from GimelStudio.renderer import Renderer, RenderThread, EVT_RENDER_RESULT
 from GimelStudio.registry import REGISTERED_NODES
 from GimelStudio.datafiles import *
@@ -66,7 +67,7 @@ class MainApplication(wx.Frame):
 
     def _InitProgramBackend(self):
         # Init project, renderer and user preferences manager
-        #self._project = GimelStudioProject(self)
+        self._project = GimelStudioProject(self)
         self._renderer = Renderer(self)
         #self._userPrefManager = UserPreferencesManager(self)
 
@@ -84,14 +85,14 @@ class MainApplication(wx.Frame):
         self._mgr.SetManagedWindow(self)
         self._mgr.SetAGWFlags(self._mgr.GetAGWFlags() ^ aui.AUI_MGR_LIVE_RESIZE)
 
-        art.SetMetric(aui.AUI_DOCKART_SASH_SIZE, 5)
+        art.SetMetric(aui.AUI_DOCKART_SASH_SIZE, 3)
         art.SetMetric(aui.AUI_DOCKART_PANE_BORDER_SIZE, 5)
         art.SetMetric(aui.AUI_DOCKART_GRADIENT_TYPE, aui.AUI_GRADIENT_NONE)
         art.SetColour(aui.AUI_DOCKART_BACKGROUND_COLOUR, wx.Colour("#404040"))
         art.SetColour(aui.AUI_DOCKART_INACTIVE_CAPTION_COLOUR, wx.Colour("#404040"))
         art.SetColour(aui.AUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR, wx.Colour("#fff"))
         art.SetColour(aui.AUI_DOCKART_BORDER_COLOUR, wx.Colour("#404040"))
-        art.SetColour(aui.AUI_DOCKART_SASH_COLOUR, wx.Colour("#404040"))
+        art.SetColour(aui.AUI_DOCKART_SASH_COLOUR, wx.Colour("#333"))
         art.SetColour(aui.AUI_DOCKART_GRIPPER_COLOUR, wx.Colour("#404040"))
 
     def _InitMenuBar(self):
@@ -529,8 +530,6 @@ class MainApplication(wx.Frame):
         else:
             self._mgr.GetPane("ImageViewport").Show()
 
-        #self._mgr.MaximizePane(self._mgr.GetPane("NodeGraph"))
-        #RestoreMaximizedPane()
         self._mgr.Update()
 
     def OnToggleDeveloperLog(self, event):
