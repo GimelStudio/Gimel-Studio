@@ -133,7 +133,7 @@ class Socket(object):
                     self,
                     dst_plug,
                     self.GetType(),
-                    curvature=8
+                    curvature=ng.GetWireCurvature()
                     )
         wire.srcNode = self.GetNode()
         wire.dstNode = dst_plug.GetNode()
