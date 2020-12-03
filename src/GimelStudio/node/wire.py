@@ -122,7 +122,7 @@ class Wire(object):
             if self.IsActive() == True:
                 dc.SetPen(wx.Pen(wx.Colour("#ECECEC"), 3))
             else:
-                dc.SetPen(wx.Pen(wx.Colour("#C1C1C1"), 3))
+                dc.SetPen(wx.Pen(wx.Colour("#808080"), 3))
             dc.DrawSpline(pnts)
 
             # Draw shadow
@@ -141,7 +141,7 @@ class Wire(object):
             if self.IsActive() == True:
                 dc.SetPen(wx.Pen(wx.Colour("#ECECEC"), 3))
             else:
-                dc.SetPen(wx.Pen(wx.Colour(wx.Colour("#C1C1C1")), 3))
+                dc.SetPen(wx.Pen(wx.Colour(wx.Colour("#808080")), 3))
             dc.DrawLine(self._pnt1[0], self._pnt1[1], self._pnt2[0], self._pnt2[1])
 
             # Draw shadow
@@ -150,4 +150,3 @@ class Wire(object):
                 dc.DrawLine(self._pnt1[0], self._pnt1[1], self._pnt2[0], self._pnt2[1])
 
         dc.SetIdBounds(self.GetId(), self.GetRect())
-
