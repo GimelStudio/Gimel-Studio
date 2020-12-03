@@ -55,8 +55,6 @@ POSSIBLE FUTURE FEATURES/FIXES, version 1.x.x stable
 
 * Custom widgets/better layout for node property panel [Low priority]
 
-* Python console in application for developing custom node? (This would help users to be able to debug their code) [Medium priority]
-
 * Print image (export to PDF, etc.) [Low priority]
 
 * Support for other languages (will need help from others) [Low priority]
