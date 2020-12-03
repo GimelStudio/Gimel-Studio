@@ -74,6 +74,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
         self._drawGrid = True
         self._autoRender = True
+        self._wireCurvature = 0
         self._liveUpdatePreviews = False #True
 
         # Handle scrolling
@@ -238,7 +239,7 @@ class NodeGraph(wx.ScrolledCanvas):
                         None,
                         None,
                         self._srcPlug.GetType(),
-                        curvature=8
+                        curvature=self.GetWireCurvature()
                         )
 
                 # If this is an input socket, we disconnect any already-existing
@@ -269,7 +270,7 @@ class NodeGraph(wx.ScrolledCanvas):
                         None,
                         None,
                         self._srcPlug.GetType(),
-                        curvature=8
+                        curvature=self.GetWireCurvature()
                         )
 
                     # Important: we re-assign the source node variable
@@ -548,7 +549,7 @@ class NodeGraph(wx.ScrolledCanvas):
         if wires != []:
             output_node_socket.Disconnect(
                 self,
-                wires[0].GetSrcPlug(),
+                wires[0].srcPlug,#GetSrcPlug(),
                 render=False,
                 refresh=True
                 )
@@ -665,6 +666,12 @@ class NodeGraph(wx.ScrolledCanvas):
 
     def SetLiveNodePreviewUpdate(self, update=True):
         self._liveUpdatePreviews = update
+
+    def GetWireCurvature(self):
+        return self._wireCurvature
+
+    def SetWireCurvature(self, curvature):
+        self._wireCurvature = curvature
 
     @staticmethod
     def GetNodePlug(node, plug):
