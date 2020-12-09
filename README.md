@@ -3,17 +3,16 @@
 Gimel Studio
 ============
 
-[Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
-
 [![Documentation Status](https://readthedocs.org/projects/gimel-studio/badge/?version=latest)](https://gimel-studio.readthedocs.io/en/latest/?badge=latest) [![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
 
-Gimel Studio is a **node-based, non-destructive image editor** for Windows and Linux.
+[Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
 
-Gimel Studio has a node-based workflow for compositing, masking, manipulating, generating and adding effects to images -complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
 
-It provides basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
+Gimel Studio is a node-based, non-destructive image editor for Windows and Linux. With a workflow for compositing, masking, manipulating, generating and editing images, it is complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
 
-**Still in BETA stage and WIP, but can be considered stable enough for light production work.**
+Currently, Gimel Studio provides basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
+
+*Still in BETA stage and WIP, but can be considered stable enough for light production work.*
 
 
 # Features
