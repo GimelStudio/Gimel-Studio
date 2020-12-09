@@ -5,6 +5,9 @@ Gimel Studio is a **node-based, non-destructive image editor** for Windows and L
 
 !["Gimel Studio"](/screenshots/gimel-studio-ui-03.jpg?raw=true "Gimel Studio")
 
+
+**Discover Gimel Studio:** [Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Offical Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
+
 [![Documentation Status](https://readthedocs.org/projects/gimel-studio/badge/?version=latest)](https://gimel-studio.readthedocs.io/en/latest/?badge=latest) [![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
 
 
@@ -63,16 +66,9 @@ v0.5.1 is planned to be released as a bug-fix release for increased stability af
 See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases.
 
 
-# Releases
+# Download Releases
 
-Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Studio homepage</a> to download the latest release or <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">click here</a> to see past releases on Github.
-
-
-# Documentation
-
-You can find the latest documentation on <a href="https://gimel-studio.readthedocs.io/en/latest/">Read the docs</a> or build it yourself following the steps in the section *Building the documentation from source* below.
-
-Documentation for past Gimel Studio releases can be found <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">here</a>.
+Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Studio homepage</a> to download the latest release for Windows and Linux.
 
 
 # Feature Requests & Bug Reports
@@ -84,11 +80,9 @@ For feature requests, non-bug report questions, etc please start a new discussio
 
 # Development
 
-**You are Welcome to Help develop Gimel Studio!**
+**You Are Welcome to Help Develop Gimel Studio!**
 
-Pull requests and/or feature suggestions are welcome!
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Also see [ROADMAP.txt](ROADMAP.txt) for a general idea of the future goals of the development of Gimel Studio.
+Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines.
 
 
 # Installing from source
