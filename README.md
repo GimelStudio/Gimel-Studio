@@ -1,8 +1,9 @@
 !["Gimel Studio"](/screenshots/gimel-studio-ui-03.jpg?raw=true "Gimel Studio")
 
-## Gimel Studio
+Gimel Studio
+============
 
-Gimel Studio is a **node-based, non-destructive image editor** for Windows and Linux.
+Gimel Studio is a node-based, non-destructive image editor for Windows and Linux.
 
 **Discover Gimel Studio:** [Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
 
