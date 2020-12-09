@@ -3,14 +3,11 @@
 Gimel Studio
 ============
 
-Gimel Studio is a node-based, non-destructive image editor for Windows and Linux.
-
-**Discover Gimel Studio:** [Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
+[Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
 
 [![Documentation Status](https://readthedocs.org/projects/gimel-studio/badge/?version=latest)](https://gimel-studio.readthedocs.io/en/latest/?badge=latest) [![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
 
-
-# Introduction
+Gimel Studio is a **node-based, non-destructive image editor** for Windows and Linux.
 
 Gimel Studio has a node-based workflow for compositing, masking, manipulating, generating and adding effects to images -complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
 
