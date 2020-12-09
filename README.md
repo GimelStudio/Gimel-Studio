@@ -75,6 +75,13 @@ You can find the latest documentation on <a href="https://gimel-studio.readthedo
 Documentation for past Gimel Studio releases can be found <a href="https://github.com/Correct-Syntax/Gimel-Studio/releases">here</a>.
 
 
+# Feature Requests & Bug Reports
+
+Please open an issue in the Github issues *for bug reports ONLY*.
+
+For feature requests, non-bug report questions, etc please start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
+
+
 # Development
 
 **You are Welcome to Help develop Gimel Studio!**

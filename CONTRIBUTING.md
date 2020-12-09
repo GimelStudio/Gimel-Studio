@@ -30,4 +30,6 @@ A few tips when developing Gimel Studio:
 
 ## Ideas, New Features, Feature Changes (*You intend to add a new feature or change an existing one*)
 
-Please contact me at <correctsyntax@yahoo.com> or open a Github issue for feature suggestions, ideas, or if you want to make a change to something. This ensures that you don't end up re-working on the same thing as me (Correct-Syntax)! I always welcome constructive feedback from others.
+Please start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
+
+Feel free to offer feature suggestions, ideas, or let me know if you want to make a change to something. This ensures that you don't end up re-working on the same thing as me (Correct-Syntax)! I always welcome constructive feedback from others.
