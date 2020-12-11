@@ -1,34 +1,35 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: wire.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the node wire
-##
-## This file includes code that was modified from wxnodegraph
-## (https://github.com/Derfies/wxnodegraph) which is licensed under the MIT
-## License, Copyright 2016
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: wire.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Define the node wire
+#
+# This file includes code that was modified from wxnodegraph
+# (https://github.com/Derfies/wxnodegraph) which is licensed under the MIT
+# License, Copyright 2016
+# ----------------------------------------------------------------------------
 
 import wx
 
 
 class Wire(object):
     """ Wire for connecting nodes. """
+
     def __init__(self, parent, pnt1, pnt2, srcplug, dstplug, dir_,
-        isactive=False, curvature=0, drawshadow=False):
+                 isactive=False, curvature=0, drawshadow=False):
         self._parent = parent
         self._pnt1 = pnt1
         self._pnt2 = pnt2
@@ -38,7 +39,7 @@ class Wire(object):
         self._dstPlug = dstplug
         self._isActive = isactive
         self._curvature = curvature
-        self._drawShadow = drawshadow # FIXME
+        self._drawShadow = drawshadow  # FIXME
 
     def GetPoint1(self):
         return self._pnt1
@@ -129,8 +130,8 @@ class Wire(object):
             if self.GetDrawShadow() == True:
                 pnts = []
                 pnts.append(self._pnt1)
-                pnts.append(self._pnt1 + wx.Point(curvature * sign -5, 0))
-                pnts.append(self._pnt2 - wx.Point(curvature * sign +5, 0))
+                pnts.append(self._pnt1 + wx.Point(curvature * sign - 5, 0))
+                pnts.append(self._pnt2 - wx.Point(curvature * sign + 5, 0))
                 pnts.append(self._pnt2)
 
                 dc.SetPen(wx.Pen(wx.Colour(0, 0, 0, 43), 8))

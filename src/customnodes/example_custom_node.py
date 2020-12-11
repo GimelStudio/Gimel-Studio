@@ -36,7 +36,7 @@ class ExampleCustomNode(api.NodeBase):
             max_val=25,
             widget=api.SLIDER_WIDGET,
             label="Amount:",
-            )
+        )
         self.NodeAddProp(p)
 
     def NodeInitParams(self):

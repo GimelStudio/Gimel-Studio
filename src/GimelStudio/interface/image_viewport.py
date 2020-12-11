@@ -1,22 +1,22 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: image_viewport.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the Image Viewport panel
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: image_viewport.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Define the Image Viewport panel
+# ----------------------------------------------------------------------------
 
 import wx
 import wx.adv
@@ -38,7 +38,7 @@ class ImageViewport(ZoomPanel):
         self._renderTime = 0.00
         self._rendering = False
         self._viewportImage = utils.ConvertImageToWx(
-                                    Image.new('RGBA', (256, 256)))
+            Image.new('RGBA', (256, 256)))
 
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyEvent)
 
@@ -50,8 +50,8 @@ class ImageViewport(ZoomPanel):
 
     def OnDrawScene(self, dc):
         image = self._viewportImage
-        x = (self.Size[0] - image.Width)/2.0
-        y = (self.Size[1] - image.Height)/2.0
+        x = (self.Size[0] - image.Width) / 2.0
+        y = (self.Size[1] - image.Height) / 2.0
         dc.DrawBitmap(image, x, y, useMask=False)
 
     def OnDrawInterface(self, dc):
@@ -69,7 +69,7 @@ class ImageViewport(ZoomPanel):
 
     def OnKeyEvent(self, event):
         code = event.GetKeyCode()
-        mouse = wx.Point(self.Size[0]/2, self.Size[1]/2)
+        mouse = wx.Point(self.Size[0] / 2, self.Size[1] / 2)
 
         # plus (+)
         if code == wx.WXK_NUMPAD_ADD:
@@ -77,13 +77,27 @@ class ImageViewport(ZoomPanel):
         # minus (-)
         elif code == wx.WXK_NUMPAD_SUBTRACT:
             self.ScenePostScale(0.9, 0.9, mouse[0], mouse[1])
+
+        if code == wx.WXK_ESCAPE:
+            self.RestoreDefaultPanelMode()
+            print("done")
+
         self.UpdateDrawing()
+
+    def RestoreDefaultPanelMode(self):
+        print("res")
+        self._parent._mgr.GetPane("NodeGraph").Show()
+        self._parent._mgr.GetPane("NodeGraph").Center()
+        self._parent._mgr.GetPane("ImageViewport").Right()
+        self._parent._mgr.GetPane("NodeProperties").Right()
+
+        self._parent._mgr.Update()
 
     def CreateInfoText(self, render_time, zoom, rendering=False):
         if rendering == False:
             info = "Render Finished in {0} sec. | Zoom {1}%".format(
                 render_time, zoom
-                )
+            )
         else:
             info = "Rendering image..."
         return info
@@ -93,7 +107,7 @@ class ImageViewport(ZoomPanel):
         self.UpdateDrawing()
 
     def UpdateZoomValue(self):
-        self._zoom = round(self.GetScaleX()*100)
+        self._zoom = round(self.GetScaleX() * 100)
 
     def UpdateViewerImage(self, image, render_time):
         """ Update the Image Viewport. This refreshes everything

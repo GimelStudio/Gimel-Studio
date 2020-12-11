@@ -1,22 +1,22 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: image.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Provide utility image manipulation, converting, exporting functions
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: image.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Provide utility image manipulation, converting, exporting functions
+# ----------------------------------------------------------------------------
 
 import wx
 
@@ -37,7 +37,7 @@ def ConvertImageToWx(image):
         image.size[0],
         image.size[1],
         image.convert('RGBA').tobytes()
-        )
+    )
     return bitmap
 
 
@@ -70,7 +70,7 @@ def GetFileExt(path, add_dot=False):
 
 
 def ExportRenderedImageToFile(rendered_image, export_path,
-                            quality=75, optimize=False, export_for_web=False):
+                              quality=75, optimize=False, export_for_web=False):
     """ Smooths out the various export options for exporting images and
     exports the image to the given file path.
 
@@ -104,7 +104,7 @@ def ExportRenderedImageToFile(rendered_image, export_path,
 
         # PNG specific
         if IsFPExt(export_path, [".png"]):
-            bits = 8 # How much should this be lowered??
+            bits = 8  # How much should this be lowered??
             compress_level = 7
 
     # Make sure JPG, JPEG, PCX, EPS files get saved as RGB mode
@@ -122,8 +122,6 @@ def ExportRenderedImageToFile(rendered_image, export_path,
     else:
         rendered_image.save(fp=export_path, quality=quality, optimize=optimize,
                             bits=bits, compress_level=compress_level)
-
-
 
 
 # -------------------------------------------------------------
@@ -191,7 +189,7 @@ def ArrayFromImage(im, flatten=0):
 
 
 def ArrayToImage(arr, high=255, low=0, cmin=None, cmax=None, pal=None,
-            mode=None, channel_axis=None):
+                 mode=None, channel_axis=None):
     """Takes a numpy array and returns a PIL image.
     The mode of the PIL image depends on the array shape and the `pal` and
     `mode` keywords.
@@ -246,7 +244,7 @@ def ArrayToImage(arr, high=255, low=0, cmin=None, cmax=None, pal=None,
             cmin = amin(ravel(data))
         if cmax is None:
             cmax = amax(ravel(data))
-        data = (data*1.0 - cmin)*(high - low)/(cmax - cmin) + low
+        data = (data * 1.0 - cmin) * (high - low) / (cmax - cmin) + low
         if mode == 'I':
             data32 = data.astype(numpy.uint32)
             image = Image.frombytes(mode, shape, data32.tostring())

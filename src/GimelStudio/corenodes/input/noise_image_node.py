@@ -1,19 +1,19 @@
-## THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-## ----------------------------------------------------------------------------
+# THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ----------------------------------------------------------------------------
 
 import os
 from PIL import Image, ImageOps
@@ -46,18 +46,18 @@ class NoiseImageNode(api.NodeBase):
             max_val=400,
             widget=api.SLIDER_WIDGET,
             label="Sigma:",
-            )
+        )
         self.size_prop = api.SizeProp(
             idname="Size",
             default=[255, 255],
             label="Image Size:"
-            )
+        )
 
         self.NodeAddProp(self.sigma_prop)
         self.NodeAddProp(self.size_prop)
 
     def WidgetEventHook(self, idname, value):
-        #if idname == "Sigma":
+        # if idname == "Sigma":
         img = self.NodeEvaluation(EvalInfo(self)).GetImage()
         self.NodeSetThumb(img, force_refresh=True)
         self.RefreshPropertyPanel()
@@ -69,7 +69,7 @@ class NoiseImageNode(api.NodeBase):
         image = api.RenderImage()
         image.SetAsImage(
             Image.effect_noise((imgsize[0], imgsize[1]), sigma).convert("RGBA")
-            )
+        )
         self.NodeSetThumb(image.GetImage())
         return image
 

@@ -1,22 +1,22 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: nodegraph_dnd.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: DragnDrop files into the node graph from node registry or file dir
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: nodegraph_dnd.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: DragnDrop files into the node graph from node registry or file dir
+# ----------------------------------------------------------------------------
 
 import os
 import wx
@@ -52,7 +52,7 @@ class NodeGraphDropTarget(wx.DropTarget):
         _format = self._composite.GetReceivedFormat()
         formatType = _format.GetType()
         try:
-            formatId = _format.GetId() # May throw exception on unknown formats
+            formatId = _format.GetId()  # May throw exception on unknown formats
         except:
             formatId = None
         return formatType, formatId
@@ -87,7 +87,7 @@ class NodeGraphDropTarget(wx.DropTarget):
                         "That file type isn't currently supported!",
                         "Cannot Open File!",
                         style=wx.ICON_EXCLAMATION
-                        )
+                    )
                     dlg.ShowModal()
                     return False
 
@@ -102,6 +102,6 @@ class NodeGraphDropTarget(wx.DropTarget):
             "Error \n {}!".format(str(error)),
             "Error!",
             style=wx.ICON_ERROR
-            )
+        )
         dlg.ShowModal()
         return False

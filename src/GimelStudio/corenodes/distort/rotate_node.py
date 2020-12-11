@@ -1,19 +1,19 @@
-## THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-## ----------------------------------------------------------------------------
+# THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ----------------------------------------------------------------------------
 
 import os
 
@@ -22,7 +22,7 @@ import wx.lib.agw.cubecolourdialog as CCD
 from PIL import Image
 
 from GimelStudio.api import (Color, RenderImage, List, NodeBase,
-                            Parameter, Property, RegisterNode)
+                             Parameter, Property, RegisterNode)
 
 
 class NodeDefinition(NodeBase):
@@ -55,43 +55,42 @@ class NodeDefinition(NodeBase):
     def NodeProperties(self):
         return [
             Property('Resample',
-                prop_type='LIST',
-                value=List([
-                    'Nearest',
-                    'Bilinear',
-                    'Bicubic',
-                    ], 'Nearest')
-                ),
+                     prop_type='LIST',
+                     value=List([
+                         'Nearest',
+                         'Bilinear',
+                         'Bicubic',
+                     ], 'Nearest')
+                     ),
 
             Property('Size',
-                prop_type='REGLIST',
-                value=[256, 256]
-                ),
+                     prop_type='REGLIST',
+                     value=[256, 256]
+                     ),
 
             Property('Angle',
-                prop_type='INTEGER',
-                value=90
-                ),
+                     prop_type='INTEGER',
+                     value=90
+                     ),
 
             Property('Fill Color',
-                prop_type='COLOR',
-                value=(0, 0, 0, 1)
-                ),
+                     prop_type='COLOR',
+                     value=(0, 0, 0, 1)
+                     ),
 
             Property('Expand',
-                prop_type='BOOLEAN',
-                value=True
-                ),
-            ]
+                     prop_type='BOOLEAN',
+                     value=True
+                     ),
+        ]
 
     @property
     def NodeParameters(self):
         return [
             Parameter('Image',
-                param_type='RENDERIMAGE',
-                default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))),
+                      param_type='RENDERIMAGE',
+                      default_value=RenderImage('RGBA', (256, 256), (0, 0, 0, 1))),
         ]
-
 
     def NodePropertiesUI(self, node, parent, sizer):
 
@@ -106,11 +105,10 @@ class NodeDefinition(NodeBase):
             value=current_angle_value,
             minValue=1, maxValue=360,
             style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS
-            )
+        )
         self.angle_slider.SetTickFreq(10)
 
-        sizer.Add(self.angle_slider, flag=wx.EXPAND|wx.ALL, border=5)
-
+        sizer.Add(self.angle_slider, flag=wx.EXPAND | wx.ALL, border=5)
 
         # Resample
         current_resample_value = self.NodeGetPropValue('Resample')
@@ -122,15 +120,14 @@ class NodeDefinition(NodeBase):
             parent, wx.ID_ANY,
             value=current_resample_value,
             choices=[
-                    'Nearest',
-                    'Bilinear',
-                    'Bicubic',
-                    'Lanczos'
-                    ],
+                'Nearest',
+                'Bilinear',
+                'Bicubic',
+                'Lanczos'
+            ],
             style=wx.CB_READONLY
-            )
-        sizer.Add(self.resample_combobox, flag=wx.EXPAND|wx.ALL, border=5)
-
+        )
+        sizer.Add(self.resample_combobox, flag=wx.EXPAND | wx.ALL, border=5)
 
         # Color
         current_fillcolor_value = self.NodeGetPropValue('Fill Color')
@@ -151,8 +148,7 @@ class NodeDefinition(NodeBase):
         color_hbox.Add(self.fillcolor_btn, flag=wx.LEFT, border=5)
         color_vbox.Add(color_hbox, flag=wx.EXPAND)
 
-        sizer.Add(color_vbox, flag=wx.ALL|wx.EXPAND, border=5)
-
+        sizer.Add(color_vbox, flag=wx.ALL | wx.EXPAND, border=5)
 
         # Expand
         current_expand_value = self.NodeGetPropValue('Expand')
@@ -162,15 +158,13 @@ class NodeDefinition(NodeBase):
 
         self.expand_checkbox = wx.CheckBox(parent, id=wx.ID_ANY, label="Expand image to fit the entire rotated image")
         self.expand_checkbox.SetValue(current_expand_value)
-        sizer.Add(self.expand_checkbox, flag=wx.EXPAND|wx.ALL, border=5)
-
+        sizer.Add(self.expand_checkbox, flag=wx.EXPAND | wx.ALL, border=5)
 
         # Bindings
         parent.Bind(wx.EVT_COMBOBOX, self.OnResampleChange, self.resample_combobox)
         parent.Bind(wx.EVT_SCROLL_THUMBRELEASE, self.OnAngleChange, self.angle_slider)
         parent.Bind(wx.EVT_CHECKBOX, self.OnExpandChange, self.expand_checkbox)
         parent.Bind(wx.EVT_BUTTON, self.OnFillColorChange, self.fillcolor_btn)
-
 
     def OnResampleChange(self, event):
         value = event.GetString()
@@ -196,12 +190,12 @@ class NodeDefinition(NodeBase):
                  colordata.Green(),
                  colordata.Blue(),
                  colordata.Alpha())
-                )
+            )
             self.fillcolor_txtctrl.ChangeValue(str((colordata.Red(),
-                                                colordata.Green(),
-                                                colordata.Blue(),
-                                                colordata.Alpha()
-                                                )))
+                                                    colordata.Green(),
+                                                    colordata.Blue(),
+                                                    colordata.Alpha()
+                                                    )))
 
     def NodeEvaluation(self, eval_info):
         image1 = eval_info.EvaluateParameter('Image')

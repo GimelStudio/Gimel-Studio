@@ -1,24 +1,26 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: application.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Main application class which ties all the elements into one window
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: application.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Main application class which ties all the elements into one window
+# ----------------------------------------------------------------------------
 
 import os
+import os.path
+import shutil
 import platform
 import subprocess
 import webbrowser
@@ -40,12 +42,24 @@ from GimelStudio.registry import REGISTERED_NODES
 from GimelStudio.datafiles import *
 
 
-
 class MainApplication(wx.Frame):
     def __init__(self, arguments):
         wx.Frame.__init__(self, None, title=meta.APP_TITLE, size=(1000, 800))
 
         self._arguments = arguments
+
+        self._blenderaddonNodes = {}
+
+        dirname = os.path.expanduser("~/.gimelstudio/blenderaddontemp/")
+        try:
+            shutil.rmtree(dirname)
+        except OSError as e:
+            print("Error: %s - %s." % (e.filename, e.strerror))
+
+        if not os.path.exists(dirname):
+            os.makedirs(dirname, exist_ok=True)
+        else:
+            pass
 
         # Threading
         self._jobID = 0
@@ -69,12 +83,12 @@ class MainApplication(wx.Frame):
         # Init project, renderer and user preferences manager
         self._project = GimelStudioProject(self)
         self._renderer = Renderer(self)
-        #self._userPrefManager = UserPreferencesManager(self)
+        # self._userPrefManager = UserPreferencesManager(self)
 
         # Load the user preferences from the .json file
         # otherwise use the default, built-in preferences.
-        #self._userprefmanager.Load()
-        #self._userprefmanager.Save()
+        # self._userprefmanager.Load()
+        # self._userprefmanager.Save()
 
     def _InitAUIManagerStyles(self):
         # Setup the AUI window manager and configure settings so
@@ -125,7 +139,7 @@ class MainApplication(wx.Frame):
             helpString="Open and load a Gimel Studio project file",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         self.saveprojectfile_menuitem = flatmenu.FlatMenuItem(
             file_menu,
@@ -134,7 +148,7 @@ class MainApplication(wx.Frame):
             helpString="Save the current project file",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         self.saveprojectfileas_menuitem = flatmenu.FlatMenuItem(
             file_menu,
@@ -143,7 +157,7 @@ class MainApplication(wx.Frame):
             helpString="Save the current project as a Gimel Studio project file",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         self._menubar.AddSeparator()
 
@@ -154,7 +168,7 @@ class MainApplication(wx.Frame):
             helpString="Export rendered composite image to a file",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         self._menubar.AddSeparator()
 
@@ -165,7 +179,7 @@ class MainApplication(wx.Frame):
             helpString="Quit Gimel Studio",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         # View
         self.togglenodegraphgrid_menuitem = flatmenu.FlatMenuItem(
@@ -175,7 +189,7 @@ class MainApplication(wx.Frame):
             helpString="Toggle the Node Graph grid background",
             kind=wx.ITEM_CHECK,
             subMenu=None
-            )
+        )
 
         self._menubar.AddSeparator()
 
@@ -186,7 +200,7 @@ class MainApplication(wx.Frame):
             helpString="Move the view to the center of the Node Graph",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         # Render
         self.toggleautorender_menuitem = flatmenu.FlatMenuItem(
@@ -196,7 +210,7 @@ class MainApplication(wx.Frame):
             helpString="Toggle auto rendering after editing node properties, connections, etc",
             kind=wx.ITEM_CHECK,
             subMenu=None
-            )
+        )
 
         self.renderimage_menuitem = flatmenu.FlatMenuItem(
             render_menu,
@@ -205,7 +219,7 @@ class MainApplication(wx.Frame):
             helpString="Force an immediate, updated render of the current node graph image",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         # Window
         self.togglefullscreen_menuitem = flatmenu.FlatMenuItem(
@@ -215,7 +229,7 @@ class MainApplication(wx.Frame):
             helpString="Toggle the window fullscreen",
             kind=wx.ITEM_CHECK,
             subMenu=None
-            )
+        )
 
         self.maximizewindow_menuitem = flatmenu.FlatMenuItem(
             window_menu,
@@ -224,7 +238,7 @@ class MainApplication(wx.Frame):
             helpString="Maximize the window size",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         self._menubar.AddSeparator()
 
@@ -235,7 +249,7 @@ class MainApplication(wx.Frame):
             helpString="Toggle showing the Image Viewport panel",
             kind=wx.ITEM_CHECK,
             subMenu=None
-            )
+        )
 
         self.toggledevlog_menuitem = flatmenu.FlatMenuItem(
             window_menu,
@@ -244,7 +258,7 @@ class MainApplication(wx.Frame):
             helpString="Toggle showing the Developer Log panel (this is useful if you are developing custom nodes with the Python API)",
             kind=wx.ITEM_CHECK,
             subMenu=None
-            )
+        )
 
         # Help
         self.onlinedocs_menuitem = flatmenu.FlatMenuItem(
@@ -254,7 +268,7 @@ class MainApplication(wx.Frame):
             helpString="Open the Gimel Studio manual online in a browser",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         self._menubar.AddSeparator()
 
@@ -265,7 +279,7 @@ class MainApplication(wx.Frame):
             helpString="Visit the Gimel Studio homepage online",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         self.feedbacksurvey_menuitem = flatmenu.FlatMenuItem(
             help_menu,
@@ -274,7 +288,7 @@ class MainApplication(wx.Frame):
             helpString="Take a short survey online about Gimel Studio v0.5.x beta",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         self.license_menuitem = flatmenu.FlatMenuItem(
             help_menu,
@@ -283,7 +297,7 @@ class MainApplication(wx.Frame):
             helpString="Show Gimel Studio license",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
+        )
 
         self._menubar.AddSeparator()
 
@@ -294,8 +308,7 @@ class MainApplication(wx.Frame):
             helpString="Show information about GimelStudio",
             kind=wx.ITEM_NORMAL,
             subMenu=None
-            )
-
+        )
 
         # Append menu items to menus
         # file_menu.AppendItem(self.openprojectfile_menuitem)
@@ -338,43 +351,41 @@ class MainApplication(wx.Frame):
         self.SetSizer(self.mainSizer)
         self.mainSizer.Layout()
 
-
         # Bind events
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnExportImage, self.exportasimage_menuitem)
+                  self.OnExportImage, self.exportasimage_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnQuit, self.quit_menuitem)
+                  self.OnQuit, self.quit_menuitem)
 
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnToggleNodeGraphGrid, self.togglenodegraphgrid_menuitem)
+                  self.OnToggleNodeGraphGrid, self.togglenodegraphgrid_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnCenterNodeGraph, self.centernodegraph_menuitem)
+                  self.OnCenterNodeGraph, self.centernodegraph_menuitem)
 
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnToggleAutoRender, self.toggleautorender_menuitem)
+                  self.OnToggleAutoRender, self.toggleautorender_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnRender, self.renderimage_menuitem)
+                  self.OnRender, self.renderimage_menuitem)
 
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnToggleFullscreen, self.togglefullscreen_menuitem)
+                  self.OnToggleFullscreen, self.togglefullscreen_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnMaximizeWindow, self.maximizewindow_menuitem)
+                  self.OnMaximizeWindow, self.maximizewindow_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnToggleShowImageViewport, self.toggleimageviewport_menuitem)
+                  self.OnToggleShowImageViewport, self.toggleimageviewport_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnToggleDeveloperLog, self.toggledevlog_menuitem)
+                  self.OnToggleDeveloperLog, self.toggledevlog_menuitem)
 
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnReadOnlineDocs, self.onlinedocs_menuitem)
+                  self.OnReadOnlineDocs, self.onlinedocs_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnVisitWebsite, self.visithomepage_menuitem)
+                  self.OnVisitWebsite, self.visithomepage_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnFeedbackSurvey, self.feedbacksurvey_menuitem)
+                  self.OnFeedbackSurvey, self.feedbacksurvey_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnLicenseDialog, self.license_menuitem)
+                  self.OnLicenseDialog, self.license_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
-            self.OnAboutDialog, self.about_menuitem)
-
+                  self.OnAboutDialog, self.about_menuitem)
 
     def _InitUIPanels(self):
         # Image Viewport Panel
@@ -388,7 +399,7 @@ class MainApplication(wx.Frame):
             .Icon(ICON_PANEL_IMAGE_VIEWPORT_LIGHT.GetBitmap())
             .CloseButton(visible=False)
             .BestSize(750, 500)
-            )
+        )
 
         # Developer Log Panel
         self._developerLog = DeveloperLog(self)
@@ -402,7 +413,7 @@ class MainApplication(wx.Frame):
             .CloseButton(visible=False)
             .BestSize(750, 500)
             .Hide()
-            )
+        )
 
         # Node Properties Panel
         self._nodePropertyPanel = NodePropertyPanel(self, (500, 800))
@@ -415,7 +426,7 @@ class MainApplication(wx.Frame):
             .Icon(ICON_PANEL_NODE_PROPERTY_PANEL_LIGHT.GetBitmap())
             .CloseButton(visible=False)
             .BestSize(750, 400)
-            )
+        )
 
         # Node Graph Panel
         self._nodeGraph = NodeGraph(self, (600, 600))
@@ -425,17 +436,16 @@ class MainApplication(wx.Frame):
         self._mgr.AddPane(
             self._nodeGraph,
             aui.AuiPaneInfo()
-                .Center()
-                .Name("NodeGraph")
-                .Caption("Node Graph")
-                .Icon(ICON_PANEL_NODE_GRAPH_LIGHT.GetBitmap())
-                .CloseButton(visible=False)
-                .BestSize(750, 400)
-                .Floatable(False)
-                .Movable(False)
-            )
+            .Center()
+            .Name("NodeGraph")
+            .Caption("Node Graph")
+            .Icon(ICON_PANEL_NODE_GRAPH_LIGHT.GetBitmap())
+            .CloseButton(visible=False)
+            .BestSize(750, 400)
+            .Floatable(False)
+            .Movable(False)
+        )
         self._nodeGraph.InitMenuButton()
-
 
     def _SetupWindowStartup(self):
         # Import and register the nodes
@@ -454,62 +464,70 @@ class MainApplication(wx.Frame):
         self._menubar.Refresh()
 
         # Quit prompt dialog
-        if meta.APP_DEBUG != True:
+        if meta.APP_DEBUG is not True:
             self.Bind(wx.EVT_CLOSE, self.OnQuit)
+
+        self.Bind(wx.EVT_ACTIVATE, self.OnWindowActivate)
 
     def _SetupDefaultNodes(self):
         # Calculate center of Node Graph view
         rect = self._nodeGraph.GetSize()
 
         # 5000px is 1/2 the size of the Node Graph
-        x, y = (rect[0]/2)+5000, (rect[1]/2)+5000
+        x, y = (rect[0] / 2) + 5000, (rect[1] / 2) + 5000
 
         # Add default nodes
-        img_node = self._nodeGraph.AddNode(
-            'corenode_image',
-            pos=wx.Point(x-340, y)
-            )
+        img_node = self._nodeGraph.AddNode('corenode_image',
+                                           pos=wx.Point(x - 340, y))
 
-        comp_node = self._nodeGraph.AddNode(
-            'corenode_outputcomposite',
-            pos=wx.Point(x+150, y)
-            )
+        comp_node = self._nodeGraph.AddNode('corenode_outputcomposite',
+                                            pos=wx.Point(x + 150, y))
 
         # This node is here just for
         # testing during development.
-        if meta.APP_DEBUG == True:
-            self._nodeGraph.AddNode(
-                'corenode_alphacomposite', # Put the node id you are testing here
-                pos=wx.Point(x-100, y)
-                )
+        if meta.APP_DEBUG is True:
+            self._nodeGraph.AddNode('corenode_alphacomposite',  # Put the node id you are testing here
+                                    pos=wx.Point(x - 100, y))
 
         # If a path is passed into the "--blender" arg
         # set the Image node file path to that path.
-        if self._arguments.blender != "":
-            img_node.NodeEditProp(
-                idname="File Path",
-                value=self._arguments.blender,
-                render=False
-            )
+
+    def OnWindowActivate(self, event):
+        # Window is being focused
+        if event.GetActive() is True:
+            print("focus")
+
+            # look through dir to see if there are new images. If so,
+            # create new Image nodes and refresh.
+            # dirname = os.path.expanduser("~/.gimelstudio/blenderaddontemp/")
+            # for filename in os.listdir(dirname):
+            #     print(filename)
+
+            #     node = self._window.AddNode("corenode_image", pos=wx.Point(x-320, y))
+            #     self._blenderaddonNodes[filename] = node
+
+            #     node.NodeEditProp(idname="File Path",
+            #                         value=filename, render=False)
+
+        # Window is not focused
+        else:
+            print("back")
 
     def OnExportImage(self, event):
         ExportImageAs(self, self._renderer.GetRender())
 
     def OnToggleLiveNodePreviewUpdate(self, event):
-        if self.livenodepreviewupdate_menuitem.IsChecked() == False:
+        if self.livenodepreviewupdate_menuitem.IsChecked() is False:
             self._nodeGraph.SetLiveNodePreviewUpdate(False)
         else:
             self._nodeGraph.SetLiveNodePreviewUpdate(True)
 
-
     def OnToggleFullscreen(self, event):
-        if self.togglefullscreen_menuitem.IsChecked() == False:
+        if self.togglefullscreen_menuitem.IsChecked() is False:
             self.ShowFullScreen(False)
         else:
-            self.ShowFullScreen(
-                True,
-                style=wx.FULLSCREEN_NOCAPTION | wx.FULLSCREEN_NOBORDER
-                )
+            self.ShowFullScreen(True,
+                                style=wx.FULLSCREEN_NOCAPTION | wx.FULLSCREEN_NOBORDER)
 
     def OnCenterNodeGraph(self, event):
         self._nodeGraph.CenterNodeGraph()
@@ -518,14 +536,14 @@ class MainApplication(wx.Frame):
         self.Maximize()
 
     def OnToggleStatusbar(self, event):
-        if self.togglestatusbar_menuitem.IsChecked() == False:
+        if self.togglestatusbar_menuitem.IsChecked() is False:
             self._statusBar.Hide()
         else:
             self._statusBar.Show()
         self.Layout()
 
     def OnToggleShowImageViewport(self, event):
-        if self.toggleimageviewport_menuitem.IsChecked() == False:
+        if self.toggleimageviewport_menuitem.IsChecked() is False:
             self._mgr.GetPane("ImageViewport").Hide()
         else:
             self._mgr.GetPane("ImageViewport").Show()
@@ -533,7 +551,7 @@ class MainApplication(wx.Frame):
         self._mgr.Update()
 
     def OnToggleDeveloperLog(self, event):
-        if self.toggledevlog_menuitem.IsChecked() == False:
+        if self.toggledevlog_menuitem.IsChecked() is False:
             self._mgr.GetPane("DeveloperLog").Hide()
         else:
             self._mgr.GetPane("DeveloperLog").Show()
@@ -541,14 +559,14 @@ class MainApplication(wx.Frame):
         self._mgr.Update()
 
     def OnToggleNodeGraphGrid(self, event):
-        if self.togglenodegraphgrid_menuitem.IsChecked() == False:
+        if self.togglenodegraphgrid_menuitem.IsChecked() is False:
             self._nodeGraph.SetShouldDrawGrid(False)
         else:
             self._nodeGraph.SetShouldDrawGrid(True)
         self._nodeGraph.RefreshGraph()
 
     def OnToggleAutoRender(self, event):
-        if self.toggleautorender_menuitem.IsChecked() == False:
+        if self.toggleautorender_menuitem.IsChecked() is False:
             self._nodeGraph.SetAutoRender(False)
         else:
             self._nodeGraph.SetAutoRender(True)
@@ -559,14 +577,12 @@ class MainApplication(wx.Frame):
         self.Render()
 
     def OnQuit(self, event):
-        quitdialog = wx.MessageDialog(
-            self,
-            "Do you really want to quit? You will lose any unsaved data.",
-            "Quit Gimel Studio?",
-            wx.YES_NO|wx.YES_DEFAULT
-            )
+        quitdialog = wx.MessageDialog(self,
+                                      "Do you really want to quit? You will lose any unsaved data.",
+                                      "Quit Gimel Studio?",
+                                      wx.YES_NO | wx.YES_DEFAULT)
 
-        if quitdialog.ShowModal() == wx.ID_YES:
+        if quitdialog.ShowModal() is wx.ID_YES:
             quitdialog.Destroy()
             self._mgr.UnInit()
             del self._mgr
@@ -603,7 +619,7 @@ class MainApplication(wx.Frame):
         method, called when the Node Graph image is to be rendered. After this is
         complete, the result event will be called.
         """
-        if meta.ENABLE_THREADING == True:
+        if meta.ENABLE_THREADING is True:
             self._abortEvent.clear()
             self._jobID += 1
             delayedresult.startWorker(
@@ -616,11 +632,9 @@ class MainApplication(wx.Frame):
             self._imageViewport.UpdateInfoText(True)
             self._renderer.Render(self._nodeGraph.GetNodes())
             render_image = self._renderer.GetRender()
-            if render_image != None:
-                self._imageViewport.UpdateViewerImage(
-                    utils.ConvertImageToWx(render_image),
-                    self._renderer.GetTime()
-                    )
+            if render_image is not None:
+                self._imageViewport.UpdateViewerImage(utils.ConvertImageToWx(render_image),
+                                                      self._renderer.GetTime())
             self._imageViewport.UpdateInfoText(False)
             self._nodeGraph.UpdateAllNodes()
 
@@ -631,11 +645,9 @@ class MainApplication(wx.Frame):
             self._renderer.Render(self._nodeGraph.GetNodes())
             render_time = self._renderer.GetTime()
             render_image = self._renderer.GetRender()
-            if render_image != None:
-                self._imageViewport.UpdateViewerImage(
-                    utils.ConvertImageToWx(render_image),
-                    render_time
-                    )
+            if render_image is not None:
+                self._imageViewport.UpdateViewerImage(utils.ConvertImageToWx(render_image),
+                                                      render_time)
                 self._abortEvent.set()
         else:
             self._abortEvent.clear()
@@ -648,14 +660,10 @@ class MainApplication(wx.Frame):
         try:
             result = delayed_result.get()
 
-            self._imageViewport.UpdateViewerImage(
-                utils.ConvertImageToWx(self._renderer.GetRender()),
-                self._renderer.GetTime()
-                )
+            self._imageViewport.UpdateViewerImage(utils.ConvertImageToWx(self._renderer.GetRender()),
+                                                  self._renderer.GetTime())
             self._imageViewport.UpdateRenderText(False)
-            self._statusBar.SetStatusText(
-                "Render Finished in {} sec.".format(self._renderer.GetTime())
-                )
+            self._statusBar.SetStatusText("Render Finished in {} sec.".format(self._renderer.GetTime()))
 
             self._nodeGraph.UpdateAllNodes()
 

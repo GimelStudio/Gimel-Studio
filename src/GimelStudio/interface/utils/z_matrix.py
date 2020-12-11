@@ -1,8 +1,8 @@
-## ----------------------------------------------------------------------------
-## This file is code from EmbroidePy
-## which is licensed under the MIT License
-## Copyright (c) 2018 Metallicow
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# This file is code from EmbroidePy
+# which is licensed under the MIT License
+# Copyright (c) 2018 Metallicow
+# ----------------------------------------------------------------------------
 
 from wx import AffineMatrix2D
 

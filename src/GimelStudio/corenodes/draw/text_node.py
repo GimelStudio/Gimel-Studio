@@ -1,19 +1,19 @@
-## THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-## ----------------------------------------------------------------------------
+# THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ----------------------------------------------------------------------------
 
 import os
 import sys
@@ -112,7 +112,7 @@ class TextNode(api.NodeBase):
 
         # font_path = font_path_prefix + font + ".ttf"
         #fnt = ImageFont.truetype("arial", font_size)
-        #print("after")
+        # print("after")
         # TODO: Add support for all parameters from ImageDraw.Draw.text
         # Todo: Add support for multiline text
         #draw.multiline_text(text_pos, text, font=fnt, fill=font_color)
@@ -132,16 +132,16 @@ class TextNode(api.NodeBase):
             align='left',
             stroke_width=1,
             stroke_fill="blue"
-            )
+        )
 
         # Composite the two images together
         composited_image = Image.alpha_composite(main_image.GetImage(), text_image)
-
 
         image.SetAsImage(composited_image)
         self.NodeSetThumb(image.GetImage())
         print("yes-past")
         return image
+
 
 # Register the node
 api.RegisterNode(TextNode, "corenode_text")

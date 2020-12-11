@@ -1,2 +1,1 @@
 from .io import GimelStudioProject
-
