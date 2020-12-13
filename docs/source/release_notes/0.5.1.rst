@@ -11,6 +11,7 @@ General
 
  * Refactoring of code
  * Icon assets were cleaned-up a bit
+ * Autoformatted code with autopep8
 
 
 New Homepage
