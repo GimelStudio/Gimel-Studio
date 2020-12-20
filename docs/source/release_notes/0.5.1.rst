@@ -14,8 +14,8 @@ General
  * Autoformatted code with autopep8
 
 
-New Homepage
-------------
+Updated Homepage
+----------------
 
  * The Gimel Studio Homepage was updated at https://correctsyntax.com/projects/gimel-studio/
 
@@ -51,15 +51,29 @@ Python API
 
  * Fixes & improvements for Python API. Prior to these fixes, the custom node Python API did not always load new scripts.
 
+ * Property widget visibility can now be set dynamically by setting the using the property method ``SetIsVisible`` to *True* or *False* inside the API method ``WidgetEventHook``.
+
+  .. code-block:: python
+
+     def WidgetEventHook(self, idname, value):
+        # Set the visibility based on values of the current state
+        if idname == "Method" and value == "Certian Value":
+            self.prop1.SetIsVisible(False)
+            self.prop2.SetIsVisible(False)
+        else:
+            self.prop1.SetIsVisible(True)
+            self.prop2.SetIsVisible(True)
+
+        # Update the panel with the changes of visibility
+        self.RefreshPropertyPanel()
+
 
 Nodes
 -----
 
  * Some core nodes were improved/fixed to support a wider range of values.
  * Nodes now have a checkerboard background (for showing alpha-channel) and larger space between sockets and thumb preview.
- * Added new core nodes:
-  - Dilate/Erode
-  - Edge Detect (thanks to iwoithe)
+ * Added **new core nodes**: *Dilate/Erode* and *Edge Detect* (thanks to @iwoithe)
 
 
 Bug Fixes
