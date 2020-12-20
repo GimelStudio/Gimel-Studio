@@ -48,7 +48,7 @@ class NodePropertyPanel(wx.lib.scrolledpanel.ScrolledPanel):
         return self._parent._mgr
 
     def UpdatePanelContents(self, selected_node):
-        self._mainSizer.Clear(delete_windows=True)
+        self.DestroyChildren()
 
         if selected_node != None:
 
