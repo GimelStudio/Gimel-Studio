@@ -38,40 +38,31 @@ class BlurNode(api.NodeBase):
         return meta_info
 
     def NodeInitProps(self):
-        filter_type = api.ChoiceProp(
+        self.filter_type = api.ChoiceProp(
             idname="Filter Type",
-            default="Gaussian",
+            default="Box",
             choices=["Box", "Gaussian"],
             label="Filter Type:"
         )
-        kernel_size = api.PositiveIntegerProp(
-            idname="Kernel Size",
-            default=1,
-            min_val=1,
-            max_val=400,
-            widget=api.SLIDER_WIDGET,
-            label="Kernel Size:",
-        )
-        kernel_x = api.PositiveIntegerProp(
+        self.kernel_x = api.PositiveIntegerProp(
             idname="Kernel X",
-            default=1,
+            default=5,
             min_val=1,
-            max_val=1600,
+            max_val=500,
             widget=api.SLIDER_WIDGET,
             label="Kernel X:",
         )
-        kernel_y = api.PositiveIntegerProp(
+        self.kernel_y = api.PositiveIntegerProp(
             idname="Kernel Y",
-            default=1,
+            default=5,
             min_val=1,
-            max_val=1600,
+            max_val=500,
             widget=api.SLIDER_WIDGET,
             label="Kernel Y:",
         )
-        self.NodeAddProp(filter_type)
-        self.NodeAddProp(kernel_size)
-        self.NodeAddProp(kernel_x)
-        self.NodeAddProp(kernel_y)
+        self.NodeAddProp(self.filter_type)
+        self.NodeAddProp(self.kernel_x)
+        self.NodeAddProp(self.kernel_y)
 
     def NodeInitParams(self):
         image = api.RenderImageParam('Image')
@@ -80,7 +71,6 @@ class BlurNode(api.NodeBase):
 
     def NodeEvaluation(self, eval_info):
         image1 = eval_info.EvaluateParameter('Image')
-        kernel_size = eval_info.EvaluateProperty('Kernel Size')
         kernel_x = eval_info.EvaluateProperty('Kernel X')
         kernel_y = eval_info.EvaluateProperty('Kernel Y')
         filter_type = eval_info.EvaluateProperty('Filter Type')
@@ -92,8 +82,14 @@ class BlurNode(api.NodeBase):
         if filter_type == "Box":
             output_img = cv2.boxFilter(img, -1, (kernel_x, kernel_y))
         elif filter_type == "Gaussian":
+
+            # Both values must be odd
+            if (kernel_x % 2) == 0 and (kernel_y % 2) == 0:
+                kernel_y += 1
+                kernel_x += 1
+
             output_img = cv2.GaussianBlur(
-                img, (kernel_x, kernel_y), sigmaX=kernel_x, sigmaY=kernel_y
+                img, (0, 0), sigmaX=kernel_x, sigmaY=kernel_y
             )
 
         image.SetAsImage(ArrayToImage(output_img).convert('RGBA'))
