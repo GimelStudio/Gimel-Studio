@@ -14,6 +14,8 @@ Currently, Gimel Studio provides basic image editing features such as flip, colo
 
 *Still in BETA stage and WIP, but can be considered stable enough for light production work.*
 
+**Please note that the development branch (master) may be unstable and/or have new dependencies from the released version.**
+
 
 # Features
 
@@ -34,24 +36,25 @@ Currently, Gimel Studio provides basic image editing features such as flip, colo
 **And More...**
 
 
-# Goals
+# Project Goals
 
-Here is a little rundown of what the goals of this project are and what they are not at this time. These *may change at any time*, but for now, Gimel Studio will be focused into certian areas and avoid other areas entirely.
+Here is a little rundown of what the goals of this project are and what they are not at this time. These *may change at any time*, but for now, Gimel Studio will be **focused** into certian areas and avoid other areas entirely.
 
 **Development of Gimel Studio (currently) aims to...**
 
-* include a range of nodes focused on filters, effects, transformations, color grading, etc.
-* be simple enough for non-technical people to use, yet provide a powerful and streamlined experience for professional editing.
+* include a range of nodes focused on filters, effects, transformations, color grading, etc
+* be simple enough for non-technical people to use, yet provide a powerful and streamlined experience for professional editing
 * provide fully comprehensive graphical indications in each step of the image editing process.
 * give users access to a rich API for scripting custom nodes in Python
 * deliever a non-destructive, fast workflow and great user experience.
-* support both Linux and Windows operating systems seamlessly.
-* listen to your feedback on these goals. :)
+* support both Linux and Windows operating systems seamlessly
+* support low system hardware requirements (as much as is reasonably possible), so as to be inclusive of even those who don't have super-computers...
+* listen to your feedback on these goals :)
 
 **Development of Gimel Studio does not (currently) aim to...**
 
-* provide any drawing and/or painting tools, except "Add text to image", etc.
-* be a full-blown procedual texture generator, like many node-based programs out there.
+* provide any drawing and/or painting tools, except "Add text to image", etc
+* be a full-blown procedual texture generator, like many node-based programs out there
 
 
 # News
@@ -83,18 +86,6 @@ Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines.
 # Installing from source
 
 Please see the building from source documentation <a href="https://gimel-studio.readthedocs.io/en/latest/install.html#building-from-source">here</a>.
-
-
-# Build the development version
-
-The development version of Gimel Studio may be unstable and/or have new dependencies. If you fail to install the development version, please file a bug in Issues -tab.
-
-1. Install Git in your system
-
-2. Use Git to download Gimel Studio into a folder of your choosing by using the git clone command in a terminal or CMD:
-  * Clone the repo with ``git clone https://github.com/Correct-Syntax/Gimel-Studio.git``
-
-3. Follow the steps listed in the *Installing from source* section above.
 
 
 # Building the documentation from source
