@@ -43,7 +43,7 @@ class EdgeDetectNode(api.NodeBase):
         self.method = api.ChoiceProp(
             idname="Method",
             default="Canny",
-            choices=["Pillow", "Canny"],
+            choices=["Find Edges", "Canny"],
             label="Method:"
         )
 
@@ -74,7 +74,7 @@ class EdgeDetectNode(api.NodeBase):
         self.NodeAddParam(image)
 
     def WidgetEventHook(self, idname, value):
-        if idname == "Method" and value == "Pillow":
+        if idname == "Method" and value == "Find Edges":
             self.lower_threshold.SetIsVisible(False)
             self.higher_threshold.SetIsVisible(False)
         else:
@@ -92,7 +92,7 @@ class EdgeDetectNode(api.NodeBase):
         image = api.RenderImage()
 
         # Consider removing the Pillow method?
-        if method == "Pillow":
+        if method == "Find Edges":
             img = input_image.GetImage().convert("L").filter(ImageFilter.FIND_EDGES)
             image.SetAsImage(img.convert("RGBA"))
         elif method == "Canny":
