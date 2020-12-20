@@ -249,7 +249,7 @@ class NodeBase(NodeObject):
 
     def RefreshPropertyPanel(self):
         """ Force a refresh of the Node Properties panel. """
-        self.NodeGraphMethods.NodePropertiesPanel.UpdatePanelContents(self)
+        wx.CallAfter(self.NodeGraphMethods.NodePropertiesPanel.UpdatePanelContents, self)
 
     @property
     def NodeGraphMethods(self):
