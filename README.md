@@ -59,8 +59,6 @@ Here is a little rundown of what the goals of this project are and what they are
 
 # News
 
-v0.5.1 is planned to be released as a bug-fix release for increased stability after feedback from v0.5.0 is recieved.
-
 See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases.
 
 
@@ -73,14 +71,14 @@ Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Stu
 
 Please open an issue in the Github issues *for bug reports ONLY*.
 
-For feature requests, non-bug report questions, etc please start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions), [Discord Server](https://discord.gg/RqwbDrVDpK) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
+For feature requests, non-bug report questions, etc please start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
 
 
 # Development
 
 **You Are Welcome to Help Develop Gimel Studio!**
 
-Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines.
+Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Join the Gimel Studio [Discord Server](https://discord.gg/RqwbDrVDpK) if you are interested in discussing design/development of Gimel Studio.
 
 
 # Installing from source
