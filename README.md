@@ -5,7 +5,7 @@ Gimel Studio
 
 [![Documentation Status](https://readthedocs.org/projects/gimel-studio/badge/?version=latest)](https://gimel-studio.readthedocs.io/en/latest/?badge=latest) [![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
 
-[Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
+[Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Discord Server](https://discord.gg/RqwbDrVDpK) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
 
 
 Gimel Studio is a node-based, non-destructive image editor for Windows and Linux. With a workflow for compositing, masking, manipulating, generating and editing images, it is complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
@@ -73,7 +73,7 @@ Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Stu
 
 Please open an issue in the Github issues *for bug reports ONLY*.
 
-For feature requests, non-bug report questions, etc please start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
+For feature requests, non-bug report questions, etc please start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions), [Discord Server](https://discord.gg/RqwbDrVDpK) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
 
 
 # Development
