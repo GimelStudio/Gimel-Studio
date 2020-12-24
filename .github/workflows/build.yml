@@ -31,7 +31,7 @@ jobs:
 
     # Copy customnodes directory
     - name: Copy customnodes dir
-      run: cp -r ./src/customnodes/* dist/GimelStudio/customnodes
+      run: cp -r ./src/customnodes/* ./dist/GimelStudio
 
     # Prepare the release
     - name: Prepare release
@@ -65,7 +65,7 @@ jobs:
 
     # Copy customnodes directory
     - name: Copy customnodes dir
-      run: xcopy src/customnodes dist/GimelStudio/customnodes
+      run: xcopy src/customnodes dist/GimelStudio
 
     # Prepare the release
     - name: Prepare release
