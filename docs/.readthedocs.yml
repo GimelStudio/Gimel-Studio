@@ -1,7 +1,9 @@
+version: 2
+
 build:
   image: latest
 
 python:
   version: 3.7
-  pip_install: true
-  easy_install: true
+  install:
+    - requirements: docs/requirements.txt
