@@ -27,8 +27,7 @@ jobs:
 
     # Build with PyInstaller
     - name: Compile using pyinstaller
-      run: |
-        pyinstaller -n "GimelStudio" --hidden-import pkg_resources.py2_warn "src/main.py"
+      run: pyinstaller -n "GimelStudio" --hidden-import pkg_resources.py2_warn "src/main.py"
 
     # Prepare the release
     - name: Prepare release
@@ -47,14 +46,18 @@ jobs:
         tag: ${{ github.ref }}
 
 
-
   windows:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
+      with:
+        python-version: "3.8"
     - run: pip install -r requirements.txt
 
+    # Build with PyInstaller
+    - name: Compile using pyinstaller
+      run: pyinstaller -n "GimelStudio" --noconsole --hidden-import pkg_resources.py2_warn -i "assets/GIMELSTUDIO_ICO.ico" "src/main.py"
 
     # Prepare the release
     - name: Prepare release
