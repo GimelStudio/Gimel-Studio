@@ -15,12 +15,10 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
     - run: sudo apt-get install libsdl2-2.0-0
-    - run: python -m pip install pyinstaller
-    - run: python -m pip install ${WHEEL}
-      env:
-        WHEEL: https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-20.04/wxPython-4.1.1-cp38-cp38-linux_x86_64.whl
-    - run: python -m pip install opencv-python
-    - run: python -m pip install scipy
+    - run: python pip install pyinstaller
+    - run: python pip install https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-20.04/wxPython-4.1.1-cp38-cp38-linux_x86_64.whl
+    - run: python pip install opencv-python
+    - run: python pip install scipy
 
 
     # Prepare the release
