@@ -30,8 +30,8 @@ jobs:
       run: pyinstaller -n "GimelStudio" "src/main.py"
 
     # Copy customnodes directory
+    - run: mkdir ./dist/GimelStudio/customnodes
     - name: Copy customnodes dir to app dir
-      run: mkdir ./dist/GimelStudio/customnodes
       run: cp -r ./src/customnodes/* ./dist/GimelStudio/customnodes
 
     # Prepare the release
