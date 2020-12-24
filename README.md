@@ -4,6 +4,8 @@ Gimel Studio
 ============
 
 [![Documentation Status](https://readthedocs.org/projects/gimel-studio/badge/?version=latest)](https://gimel-studio.readthedocs.io/en/latest/?badge=latest) [![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
+[![GitHub license](https://img.shields.io/github/license/Correct-Syntax/Gimel-Studio)](https://github.com/Correct-Syntax/Gimel-Studio/blob/master/LICENSE)
+
 
 [Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Discord Server](https://discord.gg/RqwbDrVDpK) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
 
@@ -44,9 +46,9 @@ Here is a little rundown of what the goals of this project are and what they are
 
 * include a range of nodes focused on filters, effects, transformations, color grading, etc
 * be simple enough for non-technical people to use, yet provide a powerful and streamlined experience for professional editing
-* provide fully comprehensive graphical indications in each step of the image editing process.
+* provide fully comprehensive graphical indications in each step of the image editing process
 * give users access to a rich API for scripting custom nodes in Python
-* deliever a non-destructive, fast workflow and great user experience.
+* deliever a non-destructive, fast workflow and great user experience
 * support both Linux and Windows operating systems seamlessly
 * support low system hardware requirements (as much as is reasonably possible), so as to be inclusive of even those who don't have super-computers...
 * listen to your feedback on these goals :)
@@ -69,7 +71,7 @@ Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Stu
 
 # Feature Requests & Bug Reports
 
-Please open an issue in the Github issues *for bug reports ONLY*.
+Please open an issue in the Github issues *for bug reports, crash reports and installation issues ONLY*.
 
 For feature requests, non-bug report questions, etc please start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
 
@@ -83,7 +85,7 @@ Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines.
 
 # Installing from source
 
-Please see the building from source documentation <a href="https://gimel-studio.readthedocs.io/en/latest/install.html#building-from-source">here</a>.
+Please see the building from source documentation <a href="https://gimel-studio.readthedocs.io/en/latest/install.html#building-from-source">here</a>. Please open a [Github Issue](https://github.com/Correct-Syntax/Gimel-Studio/issues/new/choose) if you have problems building from source.
 
 
 # Building the documentation from source
