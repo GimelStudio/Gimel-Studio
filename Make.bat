@@ -7,4 +7,4 @@ pyinstaller^
 	-i "assets/GIMELSTUDIO_ICO.ico"^
 	"src/main.py"
 
-xcopy src\customnodes dist\GimelStudio /I
+xcopy src\customnodes dist\GimelStudio\customnodes /I
