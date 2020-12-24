@@ -16,9 +16,9 @@ jobs:
     - uses: actions/setup-python@v2
     - run: sudo apt-get install libsdl2-2.0-0
     - run: python -m pip install pyinstaller
-    - run: python -m pip install --find-links ${WHEELS} wxPython
+    - run: python -m pip install ${WHEEL}
       env:
-        WHEELS: https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-20.04
+        WHEEL: https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-20.04/wxPython-4.1.1-cp38-cp38-linux_x86_64.whl
     - run: python -m pip install opencv-python
     - run: python -m pip install scipy
 
@@ -28,15 +28,15 @@ jobs:
       uses: papeloto/action-zip@v1
       with:
         files: ./dist/GimelStudio/
-        dest: GimelStudio-${{ matrix.name }}.zip
+        dest: GimelStudio-Linux64.zip
 
     # Actually make the release
     - name: Uploading release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./GimelStudio-${{ matrix.name }}.zip
-        asset_name: ${{ matrix.name }}.zip
+        file: ./GimelStudio-Linux64.zip
+        asset_name: GimelStudio-Linux64.zip
         tag: ${{ github.ref }}
 
 
@@ -54,13 +54,13 @@ jobs:
       uses: papeloto/action-zip@v1
       with:
         files: ./dist/GimelStudio/
-        dest: GimelStudio-${{ matrix.name }}.zip
+        dest: GimelStudio-Windows64.zip
 
     # Actually make the release
     - name: Uploading release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./GimelStudio-${{ matrix.name }}.zip
-        asset_name: ${{ matrix.name }}.zip
+        file: ./GimelStudio-Windows64.zip
+        asset_name: GimelStudio-Windows64.zip
         tag: ${{ github.ref }}
