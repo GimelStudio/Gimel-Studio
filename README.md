@@ -3,7 +3,10 @@
 Gimel Studio
 ============
 
-[![Documentation Status](https://readthedocs.org/projects/gimel-studio/badge/?version=latest)](https://gimel-studio.readthedocs.io/en/latest/?badge=latest) [![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
+[![Documentation Status](https://readthedocs.org/projects/gimel-studio/badge/?version=latest)](https://gimel-studio.readthedocs.io/en/latest/?badge=latest)
+![Build Gimel Studio](https://github.com/Correct-Syntax/Gimel-Studio/workflows/Build%20Gimel%20Studio/badge.svg)
+[![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
+![GitHub commits since latest release](https://img.shields.io/github/commits-since/Correct-Syntax/Gimel-Studio/latest?style=flat-square&color=light-green)
 [![GitHub license](https://img.shields.io/github/license/Correct-Syntax/Gimel-Studio)](https://github.com/Correct-Syntax/Gimel-Studio/blob/master/LICENSE)
 
 
