@@ -1,5 +1,0 @@
-numpy
-scipy
-wxpython
-pillow
-opencv-python
