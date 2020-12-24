@@ -90,9 +90,7 @@ Please see the building from source documentation <a href="https://gimel-studio.
 
 The Gimel Studio docs use the Sphinx package.
 
-  * Get <a href="https://pipenv.pypa.io/en/latest/">pipenv</a>
-  * Install development dependancies with ``pipenv install --dev``
-  * ``pipenv shell``
+  * ``pip install -r docs/requirements.txt``
   * ``cd docs``
   * Now run ``make html`` to build the docs.
 
