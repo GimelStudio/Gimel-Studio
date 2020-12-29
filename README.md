@@ -4,10 +4,10 @@ Gimel Studio
 ============
 
 [![Documentation Status](https://readthedocs.org/projects/gimel-studio/badge/?version=latest)](https://gimel-studio.readthedocs.io/en/latest/?badge=latest)
+[![GitHub license](https://img.shields.io/github/license/Correct-Syntax/Gimel-Studio?color=light-green)](https://github.com/Correct-Syntax/Gimel-Studio/blob/master/LICENSE)
 ![Build Gimel Studio](https://github.com/Correct-Syntax/Gimel-Studio/workflows/Build%20Gimel%20Studio/badge.svg)
-[![Updated Badge](https://badges.pufler.dev/updated/Correct-Syntax/Gimel-Studio)](https://badges.pufler.dev)
-![GitHub commits since latest release](https://img.shields.io/github/commits-since/Correct-Syntax/Gimel-Studio/latest?style=flat-square&color=light-green)
-[![GitHub license](https://img.shields.io/github/license/Correct-Syntax/Gimel-Studio)](https://github.com/Correct-Syntax/Gimel-Studio/blob/master/LICENSE)
+[![Gitter](https://badges.gitter.im/Gimel-Studio/community.svg)](https://gitter.im/Gimel-Studio/community?utm_source=badge&utm_medium=badge)
+![GitHub commits since latest release](https://img.shields.io/github/commits-since/Correct-Syntax/Gimel-Studio/latest?style=flat)
 
 
 [Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Discord Server](https://discord.gg/RqwbDrVDpK) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
