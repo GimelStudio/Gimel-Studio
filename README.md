@@ -78,12 +78,14 @@ Please open an issue in the Github issues *for bug reports, crash reports and in
 
 For feature requests, non-bug report questions, etc please start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
 
+You can also join the Gimel Studio [Discord Server](https://discord.gg/RqwbDrVDpK) or the [Gitter Community](https://gitter.im/Gimel-Studio/general?utm_source=share-link&utm_medium=link&utm_campaign=share-link). (Either ones works fine; whichever you personally prefer!)
+
 
 # Development
 
 **You Are Welcome to Help Develop Gimel Studio!**
 
-Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Join the Gimel Studio [Discord Server](https://discord.gg/RqwbDrVDpK) if you are interested in discussing design/development of Gimel Studio.
+Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Feel  free to join the Gimel Studio [Discord Server](https://discord.gg/RqwbDrVDpK) or [Gitter Community](https://gitter.im/Gimel-Studio/community) if you are interested in discussing design/development of Gimel Studio or have questions.
 
 
 # Installing from source
