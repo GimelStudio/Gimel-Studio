@@ -64,6 +64,8 @@ Here is a little rundown of what the goals of this project are and what they are
 
 # News
 
+You can try out the latest pre-release, [v0.5.1 pre-beta 3](https://github.com/Correct-Syntax/Gimel-Studio/releases/tag/v0.5.1-pre-beta3) for bug-testing, etc. If your not bug-testing, it is recommended that you use v0.5.0 beta instead.
+
 See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases.
 
 
