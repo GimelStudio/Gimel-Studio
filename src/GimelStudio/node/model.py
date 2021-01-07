@@ -22,8 +22,9 @@ import math
 
 import wx
 from wx.lib.embeddedimage import PyEmbeddedImage
-from PIL import Image
+import numpy as np
 
+from GimelStudio import utils
 from GimelStudio.datafiles import *
 from .socket import Socket
 
@@ -73,7 +74,7 @@ class NodeModel(object):
         self._lastCoords = 0
 
         # Default thumbnail is a transparent 256x256 image
-        self._thumbImage = Image.new('RGBA', (256, 256), (0, 0, 0, 1))
+        self._thumbImage = np.zeros((256, 256, 4), dtype=np.uint16)
         self._thumbCache = None
 
         self._properties = {}
@@ -251,7 +252,7 @@ class NodeModel(object):
         self.SetThumbImage(image)
         thumb = self.CreateThumbnail(image)
         self.SetThumbCache(thumb)
-        self.CalcNewSize(thumb.size[1])
+        self.CalcNewSize(thumb.Height)
 
     def CreateThumbnail(self, image):
         """ Create a thumbnail sized to the correct dimensions for display
@@ -260,9 +261,10 @@ class NodeModel(object):
         :param image: PIL Image
         :returns: PIL Image sized to the correct dimensions
         """
-        thumb = image.copy()
-        thumb.thumbnail((round((self.GetSize()[0] - 10) / 1.1), thumb.size[1]))
-        return thumb
+        thumb = np.copy(image)
+        resized_img = utils.ResizeKeepAspectRatio(thumb,
+                    (round((self.GetSize()[0]-10)/1.1), thumb.shape[1]))
+        return utils.ConvertImageToWx(resized_img)
 
     def CalcNewSize(self, thumb_height, set_size=True, border=20):
         """ Calculate the new size of the node based on the current
