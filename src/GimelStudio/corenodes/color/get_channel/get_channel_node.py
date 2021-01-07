@@ -15,9 +15,6 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-
-from PIL import Image, ImageOps, ImageChops
-
 from GimelStudio import api
 
 
@@ -30,10 +27,11 @@ class GetChannelNode(api.NodeBase):
         meta_info = {
             "label": "Get Channel",
             "author": "Correct Syntax",
-            "version": (0, 5, 0),
+            "version": (0, 7, 2),
             "supported_app_version": (0, 5, 0),
             "category": "COLOR",
             "description": "Gets a single channel from the image RGBA channels.",
+            "gpu_support": "yes",
         }
         return meta_info
 
@@ -49,53 +47,32 @@ class GetChannelNode(api.NodeBase):
                     'A'
             ]
         )
-        p2 = api.BooleanProp(
-            idname="Greyscale",
-            default=False,
-            label="Greyscale:",
-            cb_label="Greyscale image channel"
-        )
 
         self.NodeAddProp(p1)
-        self.NodeAddProp(p2)
 
     def NodeInitParams(self):
         image = api.RenderImageParam("Image")
         self.NodeAddParam(image)
 
-    def NodeEvaluation(self, eval_info):
-        image1 = eval_info.EvaluateParameter('Image')
-        channel = eval_info.EvaluateProperty('Image Channel')
-        greyscale = eval_info.EvaluateProperty('Greyscale')
+    def NodeEvaluation(self, params, props):
+        image1 = params['Image']
+        channel = props['Image Channel']
 
-        image = api.RenderImage()
-        channel_img = image1.GetImage().getchannel(channel)
+        render_image = api.RenderImage()
 
-        if greyscale != True and channel != "A":
-            if channel == "R":
-                color = (255, 0, 0)
-            elif channel == "G":
-                color = (0, 255, 0)
-            elif channel == "B":
-                color = (0, 0, 255)
-            final_img = ImageOps.colorize(channel_img, (0, 0, 0), color)
-
+        # TODO: There is probably a better way to do this. :)
+        if channel == "R":
+            result = self.RenderGLSL("./GimelStudio/corenodes/color/get_channel/get_channel_r.glsl", {}, image1)
+        elif channel == "G":
+            result = self.RenderGLSL("./GimelStudio/corenodes/color/get_channel/get_channel_g.glsl", {}, image1)
+        elif channel == "B":
+            result = self.RenderGLSL("./GimelStudio/corenodes/color/get_channel/get_channel_b.glsl", {}, image1)
         elif channel == "A":
-            inverted_img = ImageChops.invert(channel_img)
-            new_img = Image.new("RGBA", inverted_img.size, (0, 0, 0, 0))
+            result = self.RenderGLSL("./GimelStudio/corenodes/color/get_channel/get_channel_a.glsl", {}, image1)
 
-            layer_image = ImageOps.fit(new_img, inverted_img.size)
-            mask_image = ImageOps.fit(image1.GetImage(), inverted_img.size)
+        render_image.SetAsImage(result)
 
-            final_img = Image.composite(inverted_img, layer_image, mask_image)
-
-        else:
-            final_img = channel_img
-
-        image.SetAsImage(final_img.convert("RGBA"))
-
-        self.NodeSetThumb(image.GetImage())
-        return image
+        return render_image
 
 
 api.RegisterNode(GetChannelNode, "corenode_getchannel")

@@ -15,8 +15,6 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-from PIL import ImageEnhance
-
 from GimelStudio import api
 
 
@@ -29,19 +27,20 @@ class ContrastNode(api.NodeBase):
         meta_info = {
             "label": "Contrast",
             "author": "Correct Syntax",
-            "version": (1, 2, 0),
+            "version": (1, 4, 0),
             "supported_app_version": (0, 5, 0),
             "category": "COLOR",
             "description": "Adjusts the image contrast.",
+            "gpu_support": "yes",
         }
         return meta_info
 
     def NodeInitProps(self):
         p = api.PositiveIntegerProp(
-            idname="Amount",
+            idname="contrastValue",
             default=1,
             min_val=1,
-            max_val=50,
+            max_val=80,
             widget=api.SLIDER_WIDGET,
             label="Amount:",
         )
@@ -52,16 +51,15 @@ class ContrastNode(api.NodeBase):
 
         self.NodeAddParam(p)
 
-    def NodeEvaluation(self, eval_info):
-        image1 = eval_info.EvaluateParameter('Image')
-        amount = eval_info.EvaluateProperty('Amount')
+    def NodeEvaluation(self, params, props):
+        image1 = params['Image']
 
-        image = api.RenderImage()
-        enhancer = ImageEnhance.Contrast(image1.GetImage())
-        image.SetAsImage(enhancer.enhance(amount).convert('RGBA'))
+        render_image = api.RenderImage()
 
-        self.NodeSetThumb(image.GetImage())
-        return image
+        result = self.RenderGLSL("./GimelStudio/corenodes/color/contrast/contrast.glsl", props, image1)
+        render_image.SetAsImage(result)
+
+        return render_image
 
 
 api.RegisterNode(ContrastNode, "corenode_contrast")

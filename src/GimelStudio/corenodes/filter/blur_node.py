@@ -77,7 +77,7 @@ class BlurNode(api.NodeBase):
 
         image = api.RenderImage()
 
-        img = ArrayFromImage(image1.GetImage())
+        img = image1.GetImage()
 
         if filter_type == "Box":
             output_img = cv2.boxFilter(img, -1, (kernel_x, kernel_y))
@@ -92,7 +92,7 @@ class BlurNode(api.NodeBase):
                 img, (0, 0), sigmaX=kernel_x, sigmaY=kernel_y
             )
 
-        image.SetAsImage(ArrayToImage(output_img).convert('RGBA'))
+        image.SetAsImage(output_img)
 
         self.NodeSetThumb(image.GetImage())
         return image

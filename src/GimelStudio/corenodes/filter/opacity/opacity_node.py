@@ -15,35 +15,34 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-from PIL import ImageEnhance
-
 from GimelStudio import api
 
 
-class BrightnessNode(api.NodeBase):
+class OpacityNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
 
     @property
     def NodeMeta(self):
         meta_info = {
-            "label": "Brightness",
+            "label": "Opacity",
             "author": "Correct Syntax",
-            "version": (1, 3, 0),
+            "version": (1, 5, 0),
             "supported_app_version": (0, 5, 0),
-            "category": "COLOR",
-            "description": "Adjusts the image brightness.",
+            "category": "FILTER",
+            "description": "Reduces the image transparency/opacity.",
+            "gpu_support": "yes",
         }
         return meta_info
 
     def NodeInitProps(self):
         p = api.PositiveIntegerProp(
-            idname="Amount",
-            default=1,
-            min_val=1,
-            max_val=50,
+            idname="opacityValue",
+            default=25,
+            min_val=0,
+            max_val=100,
             widget=api.SLIDER_WIDGET,
-            label="Amount:",
+            label="Opacity:",
         )
         self.NodeAddProp(p)
 
@@ -52,16 +51,18 @@ class BrightnessNode(api.NodeBase):
 
         self.NodeAddParam(p)
 
-    def NodeEvaluation(self, eval_info):
-        image1 = eval_info.EvaluateParameter('Image')
-        amount = eval_info.EvaluateProperty('Amount')
+    def NodeEvaluation(self, params, props):
+        image1 = params['Image']
 
-        image = api.RenderImage()
-        enhancer = ImageEnhance.Brightness(image1.GetImage())
-        image.SetAsImage(enhancer.enhance(amount).convert('RGBA'))
+        render_image = api.RenderImage()
 
-        self.NodeSetThumb(image.GetImage())
-        return image
+        # Make correction for slider range of 1-100
+        props["opacityValue"] = (props["opacityValue"] * 0.01)
+
+        result = self.RenderGLSL("./GimelStudio/corenodes/filter/opacity/opacity.glsl", props, image1)
+        render_image.SetAsImage(result)
+
+        return render_image
 
 
-api.RegisterNode(BrightnessNode, "corenode_brightness")
+api.RegisterNode(OpacityNode, "corenode_opacity")

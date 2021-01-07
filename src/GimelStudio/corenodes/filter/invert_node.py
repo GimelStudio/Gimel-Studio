@@ -45,8 +45,8 @@ class InvertNode(api.NodeBase):
         image1 = eval_info.EvaluateParameter('Image')
 
         image = api.RenderImage()
-        image.SetAsImage(
-            ImageOps.invert(image1.GetImage().convert("RGB")).convert("RGBA")
+        image.SetAsImageFromPIL(
+            ImageOps.invert(image1.GetPILImage())
         )
 
         self.NodeSetThumb(image.GetImage())

@@ -52,15 +52,16 @@ class ColorBalanceNode(api.NodeBase):
 
         self.NodeAddParam(p)
 
-    def NodeEvaluation(self, eval_info):
-        image1 = eval_info.EvaluateParameter('Image')
-        amount = eval_info.EvaluateProperty('Amount')
+    def NodeEvaluation(self, params, props):
+        image1 = params['Image']
+        amount = props['Amount']
 
-        image = api.RenderImage()
-        enhancer = ImageEnhance.Color(image1.GetImage())
-        image.SetAsImage(enhancer.enhance(amount).convert('RGBA'))
-        self.NodeSetThumb(image.GetImage())
-        return image
+        render_image = api.RenderImage()
+
+        enhancer = ImageEnhance.Color(image1.GetPILImage())
+        image = enhancer.enhance(amount)
+        render_image.SetAsImageFromPIL(image)
+        return render_image
 
 
 api.RegisterNode(ColorBalanceNode, "corenode_colorbalance")

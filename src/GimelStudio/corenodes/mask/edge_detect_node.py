@@ -93,12 +93,12 @@ class EdgeDetectNode(api.NodeBase):
 
         # Consider removing the Pillow method?
         if method == "Find Edges":
-            img = input_image.GetImage().convert("L").filter(ImageFilter.FIND_EDGES)
-            image.SetAsImage(img.convert("RGBA"))
+            img = input_image.GetPILImage().convert("L").filter(ImageFilter.FIND_EDGES)
+            image.SetAsImageFromPIL(img.convert("RGBA"))
         elif method == "Canny":
-            input_image_array = ArrayFromImage(input_image.GetImage())
+            input_image_array = input_image.GetImage()
             output_image_array = cv2.Canny(input_image_array, lower_threshold, higher_threshold)
-            image.SetAsImage(ArrayToImage(output_image_array).convert("RGBA"))
+            image.SetAsImage(output_image_array)
         else:
             image.SetAsImage(input_image.GetImage())
 

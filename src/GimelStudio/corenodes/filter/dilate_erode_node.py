@@ -75,7 +75,7 @@ class DilateErodeNode(api.NodeBase):
 
         image = api.RenderImage()
 
-        img = ArrayFromImage(image1.GetImage())
+        img = image1.GetImage()
 
         if kernel_shape == "Rectangle":
             kshape = cv2.MORPH_RECT
@@ -99,7 +99,7 @@ class DilateErodeNode(api.NodeBase):
         elif operation == "Black Hat":
             output_img = cv2.morphologyEx(img, cv2.MORPH_BLACKHAT, kernel_img)
 
-        image.SetAsImage(ArrayToImage(output_img).convert("RGBA"))
+        image.SetAsImage(output_img)
 
         self.NodeSetThumb(image.GetImage())
         return image

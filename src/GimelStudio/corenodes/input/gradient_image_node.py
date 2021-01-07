@@ -17,6 +17,8 @@
 
 import os
 from PIL import Image, ImageOps
+import OpenImageIO as oiio
+from OpenImageIO import ImageBuf, ImageSpec, ImageBufAlgo
 
 from GimelStudio import api
 from GimelStudio.renderer import EvalInfo
@@ -39,6 +41,15 @@ class GradientImageNode(api.NodeBase):
         return meta_info
 
     def NodeInitProps(self):
+        self.gradienttype_prop = api.ChoiceProp(
+            idname="Gradient Type",
+            default="Linear",
+            label="Gradient Type:",
+            choices=[
+                    'Linear',
+                    'Interpolated',
+            ]
+        )
         self.color1_prop = api.ColorProp(
             idname="Color 1",
             default=(0, 0, 0, 255),
@@ -49,40 +60,65 @@ class GradientImageNode(api.NodeBase):
             default=(255, 255, 255, 255),
             label="Gradient Color 2:"
         )
+        self.color3_prop = api.ColorProp(
+            idname="Color 3",
+            default=(0, 0, 0, 255),
+            label="Gradient Color 3:"
+        )
+        self.color4_prop = api.ColorProp(
+            idname="Color 4",
+            default=(0, 0, 0, 255),
+            label="Gradient Color 4:"
+        )
         self.size_prop = api.SizeProp(
             idname="Size",
             default=[255, 255],
             label="Image Size:"
         )
 
+        self.NodeAddProp(self.gradienttype_prop)
+        self.NodeAddProp(self.size_prop)
         self.NodeAddProp(self.color1_prop)
         self.NodeAddProp(self.color2_prop)
-        self.NodeAddProp(self.size_prop)
+        self.NodeAddProp(self.color3_prop)
+        self.NodeAddProp(self.color4_prop)
+
+        # By default hide color 3 and 4
+        self.color3_prop.SetIsVisible(False)
+        self.color4_prop.SetIsVisible(False)
+
 
     def WidgetEventHook(self, idname, value):
-        if idname in ["Color 1", "Color 2"]:
-            img = self.NodeEvaluation(EvalInfo(self)).GetImage()
-            self.NodeSetThumb(img, force_refresh=True)
-            self.RefreshPropertyPanel()
+        if idname in ["Gradient Type"] and value == "Linear":
+            self.color3_prop.SetIsVisible(False)
+            self.color4_prop.SetIsVisible(False)
+        else:
+            self.color3_prop.SetIsVisible(True)
+            self.color4_prop.SetIsVisible(True)
+
+        img = self.NodeEvaluation(EvalInfo(self)).GetImage()
+        self.NodeSetThumb(img, force_refresh=True)
+        self.RefreshPropertyPanel()
 
     def NodeEvaluation(self, eval_info):
-        gradient = 0.5  # eval_info.EvaluateProperty('Gradient')
+        gradienttype = eval_info.EvaluateProperty('Gradient Type')
         color1 = eval_info.EvaluateProperty('Color 1')
         color2 = eval_info.EvaluateProperty('Color 2')
+        color3 = eval_info.EvaluateProperty('Color 3')
+        color4 = eval_info.EvaluateProperty('Color 4')
         imgsize = eval_info.EvaluateProperty('Size')
 
-        gradientimage = Image.new("L", (imgsize[0], 1))
-        for x in range(imgsize[0]):
-            gradientimage.putpixel(
-                (x, 0), int(225. * (1. - float(gradient) * float(x) / imgsize[0]))
-            )
+        if gradienttype == "Linear":
+            buf = ImageBuf(ImageSpec(imgsize[0], imgsize[1], 4, oiio.FLOAT))
+            ImageBufAlgo.fill(buf, color1, color2)
+        elif gradienttype == "Interpolated":
+            buf = ImageBuf(ImageSpec(imgsize[0], imgsize[1], 4, oiio.FLOAT))
+            ImageBufAlgo.fill(buf, color1, color2, color3, color4)
 
-        gradient_image = ImageOps.colorize(
-            gradientimage.resize((imgsize[0], imgsize[1])),
-            color1, color2
-        )
+        gradient_image = ImageBuf.get_pixels(buf).astype("uint8")
+
         image = api.RenderImage()
-        image.SetAsImage(gradient_image.convert('RGBA'))
+        image.SetAsImage(gradient_image)
         self.NodeSetThumb(image.GetImage())
         return image
 

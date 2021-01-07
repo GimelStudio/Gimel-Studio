@@ -31,17 +31,19 @@ from GimelStudio.corenodes.mask import edge_detect_node
 # from GimelStudio.corenodes.draw import text_node
 # from GimelStudio.corenodes import glsl
 from GimelStudio.corenodes.color import (color_balance_node,
-                                         contrast_node,
-                                         brightness_node,
+                                         contrast,
+                                         brightness,
+                                         exposure,
                                          invert_alpha_node,
-                                         get_channel_node)
+                                         get_channel)
 from GimelStudio.corenodes.blend import (mix_node,
                                          composite_node,
                                          alpha_composite_node)
 from GimelStudio.corenodes.distort import flip_node
 from GimelStudio.corenodes.filter import (blur_node,
-                                          opacity_node,
-                                          sharpness_node,
+                                          opacity,
+                                          sharpness,
+                                          gaussian_blur,
                                           effect_spread_node,
                                           invert_node,
                                           dilate_erode_node)

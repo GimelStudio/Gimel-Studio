@@ -15,33 +15,34 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-import numpy as np
-
 from GimelStudio import api
 
 
-class FlipNode(api.NodeBase):
+class BrightnessNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
 
     @property
     def NodeMeta(self):
         meta_info = {
-            "label": "Flip",
-            "author": "iwoithe",
-            "version": (0, 0, 1),
+            "label": "Brightness",
+            "author": "Correct Syntax",
+            "version": (1, 5, 0),
             "supported_app_version": (0, 5, 0),
-            "category": "DISTORT",
-            "description": "Flips the image horizontally or vertically.",
+            "category": "COLOR",
+            "description": "Adjusts the image brightness.",
+            "gpu_support": "yes",
         }
         return meta_info
 
     def NodeInitProps(self):
-        p = api.ChoiceProp(
-            idname="Direction",
-            default="Horizontal",
-            label="Direction:",
-            choices=["Horizontal", "Vertical"],
+        p = api.PositiveIntegerProp(
+            idname="brightnessValue",
+            default=1,
+            min_val=1,
+            max_val=80,
+            widget=api.SLIDER_WIDGET,
+            label="Amount:",
         )
         self.NodeAddProp(p)
 
@@ -51,17 +52,18 @@ class FlipNode(api.NodeBase):
         self.NodeAddParam(p)
 
     def NodeEvaluation(self, params, props):
+        """
+        render_image: the RenderImage class
+        returns: the result of the image operation (Pillow Image, Numpy array, shader)
+        """
         image1 = params['Image']
-        direction = props['Direction']
 
         render_image = api.RenderImage()
 
-        if direction == 'Horizontal':
-            render_image.SetAsImage(np.fliplr(image1.GetImage()))
-        else:
-            render_image.SetAsImage(np.flipud(image1.GetImage()))
+        result = self.RenderGLSL("./GimelStudio/corenodes/color/brightness/brightness.glsl", props, image1)
+        render_image.SetAsImage(result)
 
         return render_image
 
 
-api.RegisterNode(FlipNode, "corenode_flip")
+api.RegisterNode(BrightnessNode, "corenode_brightness")

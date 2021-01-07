@@ -138,10 +138,8 @@ class ToBumpMapNode(api.NodeBase):
         brightness_val = eval_info.EvaluateProperty('Brightness')
         gamma_val = eval_info.EvaluateProperty('Gamma')
 
-        # Convert the current image data to an array
-        # that we can use and greyscale it.
-        im = ArrayFromImage(image1.GetImage())
-        gray_scale_img = cv2.equalizeHist(cv2.cvtColor(im, cv2.COLOR_BGR2GRAY))
+        im = image1.GetImage()
+        gray_scale_img = cv2.equalizeHist(cv2.cvtColor(im, cv2.COLOR_BGRA2GRAY).astype(np.uint8))
 
         generated_bump_map = self.ComputeBumpMap(
             gray_scale_img,
@@ -152,7 +150,7 @@ class ToBumpMapNode(api.NodeBase):
 
         image = api.RenderImage()
         image.SetAsImage(
-            ArrayToImage(generated_bump_map).convert('RGBA')
+            generated_bump_map
         )
         self.NodeSetThumb(image.GetImage())
         return image

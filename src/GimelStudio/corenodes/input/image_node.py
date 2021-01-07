@@ -16,7 +16,6 @@
 # ----------------------------------------------------------------------------
 
 import os
-from PIL import Image
 
 from GimelStudio import api
 from GimelStudio.renderer import EvalInfo
@@ -27,13 +26,14 @@ class ImageNode(api.NodeBase):
         api.NodeBase.__init__(self, _id)
 
         self._cachedPath = ""
+        self._cachedImage = None
 
     @property
     def NodeMeta(self):
         meta_info = {
             "label": "Image",
             "author": "Correct Syntax",
-            "version": (3, 0, 5),
+            "version": (3, 1, 0),
             "supported_app_version": (0, 5, 0),
             "category": "INPUT",
             "description": "Loads an image from the specified file path."
@@ -68,16 +68,12 @@ class ImageNode(api.NodeBase):
         self.NodeAddProp(self.lbl_prop)
 
     def WidgetEventHook(self, idname, value):
-        #     pass
-        # import time
-        # t = time.time()
         if idname == 'File Path':
-            img = self.NodeEvaluation(EvalInfo(self)).GetImage()  # Image.open(value) #
+            img = self.EvaluateSelf().GetImage()
 
-            info_string = "{}x{}px | {} | {}kB".format(
-                img.size[0],
-                img.size[1],
-                img.mode,
+            info_string = "{}x{}px | RGBA | {}kB".format(
+                img.shape[0],
+                img.shape[1],
                 str(os.path.getsize(value) / 1000)
             )
             self.lbl_prop.SetValue(info_string)
@@ -85,34 +81,25 @@ class ImageNode(api.NodeBase):
 
             self.NodeSetThumb(img, force_refresh=True)
 
-        # print(">>>", time.time() - t)
+    def NodeEvaluation(self, params, props):
+        path = props["File Path"]
 
-    def NodeEvaluation(self, eval_info):
-        path = eval_info.EvaluateProperty('File Path')
-        image = api.RenderImage()
+        render_image = api.RenderImage()
 
         if path != "":
             if self._cachedPath != path:
                 try:
-                    image.SetAsOpenedImage(path)
-                    img = image.GetImage().convert('RGBA')
+                    render_image.SetAsOpenedImage(path)
+                    img = render_image.GetImage()
                     self._cachedPath = path
                     self._cachedImage = img
-                    image.SetAsImage(img)
+                    render_image.SetAsImage(img)
                 except FileNotFoundError:
-                    print("FILE NOT FOUND")
+                    print("WARNING: FILE NOT FOUND!")
             else:
-                image.SetAsImage(self._cachedImage)
+                render_image.SetAsImage(self._cachedImage)
 
-        # if path != '':
-        #     try:
-        #         image.SetAsOpenedImage(path)
-        #         image.SetAsImage(image.GetImage().convert('RGBA'))
-        #     except FileNotFoundError:
-        #         pass
-
-        self.NodeSetThumb(image.GetImage())
-        return image
+        return render_image
 
 
 api.RegisterNode(ImageNode, "corenode_image")

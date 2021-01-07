@@ -57,7 +57,7 @@ class EffectSpreadNode(api.NodeBase):
         distance = eval_info.EvaluateProperty('Distance')
 
         image = api.RenderImage()
-        image.SetAsImage(image1.GetImage().effect_spread(distance))
+        image.SetAsImageFromPIL(image1.GetPILImage().effect_spread(distance))
         self.NodeSetThumb(image.GetImage())
         return image
 

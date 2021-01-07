@@ -147,8 +147,7 @@ class ToNormalMapNode(api.NodeBase):
         sigma_val = eval_info.EvaluateProperty('Sigma')
         intensity_val = eval_info.EvaluateProperty('Intensity')
 
-        # Convert the current image data to an array that scipy can use
-        im = ArrayFromImage(image1.GetImage())
+        im = image1.GetImage()
 
         # Create the image
         if im.ndim == 3:
@@ -164,11 +163,15 @@ class ToNormalMapNode(api.NodeBase):
             sobel_x,
             sobel_y,
             intensity_val
-        )
+        )#.astype(np.float32)
+
+        import cv2
+
+        cv2.imwrite("path.png", generated_normal_map)
 
         image = api.RenderImage()
         image.SetAsImage(
-            ArrayToImage(generated_normal_map).convert('RGBA')
+            generated_normal_map
         )
         self.NodeSetThumb(image.GetImage())
         return image

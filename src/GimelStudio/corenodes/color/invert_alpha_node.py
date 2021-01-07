@@ -41,13 +41,12 @@ class InvertAlphaNode(api.NodeBase):
 
         self.NodeAddParam(p)
 
-    def NodeEvaluation(self, eval_info):
-        image1 = eval_info.EvaluateParameter('Image')
+    def NodeEvaluation(self, params, props):
+        image1 = params['Image']
 
-        image = api.RenderImage()
-        image.SetAsImage(ImageChops.invert(image1.GetImage()).convert('RGBA'))
-        self.NodeSetThumb(image.GetImage())
-        return image
+        render_image = api.RenderImage()
+        render_image.SetAsImageFromPIL(ImageChops.invert(image1.GetPILImage()))
+        return render_image
 
 
 api.RegisterNode(InvertAlphaNode, "corenode_invertalpha")

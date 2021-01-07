@@ -15,33 +15,34 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-import numpy as np
-
 from GimelStudio import api
 
 
-class FlipNode(api.NodeBase):
+class GaussianBlurNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
 
     @property
     def NodeMeta(self):
         meta_info = {
-            "label": "Flip",
-            "author": "iwoithe",
-            "version": (0, 0, 1),
+            "label": "Gaussian Blur",
+            "author": "Correct Syntax",
+            "version": (0, 5, 0),
             "supported_app_version": (0, 5, 0),
-            "category": "DISTORT",
-            "description": "Flips the image horizontally or vertically.",
+            "category": "FILTER",
+            "description": "Blurs the image with a 3x3 Gaussian Blur",
+            "gpu_support": "yes",
         }
         return meta_info
 
     def NodeInitProps(self):
-        p = api.ChoiceProp(
-            idname="Direction",
-            default="Horizontal",
-            label="Direction:",
-            choices=["Horizontal", "Vertical"],
+        p = api.PositiveIntegerProp(
+            idname="blurValue",
+            default=25,
+            min_val=0,
+            max_val=100,
+            widget=api.SLIDER_WIDGET,
+            label="Amount:",
         )
         self.NodeAddProp(p)
 
@@ -52,16 +53,13 @@ class FlipNode(api.NodeBase):
 
     def NodeEvaluation(self, params, props):
         image1 = params['Image']
-        direction = props['Direction']
 
         render_image = api.RenderImage()
 
-        if direction == 'Horizontal':
-            render_image.SetAsImage(np.fliplr(image1.GetImage()))
-        else:
-            render_image.SetAsImage(np.flipud(image1.GetImage()))
+        result = self.RenderGLSL("./GimelStudio/corenodes/filter/gaussian_blur/gaussian_blur.glsl", props, image1)
+        render_image.SetAsImage(result)
 
         return render_image
 
 
-api.RegisterNode(FlipNode, "corenode_flip")
+api.RegisterNode(GaussianBlurNode, "corenode_gaussianblur")

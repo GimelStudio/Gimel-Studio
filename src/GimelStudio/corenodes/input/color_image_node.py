@@ -16,7 +16,8 @@
 # ----------------------------------------------------------------------------
 
 import os
-from PIL import Image
+import cv2
+import numpy as np
 
 from GimelStudio import api
 from GimelStudio.renderer import EvalInfo
@@ -64,7 +65,11 @@ class ColorImageNode(api.NodeBase):
         imgsize = eval_info.EvaluateProperty('Size')
 
         image = api.RenderImage()
-        image.SetAsImage(Image.new("RGBA", (imgsize[0], imgsize[1]), color))
+        new_img = np.zeros([imgsize[0], imgsize[1], 4], dtype=np.uint8)
+
+        new_img[:] = color
+
+        image.SetAsImage(new_img)
         self.NodeSetThumb(image.GetImage())
         return image
 

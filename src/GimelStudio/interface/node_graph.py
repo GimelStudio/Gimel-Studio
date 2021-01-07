@@ -118,7 +118,6 @@ class NodeGraph(wx.ScrolledCanvas):
             self.OnDuplicateNode,
             id=ID_CONTEXTMENU_DUPLICATENODE
         )
-
         self._parent.Bind(
             wx.EVT_MENU,
             self.OnAddNodeMenu,
@@ -600,6 +599,10 @@ class NodeGraph(wx.ScrolledCanvas):
     @property
     def NodePropertiesPanel(self):
         return self._parent._nodePropertyPanel
+
+    @property
+    def GPUEngine(self):
+        return self._parent._gpuEngine
 
     # @property
     # def UserPrefs(self):

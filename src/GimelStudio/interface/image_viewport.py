@@ -20,8 +20,7 @@
 
 import wx
 import wx.adv
-
-from PIL import Image
+import numpy as np
 
 from GimelStudio import utils
 from GimelStudio.datafiles.icons import *
@@ -38,7 +37,7 @@ class ImageViewport(ZoomPanel):
         self._renderTime = 0.00
         self._rendering = False
         self._viewportImage = utils.ConvertImageToWx(
-            Image.new('RGBA', (256, 256)))
+            np.zeros((256, 256, 4), dtype=np.uint16))
 
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyEvent)
 

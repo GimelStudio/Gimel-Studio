@@ -15,33 +15,32 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-from PIL import ImageEnhance
-
 from GimelStudio import api
 
 
-class SharpnessNode(api.NodeBase):
+class ExposureNode(api.NodeBase):
     def __init__(self, _id):
         api.NodeBase.__init__(self, _id)
 
     @property
     def NodeMeta(self):
         meta_info = {
-            "label": "Sharpness",
+            "label": "Exposure",
             "author": "Correct Syntax",
-            "version": (1, 2, 0),
+            "version": (1, 0, 0),
             "supported_app_version": (0, 5, 0),
-            "category": "FILTER",
-            "description": "Sharpens the image by the given amount.",
+            "category": "COLOR",
+            "description": "Adjusts the image exposure.",
+            "gpu_support": "yes",
         }
         return meta_info
 
     def NodeInitProps(self):
         p = api.PositiveIntegerProp(
-            idname="Amount",
+            idname="exposureValue",
             default=1,
             min_val=1,
-            max_val=50,
+            max_val=80,
             widget=api.SLIDER_WIDGET,
             label="Amount:",
         )
@@ -52,15 +51,19 @@ class SharpnessNode(api.NodeBase):
 
         self.NodeAddParam(p)
 
-    def NodeEvaluation(self, eval_info):
-        image1 = eval_info.EvaluateParameter('Image')
-        sharpness_amount = eval_info.EvaluateProperty('Amount')
+    def NodeEvaluation(self, params, props):
+        """
+        render_image: the RenderImage class
+        returns: the result of the image operation (Pillow Image, Numpy array, shader)
+        """
+        image1 = params['Image']
 
-        image = api.RenderImage()
-        enhancer = ImageEnhance.Sharpness(image1.GetImage())
-        image.SetAsImage(enhancer.enhance(sharpness_amount).convert('RGBA'))
-        self.NodeSetThumb(image.GetImage())
-        return image
+        render_image = api.RenderImage()
+
+        result = self.RenderGLSL("./GimelStudio/corenodes/color/exposure/exposure.glsl", props, image1)
+        render_image.SetAsImage(result)
+
+        return render_image
 
 
-api.RegisterNode(SharpnessNode, "corenode_sharpness")
+api.RegisterNode(ExposureNode, "corenode_exposure")
