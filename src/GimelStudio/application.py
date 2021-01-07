@@ -25,6 +25,7 @@ import platform
 import subprocess
 import webbrowser
 
+import cv2
 import wx
 import wx.lib.agw.aui as aui
 import wx.lib.delayedresult as delayedresult
@@ -37,7 +38,7 @@ from GimelStudio.interface import (NodeGraph, NodePropertyPanel,
                                    DeveloperLog, DarkMenuRenderer, ExportImageAs)
 from GimelStudio.program import (AboutDialog, LicenseDialog)
 from GimelStudio.project import GimelStudioProject
-from GimelStudio.renderer import Renderer, RenderThread, EVT_RENDER_RESULT
+from GimelStudio.renderer import Renderer, RenderThread, EVT_RENDER_RESULT, GPUEngine
 from GimelStudio.registry import REGISTERED_NODES
 from GimelStudio.datafiles import *
 
@@ -83,6 +84,7 @@ class MainApplication(wx.Frame):
         # Init project, renderer and user preferences manager
         self._project = GimelStudioProject(self)
         self._renderer = Renderer(self)
+        self._gpuEngine = GPUEngine()
         # self._userPrefManager = UserPreferencesManager(self)
 
         # Load the user preferences from the .json file
@@ -215,7 +217,7 @@ class MainApplication(wx.Frame):
         self.renderimage_menuitem = flatmenu.FlatMenuItem(
             render_menu,
             id=wx.ID_ANY,
-            label="Render Image \tF12",
+            label="Render Image\tF12",
             helpString="Force an immediate, updated render of the current node graph image",
             kind=wx.ITEM_NORMAL,
             subMenu=None
@@ -486,7 +488,7 @@ class MainApplication(wx.Frame):
         # This node is here just for
         # testing during development.
         if meta.APP_DEBUG is True:
-            self._nodeGraph.AddNode('corenode_alphacomposite',  # Put the node id you are testing here
+            self._nodeGraph.AddNode('corenode_gaussianblur',  # Put the node id you are testing here
                                     pos=wx.Point(x - 100, y))
 
         # If a path is passed into the "--blender" arg
@@ -514,7 +516,8 @@ class MainApplication(wx.Frame):
             print("back")
 
     def OnExportImage(self, event):
-        ExportImageAs(self, self._renderer.GetRender())
+        cv2.imwrite("new.png", self._renderer.GetRender())
+        #ExportImageAs(self, self._renderer.GetRender())
 
     def OnToggleLiveNodePreviewUpdate(self, event):
         if self.livenodepreviewupdate_menuitem.IsChecked() is False:
