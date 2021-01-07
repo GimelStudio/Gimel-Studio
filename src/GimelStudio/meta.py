@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ APP_TITLE = "{0} {1}".format(APP_NAME, FULL_APP_VERSION_STRING)
 # USAGE: Switch to False before building as .exe or similar package to
 # enable/disable some end-user features that would otherwise hinder
 # development and/or testing of the program.
-APP_DEBUG = False
+APP_DEBUG = True
 
 # Whether to enable the experimental renderer threading
 ENABLE_THREADING = False
