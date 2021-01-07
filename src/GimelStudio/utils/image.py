@@ -18,27 +18,66 @@
 # PURPOSE: Provide utility image manipulation, converting, exporting functions
 # ----------------------------------------------------------------------------
 
-import wx
+import math
 
+import wx
+import cv2
+import numpy as np
 from PIL import Image
-import numpy
 from numpy import (amin, amax, ravel, asarray, cast, arange, ones, newaxis,
                    transpose, iscomplexobj, uint8, issubdtype, array)
 
 
 def ConvertImageToWx(image):
-    """ Converts the given ``PIL Image`` object into a
+    """ Converts the given ``numpy.ndarray`` object into a
     ``wx.Bitmap`` with RGBA.
 
-    :param image: ``PIL Image`` to convert
+    :param image: ``numpy.ndarray`` to convert
     :returns: ``wx.Bitmap``
     """
-    bitmap = wx.Bitmap.FromBufferRGBA(
-        image.size[0],
-        image.size[1],
-        image.convert('RGBA').tobytes()
-    )
-    return bitmap
+    height, width = image.shape[:2]
+    # info = np.iinfo(image.dtype) # Get the information of the incoming image type
+    # data = image.astype(np.float64) / info.max # normalize the data to 0 - 1
+    # data = 255 * data # Now scale by 255
+    # image = data.astype(np.uint8)
+    if image.shape[2] == 3:
+        image_rgba = cv2.cvtColor(image, cv2.COLOR_RGB2RGBA)
+    else:
+        image_rgba = image
+
+    return wx.Bitmap.FromBufferRGBA(width, height, image_rgba.astype("uint8"))
+
+
+def ResizeKeepAspectRatio(image, size):
+    """ Resizes the given image while keeping the original
+    image aspect ratio.
+
+    :param image: np.ndarray image
+    :param size: tuple of the desired size for resizing the image
+    :returns: np.ndarray image
+    """
+    width = image.shape[1]
+    height = image.shape[0]
+
+    x, y = map(math.floor, size)
+    if x >= width and y >= height:
+        return
+
+    def round_aspect(number, key):
+        return max(min(math.floor(number), math.ceil(number), key=key), 1)
+
+    # preserve aspect ratio
+    aspect = width / height
+    if x / y >= aspect:
+        x = round_aspect(y * aspect, key=lambda n: abs(aspect - n / y))
+    else:
+        y = round_aspect(
+            x / aspect, key=lambda n: 0 if n == 0 else abs(aspect - x / n)
+        )
+    size = (x, y)
+
+    resized_img = cv2.resize(image, size)
+    return resized_img
 
 
 def IsFPExt(path, extentions):
@@ -221,7 +260,7 @@ def ArrayToImage(arr, high=255, low=0, cmin=None, cmax=None, pal=None,
     if len(shape) == 2:
         shape = (shape[1], shape[0])  # columns show up first
         if mode == 'F':
-            data32 = data.astype(numpy.float32)
+            data32 = data.astype(np.float32)
             image = Image.frombytes(mode, shape, data32.tostring())
             return image
         if mode in [None, 'L', 'P']:
@@ -246,7 +285,7 @@ def ArrayToImage(arr, high=255, low=0, cmin=None, cmax=None, pal=None,
             cmax = amax(ravel(data))
         data = (data * 1.0 - cmin) * (high - low) / (cmax - cmin) + low
         if mode == 'I':
-            data32 = data.astype(numpy.uint32)
+            data32 = data.astype(np.uint32)
             image = Image.frombytes(mode, shape, data32.tostring())
         else:
             raise ValueError(_errstr)
@@ -256,9 +295,9 @@ def ArrayToImage(arr, high=255, low=0, cmin=None, cmax=None, pal=None,
     # Check for 3 in datacube shape --- 'RGB' or 'YCbCr'
     if channel_axis is None:
         if (3 in shape):
-            ca = numpy.flatnonzero(asarray(shape) == 3)[0]
+            ca = np.flatnonzero(asarray(shape) == 3)[0]
         else:
-            ca = numpy.flatnonzero(asarray(shape) == 4)
+            ca = np.flatnonzero(asarray(shape) == 4)
             if len(ca):
                 ca = ca[0]
             else:
