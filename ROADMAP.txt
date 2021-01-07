@@ -19,6 +19,8 @@ Minimum to release v1.0.0 stable
 [] - BUG: You must specify an extension in order to export an image
 [] - BUG: "to normal map" node - resize auto if image is bigger than req size
 [] - BUG: Keyboard shortcuts don't always work on Linux
+[] - Float values rather than int (need to create custom sliders as wxpython's doesn't support floats)
+[] - Basically re-write the node graph ui code (pseudodc -> dc) so that the graph can be zoomed, etc
 
 
 [Medium priority]
