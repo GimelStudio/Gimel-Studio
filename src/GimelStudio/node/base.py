@@ -19,8 +19,10 @@
 # ----------------------------------------------------------------------------
 
 import wx
+import os.path
 
 from .object import NodeObject
+from GimelStudio.renderer import EvalInfo
 
 
 class NodeBase(NodeObject):
@@ -36,6 +38,8 @@ class NodeBase(NodeObject):
         self.NodeInitParams()
         self.Model.UpdateSockets()
         self.Model.UpdateThumbnail(self.Model.GetThumbImage())
+
+        self._cachedImage = None
 
     def _MetaInit(self):
         """ Internal method to initilize the
@@ -139,7 +143,7 @@ class NodeBase(NodeObject):
     @property
     def EvaluateNode(self):
         """ Intenal method. Please do not override. """
-        return self.NodeEvaluation
+        return self.NodeInternalEvaluation#self.NodeEvaluation
 
     @property
     def NodeMeta(self):
@@ -219,13 +223,49 @@ class NodeBase(NodeObject):
             if prop_obj.GetIsVisible() == True:
                 prop_obj.CreateUI(parent, sizer)
 
-    def NodeEvaluation(self, eval_info):
+
+    def NodeEvalParams(self, eval_info):
+        param_values = {}
+        properties = self.Model.GetParameters()
+        for param_name in properties:
+            param_values[param_name] = eval_info.EvaluateParameter(param_name)
+        return param_values
+
+    def NodeEvalProps(self, eval_info):
+        prop_values = {}
+        properties = self.Model.GetProperties()
+        for prop_name in properties:
+            prop_values[prop_name] = eval_info.EvaluateProperty(prop_name)
+        return prop_values
+
+    def LoadGLSLFile(self, path):
+        with open(os.path.abspath(path), 'r') as fp:
+            glsl_shader = str(fp.read())
+        return glsl_shader
+
+    def NodeInternalEvaluation(self, eval_info):
+
+        # Evaluate parameters
+        param_values = self.NodeEvalParams(eval_info)
+
+        # Evaluate properties
+        prop_values = self.NodeEvalProps(eval_info)
+
+        # RenderImage instance
+        eval_image = self.NodeEvaluation(param_values, prop_values)
+
+        # Set the thumbnail
+        self.NodeSetThumb(eval_image.GetImage())
+        return eval_image
+
+
+    def NodeEvaluation(self, params, props):
         """ This is the method that is called during rendering of the image. This should contain the actual code which does something to the image (e.g: blurs the image, etc.) and should return it as a ``RenderImage`` object.
 
         :param eval_info: object exposing methods to get evaluated ``Parameter`` and ``Property`` values to use for evaluating this node.
         :returns: this should return a ``RenderImage`` object
         """
-        pass
+        return None
 
     def WidgetEventHook(self, idname, value):
         """ Property widget callback event hook. This method is called after the property widget has returned the new value. It is useful for updating the node itself or other node properties as a result of a change in the value of the property.
@@ -251,11 +291,20 @@ class NodeBase(NodeObject):
         """ Force a refresh of the Node Properties panel. """
         wx.CallAfter(self.NodeGraphMethods.NodePropertiesPanel.UpdatePanelContents, self)
 
+    def EvaluateSelf(self):
+        return self.NodeInternalEvaluation(EvalInfo(self))
+
+
     @property
     def NodeGraphMethods(self):
         """ Access internal Node Graph methods. Please only use this if you know what you're doing...
         """
         return self.Model.NodeGraph
+
+    @property
+    def GPUEngine(self):
+        """ Access the gpu renderer. """
+        return self.Model.NodeGraph.GPUEngine
 
     def HitTest(self, x, y):
         """ Node hittest handler. Please do not override. """
@@ -295,3 +344,11 @@ class NodeBase(NodeObject):
         except Exception as e:
             pass
             #print("INIT", e)
+
+
+    def RenderGLSL(self, path, props, image):
+        glsl_shader = self.LoadGLSLFile(path)
+
+        self.GPUEngine.Render(glsl_shader, props, image)
+
+        return self.GPUEngine.ReadNumpy()
