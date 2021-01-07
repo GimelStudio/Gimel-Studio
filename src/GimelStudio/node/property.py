@@ -127,7 +127,7 @@ class PositiveIntegerProp(Property):
             self.slider.SetTickFreq(10)
             sizer.Add(self.slider, flag=wx.EXPAND | wx.ALL, border=5)
             self.slider.Bind(
-                wx.EVT_SCROLL_THUMBRELEASE,
+                wx.EVT_SCROLL,
                 self.WidgetEvent
             )
 
