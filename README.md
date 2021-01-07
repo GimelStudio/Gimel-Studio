@@ -19,7 +19,7 @@ Currently, Gimel Studio provides basic image editing features such as flip, colo
 
 *Still in BETA stage and WIP, but can be considered stable enough for light production work.*
 
-**Please note that the development branch (master) may be unstable and/or have new dependencies from the released version.**
+**Please note that the development branches may be unstable and/or have new dependencies from the released version and the master branch.**
 
 
 # Features
@@ -52,14 +52,14 @@ Here is a little rundown of what the goals of this project are and what they are
 * provide fully comprehensive graphical indications in each step of the image editing process
 * give users access to a rich API for scripting custom nodes in Python
 * deliever a non-destructive, fast workflow and great user experience
-* support both Linux and Windows operating systems seamlessly
+* support Linux, Windows & MacOs operating systems seamlessly
 * support low system hardware requirements (as much as is reasonably possible), so as to be inclusive of even those who don't have super-computers...
 * listen to your feedback on these goals :)
 
 **Development of Gimel Studio does not (currently) aim to...**
 
 * provide any drawing and/or painting tools, except "Add text to image", etc
-* be a full-blown procedual texture generator, like many node-based programs out there
+* be a full-blown procedual texture generator, like many node-based programs out there (though anyone can write their own nodes for that with the API, if they so desire)
 
 
 # News
