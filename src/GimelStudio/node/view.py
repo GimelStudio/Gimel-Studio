@@ -123,10 +123,10 @@ class NodeView(object):
 
         # Thumbnail
         thumbnail_width = round((w - 10) / 1.1)
-        thumbnail_height = thumb.size[1]
+        thumbnail_height = thumb.Height
 
-        _x = thumbnail_width / 2.0 - thumb.size[0] / 2.0
-        _y = thumbnail_height / 2.0 - thumb.size[1] / 2.0
+        _x = thumbnail_width / 2.0 - thumb.Width / 2.0
+        _y = thumbnail_height / 2.0 - thumb.Height / 2.0
 
         thumb_rect = wx.Rect(x + ((w - thumbnail_width) / 2),
                              y + _y + 20 + self.GetLastSocketCoords(),
@@ -140,7 +140,7 @@ class NodeView(object):
 
         # Draw thumbnail image
         dc.DrawBitmap(
-            wx.Bitmap(utils.ConvertImageToWx(thumb)),
+            thumb,
             x + _x + ((w - thumbnail_width) / 2),
             y + _y + 20 + self.GetLastSocketCoords(),
             True
