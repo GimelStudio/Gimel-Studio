@@ -491,6 +491,14 @@ class MainApplication(wx.Frame):
 
         # If a path is passed into the "--blender" arg
         # set the Image node file path to that path.
+        if self._arguments.blender != "":
+            img_node.NodeEditProp(
+                idname="File Path",
+                value=self._arguments.blender,
+                render=False
+            )
+
+
 
     def OnWindowActivate(self, event):
         # Window is being focused
