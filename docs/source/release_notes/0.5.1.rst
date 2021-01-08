@@ -12,6 +12,7 @@ General
  * Refactoring of code
  * Icon assets were cleaned-up a bit
  * Autoformatted code with autopep8
+ * Implemented automated releases with Github Actions
 
 
 Updated Homepage
@@ -37,7 +38,7 @@ Improved Image Viewport
 -----------------------
 
  * The Image Viewport was improved with better zoom, performace optimizations, etc.
- * Info text now updates during a render to show that image is rendering.
+ * Info text now updates during a render to show that the image is rendering.
 
 
 Added Developer Log
