@@ -44,6 +44,7 @@ Windows
   This will install the core dependancies for Gimel Studio.
 
 **Step 3. Build the executable**
+  * Launch the pipenv shell with ``pipenv shell``
   * Run ``python "src/main.py"`` to test if you have installed everything correctly. If this launches Gimel Studio, then you are ready to build the executable.
   * Next, run ``make.bat`` to build the executable. You should find the executable in the *dist* folder.
 
@@ -72,6 +73,7 @@ Linux (Debian-based systems)
 
 
 **Step 3. Build the executable**
+  * Launch the pipenv shell with ``pipenv shell`` (only if you did not use the alternative dependency installation)
   * Run ``python3 "src/main.py"`` to test if you have installed everything correctly. If this launches Gimel Studio, then you are ready to build the executable.
   * Next, run ``./make`` or ``sudo ./make`` to build the executable. You should find the executable in the *dist* folder.
 
@@ -92,6 +94,7 @@ MacOs
 
 
 **Step 3. Build the executable**
+  * Launch the pipenv shell with ``pipenv shell``
   * Run ``python3 "src/main.py"`` to test if you have installed everything correctly. If this launches Gimel Studio, then you are ready to build the executable.
   * Next, run ``./make`` or ``sudo ./make`` to build the executable. You should find the executable in the *dist* folder.
 
