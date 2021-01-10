@@ -13,11 +13,13 @@ Gimel Studio
 [Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Discord Server](https://discord.gg/RqwbDrVDpK) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
 
 
-Gimel Studio is a node-based, non-destructive image editor for Windows and Linux. With a workflow for compositing, masking, manipulating, generating and editing images, it is complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
+Gimel Studio is a cross-platform, node-based, non-destructive image editor. It has a workflow for compositing, masking, manipulating, generating and editing images and is complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
 
 Currently, Gimel Studio provides basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
 *Still in BETA stage and WIP, but can be considered stable enough for light production work.*
+
+**MacOs binaries are not yet available. See the [building from source](https://gimel-studio.readthedocs.io/en/latest/getting_started/building_from_source.html#macos) documentation to build it from the source code yourself.**
 
 **Please note that the development branches may be unstable and/or have new dependencies from the released version and the master branch.**
 
