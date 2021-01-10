@@ -28,7 +28,7 @@ APP_NAME = "Gimel Studio"
 APP_AUTHOR = "Noah Rahm and contributors"
 
 # Release version: [major].[minor].[build]
-APP_VERSION = (0, 5, 1)
+APP_VERSION = (0, 5, 2)
 APP_VERSION_TAG = "beta"
 FULL_APP_VERSION_STRING = "{0}.{1}.{2} {3}".format(APP_VERSION[0],
                                                    APP_VERSION[1],
