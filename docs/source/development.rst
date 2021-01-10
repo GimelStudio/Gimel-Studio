@@ -16,7 +16,7 @@ Here is a little rundown of what the goals of this project are and what they are
 * provide fully comprehensive graphical indications in each step of the image editing process.
 * give users access to a rich API for scripting custom nodes in Python
 * deliever a non-destructive, fast workflow and great user experience.
-* support both Linux and Windows operating systems seamlessly
+* support Linux, Windows & MacOs operating systems seamlessly
 * support low system hardware requirements (as much as is reasonably possible), so as to be inclusive of even those who don't have super-computers...
 * listen to your feedback on these goals :)
 
