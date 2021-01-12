@@ -2,7 +2,7 @@
 About Gimel Studio
 ##################
 
-Welcome to the Gimel Studio, the free & open-source, **cross-platform, non-destructive (node-based) image editor**.
+Welcome to Gimel Studio, the free & open-source, **cross-platform, non-destructive (node-based) image editor**.
 
 .. figure:: ../../_images/gimel-studio-ui.jpg
     :align: center

@@ -85,6 +85,8 @@ MacOs
 
   **This part of the documentation is still WIP. These instructions may or may not work correctly! :)**
 
+  *TODO: Confirm that these are the correct steps for building on MacOs.*
+
 
 **Step 2. Setup and install dependancies**
   * Get pipenv with ``pip3 install pipenv``
