@@ -21,6 +21,10 @@ Minimum to release v1.0.0 stable
 [] - BUG: Keyboard shortcuts don't always work on Linux
 [] - Float values rather than int (need to create custom sliders as wxpython's doesn't support floats)
 [] - Basically re-write the node graph ui code (pseudodc -> dc) so that the graph can be zoomed, etc
+[] - Nodes to be able to have more than one output socket
+[] - Option to have image as backdrop of Node Graph
+[] - Presets: Ability to create your own from selected nodes (Node Groups?)
+[] - Multi-monitor support
 
 
 [Medium priority]
