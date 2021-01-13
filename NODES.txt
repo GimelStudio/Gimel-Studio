@@ -45,7 +45,7 @@ COLOR #C2AF3A (Yellow)
 DISTORT: #6B8B8B (Blue-Grey)
 [x] - Resize
 [] - Scale
-[] - Crop
+[x] - Crop
 [x]- Rotate
 [] - Transform/Perspective Transform
 [] - Translate

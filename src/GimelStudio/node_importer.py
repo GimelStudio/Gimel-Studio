@@ -32,7 +32,7 @@ from GimelStudio.corenodes.color import (color_balance_node, contrast_node,
                                         get_channel_node)
 from GimelStudio.corenodes.blend import (mix_node, composite_node,
                                         alpha_composite_node)
-from GimelStudio.corenodes.distort import flip_node #resize_node, rotate_node
+from GimelStudio.corenodes.distort import flip_node, crop_node #resize_node, rotate_node
 from GimelStudio.corenodes.filter import (blur_node, opacity_node,
                                          sharpness_node, effect_spread_node,
                                          invert_node, dilate_erode_node)
