@@ -1,0 +1,18 @@
+0.5.2
+=====
+
+Gimel Studio v0.5.2 BETA -- "NOT YET RELEASED"
+
+
+
+General
+-------
+
+ * Refactoring and cleanup of code
+ * MacOs support was tested
+
+
+Nodes
+-----
+
+ * Added **new core nodes**: *Crop* (thanks to @iwoithe)
