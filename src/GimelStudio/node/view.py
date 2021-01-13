@@ -1,37 +1,38 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: view.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the view, which handles the drawing of the node, etc.
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: view.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Define the view, which handles the drawing of the node, etc.
+# ----------------------------------------------------------------------------
 
 import wx
 
 from GimelStudio import utils
+from GimelStudio.datafiles.icons import *
 
 
 class NodeView(object):
     """ Handles the graphical side of the node. """
+
     def __init__(self, _id):
         # _viewData is purposely set to None here to avoid confusion of
         # whether these are the startup default values -these are
         # actually updated from the node model on app init so it doesn't
         # make sense to put any default values here!
         self._viewData = {}
-
 
     def GetId(self):
         return self._viewData['id']
@@ -95,8 +96,8 @@ class NodeView(object):
     def GetRect(self):
         return wx.Rect(
             self.GetPosition()[0], self.GetPosition()[1],
-            self.GetSize()[0],self.GetSize()[1]
-            )
+            self.GetSize()[0], self.GetSize()[1]
+        )
 
     def Draw(self, dc):
         dc.ClearId(self.GetId())
@@ -114,36 +115,36 @@ class NodeView(object):
         # Node header
         dc.SetPen(wx.TRANSPARENT_PEN)
         dc.SetBrush(wx.Brush(wx.Colour(self.GetHeaderColor()), wx.SOLID))
-        dc.DrawRoundedRectangle(x+1, y+1, w-3, 24, 2)
+        dc.DrawRoundedRectangle(x + 1, y + 1, w - 3, 24, 2)
 
         # Node text
         dc.SetTextForeground(wx.Colour(self.GetTextColor()))
-        dc.DrawText(utils.TruncateText(self.GetLabel()), x+6, y+3)
+        dc.DrawText(utils.TruncateText(self.GetLabel()), x + 6, y + 3)
 
         # Thumbnail
-        thumbnail_width = round((w-10)/1.1)
+        thumbnail_width = round((w - 10) / 1.1)
         thumbnail_height = thumb.size[1]
 
-        _x = thumbnail_width/2.0-thumb.size[0]/2.0
-        _y = thumbnail_height/2.0-thumb.size[1]/2.0
+        _x = thumbnail_width / 2.0 - thumb.size[0] / 2.0
+        _y = thumbnail_height / 2.0 - thumb.size[1] / 2.0
+
+        thumb_rect = wx.Rect(x + ((w - thumbnail_width) / 2),
+                             y + _y + 20 + self.GetLastSocketCoords(),
+                             thumbnail_width,
+                             thumbnail_height)
+
+        # Draw thumbnail border and background
+        dc.SetPen(wx.Pen(wx.Colour("#2B2B2B"), 1))
+        dc.SetBrush(wx.Brush(ICON_BRUSH_CHECKERBOARD.GetBitmap()))
+        dc.DrawRectangle(thumb_rect)
 
         # Draw thumbnail image
         dc.DrawBitmap(
             wx.Bitmap(utils.ConvertImageToWx(thumb)),
-            x+_x+((w-thumbnail_width)/2),
-            y+_y+20+self.GetLastSocketCoords(),
+            x + _x + ((w - thumbnail_width) / 2),
+            y + _y + 20 + self.GetLastSocketCoords(),
             True
-            )
-
-        # Draw thumbnail border
-        dc.SetPen(wx.Pen(wx.Colour("#2B2B2B"), 1))
-        dc.SetBrush(wx.Brush(wx.Colour(0, 0, 0, 0), wx.TRANSPARENT))
-        dc.DrawRectangle(
-            x+((w-thumbnail_width)/2),
-            y+_y+20+self.GetLastSocketCoords(),
-            thumbnail_width,
-            thumbnail_height,
-            )
+        )
 
         # Sockets
         for socket in self.GetSockets():

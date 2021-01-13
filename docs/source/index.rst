@@ -6,7 +6,7 @@
 Gimel Studio Reference Manual
 =============================
 
-Welcome to the manual for Gimel Studio, the free & open-source, **node-based, non-destructive image editor** for Windows and Linux.
+Welcome to the manual for Gimel Studio, the free & open-source, **cross-platform, non-destructive (node-based) image editor**.
 
 .. note::
 

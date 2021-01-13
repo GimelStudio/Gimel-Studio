@@ -1,19 +1,19 @@
-## THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-## ----------------------------------------------------------------------------
+# THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ----------------------------------------------------------------------------
 
 import numpy as np
 import scipy.ndimage
@@ -36,8 +36,8 @@ class ToNormalMapNode(api.NodeBase):
             return im
 
         im_smooth = im.astype(float)
-        kernel_x = np.arange(-3*sigma,3*sigma+1).astype(float)
-        kernel_x = np.exp((-(kernel_x**2))/(2*(sigma**2)))
+        kernel_x = np.arange(-3 * sigma, 3 * sigma + 1).astype(float)
+        kernel_x = np.exp((-(kernel_x**2)) / (2 * (sigma**2)))
 
         im_smooth = scipy.ndimage.convolve(im_smooth, kernel_x[np.newaxis])
 
@@ -50,7 +50,7 @@ class ToNormalMapNode(api.NodeBase):
         gradient_x = im_smooth.astype(float)
         gradient_y = im_smooth.astype(float)
 
-        kernel = np.arange(-1,2).astype(float)
+        kernel = np.arange(-1, 2).astype(float)
         kernel = - kernel / 2
 
         gradient_x = scipy.ndimage.convolve(gradient_x, kernel[np.newaxis])
@@ -63,7 +63,7 @@ class ToNormalMapNode(api.NodeBase):
         gradient_x = im_smooth.astype(float)
         gradient_y = im_smooth.astype(float)
 
-        kernel = np.array([[-1,0,1],[-2,0,2],[-1,0,1]])
+        kernel = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
 
         gradient_x = scipy.ndimage.convolve(gradient_x, kernel)
         gradient_y = scipy.ndimage.convolve(gradient_y, kernel.T)
@@ -92,7 +92,8 @@ class ToNormalMapNode(api.NodeBase):
         normal_map[..., 1] = gradient_y / max_value
         normal_map[..., 2] = 1 / strength
 
-        norm = np.sqrt(np.power(normal_map[..., 0], 2) + np.power(normal_map[..., 1], 2) + np.power(normal_map[..., 2], 2))
+        norm = np.sqrt(np.power(normal_map[..., 0], 2) +
+                       np.power(normal_map[..., 1], 2) + np.power(normal_map[..., 2], 2))
 
         normal_map[..., 0] /= norm
         normal_map[..., 1] /= norm
@@ -123,7 +124,7 @@ class ToNormalMapNode(api.NodeBase):
             max_val=25,
             widget=api.SLIDER_WIDGET,
             label="Sigma:",
-            )
+        )
         p2 = api.PositiveIntegerProp(
             idname="Intensity",
             default=1,
@@ -131,7 +132,7 @@ class ToNormalMapNode(api.NodeBase):
             max_val=25,
             widget=api.SLIDER_WIDGET,
             label="Intensity:",
-            )
+        )
 
         self.NodeAddProp(p1)
         self.NodeAddProp(p2)
@@ -142,7 +143,7 @@ class ToNormalMapNode(api.NodeBase):
         self.NodeAddParam(p)
 
     def NodeEvaluation(self, eval_info):
-        image1  = eval_info.EvaluateParameter('Image')
+        image1 = eval_info.EvaluateParameter('Image')
         sigma_val = eval_info.EvaluateProperty('Sigma')
         intensity_val = eval_info.EvaluateProperty('Intensity')
 
@@ -151,8 +152,8 @@ class ToNormalMapNode(api.NodeBase):
 
         # Create the image
         if im.ndim == 3:
-            im_grey = np.zeros((im.shape[0],im.shape[1])).astype(float)
-            im_grey = (im[...,0] * 0.3 + im[...,1] * 0.6 + im[...,2] * 0.1)
+            im_grey = np.zeros((im.shape[0], im.shape[1])).astype(float)
+            im_grey = (im[..., 0] * 0.3 + im[..., 1] * 0.6 + im[..., 2] * 0.1)
             im = im_grey
 
         im_smooth = self.SmoothGaussian(im, sigma_val)
@@ -163,12 +164,12 @@ class ToNormalMapNode(api.NodeBase):
             sobel_x,
             sobel_y,
             intensity_val
-            )
+        )
 
         image = api.RenderImage()
         image.SetAsImage(
             ArrayToImage(generated_normal_map).convert('RGBA')
-            )
+        )
         self.NodeSetThumb(image.GetImage())
         return image
 

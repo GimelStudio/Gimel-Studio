@@ -1,22 +1,22 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: model.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the model for the node
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: model.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Define the model for the node
+# ----------------------------------------------------------------------------
 
 import math
 
@@ -30,17 +30,17 @@ from .socket import Socket
 
 # Nodes
 STYLE_NODES_COLOR_DICT = {
-    "INPUT": "#975B5B", # Burgendy
-    "DRAW": "#AF4467", # Pink
-    "MASK": "#084D4D", # Blue-green
-    "CONVERT": "#564B7C", # Purple
-    "VALUE": "#CC783D", # Orange
-    "FILTER": "#558333", # Green
-    "BLEND": "#498DB8", # Light blue
-    "COLOR": "#C2AF3A", # Yellow
-    "DISTORT": "#6B8B8B", # Blue-Grey
-    "OUTPUT": "#B33641", # Red
-    "DEFAULT": "#975B5B" # Burgendy
+    "INPUT": "#975B5B",  # Burgendy
+    "DRAW": "#AF4467",  # Pink
+    "MASK": "#084D4D",  # Blue-green
+    "CONVERT": "#564B7C",  # Purple
+    "VALUE": "#CC783D",  # Orange
+    "FILTER": "#558333",  # Green
+    "BLEND": "#498DB8",  # Light blue
+    "COLOR": "#C2AF3A",  # Yellow
+    "DISTORT": "#6B8B8B",  # Blue-Grey
+    "OUTPUT": "#B33641",  # Red
+    "DEFAULT": "#975B5B"  # Burgendy
 }
 
 
@@ -48,14 +48,15 @@ class NodeModel(object):
     """ Holds the data for the node. The intention is that this class
     will be THE one that you can know has the latest, updated data.
      """
+
     def __init__(self, _id):
         if _id == wx.ID_ANY:
             self._id = wx.NewIdRef()
         else:
             self._id = _id
         self._parent = None
-        self._type = "" # idname
-        self._backgroundColor = (86, 86, 86, 188)
+        self._type = ""  # idname
+        self._backgroundColor = (86, 86, 86, 200)
         self._borderColor = "#333"
         self._headerColor = (0, 0, 0, 255)
         self._socketColor = "#333"
@@ -106,7 +107,7 @@ class NodeModel(object):
             self.GetPosition()[1],
             self.GetSize()[0],
             self.GetSize()[1],
-            )
+        )
 
     def GetId(self):
         return self._id
@@ -260,7 +261,7 @@ class NodeModel(object):
         :returns: PIL Image sized to the correct dimensions
         """
         thumb = image.copy()
-        thumb.thumbnail((round((self.GetSize()[0]-10)/1.1), thumb.size[1]))
+        thumb.thumbnail((round((self.GetSize()[0] - 10) / 1.1), thumb.size[1]))
         return thumb
 
     def CalcNewSize(self, thumb_height, set_size=True, border=20):
@@ -272,8 +273,8 @@ class NodeModel(object):
         :param border: border (in pixels) to be placed above and below thumb image
         :returns: the size of the node as wx.Size
         """
-        width = 160 # Hard-coded value
-        height = self._lastCoords+thumb_height+(border*2)
+        width = 160  # Hard-coded value
+        height = self._lastCoords + thumb_height + (border * 2)
         size = wx.Size(width, height)
         if set_size == True:
             self.SetSize(size)
@@ -309,15 +310,15 @@ class NodeModel(object):
 
         x, y, w, h = self.GetRect()
         for i, p in enumerate(ins + outs):
-            socket_type = 0 # Socket type IN
-            x = 2 # Plug margin
+            socket_type = 0  # Socket type IN
+            x = 2  # Plug margin
             if (p[0], p[1]) in outs:
                 x = w - x + 1
-                socket_type = 1 # Socket type OUT
+                socket_type = 1  # Socket type OUT
 
             # We keep track of where the last socket is placed so that
             # we can place the thumbnail far enough below the sockets.
-            self._lastCoords = 40 + 19 * i
+            self._lastCoords = 60 + 19 * i
 
             socket = Socket(p[0], p[1], (x, 40 + (19 * i)), 6.5, socket_type, self)
             sockets.append(socket)
@@ -330,7 +331,7 @@ class NodeModel(object):
 
     @property
     def ModelViewData(self):
-        data =  {
+        data = {
             'id': self.GetId(),
             'type': self.GetType(),
             'label': self.GetLabel(),

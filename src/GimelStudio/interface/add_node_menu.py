@@ -1,22 +1,22 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: add_node_menu.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the Add Node menu popup
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: add_node_menu.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Define the Add Node menu popup
+# ----------------------------------------------------------------------------
 
 import copy
 
@@ -31,7 +31,7 @@ class NodesVListBox(wx.VListBox):
         self._parent = args[0]
         wx.VListBox.__init__(self, *args, **kw)
 
-        self.SetBackgroundColour(wx.Colour("#6D6F6E"))
+        self.SetBackgroundColour(wx.Colour("#333"))
 
         self.Bind(wx.EVT_MOTION, self.OnStartDrag)
 
@@ -83,7 +83,7 @@ class NodesVListBox(wx.VListBox):
         # Draw item with node label
         if self.GetSelection() == n:
             color = wx.Colour("#fff")
-            bmp = ICON_GIMELSTUDIO_LOGO.GetBitmap()#.GetImage().AdjustChannels(0, 0, 0, 1).ConvertToBitmap()
+            bmp = ICON_GIMELSTUDIO_LOGO.GetBitmap()  # .GetImage().AdjustChannels(0, 0, 0, 1).ConvertToBitmap()
         else:
             color = wx.Colour("#fff")
             bmp = ICON_GIMELSTUDIO_LOGO.GetBitmap()
@@ -100,7 +100,6 @@ class NodesVListBox(wx.VListBox):
         dc.DrawLabel(text=self._GetItemVersion(n), rect=rect,
                      alignment=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL)
 
-
     def OnMeasureItem(self, n):
         """ Returns the height required to draw the n'th item. """
         height = 0
@@ -109,11 +108,10 @@ class NodesVListBox(wx.VListBox):
             height += h
         return height + 20
 
-
     def OnDrawBackground(self, dc, rect, n):
         """ Draws the item background. """
         if self.GetSelection() == n:
-            color  = wx.Colour(self._GetItemColor(n))
+            color = wx.Colour(self._GetItemColor(n))
         else:
             # Create striped effect
             if n % 2 == 0:
@@ -124,7 +122,6 @@ class NodesVListBox(wx.VListBox):
         dc.SetPen(wx.TRANSPARENT_PEN)
         dc.SetBrush(wx.Brush(color, wx.SOLID))
         dc.DrawRectangle(rect)
-
 
     def SearchNodeRegistry(self, node_label, search_string):
         """ Returns whether or not the search string is in
@@ -161,7 +158,6 @@ class NodesVListBox(wx.VListBox):
         self.Refresh()
 
 
-
 class AddNodeMenu(wx.PopupTransientWindow):
     def __init__(self, parent, node_registry, size, style=wx.BORDER_NONE):
         wx.PopupTransientWindow.__init__(self, parent, style)
@@ -191,8 +187,8 @@ class AddNodeMenu(wx.PopupTransientWindow):
         main_sizer.AddSpacer(5)
         header_lbl = wx.StaticText(self, wx.ID_ANY, "Add Node from Registry")
         header_lbl.SetForegroundColour(wx.Colour("#fff"))
-        #header_lbl.SetFont(self.GetFont().MakeBold())
-        main_sizer.Add(header_lbl,  flag=wx.EXPAND|wx.ALL, border=5)
+        # header_lbl.SetFont(self.GetFont().MakeBold())
+        main_sizer.Add(header_lbl, flag=wx.EXPAND | wx.ALL, border=5)
         main_sizer.AddSpacer(5)
 
         # Search bar
@@ -204,15 +200,15 @@ class AddNodeMenu(wx.PopupTransientWindow):
             txt = wx.TextCtrl(self)
             bs = txt.GetBestSize()
             txt.DestroyLater()
-            self.search_bar.SetMinSize((200, bs.height+4))
-        main_sizer.Add(self.search_bar, flag=wx.EXPAND|wx.ALL, border=5)
+            self.search_bar.SetMinSize((200, bs.height + 4))
+        main_sizer.Add(self.search_bar, flag=wx.EXPAND | wx.ALL, border=5)
         main_sizer.AddSpacer(5)
 
         # Nodes list box
         self.nodes_listbox = NodesVListBox(self, size=self._size,
                                            style=wx.BORDER_SIMPLE)
         self.nodes_listbox.SetItemCount(len(self._nodeRegistryMapping))
-        main_sizer.Add(self.nodes_listbox, flag=wx.EXPAND|wx.ALL, border=5)
+        main_sizer.Add(self.nodes_listbox, flag=wx.EXPAND | wx.ALL, border=5)
 
         self.SetSizer(main_sizer)
 
@@ -237,7 +233,7 @@ class AddNodeMenu(wx.PopupTransientWindow):
         This also Adds the selected node to Node Graph.
         """
         sel = self._nodeRegistryMapping[event.GetInt()]
-        pnt = wx.Point(self.NodeGraph.Size[0]/2, self.NodeGraph.Size[1]/2)
+        pnt = wx.Point(self.NodeGraph.Size[0] / 2, self.NodeGraph.Size[1] / 2)
         coords = self.NodeGraph.ConvertCoords(pnt)
 
         self.NodeGraph.AddNode(sel, pos=coords)

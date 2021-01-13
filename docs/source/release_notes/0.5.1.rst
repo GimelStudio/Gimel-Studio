@@ -1,34 +1,44 @@
 0.5.1
 =====
 
-Gimel Studio v0.5.1 BETA -- "NOT YET RELEASED"
+Gimel Studio v0.5.1 BETA -- "Jan. 8, 2021"
 
-**The v0.5.1 beta release was a bug-fix release focused on improving stability and usability**
+**The v0.5.1 beta release was mainly a bug-fix release focused on improving stability, ui visuals, api features and overall usability**
 
 
 General
 -------
 
  * Refactoring of code
+ * Icon assets were cleaned-up a bit
+ * Autoformatted code with autopep8
+ * Implemented automated releases with Github Actions
 
 
-New Homepage
-------------
+Updated Homepage
+----------------
 
  * The Gimel Studio Homepage was updated at https://correctsyntax.com/projects/gimel-studio/
 
 
-Dark Theme
-----------
+Dark Theme & UI
+---------------
 
  * Dark theme was implemented for the menu bar, context menu, panels, node graph, etc
+ * Various tweaks to the UI visuals including tweaks to icons, etc.
+
+
+Node graph
+----------
+
+ * Added ability to change the connection to the output node via Ctrl+Left-clicking a node.
 
 
 Improved Image Viewport
 -----------------------
 
  * The Image Viewport was improved with better zoom, performace optimizations, etc.
- * Info text now updates during a render to show that image is rendering.
+ * Info text now updates during a render to show that the image is rendering.
 
 
 Added Developer Log
@@ -42,17 +52,32 @@ Python API
 
  * Fixes & improvements for Python API. Prior to these fixes, the custom node Python API did not always load new scripts.
 
+ * Property widget visibility can now be set dynamically by setting the using the property method ``SetIsVisible`` to *True* or *False* inside the API method ``WidgetEventHook``.
+
+  .. code-block:: python
+
+     def WidgetEventHook(self, idname, value):
+        # Set the visibility based on values of the current state
+        if idname == "Method" and value == "Certian Value":
+            self.prop1.SetIsVisible(False)
+            self.prop2.SetIsVisible(False)
+        else:
+            self.prop1.SetIsVisible(True)
+            self.prop2.SetIsVisible(True)
+
+        # Update the panel with the changes of visibility
+        self.RefreshPropertyPanel()
+
 
 Nodes
 -----
 
  * Some core nodes were improved/fixed to support a wider range of values.
-
- * Added new core nodes:
-  - Dilate/Erode
+ * Nodes now have a checkerboard background (for showing alpha-channel) and larger space between sockets and thumb preview.
+ * Added **new core nodes**: *Dilate/Erode* and *Edge Detect* (thanks to @iwoithe)
 
 
 Bug Fixes
 ---------
 
- * Various small fixes
+ * Various small fixes here and there. :)

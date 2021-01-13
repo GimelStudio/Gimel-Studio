@@ -1,0 +1,85 @@
+name: Build Gimel Studio
+
+# Controls when the action will run.
+on:
+  push:
+    tags: 'v*'
+
+  workflow_dispatch:
+
+
+jobs:
+  linux:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: "3.8"
+    - run: sudo apt-get install libsdl2-2.0-0
+    - run: python -m pip install --upgrade pip setuptools wheel
+    - run: python -m pip install pyinstaller
+    - run: python -m pip install opencv-python
+    - run: python -m pip install numpy
+    - run: python -m pip install scipy
+    - run: python -m pip install pillow
+    - run: python -m pip install "https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-20.04/wxPython-4.1.1-cp38-cp38-linux_x86_64.whl"
+
+    # Build with PyInstaller
+    - name: Compile using pyinstaller
+      run: pyinstaller -n "GimelStudio" "src/main.py"
+
+    # Copy customnodes directory
+    - run: mkdir ./dist/GimelStudio/customnodes
+    - name: Copy customnodes dir to app dir
+      run: cp -r ./src/customnodes/* ./dist/GimelStudio/customnodes
+
+    # Prepare the release
+    - name: Prepare release
+      uses: papeloto/action-zip@v1
+      with:
+        files: ./dist/GimelStudio/
+        dest: GimelStudio-Linux64.zip
+
+    # Actually make the release
+    - name: Uploading release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./GimelStudio-Linux64.zip
+        asset_name: GimelStudio-Linux64.zip
+        tag: ${{ github.ref }}
+
+
+  windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: "3.8"
+    - run: pip install -r requirements.txt
+
+    # Build with PyInstaller
+    - name: Compile using pyinstaller
+      run: pyinstaller -n "GimelStudio" --noconsole --hidden-import pkg_resources.py2_warn -i "assets/GIMELSTUDIO_ICO.ico" "src/main.py"
+
+    # Copy customnodes directory
+    - name: Copy customnodes dir
+      run: xcopy src\customnodes dist\GimelStudio\customnodes /I
+
+    # Prepare the release
+    - name: Prepare release
+      uses: papeloto/action-zip@v1
+      with:
+        files: ./dist/GimelStudio/
+        dest: GimelStudio-Windows64.zip
+
+    # Actually make the release
+    - name: Uploading release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./GimelStudio-Windows64.zip
+        asset_name: GimelStudio-Windows64.zip
+        tag: ${{ github.ref }}

@@ -1,5 +1,5 @@
 from wx.lib.embeddedimage import PyEmbeddedImage
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 SPLASH_GIMEL_STUDIO = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAABDEAAALACAYAAACKFOkLAAAACXBIWXMAAB7CAAAewgFu0HU+'
     b'AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAIABJREFUeJzsvW1i5DgO'
@@ -10776,4 +10776,3 @@ SPLASH_GIMEL_STUDIO = PyEmbeddedImage(
     b'qvmc4GvxF3mtlpkKWSuUA9I8P2cD4DJhPkNH/Z1cKK7hMgklMTbWs4aXN+faY7uG3d59vTBe'
     b'zTLgZzw2fszA1yPX7TL55ddL1jNgthD8EpsCMHvPe1IeOXOw+V4+twGj5+/nBHGtLbuLikF/'
     b'jR7z/wH7isSdCc8CxwAAAABJRU5ErkJggg==')
-

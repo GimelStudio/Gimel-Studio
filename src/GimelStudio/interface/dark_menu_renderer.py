@@ -1,24 +1,24 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: dark_menu_renderer.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Define a custom dark theme for the FlatMenu widget
-##
-## This file includes code from wx.lib.agw.flatmenu and the wxPython demo
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: dark_menu_renderer.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Define a custom dark theme for the FlatMenu widget
+#
+# This file includes code from wx.lib.agw.flatmenu and the wxPython demo
+# ----------------------------------------------------------------------------
 
 import wx
 import wx.lib.agw.flatmenu as flatmenu
@@ -29,32 +29,32 @@ from wx.lib.agw.fmresources import ControlFocus, ControlPressed
 def switchRGBtoBGR(colour):
     return wx.Colour(colour.Blue(), colour.Green(), colour.Red())
 
+
 class DarkMenuRenderer(flatmenu.FMRenderer):
     def __init__(self):
         flatmenu.FMRenderer.__init__(self)
 
         self.highlightCheckAndRadio = True
 
-        self.menuFaceColour     = wx.Colour("#333")
-        self.menuBarFaceColour  = wx.Colour("#333")
+        self.menuFaceColour = wx.Colour("#333")
+        self.menuBarFaceColour = wx.Colour("#333")
 
-        self.menuBarFocusFaceColour     = wx.Colour("#5874C5")
-        self.menuBarFocusBorderColour   = wx.Colour("#5874C5")
-        self.menuBarPressedFaceColour   = wx.Colour("#5874C5")
+        self.menuBarFocusFaceColour = wx.Colour("#5874C5")
+        self.menuBarFocusBorderColour = wx.Colour("#5874C5")
+        self.menuBarPressedFaceColour = wx.Colour("#5874C5")
         self.menuBarPressedBorderColour = wx.Colour("#5874C5")
 
-        self.menuFocusFaceColour     = wx.Colour("#5874C5")
-        self.menuFocusBorderColour   = wx.Colour("#5874C5")
-        self.menuPressedFaceColour   = wx.Colour("#5874C5")
+        self.menuFocusFaceColour = wx.Colour("#5874C5")
+        self.menuFocusBorderColour = wx.Colour("#5874C5")
+        self.menuPressedFaceColour = wx.Colour("#5874C5")
         self.menuPressedBorderColour = wx.Colour("#5874C5")
 
-        self.buttonFaceColour          = wx.Colour("#5874C5")
-        self.buttonBorderColour        = wx.Colour("#5874C5")
-        self.buttonFocusFaceColour     = wx.Colour("#5874C5")
-        self.buttonFocusBorderColour   = wx.Colour("#5874C5")
-        self.buttonPressedFaceColour   = wx.Colour("#5874C5")
+        self.buttonFaceColour = wx.Colour("#5874C5")
+        self.buttonBorderColour = wx.Colour("#5874C5")
+        self.buttonFocusFaceColour = wx.Colour("#5874C5")
+        self.buttonFocusBorderColour = wx.Colour("#5874C5")
+        self.buttonPressedFaceColour = wx.Colour("#5874C5")
         self.buttonPressedBorderColour = wx.Colour("#5874C5")
-
 
     def DrawMenuItem(self, item, dc, xCoord, yCoord, imageMarginX, markerMarginX, textX, rightMarginX, selected=False, backgroundImage=None):
         """
@@ -77,17 +77,17 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
 
         borderXSize = item._parentMenu.GetBorderXWidth()
         itemHeight = item._parentMenu.GetItemHeight()
-        menuWidth  = item._parentMenu.GetMenuWidth()
+        menuWidth = item._parentMenu.GetMenuWidth()
 
         # Define the item actual rectangle area
         itemRect = wx.Rect(xCoord, yCoord, menuWidth, itemHeight)
 
         # Define the drawing area
-        rect = wx.Rect(xCoord+2, yCoord, menuWidth - 4, itemHeight)
+        rect = wx.Rect(xCoord + 2, yCoord, menuWidth - 4, itemHeight)
 
         # Draw the background
         backColour = self.menuFaceColour
-        penColour  = backColour
+        penColour = backColour
         backBrush = wx.Brush(backColour)
         leftMarginWidth = item._parentMenu.GetLeftMarginWidth()
 
@@ -116,21 +116,21 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
 
         # First we draw the selection rectangle
         if selected:
-            self.DrawMenuButton(dc, rect.Deflate(1,0), ControlFocus)
+            self.DrawMenuButton(dc, rect.Deflate(1, 0), ControlFocus)
             #copy.Inflate(0, menubar._spacer)
 
         if bmp.IsOk():
 
             # Calculate the postion to place the image
             imgHeight = bmp.GetHeight()
-            imgWidth  = bmp.GetWidth()
+            imgWidth = bmp.GetWidth()
 
             if imageMarginX == 0:
-                xx = rect.x + (leftMarginWidth - imgWidth)/2
+                xx = rect.x + (leftMarginWidth - imgWidth) / 2
             else:
-                xx = rect.x + ((leftMarginWidth - rect.height) - imgWidth)/2 + rect.height
+                xx = rect.x + ((leftMarginWidth - rect.height) - imgWidth) / 2 + rect.height
 
-            yy = rect.y + (rect.height - imgHeight)/2
+            yy = rect.y + (rect.height - imgHeight) / 2
             dc.DrawBitmap(bmp, xx, yy, True)
 
         if item.GetKind() == wx.ITEM_CHECK:
@@ -141,12 +141,12 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
                 # Draw surrounding rectangle around the selection box
                 xx = rect.x + 1
                 yy = rect.y + 1
-                rr = wx.Rect(xx, yy, rect.height-2, rect.height-2)
+                rr = wx.Rect(xx, yy, rect.height - 2, rect.height - 2)
 
                 if not selected and self.highlightCheckAndRadio:
                     self.DrawButton(dc, rr, ControlFocus)
 
-                dc.DrawBitmap(item._checkMarkBmp, rr.x + (rr.width - 16)/2, rr.y + (rr.height - 16)/2, True)
+                dc.DrawBitmap(item._checkMarkBmp, rr.x + (rr.width - 16) / 2, rr.y + (rr.height - 16) / 2, True)
 
         if item.GetKind() == wx.ITEM_RADIO:
 
@@ -156,12 +156,12 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
                 # Draw surrounding rectangle around the selection box
                 xx = rect.x + 1
                 yy = rect.y + 1
-                rr = wx.Rect(xx, yy, rect.height-2, rect.height-2)
+                rr = wx.Rect(xx, yy, rect.height - 2, rect.height - 2)
 
                 if not selected and self.highlightCheckAndRadio:
                     self.DrawButton(dc, rr, ControlFocus)
 
-                dc.DrawBitmap(item._radioMarkBmp, rr.x + (rr.width - 16)/2, rr.y + (rr.height - 16)/2, True)
+                dc.DrawBitmap(item._radioMarkBmp, rr.x + (rr.width - 16) / 2, rr.y + (rr.height - 16) / 2, True)
 
         # Draw text - without accelerators
         text = item.GetLabel()
@@ -190,14 +190,14 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
                 # We divide the drawing to 3 parts
                 text1 = text[0:item._mnemonicIdx]
                 text2 = text[item._mnemonicIdx]
-                text3 = text[item._mnemonicIdx+1:]
+                text3 = text[item._mnemonicIdx + 1:]
 
                 w1, dummy = dc.GetTextExtent(text1)
                 w2, dummy = dc.GetTextExtent(text2)
                 w3, dummy = dc.GetTextExtent(text3)
 
                 posx = xCoord + textX + borderXSize
-                posy = (itemHeight - h)/2 + yCoord
+                posy = (itemHeight - h) / 2 + yCoord
 
                 # Draw first part
                 dc.DrawText(text1, posx, posy)
@@ -219,15 +219,15 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
             else:
 
                 w, h = dc.GetTextExtent(text)
-                dc.DrawText(text, xCoord + textX + borderXSize, (itemHeight - h)/2 + yCoord)
-
+                dc.DrawText(text, xCoord + textX + borderXSize, (itemHeight - h) / 2 + yCoord)
 
         # Now draw accelerator
         # Accelerators are aligned to the right
         if item.GetAccelString():
 
             accelWidth, accelHeight = dc.GetTextExtent(item.GetAccelString())
-            dc.DrawText(item.GetAccelString(), xCoord + rightMarginX - accelWidth, (itemHeight - accelHeight)/2 + yCoord)
+            dc.DrawText(item.GetAccelString(), xCoord + rightMarginX -
+                        accelWidth, (itemHeight - accelHeight) / 2 + yCoord)
 
         # Check if this item has sub-menu - if it does, draw
         # right arrow on the right margin
@@ -238,9 +238,8 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
             rightArrowBmp.SetMask(wx.Mask(rightArrowBmp, wx.WHITE))
 
             xx = xCoord + rightMarginX + borderXSize
-            rr = wx.Rect(xx, rect.y + 1, rect.height-2, rect.height-2)
-            dc.DrawBitmap(rightArrowBmp, rr.x + 4, rr.y +(rr.height-16)/2, True)
-
+            rr = wx.Rect(xx, rect.y + 1, rect.height - 2, rect.height - 2)
+            dc.DrawBitmap(rightArrowBmp, rr.x + 4, rr.y + (rr.height - 16) / 2, True)
 
     def DrawMenuBar(self, menubar, dc):
         """
@@ -290,7 +289,7 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
             # Get the menu item rect
             textWidth, textHeight = dc.GetTextExtent(fixedText)
             #rect = wx.Rect(posx+menubar._spacer/2, posy, textWidth, textHeight)
-            rect = wx.Rect(posx+padding/2, posy, textWidth, textHeight)
+            rect = wx.Rect(posx + padding / 2, posy, textWidth, textHeight)
 
             # Can we draw more??
             # the +DROP_DOWN_ARROW_WIDTH  is the width of the drop down arrow
@@ -340,8 +339,8 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
                         memDc.SetTextForeground(textColour)
 
                     # Fill the bitmap with the masking colour
-                    memDc.SetPen(wx.Pen(wx.Colour(255, 0, 0)) )
-                    memDc.SetBrush(wx.Brush(wx.Colour(255, 0, 0)) )
+                    memDc.SetPen(wx.Pen(wx.Colour(255, 0, 0)))
+                    memDc.SetBrush(wx.Brush(wx.Colour(255, 0, 0)))
                     memDc.DrawRectangle(0, 0, rect.width, rect.height)
                     memDc.SetFont(fnt)
 
@@ -356,7 +355,7 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
                     # underline the first '&'
                     before = labelOnly[0:location]
                     underlineLetter = labelOnly[location]
-                    after = labelOnly[location+1:]
+                    after = labelOnly[location + 1:]
 
                     # before
                     if not menubar._isLCD:
@@ -393,7 +392,7 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
                     dc.DrawText(after, rect.x + w1 + w2 + textOffset, rect.y)
                     if not menubar._isLCD:
                         memDc.SetFont(fnt)
-                        memDc.DrawText(after,  w1 + w2 + textOffset, 0)
+                        memDc.DrawText(after, w1 + w2 + textOffset, 0)
 
                     if not menubar._isLCD:
                         memDc.SelectObject(wx.NullBitmap)
@@ -404,7 +403,7 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
                         else:
                             item.SetTextBitmap(bmp)
 
-            posx += rect.width + padding # + menubar._spacer
+            posx += rect.width + padding  # + menubar._spacer
 
         # Get a background image of the more menu button
         moreMenubtnBgBmpRect = wx.Rect(*menubar.GetMoreMenuButtonRect())
@@ -412,19 +411,19 @@ class DarkMenuRenderer(flatmenu.FMRenderer):
             menubar._moreMenuBgBmp = wx.Bitmap(moreMenubtnBgBmpRect.width, moreMenubtnBgBmpRect.height)
 
         if menubar._showToolbar and len(menubar._tbButtons) > 0:
-            rectX      = 0
-            rectWidth  = clientRect.width - moreMenubtnBgBmpRect.width
+            rectX = 0
+            rectWidth = clientRect.width - moreMenubtnBgBmpRect.width
             if len(menubar._items) == 0:
                 rectHeight = clientRect.height
-                rectY      = 0
+                rectY = 0
             else:
                 rectHeight = clientRect.height - menubar._menuBarHeight
-                rectY      = menubar._menuBarHeight
+                rectY = menubar._menuBarHeight
             rr = wx.Rect(rectX, rectY, rectWidth, rectHeight)
             self.DrawToolBarBg(dc, rr)
             menubar.DrawToolbar(dc, rr)
 
-        if menubar._showCustomize or menubar.GetInvisibleMenuItemCount() > 0 or  menubar.GetInvisibleToolbarItemCount() > 0:
+        if menubar._showCustomize or menubar.GetInvisibleMenuItemCount() > 0 or menubar.GetInvisibleToolbarItemCount() > 0:
             memDc = wx.MemoryDC()
             memDc.SelectObject(menubar._moreMenuBgBmp)
             try:

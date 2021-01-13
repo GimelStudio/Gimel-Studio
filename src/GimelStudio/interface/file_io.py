@@ -1,22 +1,22 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: file_io.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Define top-level file/image Open and Save methods
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: file_io.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Define top-level file/image Open and Save methods
+# ----------------------------------------------------------------------------
 
 import os
 
@@ -33,17 +33,17 @@ def ExportImageAs(parent, image):
     :param image: Rendered image to export
     """
     wildcard = "JPG file (*.jpg)|*.jpg|" \
-                "JPEG file (*.jpeg)|*.jpeg|" \
-                "PNG file (*.png)|*.png|" \
-                "BMP file (*.bmp)|*.bmp|" \
-                "GIF file (*.gif)|*.gif|" \
-                "EPS file (*.eps)|*.eps|" \
-                "PCX file (*.pcx)|*.pcx|" \
-                "XBM file (*.xbm)|*.xbm|" \
-                "WEBP file (*.webp)|*.webp|" \
-                "TGA file (*.tga)|*.tga|" \
-                "TIFF file (*.tiff)|*.tiff|" \
-                "All files (*.*)|*.*"
+        "JPEG file (*.jpeg)|*.jpeg|" \
+        "PNG file (*.png)|*.png|" \
+        "BMP file (*.bmp)|*.bmp|" \
+        "GIF file (*.gif)|*.gif|" \
+        "EPS file (*.eps)|*.eps|" \
+        "PCX file (*.pcx)|*.pcx|" \
+        "XBM file (*.xbm)|*.xbm|" \
+        "WEBP file (*.webp)|*.webp|" \
+        "TGA file (*.tga)|*.tga|" \
+        "TIFF file (*.tiff)|*.tiff|" \
+        "All files (*.*)|*.*"
 
     dlg = wx.FileDialog(
         parent,
@@ -52,7 +52,7 @@ def ExportImageAs(parent, image):
         defaultFile="untitled.png",
         wildcard=wildcard,
         style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
-        )
+    )
     dlg.Center()
 
     # This sets the default filter that the user will initially see.
@@ -69,7 +69,7 @@ def ExportImageAs(parent, image):
                 "That file type isn't currently supported!",
                 "Cannot Save Image!",
                 style=wx.ICON_EXCLAMATION
-                )
+            )
             dlg.ShowModal()
 
         else:
@@ -78,7 +78,7 @@ def ExportImageAs(parent, image):
             utils.ExportRenderedImageToFile(
                 image,
                 path
-                )
+            )
 
             utils.PopOpenExplorer(path)
 
@@ -86,6 +86,6 @@ def ExportImageAs(parent, image):
                 title="Image Exported Sucessfully",
                 message="Your image was exported to \n {}".format(path),
                 parent=None, flags=wx.ICON_INFORMATION)
-            notify.Show(timeout=2) # 1 for short timeout, 100 for long timeout
+            notify.Show(timeout=2)  # 1 for short timeout, 100 for long timeout
 
     dlg.Destroy()

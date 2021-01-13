@@ -1,26 +1,26 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: socket.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the node socket class
-##
-## This file includes code that was modified from wxnodegraph
-## (https://github.com/Derfies/wxnodegraph) which is licensed under the MIT
-## License, Copyright 2016
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: socket.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Define the node socket class
+#
+# This file includes code that was modified from wxnodegraph
+# (https://github.com/Derfies/wxnodegraph) which is licensed under the MIT
+# License, Copyright 2016
+# ----------------------------------------------------------------------------
 
 import math
 import wx
@@ -116,7 +116,6 @@ class Socket(object):
         if math.fabs(dist) < 10:
             return True
 
-
     def Connect(self, ng, dst_plug, render=True, refresh=True):
         #print ('Connecting:', self.GetLabel(), '->', dst_plug.GetLabel())
 
@@ -133,7 +132,7 @@ class Socket(object):
                     self,
                     dst_plug,
                     self.GetType(),
-                    curvature=8
+                    curvature=ng.GetWireCurvature()
                     )
         wire.srcNode = self.GetNode()
         wire.dstNode = dst_plug.GetNode()
@@ -160,10 +159,10 @@ class Socket(object):
             #self.GetNode().MakeDisconnect(wire.srcPlug, wire.dstPlug, render)
             wire.dstPlug.GetNode().GetParameters()[wire.dstPlug.GetLabel()].binding = None
 
-            del wire.srcNode# = self.GetNode()
-            del wire.dstNode# = dstPlug.GetNode()
-            del wire.srcPlug# = self
-            del wire.dstPlug# = dstPlug
+            del wire.srcNode  # = self.GetNode()
+            del wire.dstNode  # = dstPlug.GetNode()
+            del wire.srcPlug  # = self
+            del wire.dstPlug  # = dstPlug
             self._wires = []
             ng.GetPDC().RemoveId(wire.GetId())
 

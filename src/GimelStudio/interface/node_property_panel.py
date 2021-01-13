@@ -1,22 +1,22 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: node_property_panel.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the Node Property panel
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: node_property_panel.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Define the Node Property panel
+# ----------------------------------------------------------------------------
 
 import wx
 import wx.lib.scrolledpanel as scrolledpanel
@@ -48,16 +48,16 @@ class NodePropertyPanel(wx.lib.scrolledpanel.ScrolledPanel):
         return self._parent._mgr
 
     def UpdatePanelContents(self, selected_node):
-        self._mainSizer.Clear(delete_windows=True)
+        self.DestroyChildren()
 
         if selected_node != None:
 
             scrollbar_size = wx.SystemSettings.GetMetric(wx.SYS_VSCROLL_X)
-            calc_size = wx.Size(self.Size[0]-scrollbar_size-10, self.Size[1])
+            calc_size = wx.Size(self.Size[0] - scrollbar_size - 10, self.Size[1])
 
             self.panel_staticbox = wx.Panel(self, id=wx.ID_ANY,
-                                                #label=selected_node.GetLabel(),
-                                                size=calc_size)
+                                            # label=selected_node.GetLabel(),
+                                            size=calc_size)
 
             # This gets the recommended amount of border space to use for items
             # within in the static box for the current platform.
@@ -75,12 +75,12 @@ class NodePropertyPanel(wx.lib.scrolledpanel.ScrolledPanel):
             self.panel_staticbox.SetSizer(staticbox_sizer)
 
             panel_sizer = wx.BoxSizer(wx.VERTICAL)
-            panel_sizer.Add(self.panel_staticbox, 1, wx.EXPAND|wx.ALL, 8)
+            panel_sizer.Add(self.panel_staticbox, 1, wx.EXPAND | wx.ALL, 8)
 
             # Node Properties UI
             selected_node.NodePanelUI(self.panel_staticbox, inner_sizer)
 
-            self._mainSizer.Add(panel_sizer, wx.EXPAND|wx.ALL)
+            self._mainSizer.Add(panel_sizer, wx.EXPAND | wx.ALL)
 
         else:
             # Delete the window if the node is not selected

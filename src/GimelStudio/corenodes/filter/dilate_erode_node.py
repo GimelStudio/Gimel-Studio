@@ -1,19 +1,19 @@
-## THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-## ----------------------------------------------------------------------------
+# THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ----------------------------------------------------------------------------
 
 import cv2
 
@@ -95,9 +95,9 @@ class DilateErodeNode(api.NodeBase):
         elif operation == "Closing":
             output_img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel_img)
         elif operation == "Top Hat":
-            output_img =  cv2.morphologyEx(img, cv2.MORPH_TOPHAT, kernel_img)
+            output_img = cv2.morphologyEx(img, cv2.MORPH_TOPHAT, kernel_img)
         elif operation == "Black Hat":
-            output_img =  cv2.morphologyEx(img, cv2.MORPH_BLACKHAT, kernel_img)
+            output_img = cv2.morphologyEx(img, cv2.MORPH_BLACKHAT, kernel_img)
 
         image.SetAsImage(ArrayToImage(output_img).convert("RGBA"))
 

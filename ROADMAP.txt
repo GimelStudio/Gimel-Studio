@@ -18,7 +18,13 @@ Minimum to release v1.0.0 stable
 [] - Renderer and Nodes stable
 [] - BUG: You must specify an extension in order to export an image
 [] - BUG: "to normal map" node - resize auto if image is bigger than req size
-[] - BUGS: Renderer threading, crashes
+[] - BUG: Keyboard shortcuts don't always work on Linux
+[] - Float values rather than int (need to create custom sliders as wxpython's doesn't support floats)
+[] - Basically re-write the node graph ui code (pseudodc -> dc) so that the graph can be zoomed, etc
+[] - Nodes to be able to have more than one output socket
+[] - Option to have image as backdrop of Node Graph
+[] - Presets: Ability to create your own from selected nodes (Node Groups?)
+[] - Multi-monitor support
 
 
 [Medium priority]
@@ -26,12 +32,15 @@ Minimum to release v1.0.0 stable
 [] - Node Manager
 [] - Only re-render nodes that have values changed (cache nodes themselves)?
 [] - 16 bit PNG support, OpenImageIO integration, etc. (transition away from Pillow or a multi-engine renderer)?
+[] - GLSL shader support for image manipulation on the GPU (via ModernGL)
 
 
 [Low priority]
 [] - Output node to have Export option in Property Panel
 [] - Project templates (ready-made node setups for cropping an image, converting an image to PBR maps, etc)
 [] - Keyboard shortcut + menu item for toggling Property Panel
+[] - 3D preview for PBR workflow, etc.
+
 
 [RANDOM STUFF TO WORK ON]:
 * References to "plug" need to be changed to "socket" [Low priority]
@@ -51,8 +60,6 @@ POSSIBLE FUTURE FEATURES/FIXES, version 1.x.x stable
 * Asset Library?
 
 * Custom widgets/better layout for node property panel [Low priority]
-
-* Python console in application for developing custom node? (This would help users to be able to debug their code) [Medium priority]
 
 * Print image (export to PDF, etc.) [Low priority]
 

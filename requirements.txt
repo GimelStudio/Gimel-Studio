@@ -1,0 +1,9 @@
+# Development
+pyinstaller
+
+# Dependencies
+wxpython
+numpy
+scipy
+opencv-python
+pillow

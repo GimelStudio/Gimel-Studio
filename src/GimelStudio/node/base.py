@@ -1,22 +1,22 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: base.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Define the base toplevel-class for subclassing to create nodes
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: base.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Define the base toplevel-class for subclassing to create nodes
+# ----------------------------------------------------------------------------
 
 import wx
 
@@ -28,6 +28,7 @@ class NodeBase(NodeObject):
 
     Internal methods of this class should not be overridden by the user, with few exceptions.
     """
+
     def __init__(self, _id):
         NodeObject.__init__(self, _id)
         self._MetaInit()
@@ -248,7 +249,7 @@ class NodeBase(NodeObject):
 
     def RefreshPropertyPanel(self):
         """ Force a refresh of the Node Properties panel. """
-        self.NodeGraphMethods.NodePropertiesPanel.UpdatePanelContents(self)
+        wx.CallAfter(self.NodeGraphMethods.NodePropertiesPanel.UpdatePanelContents, self)
 
     @property
     def NodeGraphMethods(self):
@@ -286,11 +287,11 @@ class NodeBase(NodeObject):
         #print("SET THUMB")
         try:
             self.Model.UpdateThumbnail(image)
-            live_update = self.NodeGraphMethods.GetLiveNodePreviewUpdate()
+            # live_update = self.NodeGraphMethods.GetLiveNodePreviewUpdate()
 
-            if live_update == True or force_refresh == True:
-                self.Draw(self.NodeGraphMethods.GetPDC())
-                self.RefreshNodeGraph()
+            # if live_update == True or force_refresh == True:
+            #     self.Draw(self.NodeGraphMethods.GetPDC())
+            #     self.RefreshNodeGraph()
         except Exception as e:
             pass
             #print("INIT", e)

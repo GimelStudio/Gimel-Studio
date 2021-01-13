@@ -6,7 +6,7 @@ from .socket import Socket
 from .wire import Wire
 from .parameter import (
     Parameter, RenderImageParam,
-    )
+)
 from .property import (
     Property, PositiveIntegerProp,
     ChoiceProp, BooleanProp,
@@ -14,4 +14,4 @@ from .property import (
     LabelProp, SizeProp, StringProp,
     FontProp,
     SLIDER_WIDGET, SPINBOX_WIDGET,
-    )
+)

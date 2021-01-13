@@ -20,7 +20,7 @@ import GimelStudio
 # -- Project information -----------------------------------------------------
 
 project = 'Gimel Studio'
-copyright = '2020, Noah Rahm & contributors. Based on the format of the Blender manual.'
+copyright = '2019-2021, Noah Rahm & contributors. Based on the format of the Blender manual.'
 author = 'Noah Rahm & contributors'
 
 # The full version, including alpha/beta/rc tags
@@ -66,4 +66,3 @@ html_logo = "../../assets/GIMELSTUDIO_ICO.ico"
 
 
 master_doc = 'index'
-

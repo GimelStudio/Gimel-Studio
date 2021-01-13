@@ -78,10 +78,7 @@ Nodes
 -----
 
  * Nodes were updated for the new API with the improvements that come with it. :)
- * Added 3 new core nodes:
-  - Flip (thanks to iwoithe)
-  - Invert (thanks to iwoithe)
-  - Get Channel
+ * Added 3 new core nodes: *Flip* (thanks to @iwoithe), *Invert* (thanks to @iwoithe) and *Get Channel*
 
 
 Project File

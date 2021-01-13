@@ -1,3 +1,5 @@
+: Gimel Studio build script for Windows
+
 pyinstaller^
 	-n "GimelStudio"^
 	--noconsole^
@@ -5,4 +7,4 @@ pyinstaller^
 	-i "assets/GIMELSTUDIO_ICO.ico"^
 	"src/main.py"
 
-xcopy "src/customnodes" "dist/GimelStudio/customnodes"
+xcopy src\customnodes dist\GimelStudio\customnodes /I

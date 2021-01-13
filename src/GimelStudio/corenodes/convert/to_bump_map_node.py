@@ -1,19 +1,19 @@
-## THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-## ----------------------------------------------------------------------------
+# THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ----------------------------------------------------------------------------
 
 # Imports.---------------------------------------------------------------------
 # OpenCV Imports.
@@ -31,7 +31,7 @@ except ImportError:
         "    Manual Install/Docs WebLinks:",
         "      https://pypi.org/project/opencv-python",
         "      https://github.com/skvark/opencv-python",
-        ))
+    ))
     import traceback
     excMessage = (traceback.format_exc() +
                   '\n' + '~' * 42 + '\n' + importErrorHelp)
@@ -50,7 +50,7 @@ except ImportError:
         "      https://pypi.org/project/numpy/",
         "      https://github.com/numpy/numpy",
         "      https://numpy.org/",
-        ))
+    ))
     import traceback
     excMessage = (traceback.format_exc() +
                   '\n' + '~' * 42 + '\n' + importErrorHelp)
@@ -71,7 +71,7 @@ class ToBumpMapNode(api.NodeBase):
         inv_gamma = 1 / gamma
         table = np.array(
             [((i / 255) ** inv_gamma) * 255 for i in range(0, 256)]
-            ).astype("uint8")
+        ).astype("uint8")
         return cv2.LUT(image, table)
 
     def ComputeBumpMap(self, image, saturation, brightness, gamma):
@@ -81,7 +81,7 @@ class ToBumpMapNode(api.NodeBase):
             gray_scale_img,
             alpha=saturation,
             beta=brightness
-            )
+        )
         gc_bump_map = self.GammaCorrection(bump_map, gamma)
         return gc_bump_map
 
@@ -105,7 +105,7 @@ class ToBumpMapNode(api.NodeBase):
             max_val=50,
             widget=api.SLIDER_WIDGET,
             label="Saturation:",
-            )
+        )
         p2 = api.PositiveIntegerProp(
             idname="Brightness",
             default=0,
@@ -113,7 +113,7 @@ class ToBumpMapNode(api.NodeBase):
             max_val=50,
             widget=api.SLIDER_WIDGET,
             label="Brightness:",
-            )
+        )
         p3 = api.PositiveIntegerProp(
             idname="Gamma",
             default=1,
@@ -121,7 +121,7 @@ class ToBumpMapNode(api.NodeBase):
             max_val=50,
             widget=api.SLIDER_WIDGET,
             label="Gamma:",
-            )
+        )
 
         self.NodeAddProp(p1)
         self.NodeAddProp(p2)
@@ -133,7 +133,7 @@ class ToBumpMapNode(api.NodeBase):
         self.NodeAddParam(p)
 
     def NodeEvaluation(self, eval_info):
-        image1  = eval_info.EvaluateParameter('Image')
+        image1 = eval_info.EvaluateParameter('Image')
         saturation_val = eval_info.EvaluateProperty('Saturation')
         brightness_val = eval_info.EvaluateProperty('Brightness')
         gamma_val = eval_info.EvaluateProperty('Gamma')
@@ -148,12 +148,12 @@ class ToBumpMapNode(api.NodeBase):
             saturation_val,
             brightness_val,
             gamma_val
-            )
+        )
 
         image = api.RenderImage()
         image.SetAsImage(
             ArrayToImage(generated_bump_map).convert('RGBA')
-            )
+        )
         self.NodeSetThumb(image.GetImage())
         return image
 

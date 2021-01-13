@@ -1,5 +1,22 @@
 from wx.lib.embeddedimage import PyEmbeddedImage
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
+ICON_BRUSH_CHECKERBOARD = PyEmbeddedImage(
+    b'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAABhGlDQ1BJQ0MgcHJvZmlsZQAA'
+    b'KJF9kT1Iw0AcxV9TRdGKoB1EFDJUJwuioo5SxSJYKG2FVh1MLv2CJg1Jiouj4Fpw8GOx6uDi'
+    b'rKuDqyAIfoA4OTopukiJ/0sKLWI8OO7Hu3uPu3eAUCsx1WwbB1TNMhLRiJjOrIodr+jGMPow'
+    b'g4DETD2WXEzBc3zdw8fXuzDP8j735+hRsiYDfCLxHNMNi3iDeHrT0jnvEwdZQVKIz4nHDLog'
+    b'8SPXZZffOOcdFnhm0Egl5omDxGK+heUWZgVDJZ4iDimqRvlC2mWF8xZntVRhjXvyFway2kqS'
+    b'6zSHEMUSYohDhIwKiijBQphWjRQTCdqPePgHHX+cXDK5imDkWEAZKiTHD/4Hv7s1c5MTblIg'
+    b'ArS/2PbHCNCxC9Srtv19bNv1E8D/DFxpTX+5Bsx+kl5taqEjoHcbuLhuavIecLkDDDzpkiE5'
+    b'kp+mkMsB72f0TRmg/xboWnN7a+zj9AFIUVfLN8DBITCap+x1j3d3tvb275lGfz/C9XLHBWe9'
+    b'TQAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+QLHRMANdxxlG0AAAAZdEVYdENvbW1l'
+    b'bnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAA3klEQVR42u3WsQ2AMAwEwIAYJZNk/xEyDBOA'
+    b'vkFfcN9abk629Mdaazxnzvky3Xv/avccEgcWLFiwYMESWLC+yaWj57suyxvCggULlsCCBavf'
+    b'4HX0fNdleUNYsGDBEliwYPUbvI6e77osbwgLFixYAgsWrH6D19HzXZflDWHBggVLYMGC1W/w'
+    b'Onq+67K8ISxYsGAJLFiw+g1eR893XZY3hAULFiyBBQtWv8Hr6Pmuy/KGsGDBgiWwYMHqN3gd'
+    b'Pd91Wd4QFixYsAQWLFj9Bq+j57suyxvCggULlsCCBaueG25olQy7PmyzAAAAAElFTkSuQmCC')
+
+# ----------------------------------------------------------------------
 ICON_EXPORT_IMAGE_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -8,7 +25,7 @@ ICON_EXPORT_IMAGE_LIGHT = PyEmbeddedImage(
     b'I6mWlF1JA0lnSX0ntjKzS8i0vWSqU558xfuEnxdGOTIbSRNJ/g9QBum3AdaS4kDP0szG0uvK'
     b'kaR2gCyWNHQlKWZ29bUBN7d2hVVg6ytMWAT2fYE7BjSG72txFD4AAAAASUVORK5CYII=')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_GIMELSTUDIO_ICO = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAACXBIWXMAAA7DAAAOwwHHb6hk'
     b'AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAHPtJREFUeJztnWmUHFd1'
@@ -151,7 +168,7 @@ ICON_GIMELSTUDIO_ICO = PyEmbeddedImage(
     b'J23I/SlK2lCY5iV7bfJL2JUmbSgoquBnFGYT5oLzlpdRlrRBNasJZJmVZUV2XVA49WyS5f17'
     b'P3/9/6IC/w8BSniAZKIC1QAAAABJRU5ErkJggg==')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_GIMELSTUDIO_LOGO = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -162,7 +179,7 @@ ICON_GIMELSTUDIO_LOGO = PyEmbeddedImage(
     b'THIJN9q4XhuQ5DYGeNEUuDaJ79JwF2+wjF+4P61wBT/xDetYmgS3joxnuOLknH5t/vdOwntJ'
     b'nk5gF5Ms4ssI7ubpovjzBR91aDsu36vq4xTP/8f8BjkhVz0eggmvAAAAAElFTkSuQmCC')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_HIDE_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -175,7 +192,7 @@ ICON_HIDE_LIGHT = PyEmbeddedImage(
     b'7gIwF3n9lrQhySveX9fdl66EDADr/P1Oo6X9e3f/HGPO3Ap0r//SH7cBxHpydqkgAAAAAElF'
     b'TkSuQmCC')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_IMAGE_SLOTS_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -186,7 +203,7 @@ ICON_IMAGE_SLOTS_LIGHT = PyEmbeddedImage(
     b'Sl0FNgq9uhHxkKfrZZ9ymrRag30OLAACF0l7BC4LE778UtQlda7QYIQhPgDE9v1/YKTjTQAA'
     b'AABJRU5ErkJggg==')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_NODE_IMAGE_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -197,7 +214,7 @@ ICON_NODE_IMAGE_LIGHT = PyEmbeddedImage(
     b'ETBayGvAmToBbKRNbtRF4K0nMD3EVVpl2i7EU8BdT2BEvAInFbAvSl+vEjitPn4XllSrAl4A'
     b'rUxYUfc/mP1FfQIELlqo3A3nVgAAAABJRU5ErkJggg==')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_PANEL_ASSET_LIBRARY_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -209,7 +226,7 @@ ICON_PANEL_ASSET_LIBRARY_LIGHT = PyEmbeddedImage(
     b'cFPSbuavJE1mm78CLUnjQKsr0PZy3f9Z0txPwBfgBBiR1PELdtC97fOaM3+oD2jnihCfxJ1i'
     b'AAAAAElFTkSuQmCC')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_PANEL_DEV_LOG_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAA7DAAAOwwHHb6hk'
     b'AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAARRJREFUOI3N0rFKA0EU'
@@ -220,7 +237,7 @@ ICON_PANEL_DEV_LOG_LIGHT = PyEmbeddedImage(
     b'tN7FPhibMJYZYCOoXQPjgZL6wHGZ3hA8sB1O8ltaMfAduAEaxZOSDLhNPPOH+QJUjV41ftYl'
     b'FAAAAABJRU5ErkJggg==')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_PANEL_IMAGE_VIEWPORT_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -232,7 +249,7 @@ ICON_PANEL_IMAGE_VIEWPORT_LIGHT = PyEmbeddedImage(
     b'kF6vzN+x/dAXKKkG1IraKZLtnsDNH7zn6SJgC7gGRoHxSGADuI3M+UN9AUk8dRLbNYW6AAAA'
     b'AElFTkSuQmCC')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_PANEL_NODE_GRAPH_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -243,7 +260,7 @@ ICON_PANEL_NODE_GRAPH_LIGHT = PyEmbeddedImage(
     b'TUIlDT+B58Qb/Bso6QHYTv3wDmuBR+HyS7RWB7xj8rk00QB4IfyU+dcPejs9g0qYLJgAAAAA'
     b'SUVORK5CYII=')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_PANEL_NODE_PROPERTY_PANEL_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -254,7 +271,7 @@ ICON_PANEL_NODE_PROPERTY_PANEL_LIGHT = PyEmbeddedImage(
     b'ROz+GIhRxbWBV8VYzVL8qacOI+IEyxV31a7VwE8TfwO4ieuqszryQmY2eoDOKV5KV+Ch4s3W'
     b'fQR1elF8Ku891v2RPgHf4kEe/10hEAAAAABJRU5ErkJggg==')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_PANEL_NODE_REGISTRY_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -265,7 +282,7 @@ ICON_PANEL_NODE_REGISTRY_LIGHT = PyEmbeddedImage(
     b'IZICcJ4LvCW53+C/ScZrAPYkHcXMkg4BXOUCL0luxMwkH4N6F8AQwFojkOQigK1EgAVJYb/u'
     b'7qtkvWMQbpsCQDcBS4rkHMki3IeT4QUtgO9tZ5P6AnipZrpK8g3nAAAAAElFTkSuQmCC')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_PANEL_OBJECT_EDITOR_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -277,7 +294,7 @@ ICON_PANEL_OBJECT_EDITOR_LIGHT = PyEmbeddedImage(
     b'baGnZmaXv+X0Ap4BD85/6qdpGjgnadv5j34ztZeo6h3/t4mAqX6myFHFzCIPHPYNisrMPkoM'
     b'k68fHaqCUFbeCJ0AAAAASUVORK5CYII=')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_RENDER_IMAGE_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -289,7 +306,7 @@ ICON_RENDER_IMAGE_LIGHT = PyEmbeddedImage(
     b'GJm5gm+lqppx+Uc8x25EtJsSdvC2JOulB9jHIX5UzW7gBLZw1AC7OvR1RLyrMwMycxKrfUDd'
     b'+hgR+0PMXyNdAHQnbBx7Ro5nAAAAAElFTkSuQmCC')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_SETTINGS_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -302,7 +319,7 @@ ICON_SETTINGS_LIGHT = PyEmbeddedImage(
     b'HMOB+rCc/qaXshfzOfAIeAacAR+ARmD2r9NFwtG44Xr1ZSQbCS6vdlRlGMIsWa+pz6s2ubf1'
     b'CxOqfOZ2Ar0KAAAAAElFTkSuQmCC')
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 ICON_SHOW_LIGHT = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlw'
     b'SFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA'
@@ -314,4 +331,3 @@ ICON_SHOW_LIGHT = PyEmbeddedImage(
     b'8AO4YWZWSlkAPgNvJe2ZGBs4UU1H7n6sxroNjGq8q5KaiFgCvgLvJO3b6jE2h6WU+Zzzipkd'
     b'MLMnkh7mnFfNrJE0b2bnzGzBzB41TXMxpbQ+ke6Xnu4CrgGfJszhMCLOb/d26k+p8RYlzeWc'
     b'S9d1w36///q3RDv6J/0EndSGOUdbS8cAAAAASUVORK5CYII=')
-

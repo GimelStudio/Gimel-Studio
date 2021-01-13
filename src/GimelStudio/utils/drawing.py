@@ -1,34 +1,34 @@
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-##
-## FILE: drawing.py
-## AUTHOR(S): Noah Rahm
-## PURPOSE: Provides utility drawing functions
-## ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# FILE: drawing.py
+# AUTHOR(S): Noah Rahm
+# PURPOSE: Provides utility drawing functions
+# ----------------------------------------------------------------------------
 
 
 import wx
 
 
 # UNUSED?
-def TileBackground(dc, bmp, x,y,w,h):
+def TileBackground(dc, bmp, x, y, w, h):
     """ Tile bmp into the specified rectangle"""
     bw = bmp.GetWidth()
     bh = bmp.GetHeight()
 
-    dc.SetClippingRegion(x,y,w,h)
+    dc.SetClippingRegion(x, y, w, h)
 
     # adjust so 0,0 so we always match with a tiling starting at 0,0
     dx = x % bw
@@ -40,8 +40,8 @@ def TileBackground(dc, bmp, x,y,w,h):
     h = h + dy
 
     tx = x
-    x2 = x+w
-    y2 = y+h
+    x2 = x + w
+    y2 = y + h
 
     while tx < x2:
         ty = y
@@ -82,8 +82,8 @@ def DrawCheckerBoard(dc, rect, checkcolor, box=1):
     dc.SetClippingRegion(rect)
 
     while y < rect.height:
-        x = box*((y//box)%2) + 2
+        x = box * ((y // box) % 2) + 2
         while x < rect.width:
             dc.DrawRectangle(x, y, box, box)
-            x += box*2
+            x += box * 2
         y += box

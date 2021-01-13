@@ -2,7 +2,7 @@
 About Gimel Studio
 ##################
 
-Welcome to Gimel Studio, the free & open-source, **node-based, non-destructive image editor** for Windows and Linux.
+Welcome to Gimel Studio, the free & open-source, **cross-platform, non-destructive (node-based) image editor**.
 
 .. figure:: ../../_images/gimel-studio-ui.jpg
     :align: center
@@ -15,7 +15,7 @@ Gimel Studio can be used to adjust photographs, post-process and/or composite im
 
 Gimel Studio aims to be simple enough for non-technical people to use, yet provide a powerful and streamlined experience for professional editing.
 
-It currently has low-hardware requirements, supports many different file types and runs on both Windows and Linux (Debian-based) systems.
+It currently has low-hardware requirements, supports many different file types and runs on Windows, Linux and MacOs systems.
 
 
 Feature Highlights

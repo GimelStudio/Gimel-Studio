@@ -1,19 +1,19 @@
-## THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
-## ----------------------------------------------------------------------------
-## Gimel Studio Copyright 2019-2020 by Noah Rahm and contributors
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##    http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-## See the License for the specific language governing permissions and
-## limitations under the License.
-## ----------------------------------------------------------------------------
+# THIS FILE IS A PART OF GIMEL STUDIO AND IS LICENSED UNDER THE SAME TERMS:
+# ----------------------------------------------------------------------------
+# Gimel Studio Copyright 2019-2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ----------------------------------------------------------------------------
 
 import os
 from PIL import Image
@@ -42,13 +42,13 @@ class ImageNode(api.NodeBase):
 
     def NodeInitProps(self):
         wildcard = "All files (*.*)|*.*|" \
-                "JPEG file (*.jpeg)|*.jpeg|" \
-                "JPG file (*.jpg)|*.jpg|" \
-                "PNG file (*.png)|*.png|" \
-                "BMP file (*.bmp)|*.bmp|" \
-                "WEBP file (*.webp)|*.webp|" \
-                "TGA file (*.tga)|*.tga|" \
-                "TIFF file (*.tiff)|*.tiff"
+            "JPEG file (*.jpeg)|*.jpeg|" \
+            "JPG file (*.jpg)|*.jpg|" \
+            "PNG file (*.png)|*.png|" \
+            "BMP file (*.bmp)|*.bmp|" \
+            "WEBP file (*.webp)|*.webp|" \
+            "TGA file (*.tga)|*.tga|" \
+            "TIFF file (*.tiff)|*.tiff"
 
         self.fp_prop = api.OpenFileChooserProp(
             idname="File Path",
@@ -57,29 +57,29 @@ class ImageNode(api.NodeBase):
             wildcard=wildcard,
             btn_lbl="Choose...",
             label="Image path:"
-            )
+        )
         self.lbl_prop = api.LabelProp(
             idname="Meta Info",
             default="",
             label="Meta info:"
-            )
+        )
 
         self.NodeAddProp(self.fp_prop)
         self.NodeAddProp(self.lbl_prop)
 
     def WidgetEventHook(self, idname, value):
-    #     pass
+        #     pass
         # import time
         # t = time.time()
         if idname == 'File Path':
-            img = self.NodeEvaluation(EvalInfo(self)).GetImage() #Image.open(value) #
+            img = self.NodeEvaluation(EvalInfo(self)).GetImage()  # Image.open(value) #
 
             info_string = "{}x{}px | {} | {}kB".format(
                 img.size[0],
                 img.size[1],
                 img.mode,
-                str(os.path.getsize(value)/1000)
-                )
+                str(os.path.getsize(value) / 1000)
+            )
             self.lbl_prop.SetValue(info_string)
             self.RefreshPropertyPanel()
 

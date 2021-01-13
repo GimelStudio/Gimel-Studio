@@ -53,3 +53,4 @@ Follow the steps to install a binary on your platform below.
 
    windows.rst
    linux.rst
+   macos.rst

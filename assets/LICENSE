@@ -1,11 +1,10 @@
 These files are NOT meant for use outside of this project (Gimel Studio).
 However, if you still wish to use them for your own project...
 
-IMPORTANT: files in this directory ("assets") are licensed under the MIT License
-(Include the following copyright in your project)
+IMPORTANT: files in this directory ("assets") are licensed under the MIT License (You MUST include the following copyright in your project):
 
-------------------------------------
-Gimel Studio assets © 2020 Noah Rahm.
-------------------------------------
+-------------------------------------------
+Gimel Studio assets (C) 2020-2021 Noah Rahm
+-------------------------------------------
 
-PLEASE NOTE: All rights to the Gimel Studio logo itself are reserved and may not be used elsewhere except in promotion of this project (Gimel Studio), with proper attribution.
+PLEASE NOTE: ALL rights to the Gimel Studio logo itself are reserved and may not be used elsewhere except in promotion of this project (Gimel Studio), with proper attribution.
