@@ -19,6 +19,7 @@
 # ----------------------------------------------------------------------------
 
 import os
+from GimelStudio.utils import LoadPythonScripts
 
 # First, we import the custom nodes
 # directly from the corenode directory.
@@ -56,13 +57,7 @@ print("[INFO] Registered core nodes")
 # Next, we load the custom nodes
 # from the 'customnodes' directory.
 try:
-    paths = os.listdir("customnodes")
-    for path in paths:
-        name, ext = os.path.splitext(path)
-        if ext != ".py":
-            continue
-        node_module = __import__("customnodes", fromlist=[name])
-
+    LoadPythonScripts("customnodes")
     print("[INFO] Registered custom node scripts")
 except Exception as error:
     print("[WARNING] Error registering custom nodes: \n", error)

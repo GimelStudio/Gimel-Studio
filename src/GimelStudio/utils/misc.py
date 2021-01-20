@@ -35,3 +35,14 @@ def PopOpenExplorer(path):
         subprocess.Popen(["open", path])
     else:
         subprocess.Popen(["xdg-open", path])
+
+
+def LoadPythonScripts(directory):
+    """ Loads python scripts from the given directory. """
+
+    paths = os.listdir(directory)
+    for path in paths:
+        name, ext = os.path.splitext(path)
+        if ext != ".py":
+            continue
+        node_module = __import__(directory, fromlist=[name])
