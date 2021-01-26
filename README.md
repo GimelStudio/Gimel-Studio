@@ -19,9 +19,16 @@ Currently, Gimel Studio provides basic image editing features such as flip, colo
 
 *Still in BETA stage and WIP, but can be considered stable enough for light production work.*
 
-**MacOs binaries are not yet available. See the [building from source](https://gimel-studio.readthedocs.io/en/latest/getting_started/building_from_source.html#macos) documentation to build it from the source code yourself.**
-
 **Please note that the development branches may be unstable and/or have new dependencies from the released version and the master branch.**
+
+
+# WIP MacOs Support
+
+MacOs binaries are not yet officially available. However, a test binary is in the latest pre-release [here](https://github.com/Correct-Syntax/Gimel-Studio/releases/tag/v0.5.2-pre-beta1).
+
+See the [building from source](https://gimel-studio.readthedocs.io/en/latest/getting_started/building_from_source.html#macos) documentation to build it from the source code yourself.
+
+**Please note that there are still [known issues](https://github.com/Correct-Syntax/Gimel-Studio/issues/29) with support on MacOs.**
 
 
 # Features
