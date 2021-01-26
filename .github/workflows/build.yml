@@ -102,7 +102,7 @@ jobs:
 
     # Build with PyInstaller
     - name: Compile using pyinstaller
-      run: pyinstaller -n "GimelStudio" --noconsole -i "assets/GIMELSTUDIO_ICO.icns" "src/main.py"
+      run: pyinstaller -n "GimelStudio.app" --noconsole -i "assets/GIMELSTUDIO_ICO.icns" "src/main.py"
 
     # Copy customnodes directory
     - run: mkdir ./dist/GimelStudio/customnodes
