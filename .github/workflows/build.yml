@@ -102,18 +102,18 @@ jobs:
 
     # Build with PyInstaller
     - name: Compile using pyinstaller
-      run: pyinstaller -n "GimelStudio.app" --noconsole -i "assets/GIMELSTUDIO_ICO.icns" "src/main.py"
+      run: pyinstaller -n "GimelStudio" --windowed -i "assets/GIMELSTUDIO_ICO.icns" "src/main.py"
 
     # Copy customnodes directory
-    - run: mkdir ./dist/GimelStudio.app/customnodes
+    - run: mkdir ./dist/GimelStudio/customnodes
     - name: Copy customnodes dir to app dir
-      run: cp -r ./src/customnodes/* ./dist/GimelStudio.app/customnodes
+      run: cp -r ./src/customnodes/* ./dist/GimelStudio/customnodes
 
     # Prepare the release
     - name: Prepare release
       uses: papeloto/action-zip@v1
       with:
-        files: ./dist/GimelStudio.app/
+        files: ./dist/GimelStudio/
         dest: GimelStudio-MacOs64.zip
 
     # Actually make the release
