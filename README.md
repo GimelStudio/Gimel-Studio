@@ -13,13 +13,32 @@ Gimel Studio
 [Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Discord Server](https://discord.gg/RqwbDrVDpK) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
 
 
-Gimel Studio is a cross-platform, node-based, non-destructive image editor. It has a workflow for compositing, masking, manipulating, generating and editing images and is complete with a registry of 20+ nodes and an API allowing users to script their own custom nodes in Python.
+Gimel Studio is a cross-platform, node-based, non-destructive image editor.
 
-Currently, Gimel Studio provides basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
+The aim of this project is to provide a non-destructive (and fun!) python-based image editor with a workflow for compositing, masking, manipulating, generating and editing images via both CPU and GPU processing. As a core principle, Gimel Studio has a simple, yet powerful API allowing users to script their own custom nodes (and thus effects, manipulations, etc) in Python and GLSL.
 
-*Still in BETA stage and WIP, but can be considered stable enough for light production work.*
+Currently, Gimel Studio provides only basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
-**Please note that the development branches may be unstable and/or have new dependencies from the released version and the master branch.**
+
+# How can I help?
+
+**Interested in creating a Python Image Editor? You Are Welcome to Help develop Gimel Studio!**
+
+We are looking for help with:
+
+* developing the Gimel Studio core codebase
+* improving the Gimel Studio UI
+* working on issues with MacOs support
+* see below...
+
+**If you'd rather not code or don't know how to, you can:**
+
+* help plan/design for the next step (possibly a major re-write and re-thinking of development), v0.6.0 beta!
+* give feedback on what can be improved or present your ideas!
+
+Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Feel free to join the Gimel Studio [Discord Server](https://discord.gg/RqwbDrVDpK) or [Gitter Community](https://gitter.im/Gimel-Studio/community) if you are interested in discussing design/development of Gimel Studio or have questions.
+
+Start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
 
 
 # WIP MacOs Support
@@ -90,13 +109,6 @@ Please open an issue in the Github issues *for bug reports, crash reports and in
 For feature requests, non-bug report questions, etc please start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
 
 You can also join the Gimel Studio [Discord Server](https://discord.gg/RqwbDrVDpK) or the [Gitter Community](https://gitter.im/Gimel-Studio/general?utm_source=share-link&utm_medium=link&utm_campaign=share-link). (Either ones works fine; whichever you personally prefer!)
-
-
-# Development
-
-**You Are Welcome to Help Develop Gimel Studio!**
-
-Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Feel  free to join the Gimel Studio [Discord Server](https://discord.gg/RqwbDrVDpK) or [Gitter Community](https://gitter.im/Gimel-Studio/community) if you are interested in discussing design/development of Gimel Studio or have questions.
 
 
 # Installing from source
