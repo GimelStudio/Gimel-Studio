@@ -173,6 +173,9 @@ class ChoiceProp(Property):
     def GetChoices(self):
         return self.choices
 
+    def SetChoices(self, choices=[]):
+        self.choices = choices
+
     def CreateUI(self, parent, sizer):
         label = wx.StaticText(parent, label=self.GetLabel())
         label.SetForegroundColour("#fff")

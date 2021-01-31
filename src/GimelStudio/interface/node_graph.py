@@ -822,6 +822,19 @@ class NodeGraph(wx.ScrolledCanvas):
             if self._nodes[node_id].GetType() == type_id:
                 return self._nodes[node_id]
 
+    def GetNodesByTypeId(self, type_id):
+        """ Returns all node object with the node type identifier.
+
+        :param type_id: node type identifier
+        :returns: list of NodeBase subclass objects
+        """
+        type_nodes = []
+        for node_id in self.GetNodes():
+            if self._nodes[node_id].GetType() == type_id:
+                type_nodes.append(self._nodes[node_id])
+
+        return type_nodes
+
     def GetMenuButtonWidgetPos(self):
         return self.ConvertCoords(wx.Point(0, self.Size[1] - 80))
 

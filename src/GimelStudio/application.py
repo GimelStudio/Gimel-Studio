@@ -47,19 +47,19 @@ class MainApplication(wx.Frame):
         wx.Frame.__init__(self, None, title=meta.APP_TITLE, size=(1000, 800))
 
         self._arguments = arguments
+        self._launchedFromBlender = False
 
-        self._blenderaddonNodes = {}
 
-        dirname = os.path.expanduser("~/.gimelstudio/blenderaddontemp/")
-        try:
-            shutil.rmtree(dirname)
-        except OSError as e:
-            print("Error: %s - %s." % (e.filename, e.strerror))
+        # dirname = os.path.expanduser("~/.gimelstudio/blenderaddontemp/")
+        # try:
+        #     shutil.rmtree(dirname)
+        # except OSError as e:
+        #     print("Error: %s - %s." % (e.filename, e.strerror))
 
-        if not os.path.exists(dirname):
-            os.makedirs(dirname, exist_ok=True)
-        else:
-            pass
+        # if not os.path.exists(dirname):
+        #     os.makedirs(dirname, exist_ok=True)
+        # else:
+        #     pass
 
         # Threading
         self._jobID = 0
@@ -476,12 +476,29 @@ class MainApplication(wx.Frame):
         # 5000px is 1/2 the size of the Node Graph
         x, y = (rect[0] / 2) + 5000, (rect[1] / 2) + 5000
 
-        # Add default nodes
-        img_node = self._nodeGraph.AddNode('corenode_image',
-                                           pos=wx.Point(x - 340, y))
 
+        # Always add the output node
         comp_node = self._nodeGraph.AddNode('corenode_outputcomposite',
                                             pos=wx.Point(x + 150, y))
+
+
+        # If a path is passed into the "--blender" arg
+        # set the Image node file path to that path.
+        if self._arguments.blender == "default":
+            node = self._nodeGraph.AddNode('corenode_imagefromblender',
+                                                pos=wx.Point(x - 340, y))
+            node.NodeEditProp(idname="Layer", value="Layer 1", render=True)
+
+            try:
+                nodes = self._nodeGraph.GetNodesByTypeId("corenode_imagefromblender")
+                for node in nodes:
+                    node.RefreshLayers()
+            except:
+                pass
+
+        else:
+            img_node = self._nodeGraph.AddNode('corenode_image',
+                                                pos=wx.Point(x - 340, y))
 
         # This node is here just for
         # testing during development.
@@ -489,37 +506,16 @@ class MainApplication(wx.Frame):
             self._nodeGraph.AddNode('corenode_alphacomposite',  # Put the node id you are testing here
                                     pos=wx.Point(x - 100, y))
 
-        # If a path is passed into the "--blender" arg
-        # set the Image node file path to that path.
-        if self._arguments.blender != "":
-            img_node.NodeEditProp(
-                idname="File Path",
-                value=self._arguments.blender,
-                render=False
-            )
-
-
 
     def OnWindowActivate(self, event):
         # Window is being focused
         if event.GetActive() is True:
             print("focus")
 
-            # look through dir to see if there are new images. If so,
-            # create new Image nodes and refresh.
-            # dirname = os.path.expanduser("~/.gimelstudio/blenderaddontemp/")
-            # for filename in os.listdir(dirname):
-            #     print(filename)
+            nodes = self._nodeGraph.GetNodesByTypeId("corenode_imagefromblender")
+            for node in nodes:
+                node.RefreshLayers()
 
-            #     node = self._window.AddNode("corenode_image", pos=wx.Point(x-320, y))
-            #     self._blenderaddonNodes[filename] = node
-
-            #     node.NodeEditProp(idname="File Path",
-            #                         value=filename, render=False)
-
-        # Window is not focused
-        else:
-            print("back")
 
     def OnExportImage(self, event):
         ExportImageAs(self, self._renderer.GetRender())
