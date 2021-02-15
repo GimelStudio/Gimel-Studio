@@ -1,4 +1,4 @@
-!["Gimel Studio"](/screenshots/gimel-studio-ui-03.jpg?raw=true "Gimel Studio")
+!["Gimel Studio"](/screenshots/gimel-studio-ui-04.jpg?raw=true "Gimel Studio")
 
 Gimel Studio
 ============
@@ -10,7 +10,7 @@ Gimel Studio
 ![GitHub commits since latest release](https://img.shields.io/github/commits-since/Correct-Syntax/Gimel-Studio/latest?style=flat)
 
 
-[Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Discord Server](https://discord.gg/RqwbDrVDpK) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
+[Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Discord](https://discord.gg/RqwbDrVDpK) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
 
 
 Gimel Studio is a cross-platform, node-based, non-destructive image editor.
