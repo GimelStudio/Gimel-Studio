@@ -22,8 +22,9 @@ import math
 import wx
 import wx.adv
 import wx.lib.agw.flatmenu as flatmenu
+from PIL import Image
 
-from GimelStudio.utils import DrawGrid
+from GimelStudio.utils import DrawGrid, ConvertImageToWx
 from GimelStudio.registry import CreateNode
 from GimelStudio.node import Wire
 from .add_node_menu import AddNodeMenu
@@ -33,6 +34,7 @@ from GimelStudio.datafiles import *
 # Create IDs
 ID_SELECTION_BBOX = wx.NewIdRef()
 ID_MENU_BUTTON = wx.NewIdRef()
+ID_RENDER_AS_BACKGROUND = wx.NewIdRef()
 
 # Max number of nodes that can be added to the menu is 200, currently
 CONTEXTMENU_ADDNODE_IDS = wx.NewIdRef(200)
@@ -74,6 +76,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
         self._drawGrid = True
         self._autoRender = True
+        self._setRenderAsBackground = False
         self._wireCurvature = 0
         self._liveUpdatePreviews = False  # True
 
@@ -196,6 +199,7 @@ class NodeGraph(wx.ScrolledCanvas):
         """ Set the view to be the center of the Node Graph panel. """
         self.SetScrollbars(1, 1, self._maxWidth, self._maxHeight, 5000, 5000)
         self._menuButton.Draw(self._pdc)
+        self.RenderAsBackground()
         self.RefreshGraph()
 
     def OnSize(self, event):
@@ -587,6 +591,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
         # Hide the menubutton
         self._menuButton.Draw(self._pdc, hide=True)
+        self.RenderAsBackground(hide=True)
         self.RefreshGraph()
 
     def OnMiddleUp(self, event):
@@ -595,6 +600,7 @@ class NodeGraph(wx.ScrolledCanvas):
 
         # Re-show the menubutton
         self._menuButton.Draw(self._pdc)
+        self.RenderAsBackground()
         self.RefreshGraph()
 
     @property
@@ -656,6 +662,13 @@ class NodeGraph(wx.ScrolledCanvas):
     def SetLiveNodePreviewUpdate(self, update=True):
         self._liveUpdatePreviews = update
 
+    def GetRenderAsBackground(self):
+        return self._setRenderAsBackground
+
+    def SetRenderAsBackground(self, render_as_bg=True):
+        self._setRenderAsBackground = render_as_bg
+        self.RenderAsBackground(refresh=True)
+
     def GetWireCurvature(self):
         return self._wireCurvature
 
@@ -677,6 +690,7 @@ class NodeGraph(wx.ScrolledCanvas):
     def Render(self):
         if self.ShouldAutoRender() == True:
             self.GetParent().Render()
+            self.RenderAsBackground()
 
     def ScrollNodeGraph(self, pos_x, pos_y):
         """ Scrolls the scrollbars to the specified position. """
@@ -846,3 +860,25 @@ class NodeGraph(wx.ScrolledCanvas):
         self._menuButton.Draw(self._pdc)
 
         self.RefreshGraph()
+
+    def RenderAsBackground(self, init=False, hide=False, refresh=False):
+        self._pdc.ClearId(ID_RENDER_AS_BACKGROUND)
+        self._pdc.SetId(ID_RENDER_AS_BACKGROUND)
+        if self.GetRenderAsBackground() is True or init is True:
+            if hide == False:
+                render_image = self.GetParent()._renderer.GetRender()
+                if render_image is None:
+                    img = Image.new('RGBA', (256, 256))
+                else:
+                    img = render_image
+
+                img.thumbnail((round((self.GetSize()[0] - 10) / 1.1), img.size[1]))
+                image = ConvertImageToWx(img)
+
+                x = (self.GetSize()[0]/2.0 - image.Width/2.0)
+                y = (self.GetSize()[1]/2.0 - image.Height/2.0)
+                pnt = self.ConvertCoords(wx.Point(x, y))
+                self._pdc.DrawBitmap(image, pnt[0], pnt[1], useMask=False)
+
+        if refresh is True:
+            self.RefreshGraph()

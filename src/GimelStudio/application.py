@@ -191,6 +191,15 @@ class MainApplication(wx.Frame):
             subMenu=None
         )
 
+        self.renderasbackground_menuitem = flatmenu.FlatMenuItem(
+            view_menu,
+            id=wx.ID_ANY,
+            label="Toggle Render as Background",
+            helpString="Toggle the Render showing behind the Node Graph as the background",
+            kind=wx.ITEM_CHECK,
+            subMenu=None
+        )
+
         self._menubar.AddSeparator()
 
         self.centernodegraph_menuitem = flatmenu.FlatMenuItem(
@@ -318,6 +327,7 @@ class MainApplication(wx.Frame):
         file_menu.AppendItem(self.quit_menuitem)
 
         view_menu.AppendItem(self.togglenodegraphgrid_menuitem)
+        view_menu.AppendItem(self.renderasbackground_menuitem)
         view_menu.AppendItem(self.centernodegraph_menuitem)
 
         render_menu.AppendItem(self.toggleautorender_menuitem)
@@ -345,6 +355,7 @@ class MainApplication(wx.Frame):
         self.togglenodegraphgrid_menuitem.Check(True)
         self.toggleautorender_menuitem.Check(True)
         self.toggleimageviewport_menuitem.Check(True)
+        self.renderasbackground_menuitem.Check(False)
 
         # Add menubar to main sizer
         self.mainSizer.Add(self._menubar, 0, wx.EXPAND)
@@ -361,6 +372,8 @@ class MainApplication(wx.Frame):
                   self.OnToggleNodeGraphGrid, self.togglenodegraphgrid_menuitem)
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
                   self.OnCenterNodeGraph, self.centernodegraph_menuitem)
+        self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
+                  self.OnToggleRenderAsBackground, self.renderasbackground_menuitem)
 
         self.Bind(flatmenu.EVT_FLAT_MENU_SELECTED,
                   self.OnToggleAutoRender, self.toggleautorender_menuitem)
@@ -445,6 +458,7 @@ class MainApplication(wx.Frame):
             .Floatable(False)
             .Movable(False)
         )
+        self._nodeGraph.RenderAsBackground(init=True)
         self._nodeGraph.InitMenuButton()
 
     def _SetupWindowStartup(self):
@@ -487,7 +501,7 @@ class MainApplication(wx.Frame):
         if self._arguments.blender == "default":
             node = self._nodeGraph.AddNode('corenode_imagefromblender',
                                                 pos=wx.Point(x - 340, y))
-            node.NodeEditProp(idname="Layer", value="Layer 1", render=True)
+            node.NodeEditProp(idname="Layer", value="Layer 0", render=True)
 
             try:
                 nodes = self._nodeGraph.GetNodesByTypeId("corenode_imagefromblender")
@@ -525,6 +539,12 @@ class MainApplication(wx.Frame):
             self._nodeGraph.SetLiveNodePreviewUpdate(False)
         else:
             self._nodeGraph.SetLiveNodePreviewUpdate(True)
+
+    def OnToggleRenderAsBackground(self, event):
+        if self.renderasbackground_menuitem.IsChecked() is False:
+            self._nodeGraph.SetRenderAsBackground(False)
+        else:
+            self._nodeGraph.SetRenderAsBackground(True)
 
     def OnToggleFullscreen(self, event):
         if self.togglefullscreen_menuitem.IsChecked() is False:

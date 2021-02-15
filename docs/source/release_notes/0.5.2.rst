@@ -12,6 +12,12 @@ General
  * MacOs support was tested
 
 
+Node Graph
+----------
+
+ * Added new feature to toggle showing the rendered image as the node graph background. (With this setting enabled, the viewport does update slightly slower).
+
+
 Nodes
 -----
 
