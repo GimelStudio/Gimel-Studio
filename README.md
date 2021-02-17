@@ -113,7 +113,7 @@ You can also join the Gimel Studio [Discord Server](https://discord.gg/RqwbDrVDp
 
 # Installing from source
 
-Please see the building from source documentation <a href="https://gimel-studio.readthedocs.io/en/latest/install.html#building-from-source">here</a>. Please open a [Github Issue](https://github.com/Correct-Syntax/Gimel-Studio/issues/new/choose) if you have problems building from source.
+Please see the building from source documentation <a href="https://gimel-studio.readthedocs.io/en/latest/getting_started/building_from_source.html">here</a>. Please open a [Github Issue](https://github.com/Correct-Syntax/Gimel-Studio/issues/new/choose) if you have problems building from source.
 
 
 # Building the documentation from source
