@@ -4,7 +4,6 @@
 Gimel Studio v0.5.2 BETA -- "NOT YET RELEASED"
 
 
-
 General
 -------
 
@@ -22,3 +21,9 @@ Nodes
 -----
 
  * Added **new core nodes**: *Crop* (thanks to @iwoithe)
+
+
+Bug Fixes
+---------
+
+ * It was found that the Add Node search bar was not working properly because of a possible bug in wxpython 4.1.1. Downgrading to 4.1.0 solves the issue.
