@@ -45,7 +45,7 @@ APP_TITLE = "{0} {1}".format(APP_NAME, FULL_APP_VERSION_STRING)
 # USAGE: Switch to False before building as .exe or similar package to
 # enable/disable some end-user features that would otherwise hinder
 # development and/or testing of the program.
-APP_DEBUG = True
+APP_DEBUG = False
 
 # Whether to enable the experimental renderer threading
 ENABLE_THREADING = False
