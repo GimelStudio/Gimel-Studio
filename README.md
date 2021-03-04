@@ -20,32 +20,21 @@ The aim of this project is to provide a non-destructive (and fun!) python-based 
 Currently, Gimel Studio provides only basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
 
+# The next step
+
+Interested in this project? You Are Welcome to help plan for the the next big step of Gimel Studio development!
+
+**Help plan for the next step of Gimel Studio, [here](https://github.com/GimelStudio/GimelStudio) by giving feedback on what can be improved or present your ideas!**
+
+
 # How can I help?
 
-**Interested in creating a Python Image Editor? You Are Welcome to Help develop Gimel Studio!**
-
-We are looking for help with:
-
-* developing the Gimel Studio core codebase
-* improving the Gimel Studio UI
-* working on issues with MacOs support
-* see below...
-
-**If you'd rather not code or don't know how to, you can:**
-
-* help plan/design for the next step (possibly a major re-write and re-thinking of development), v0.6.0 beta!
-* give feedback on what can be improved or present your ideas!
-
-Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines. Feel free to join the Gimel Studio [Discord Server](https://discord.gg/RqwbDrVDpK) or [Gitter Community](https://gitter.im/Gimel-Studio/community) if you are interested in discussing design/development of Gimel Studio or have questions.
-
-Start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
+Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines.
 
 
 # WIP MacOs Support
 
-MacOs binaries are not yet officially available. However, a test binary is in the latest pre-release [here](https://github.com/Correct-Syntax/Gimel-Studio/releases/tag/v0.5.2-pre-beta1).
-
-See the [building from source](https://gimel-studio.readthedocs.io/en/latest/getting_started/building_from_source.html#macos) documentation to build it from the source code yourself.
+MacOs binaries are not yet officially available.However, you can see the [building from source](https://gimel-studio.readthedocs.io/en/latest/getting_started/building_from_source.html#macos) documentation to build it from the source code yourself.
 
 **Please note that there are still [known issues](https://github.com/Correct-Syntax/Gimel-Studio/issues/29) with support on MacOs.**
 
@@ -69,30 +58,9 @@ See the [building from source](https://gimel-studio.readthedocs.io/en/latest/get
 **And More...**
 
 
-# Project Goals
-
-Here is a little rundown of what the goals of this project are and what they are not at this time. These *may change at any time*, but for now, Gimel Studio will be **focused** into certian areas and avoid other areas entirely.
-
-**Development of Gimel Studio (currently) aims to...**
-
-* include a range of nodes focused on filters, effects, transformations, color grading, etc
-* be simple enough for non-technical people to use, yet provide a powerful and streamlined experience for professional editing
-* provide fully comprehensive graphical indications in each step of the image editing process
-* give users access to a rich API for scripting custom nodes in Python
-* deliever a non-destructive, fast workflow and great user experience
-* support Linux, Windows & MacOs operating systems seamlessly
-* support low system hardware requirements (as much as is reasonably possible), so as to be inclusive of even those who don't have super-computers...
-* listen to your feedback on these goals :)
-
-**Development of Gimel Studio does not (currently) aim to...**
-
-* provide any drawing and/or painting tools, except "Add text to image", etc
-* be a full-blown procedual texture generator, like many node-based programs out there (though anyone can write their own nodes for that with the API, if they so desire)
-
-
 # News
 
-[v0.5.1 beta](https://github.com/Correct-Syntax/Gimel-Studio/releases/tag/v0.5.1-beta) is now available.
+[v0.5.2 beta](https://github.com/Correct-Syntax/Gimel-Studio/releases/tag/v0.5.2-beta) is now available.
 
 See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases and upcoming features.
 
@@ -100,15 +68,6 @@ See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for ne
 # Download Releases
 
 Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Studio homepage</a> to download the latest release for Windows and Linux.
-
-
-# Feature Requests & Bug Reports
-
-Please open an issue in the Github issues *for bug reports, crash reports and installation issues ONLY*.
-
-For feature requests, non-bug report questions, etc please start a new discussion in the repository [Discussions area](https://github.com/Correct-Syntax/Gimel-Studio/discussions) or feel free to email me at <correctsyntax@yahoo.com> if you prefer something a bit more private.
-
-You can also join the Gimel Studio [Discord Server](https://discord.gg/RqwbDrVDpK) or the [Gitter Community](https://gitter.im/Gimel-Studio/general?utm_source=share-link&utm_medium=link&utm_campaign=share-link). (Either ones works fine; whichever you personally prefer!)
 
 
 # Installing from source
