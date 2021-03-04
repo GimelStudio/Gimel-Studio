@@ -1,7 +1,7 @@
-0.4.2
-=====
+0.4.2 beta
+==========
 
-Gimel Studio v0.4.2 BETA -- "September 2020"
+Gimel Studio v0.4.2 beta was released "September 2020"
 
 v0.4.2 was mainly focused on adding more filetype support, improving stability/performance and fixing bugs. This release also includes 4 new core nodes for converting images to PBR maps for 3D as well as some misc. input and effect nodes.
 

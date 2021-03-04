@@ -1,7 +1,7 @@
-0.1.8
-=====
+0.1.8 beta
+==========
 
-Gimel Studio v0.1.8 BETA -- "May 2020"
+Gimel Studio v0.1.8 beta was released "May 2020"
 
 General
 -------

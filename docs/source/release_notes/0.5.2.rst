@@ -1,7 +1,7 @@
-0.5.2
-=====
+0.5.2 beta
+==========
 
-Gimel Studio v0.5.2 BETA -- "NOT YET RELEASED"
+Gimel Studio v0.5.2 beta was released "NOT YET RELEASED"
 
 
 General
@@ -20,7 +20,7 @@ Node Graph
 Nodes
 -----
 
- * Added **new core nodes**: *Crop* (thanks to @iwoithe)
+ * Added **new core nodes**: *Crop* with the option for both square and circluar crop (thanks to @iwoithe)
 
 
 Bug Fixes

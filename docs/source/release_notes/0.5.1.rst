@@ -1,7 +1,7 @@
-0.5.1
-=====
+0.5.1 beta
+==========
 
-Gimel Studio v0.5.1 BETA -- "Jan. 8, 2021"
+Gimel Studio v0.5.1 beta was released "Jan. 8, 2021"
 
 **The v0.5.1 beta release was mainly a bug-fix release focused on improving stability, ui visuals, api features and overall usability**
 

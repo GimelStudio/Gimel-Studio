@@ -1,7 +1,7 @@
-0.0.5.2
-=======
+0.0.5.2 alpha
+=============
 
-Gimel Studio v0.0.5.2 ALPHA -- "Feb. 2020"
+Gimel Studio v0.0.5.2 ALPHA was released "Feb. 2020"
 
 General
 -------

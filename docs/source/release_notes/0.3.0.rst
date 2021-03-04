@@ -1,7 +1,7 @@
-0.3.0
-=====
+0.3.0 beta
+==========
 
-Gimel Studio v0.3.0 BETA -- "July 2020"
+Gimel Studio v0.3.0 beta was released "July 2020"
 
 
 General
