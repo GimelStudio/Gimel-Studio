@@ -2,7 +2,7 @@
 pyinstaller
 
 # Dependencies
-wxpython
+wxpython==4.1.0
 numpy
 scipy
 opencv-python
