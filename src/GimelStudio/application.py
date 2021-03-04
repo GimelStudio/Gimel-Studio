@@ -498,21 +498,28 @@ class MainApplication(wx.Frame):
 
         # If a path is passed into the "--blender" arg
         # set the Image node file path to that path.
-        if self._arguments.blender == "default":
-            node = self._nodeGraph.AddNode('corenode_imagefromblender',
-                                                pos=wx.Point(x - 340, y))
-            node.NodeEditProp(idname="Layer", value="Layer 0", render=True)
+        # if self._arguments.blender == "default":
+        #     node = self._nodeGraph.AddNode('corenode_imagefromblender',
+        #                                         pos=wx.Point(x - 340, y))
+        #     node.NodeEditProp(idname="Layer", value="Layer 0", render=True)
 
-            try:
-                nodes = self._nodeGraph.GetNodesByTypeId("corenode_imagefromblender")
-                for node in nodes:
-                    node.RefreshLayers()
-            except:
-                pass
+        #     try:
+        #         nodes = self._nodeGraph.GetNodesByTypeId("corenode_imagefromblender")
+        #         for node in nodes:
+        #             node.RefreshLayers()
+        #     except:
+        #         pass
 
-        else:
-            img_node = self._nodeGraph.AddNode('corenode_image',
-                                                pos=wx.Point(x - 340, y))
+        # else:
+        #     img_node = self._nodeGraph.AddNode('corenode_image',
+        #                                         pos=wx.Point(x - 340, y))
+
+        if self._arguments.blender != "":
+            img_node.NodeEditProp(
+                idname="File Path",
+                value=self._arguments.blender,
+                render=False
+            )
 
         # This node is here just for
         # testing during development.
@@ -524,7 +531,7 @@ class MainApplication(wx.Frame):
     def OnWindowActivate(self, event):
         # Window is being focused
         if event.GetActive() is True:
-            print("focus")
+            #print("focus")
 
             nodes = self._nodeGraph.GetNodesByTypeId("corenode_imagefromblender")
             for node in nodes:

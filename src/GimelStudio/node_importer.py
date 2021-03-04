@@ -27,8 +27,8 @@ from GimelStudio.corenodes.output import output_node
 from GimelStudio.corenodes.input import (image_node,
                                          color_image_node,
                                          noise_image_node,
-                                         gradient_image_node,
-                                         from_blender_node)
+                                         gradient_image_node)
+                                         #from_blender_node
 from GimelStudio.corenodes.mask import edge_detect_node
 # from GimelStudio.corenodes.draw import text_node
 from GimelStudio.corenodes.color import (color_balance_node,
