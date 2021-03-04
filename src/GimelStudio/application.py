@@ -47,7 +47,7 @@ class MainApplication(wx.Frame):
         wx.Frame.__init__(self, None, title=meta.APP_TITLE, size=(1000, 800))
 
         self._arguments = arguments
-        self._launchedFromBlender = False
+        #self._launchedFromBlender = False
 
 
         # dirname = os.path.expanduser("~/.gimelstudio/blenderaddontemp/")
@@ -511,8 +511,8 @@ class MainApplication(wx.Frame):
         #         pass
 
         # else:
-        #     img_node = self._nodeGraph.AddNode('corenode_image',
-        #                                         pos=wx.Point(x - 340, y))
+        img_node = self._nodeGraph.AddNode('corenode_image',
+                                            pos=wx.Point(x - 340, y))
 
         if self._arguments.blender != "":
             img_node.NodeEditProp(
