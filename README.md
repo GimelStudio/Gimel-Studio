@@ -5,6 +5,7 @@ Gimel Studio
 
 [![Documentation Status](https://readthedocs.org/projects/gimel-studio/badge/?version=latest)](https://gimel-studio.readthedocs.io/en/latest/?badge=latest)
 [![GitHub license](https://img.shields.io/github/license/Correct-Syntax/Gimel-Studio?color=light-green)](https://github.com/Correct-Syntax/Gimel-Studio/blob/master/LICENSE)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/Correct-Syntax/Gimel-Studio.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Correct-Syntax/Gimel-Studio/context:python)
 ![Build Gimel Studio](https://github.com/Correct-Syntax/Gimel-Studio/workflows/Build%20Gimel%20Studio/badge.svg)
 [![Gitter](https://badges.gitter.im/Gimel-Studio/community.svg)](https://gitter.im/Gimel-Studio/community?utm_source=badge&utm_medium=badge)
 ![GitHub commits since latest release](https://img.shields.io/github/commits-since/Correct-Syntax/Gimel-Studio/latest?style=flat)
