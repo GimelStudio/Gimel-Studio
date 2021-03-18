@@ -21,16 +21,15 @@ The aim of this project is to provide a non-destructive (and fun!) python-based 
 Currently, Gimel Studio provides only basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
 
-# The next step
+# Future Plans of this Project
 
-Interested in this project? You Are Welcome to help plan for the the next big step of Gimel Studio development!
+Interested in this project? Have ideas you'd like to share?
 
-**Help plan for the next step of Gimel Studio, [here](https://github.com/GimelStudio/GimelStudio) by giving feedback on what can be improved or present your ideas!**
+We're currently planning the next step of Gimel Studio to make it a truly *usable* and *serious* image editor. This is an exciting step for development which allows us to consider introducing concepts like a layer *and* nodes workflow and vector support. 👍
 
+The next generation of Gimel Studio is happening at https://github.com/GimelStudio/GimelStudio. **No matter your skill-level, you are welcome to join in planning and development!**
 
-# How can I help?
-
-Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidlines.
+See [here](https://github.com/Correct-Syntax/Gimel-Studio/issues/33) for details on this decision. Feel free to contact us with any questions or comments!
 
 
 # WIP MacOs Support
