@@ -57,10 +57,8 @@ class NoiseImageNode(api.NodeBase):
         self.NodeAddProp(self.size_prop)
 
     def WidgetEventHook(self, idname, value):
-        # if idname == "Sigma":
         img = self.NodeEvaluation(EvalInfo(self)).GetImage()
         self.NodeSetThumb(img, force_refresh=True)
-        self.RefreshPropertyPanel()
 
     def NodeEvaluation(self, eval_info):
         sigma = eval_info.EvaluateProperty('Sigma')

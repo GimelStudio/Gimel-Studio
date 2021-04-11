@@ -113,7 +113,8 @@ class CropNode(api.NodeBase):
             # Hide circle properties
             self.center.SetIsVisible(False)
             self.radius.SetIsVisible(False)
-        else:
+            self.RefreshPropertyPanel()
+        elif idname == "Method" and value == "Circle":
             # Hide rectangle properties
             self.x.SetIsVisible(False)
             self.y.SetIsVisible(False)
@@ -123,7 +124,7 @@ class CropNode(api.NodeBase):
             self.center.SetIsVisible(True)
             self.radius.SetIsVisible(True)
 
-        self.RefreshPropertyPanel()
+            self.RefreshPropertyPanel()
 
 
     def NodeInitParams(self):

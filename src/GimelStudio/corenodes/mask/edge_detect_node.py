@@ -77,11 +77,11 @@ class EdgeDetectNode(api.NodeBase):
         if idname == "Method" and value == "Find Edges":
             self.lower_threshold.SetIsVisible(False)
             self.higher_threshold.SetIsVisible(False)
-        else:
+            self.RefreshPropertyPanel()
+        elif idname == "Method" and value == "Canny":
             self.lower_threshold.SetIsVisible(True)
             self.higher_threshold.SetIsVisible(True)
-
-        self.RefreshPropertyPanel()
+            self.RefreshPropertyPanel()
 
     def NodeEvaluation(self, eval_info):
         input_image = eval_info.EvaluateParameter("Image")
