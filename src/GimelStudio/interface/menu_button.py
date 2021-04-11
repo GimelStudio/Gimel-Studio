@@ -81,7 +81,7 @@ class MenuButton(object):
             dc.SetTextForeground(wx.Colour("#ccc"))
             dc.DrawText(info_text, rect[0] + 78, rect[1] + 20)
 
-            help_text = "Shift+A to add node | LMB to move node or box select | MMB to pan graph"
+            help_text = "Shift+A to add node | LMB to move node or box select | Ctrl+LMB to connect selected node | MMB to pan graph"
             dc.SetTextForeground(wx.Colour("#ccc"))
             dc.DrawText(help_text, rect[0] + 78, rect[1] + 40)
 
