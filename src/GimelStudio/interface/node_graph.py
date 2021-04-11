@@ -133,7 +133,7 @@ class NodeGraph(wx.ScrolledCanvas):
                                                ID_ADDNODEMENU),
                                               (wx.ACCEL_SHIFT, ord('D'),
                                                ID_CONTEXTMENU_DUPLICATENODE),
-                                              (wx.ACCEL_SHIFT, ord('X'),
+                                              (wx.ACCEL_NORMAL, wx.WXK_DELETE,
                                                ID_CONTEXTMENU_DELETENODES),
                                               ])
         self._parent.SetAcceleratorTable(self.accel_tbl)
@@ -459,14 +459,14 @@ class NodeGraph(wx.ScrolledCanvas):
                 self._contextMenu.AppendItem(duplicate_menuitem)
                 delete_menuitem = flatmenu.FlatMenuItem(self._contextMenu,
                                                         ID_CONTEXTMENU_DELETENODE,
-                                                        "Delete\tShift+X", "", wx.ITEM_NORMAL)
+                                                        "Delete\tDel", "", wx.ITEM_NORMAL)
                 self._contextMenu.AppendItem(delete_menuitem)
 
         else:
             if self._selectedNodes != []:
                 deletenodes_menuitem = flatmenu.FlatMenuItem(self._contextMenu,
                                                              ID_CONTEXTMENU_DELETENODES,
-                                                             "Delete Selected\tShift+X", "", wx.ITEM_NORMAL)
+                                                             "Delete Selected\tDel", "", wx.ITEM_NORMAL)
                 self._contextMenu.AppendItem(deletenodes_menuitem)
 
         selectallnodes_menuitem = flatmenu.FlatMenuItem(self._contextMenu,
