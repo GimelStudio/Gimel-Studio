@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="515"
    height="338"
    viewBox="0 0 136.2604 89.429171"
    version="1.1"
    id="svg8"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   inkscape:version="1.1-alpha (65d249f, 2021-01-17)"
    sodipodi:docname="Splash.svg"
    inkscape:export-filename="C:\Users\doall\Gimel-Studio\assets\splash\splash_source\GIMEL_STUDIO.png"
    inkscape:export-xdpi="200"
-   inkscape:export-ydpi="200">
+   inkscape:export-ydpi="200"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2">
     <linearGradient
@@ -251,8 +251,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="243.1786"
-     inkscape:cy="199.94206"
+     inkscape:cx="242.14286"
+     inkscape:cy="199.64286"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -264,7 +264,11 @@
      units="px"
      borderlayer="true"
      inkscape:showpageshadow="false"
-     inkscape:document-rotation="0" />
+     inkscape:document-rotation="0"
+     objecttolerance="10.0"
+     gridtolerance="10.0"
+     guidetolerance="10.0"
+     inkscape:pagecheckerboard="0" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -273,7 +277,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -622,11 +625,11 @@
     <text
        xml:space="preserve"
        id="text1076"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.52223px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1078);fill:#252525;fill-opacity:0.50143266;stroke:none;"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.52223px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1078);fill:#252525;fill-opacity:0.50143266;stroke:none"
        transform="matrix(1.1587539,0,0,1.1587539,73.773572,-19.621182)"><tspan
          x="-14.03125"
          y="271.45814"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.52223px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#252525;fill-opacity:0.501433">Original photo by Jeremy Bishop on Unsplash. Edited &amp; post-processed in Gimel Studio.</tspan></tspan></text>
+           style="fill-opacity:0.501433">Original photo by Jeremy Bishop on Unsplash. Edited &amp; post-processed in Gimel Studio.</tspan></tspan></text>
     <g
        aria-label="Graphical Image Masking, Editing &amp; Layering Software"
        transform="matrix(0.12352832,0,0,0.12352832,-0.37736513,138.02827)"
@@ -826,14 +829,13 @@
            x="176.7767"
            y="691.18457"
            style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:23.74519862px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:0.87106019;font-variant-east-asian:normal;" /></flowRegion><flowPara
-         id="flowPara1024">v0.5.2 beta</flowPara></flowRoot>
+         id="flowPara1024">v0.5.3 beta</flowPara></flowRoot>
     <text
        xml:space="preserve"
        id="text1076-3"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.52223px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1078-5);fill:#a7a7a7;fill-opacity:0.275072;stroke:none;"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.52223px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1078-5);fill:#a7a7a7;fill-opacity:0.275072;stroke:none"
        transform="matrix(1.1587539,0,0,1.1587539,68.674072,-19.722837)"><tspan
          x="-14.03125"
-         y="271.45814"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.52223px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a7a7a7;fill-opacity:0.275072">Original 3D scene by Akshay Hegde on CGTrader. Edited &amp; post-processed in Gimel Studio.</tspan></tspan></text>
+         y="271.45814">Original 3D scene by Akshay Hegde on CGTrader. Edited &amp; post-processed in Gimel Studio.</tspan></text>
   </g>
 </svg>
