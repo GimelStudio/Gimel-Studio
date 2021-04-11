@@ -1,0 +1,22 @@
+0.5.3 beta
+==========
+
+Gimel Studio v0.5.3 beta was released "NOT YET RELEASED"
+
+
+Node Graph
+----------
+
+ * Added help instructions as to Ctrl+LMB to connect the selected node to the output for quick viewing.
+
+
+Nodes
+-----
+
+ * Fixed flickering and unneccesary updating of properties panel for some nodes. Nodes can now be edited without the controls losing focus, etc
+
+
+Bug Fixes
+---------
+
+ * Some small visual fixes
