@@ -8,7 +8,7 @@ Node Graph
 ----------
 
  * Added help instructions as to Ctrl+LMB to connect the selected node to the output for quick viewing.
-
+ * Changed the node delete shortcut to ```del``` to be more consistent to other programs.
 
 Nodes
 -----
