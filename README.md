@@ -1,4 +1,4 @@
-!["Gimel Studio"](/screenshots/gimel-studio-ui-04.jpg?raw=true "Gimel Studio")
+!["Gimel Studio"](/screenshots/gimel-studio-ui-05.png?raw=true "Gimel Studio")
 
 Gimel Studio
 ============
