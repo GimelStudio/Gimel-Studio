@@ -60,7 +60,7 @@ MacOs binaries are not yet officially available.However, you can see the [buildi
 
 # News
 
-[v0.5.2 beta](https://github.com/Correct-Syntax/Gimel-Studio/releases/tag/v0.5.2-beta) is now available.
+[v0.5.3 beta](https://github.com/Correct-Syntax/Gimel-Studio/releases/tag/v0.5.3-beta) is now available.
 
 See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases and upcoming features.
 
