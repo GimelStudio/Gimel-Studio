@@ -1,7 +1,7 @@
 0.5.3 beta
 ==========
 
-Gimel Studio v0.5.3 beta was released "NOT YET RELEASED"
+Gimel Studio v0.5.3 beta was released "Apr. 13th 2021"
 
 
 Node Graph
@@ -13,7 +13,7 @@ Node Graph
 Nodes
 -----
 
- * Fixed flickering and unneccesary updating of properties panel for some nodes. Nodes can now be edited without the controls losing focus, etc
+ * Fixed flickering and unnecessary updating of properties panel for some nodes. Nodes can now be edited without the controls losing focus, etc
 
 
 Bug Fixes
