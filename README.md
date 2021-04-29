@@ -16,7 +16,7 @@ Gimel Studio
 
 Gimel Studio is a cross-platform, node-based, non-destructive image editor.
 
-The aim of this project is to provide a non-destructive (and fun!) python-based image editor with a workflow for compositing, masking, manipulating, generating and editing images via both CPU and GPU processing. As a core principle, Gimel Studio has a simple, yet powerful API allowing users to script their own custom nodes (and thus effects, manipulations, etc) in Python and GLSL.
+The aim of this project is to provide a non-destructive (and fun!) python-based image editor with a workflow for compositing, masking, manipulating, generating and editing images via both CPU and GPU processing. As a core principle, Gimel Studio has a simple, yet powerful API allowing users to script their own custom nodes (and thus effects, manipulations, etc) in Python.
 
 Currently, Gimel Studio provides only basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
@@ -27,9 +27,14 @@ Interested in this project? Have ideas you'd like to share?
 
 We're currently planning the next step of Gimel Studio to make it a truly *usable* and *serious* image editor. This is an exciting step for development which allows us to consider introducing concepts like a layer *and* nodes workflow and vector support. 👍
 
-The next generation of Gimel Studio is happening at https://github.com/GimelStudio/GimelStudio. **No matter your skill-level, you are welcome to join in planning and development!**
+The next generation of Gimel Studio, the 0.6.x series, is happening at https://github.com/GimelStudio/GimelStudio. **No matter your skill-level, you are welcome to join in planning and development!**
 
 See [here](https://github.com/Correct-Syntax/Gimel-Studio/issues/33) for details on this decision. Feel free to contact us with any questions or comments!
+
+
+# What will happen to this repository?
+
+This repository will **continue to be supported until the end of the 0.5.x series**. After that, it will likely become archived and new development will be focused on the 0.6.x series in the [new repository](https://github.com/GimelStudio/GimelStudio).
 
 
 # WIP MacOs Support
@@ -56,18 +61,6 @@ MacOs binaries are not yet officially available.However, you can see the [buildi
   * Auto-renders as the Node Graph is edited (this is a setting that you can change if you so desire)
 
 **And More...**
-
-
-# News
-
-[v0.5.3 beta](https://github.com/Correct-Syntax/Gimel-Studio/releases/tag/v0.5.3-beta) is now available.
-
-See the <a href="https://correctsyntax.com/blog/">Correct Syntax blog</a> for news and updates on releases and upcoming features.
-
-
-# Download Releases
-
-Head to the <a href="https://correctsyntax.com/projects/gimel-studio/">Gimel Studio homepage</a> to download the latest release for Windows and Linux.
 
 
 # Installing from source
