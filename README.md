@@ -3,7 +3,11 @@
 Gimel Studio
 ============
 
-## New development is now focused on the 0.6.x series in the [new repository](https://github.com/GimelStudio/GimelStudio). This repository is the previous version which will no longer be maintained.
+## 🚀 New development is now focused on the 0.6.x series in the [new repository](https://github.com/GimelStudio/GimelStudio). 
+
+The next generation of Gimel Studio is the v0.6.x series. Join us in planning and development!
+
+## ⚠️ This repository is the previous version which will no longer be maintained.
 
 
 Gimel Studio is a cross-platform, node-based, non-destructive image editor.
