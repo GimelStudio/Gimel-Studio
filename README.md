@@ -3,45 +3,16 @@
 Gimel Studio
 ============
 
-[![Documentation Status](https://readthedocs.org/projects/gimel-studio/badge/?version=latest)](https://gimel-studio.readthedocs.io/en/latest/?badge=latest)
-[![GitHub license](https://img.shields.io/github/license/Correct-Syntax/Gimel-Studio?color=light-green)](https://github.com/Correct-Syntax/Gimel-Studio/blob/master/LICENSE)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/Correct-Syntax/Gimel-Studio.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Correct-Syntax/Gimel-Studio/context:python)
-![Build Gimel Studio](https://github.com/Correct-Syntax/Gimel-Studio/workflows/Build%20Gimel%20Studio/badge.svg)
-[![Gitter](https://badges.gitter.im/Gimel-Studio/community.svg)](https://gitter.im/Gimel-Studio/community?utm_source=badge&utm_medium=badge)
-![GitHub commits since latest release](https://img.shields.io/github/commits-since/Correct-Syntax/Gimel-Studio/latest?style=flat)
-
-
-[Website](https://correctsyntax.com/projects/gimel-studio/) | [Downloads](https://correctsyntax.com/projects/gimel-studio/#download) | [Official Manual](https://gimel-studio.readthedocs.io/en/latest/) | [Discord](https://discord.gg/RqwbDrVDpK) | [Community Discussion](https://github.com/Correct-Syntax/Gimel-Studio/discussions)
+## New development is now focused on the 0.6.x series in the [new repository](https://github.com/GimelStudio/GimelStudio). This repository is the previous version which will no longer be maintained.
 
 
 Gimel Studio is a cross-platform, node-based, non-destructive image editor.
 
 The aim of this project is to provide a non-destructive (and fun!) python-based image editor with a workflow for compositing, masking, manipulating, generating and editing images via both CPU and GPU processing. As a core principle, Gimel Studio has a simple, yet powerful API allowing users to script their own custom nodes (and thus effects, manipulations, etc) in Python.
 
-Currently, Gimel Studio provides only basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
+The version in this repository provides only basic image editing features such as flip, color balance, brightness, contrast and blur effects, as well as more advanced editing capabilities such as generating PBR maps for use in 3D from image textures.
 
-
-# Future Plans of this Project
-
-Interested in this project? Have ideas you'd like to share?
-
-We're currently planning the next step of Gimel Studio to make it a truly *usable* and *serious* image editor. This is an exciting step for development which allows us to consider introducing concepts like a layer *and* nodes workflow and vector support. 👍
-
-The next generation of Gimel Studio, the 0.6.x series, is happening at https://github.com/GimelStudio/GimelStudio. **No matter your skill-level, you are welcome to join in planning and development!**
-
-See [here](https://github.com/Correct-Syntax/Gimel-Studio/issues/33) for details on this decision. Feel free to contact us with any questions or comments!
-
-
-# What will happen to this repository?
-
-This repository will **continue to be supported until the end of the 0.5.x series**. After that, it will likely become archived and new development will be focused on the 0.6.x series in the [new repository](https://github.com/GimelStudio/GimelStudio).
-
-
-# WIP MacOs Support
-
-MacOs binaries are not yet officially available.However, you can see the [building from source](https://gimel-studio.readthedocs.io/en/latest/getting_started/building_from_source.html#macos) documentation to build it from the source code yourself.
-
-**Please note that there are still [known issues](https://github.com/Correct-Syntax/Gimel-Studio/issues/29) with support on MacOs.**
+**See the [new repository](https://github.com/GimelStudio/GimelStudio) to see more features and keep track of new development.**
 
 
 # Features
